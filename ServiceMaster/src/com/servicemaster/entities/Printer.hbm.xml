@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 1, 2017 10:49:32 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.servicemaster.entities.Printer" table="printer" catalog="enterprisedb" optimistic-lock="version">
+        <id name="printerId" type="java.lang.Integer">
+            <column name="printer_id" />
+            <generator class="identity" />
+        </id>
+        <property name="printerName" type="string">
+            <column name="printer_name" length="50" not-null="true" />
+        </property>
+        <property name="reatedDate" type="date">
+            <column name="reated_date" length="10" />
+        </property>
+        <property name="createdTime" type="time">
+            <column name="created_time" length="8" />
+        </property>
+        <property name="createdUser" type="java.lang.Integer">
+            <column name="created_user" />
+        </property>
+        <property name="modifiedDate" type="date">
+            <column name="modified_date" length="10" />
+        </property>
+        <property name="modifiedTime" type="time">
+            <column name="modified_time" length="8" />
+        </property>
+        <property name="modifiedUser" type="java.lang.Integer">
+            <column name="modified_user" />
+        </property>
+        <property name="remarks" type="string">
+            <column name="remarks" length="100" />
+        </property>
+        <set name="subCategoryPrinterses" table="sub_category_printers" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="printer_printer_id" not-null="true" />
+            </key>
+            <one-to-many class="com.servicemaster.entities.SubCategoryPrinters" />
+        </set>
+    </class>
+</hibernate-mapping>

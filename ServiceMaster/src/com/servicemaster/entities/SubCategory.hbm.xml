@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 1, 2017 10:49:32 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.servicemaster.entities.SubCategory" table="sub_category" catalog="enterprisedb" optimistic-lock="version">
+        <id name="subCategoryId" type="int">
+            <column name="sub_category_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="category" class="com.servicemaster.entities.Category" fetch="select">
+            <column name="category_category_id" not-null="true" />
+        </many-to-one>
+        <property name="subCategoryCode" type="string">
+            <column name="sub_category_code" length="15" not-null="true" />
+        </property>
+        <property name="subCategoryName" type="string">
+            <column name="sub_category_name" length="20" />
+        </property>
+        <property name="createdDate" type="date">
+            <column name="created_date" length="10" />
+        </property>
+        <property name="createdTime" type="time">
+            <column name="created_time" length="8" />
+        </property>
+        <property name="createdUser" type="java.lang.Integer">
+            <column name="created_user" />
+        </property>
+        <property name="modifiedDate" type="date">
+            <column name="modified_date" length="10" />
+        </property>
+        <property name="modifiedTime" type="time">
+            <column name="modified_time" length="8" />
+        </property>
+        <property name="modifiedUser" type="java.lang.Integer">
+            <column name="modified_user" />
+        </property>
+        <property name="remarks" type="string">
+            <column name="remarks" length="100" />
+        </property>
+        <set name="items" table="item" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="sub_category_sub_category_id" not-null="true" />
+            </key>
+            <one-to-many class="com.servicemaster.entities.Item" />
+        </set>
+        <set name="subCategoryPrinterses" table="sub_category_printers" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="sub_category_sub_category_id" not-null="true" />
+            </key>
+            <one-to-many class="com.servicemaster.entities.SubCategoryPrinters" />
+        </set>
+    </class>
+</hibernate-mapping>

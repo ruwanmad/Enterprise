@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 1, 2017 10:49:32 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.servicemaster.entities.Vehicle" table="vehicle" catalog="enterprisedb" optimistic-lock="version">
+        <id name="vehicleId" type="int">
+            <column name="vehicle_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="businessPartner" class="com.servicemaster.entities.BusinessPartner" fetch="select">
+            <column name="business_partner_business_partner_id" not-null="true" />
+        </many-to-one>
+        <property name="vehicleNumber" type="string">
+            <column name="vehicle_number" length="15" />
+        </property>
+        <property name="manufactureredYear" type="string">
+            <column name="manufacturered_year" length="10" />
+        </property>
+        <property name="vehicleType" type="string">
+            <column name="vehicle_type" length="20" />
+        </property>
+        <set name="services" table="service" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="vehicle_vehicle_id" not-null="true" />
+            </key>
+            <one-to-many class="com.servicemaster.entities.Service" />
+        </set>
+    </class>
+</hibernate-mapping>

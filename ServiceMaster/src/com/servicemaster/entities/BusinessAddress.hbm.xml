@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 1, 2017 10:49:32 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.servicemaster.entities.BusinessAddress" table="business_address" catalog="enterprisedb" optimistic-lock="version">
+        <id name="businessAddressId" type="int">
+            <column name="business_address_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="address" class="com.servicemaster.entities.Address" fetch="select">
+            <column name="address_address_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="businessPartner" class="com.servicemaster.entities.BusinessPartner" fetch="select">
+            <column name="business_partner_business_partner_id" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>
