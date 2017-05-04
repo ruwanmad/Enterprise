@@ -211,8 +211,7 @@ public class Login extends javax.swing.JFrame {
                     System.out.println(user.getRemarks());
 
                     UserPrivilage userPrivilage = user.getUserPrivilage();
-                    MainFrame mainFrame = new MainFrame();
-                    MainFrame.userId = user.getUserId();
+                    MainFrame mainFrame = new MainFrame(user);
                     mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
                     EnableFeatures enableFeatures = new EnableFeatures();

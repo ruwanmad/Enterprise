@@ -125,6 +125,11 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="mReports">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reports"/>
+          </Properties>
+        </Menu>
         <Menu class="javax.swing.JMenu" name="mOptions">
           <Properties>
             <Property name="text" type="java.lang.String" value="Options"/>

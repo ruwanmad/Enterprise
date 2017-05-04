@@ -6,6 +6,7 @@
 package com.servicemaster.forms;
 
 import com.servicemaster.entities.Module;
+import com.servicemaster.entities.User;
 import com.servicemaster.internalFrames.Category;
 import com.servicemaster.internalFrames.ShortCuts;
 import com.servicemaster.utils.HibernateUtil;
@@ -41,11 +42,15 @@ import org.hibernate.Session;
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    public static User user;
+
     /**
      * Creates new form MainFrame
+     * @param user
      */
-    public MainFrame() {
+    public MainFrame(User user) {
         initComponents();
+        MainFrame.user = user;
     }
 
     /**
@@ -86,6 +91,7 @@ public class MainFrame extends javax.swing.JFrame {
         js2 = new javax.swing.JPopupMenu.Separator();
         miExit = new javax.swing.JMenuItem();
         mTransactions = new javax.swing.JMenu();
+        mReports = new javax.swing.JMenu();
         mOptions = new javax.swing.JMenu();
         miAddShortcuts = new javax.swing.JMenuItem();
         miChangeBackground = new javax.swing.JMenuItem();
@@ -106,6 +112,8 @@ public class MainFrame extends javax.swing.JFrame {
         panelShortcuts.setOpaque(false);
         panelShortcuts.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 4, 4));
 
+        desktopPane.setLayer(panelShortcuts, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
         desktopPane.setLayout(desktopPaneLayout);
         desktopPaneLayout.setHorizontalGroup(
@@ -119,7 +127,6 @@ public class MainFrame extends javax.swing.JFrame {
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelShortcuts, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
         );
-        desktopPane.setLayer(panelShortcuts, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         mFile.setText("File");
         mFile.setEnabled(false);
@@ -184,6 +191,9 @@ public class MainFrame extends javax.swing.JFrame {
         mTransactions.setText("Transactions");
         mTransactions.setEnabled(false);
         menuBar.add(mTransactions);
+
+        mReports.setText("Reports");
+        menuBar.add(mReports);
 
         mOptions.setText("Options");
         mOptions.setEnabled(false);
@@ -375,6 +385,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenu mFile;
     public javax.swing.JMenu mMasterFiles;
     public javax.swing.JMenu mOptions;
+    private javax.swing.JMenu mReports;
     public javax.swing.JMenu mTransactions;
     private javax.swing.JMenuBar menuBar;
     public javax.swing.JMenuItem miAddShortcuts;
@@ -393,5 +404,4 @@ public class MainFrame extends javax.swing.JFrame {
     public static final TreeMap<String, String> allModuleMap = new TreeMap<>();
     public static final TreeMap<String, String> availableModuleMap = new TreeMap<>();
     public static final TreeMap<String, String> addedModuleMap = new TreeMap<>();
-    public static int userId = -1;
 }

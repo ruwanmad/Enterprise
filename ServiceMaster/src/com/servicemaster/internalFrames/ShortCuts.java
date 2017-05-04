@@ -197,7 +197,7 @@ public class ShortCuts extends javax.swing.JInternalFrame {
                     module.setIsShortcutAdded(1);
                     module.setModifiedDate(new Date());
                     module.setModifiedTime(new Date());
-                    module.setModifiedUser(MainFrame.userId);
+                    module.setModifiedUser(MainFrame.user.getUserId());
                     session.saveOrUpdate(module);
                 }
             }
@@ -214,7 +214,7 @@ public class ShortCuts extends javax.swing.JInternalFrame {
                     module.setIsShortcutAdded(0);
                     module.setModifiedDate(new Date());
                     module.setModifiedTime(new Date());
-                    module.setModifiedUser(MainFrame.userId);
+                    module.setModifiedUser(MainFrame.user.getUserId());
                     session.saveOrUpdate(module);
                 }
             }

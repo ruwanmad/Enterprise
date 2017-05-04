@@ -3,19 +3,19 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated May 4, 2017 11:08:58 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.entities.Address" table="address" catalog="enterprisedb" optimistic-lock="version">
-        <id name="addressId" type="java.lang.Integer">
-            <column name="address_id" />
+    <class name="com.servicemaster.entities.KeyTable" table="key_table" catalog="enterprisedb" optimistic-lock="version">
+        <id name="keyId" type="java.lang.Integer">
+            <column name="key_id" />
             <generator class="identity" />
         </id>
-        <property name="adressLine1" type="string">
-            <column name="adress_line_1" length="100" />
+        <property name="keyCode" type="string">
+            <column name="key_code" length="5" />
         </property>
-        <property name="adressLine2" type="string">
-            <column name="adress_line_2" length="100" />
+        <property name="keyNumber" type="java.lang.Integer">
+            <column name="key_number" />
         </property>
-        <property name="adressLine3" type="string">
-            <column name="adress_line_3" length="100" />
+        <property name="keyRemark" type="string">
+            <column name="key_remark" length="45" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
@@ -35,14 +35,5 @@
         <property name="modifiedUser" type="java.lang.Integer">
             <column name="modified_user" />
         </property>
-        <property name="remarks" type="string">
-            <column name="remarks" length="100" />
-        </property>
-        <set name="businessAddresses" table="business_address" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="address_address_id" not-null="true" />
-            </key>
-            <one-to-many class="com.servicemaster.entities.BusinessAddress" />
-        </set>
     </class>
 </hibernate-mapping>
