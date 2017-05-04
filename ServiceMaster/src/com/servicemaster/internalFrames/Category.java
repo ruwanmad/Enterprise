@@ -5,6 +5,7 @@
  */
 package com.servicemaster.internalFrames;
 
+import com.servicemaster.entities.KeyTable;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.utils.HibernateUtil;
 import java.util.Date;
@@ -24,6 +25,9 @@ public class Category extends javax.swing.JInternalFrame {
      */
     public Category() {
         initComponents();
+
+        session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
     }
 
     /**
@@ -160,6 +164,8 @@ public class Category extends javax.swing.JInternalFrame {
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         int selectedOption = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
         if (selectedOption == JOptionPane.YES_OPTION) {
+            session.getTransaction().commit();
+            session.close();
             this.dispose();
         }
     }//GEN-LAST:event_btnCloseActionPerformed
@@ -167,48 +173,78 @@ public class Category extends javax.swing.JInternalFrame {
     private void btnCodeSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCodeSearchActionPerformed
         String categoryCode = txtCategoryCode.getText().trim();
         List categories = getCategoryByCode(categoryCode);
-        
+
         if (categories.size() > 0) {
-            
-        } else {
-            isNewCategory = true;
+
         }
     }//GEN-LAST:event_btnCodeSearchActionPerformed
 
     private void btnNameSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNameSearchActionPerformed
         String categoryName = txtCategoryName.getText().trim();
         List categories = getCategoryByName(categoryName);
-        
+
         if (categories.size() > 0) {
-            
-        } else {
-            isNewCategory = true;
+
         }
     }//GEN-LAST:event_btnNameSearchActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        
+        String categoryName = txtCategoryName.getText().toUpperCase().trim();
+        List categoryByName = this.getCategoryByName(categoryName);
+        if (categoryByName.size() > 0) {
+            JOptionPane.showMessageDialog(this, "Item name already exists.", "Exist", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            String catCode;
+            Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
+            query.setParameter("code", "CAT");
+            List keyList = query.list();
+            if (keyList.size() > 0) {
+                KeyTable keyTable = (KeyTable) keyList.get(0);
+                Integer keyNumber = keyTable.getKeyNumber();
+                keyTable.setKeyNumber(keyNumber + 1);
+                keyTable.setModifiedDate(new Date());
+                keyTable.setModifiedTime(new Date());
+                keyTable.setModifiedUser(MainFrame.user.getUserId());
+                session.saveOrUpdate(keyTable);
+                session.getTransaction().commit();
+                catCode = "CAT" + keyNumber;
+            } else {
+                KeyTable keyTable = new KeyTable();
+                keyTable.setKeyCode("CAT");
+                keyTable.setKeyNumber(1000);
+                keyTable.setKeyRemark("Category");
+                keyTable.setCreatedDate(new Date());
+                keyTable.setCreatedTime(new Date());
+                keyTable.setCreatedUser(MainFrame.user.getUserId());
+                session.saveOrUpdate(keyTable);
+                session.getTransaction().commit();
+                catCode = "CAT1000";
+            }
+
+            com.servicemaster.entities.Category category = new com.servicemaster.entities.Category();
+            category.setCategoryCode(catCode);
+            category.setCategoryName(categoryName);
+            category.setCreatedDate(new Date());
+            category.setCreatedTime(new Date());
+            category.setCreatedUser(MainFrame.user.getUserId());
+            category.setRemarks(categoryName);
+
+            session.saveOrUpdate(category);
+            session.getTransaction().commit();
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private List getCategoryByCode(String categoryCode) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
         Query query = session.createQuery("from Category c where c.categoryCode like :code");
         query.setParameter("code", "%" + categoryCode + "%");
         List list = query.list();
-        session.getTransaction().commit();
-        session.close();
         return list;
     }
-    
+
     private List getCategoryByName(String categoryName) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
         Query query = session.createQuery("from Category c where c.categoryName like :name");
         query.setParameter("name", "%" + categoryName + "%");
         List list = query.list();
-        session.getTransaction().commit();
-        session.close();
         return list;
     }
 
@@ -224,4 +260,5 @@ public class Category extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtCategoryName;
     // End of variables declaration//GEN-END:variables
     private boolean isNewCategory;
+    private final Session session;
 }
