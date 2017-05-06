@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated May 4, 2017 11:08:56 PM by Hibernate Tools 4.3.1
+// Generated May 6, 2017 11:29:34 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -16,6 +16,7 @@ public class User  implements java.io.Serializable {
      private String userName;
      private String password;
      private int userLevel;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -35,12 +36,13 @@ public class User  implements java.io.Serializable {
         this.password = password;
         this.userLevel = userLevel;
     }
-    public User(BusinessPartner businessPartner, UserPrivilage userPrivilage, String userName, String password, int userLevel, Date createdDate, Date createdTime, Integer createdUser, Date midifiedDate, Date modifiedTime, Integer midifiedUser, String remarks) {
+    public User(BusinessPartner businessPartner, UserPrivilage userPrivilage, String userName, String password, int userLevel, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date midifiedDate, Date modifiedTime, Integer midifiedUser, String remarks) {
        this.businessPartner = businessPartner;
        this.userPrivilage = userPrivilage;
        this.userName = userName;
        this.password = password;
        this.userLevel = userLevel;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -91,6 +93,13 @@ public class User  implements java.io.Serializable {
     
     public void setUserLevel(int userLevel) {
         this.userLevel = userLevel;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;

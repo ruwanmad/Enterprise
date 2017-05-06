@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated May 4, 2017 11:08:56 PM by Hibernate Tools 4.3.1
+// Generated May 6, 2017 11:29:34 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -14,6 +14,7 @@ public class Printer  implements java.io.Serializable {
 
      private Integer printerId;
      private String printerName;
+     private Integer isActive;
      private Date reatedDate;
      private Date createdTime;
      private Integer createdUser;
@@ -30,8 +31,9 @@ public class Printer  implements java.io.Serializable {
     public Printer(String printerName) {
         this.printerName = printerName;
     }
-    public Printer(String printerName, Date reatedDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set subCategoryPrinterses) {
+    public Printer(String printerName, Integer isActive, Date reatedDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set subCategoryPrinterses) {
        this.printerName = printerName;
+       this.isActive = isActive;
        this.reatedDate = reatedDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -55,6 +57,13 @@ public class Printer  implements java.io.Serializable {
     
     public void setPrinterName(String printerName) {
         this.printerName = printerName;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getReatedDate() {
         return this.reatedDate;

@@ -379,7 +379,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private static javax.swing.JDesktopPane desktopPane;
+    public static javax.swing.JDesktopPane desktopPane;
     private javax.swing.JPopupMenu.Separator js1;
     private javax.swing.JPopupMenu.Separator js2;
     public javax.swing.JMenu mFile;

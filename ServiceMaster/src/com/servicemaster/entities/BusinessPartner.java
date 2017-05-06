@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated May 4, 2017 11:08:56 PM by Hibernate Tools 4.3.1
+// Generated May 6, 2017 11:29:34 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -20,6 +20,7 @@ public class BusinessPartner  implements java.io.Serializable {
      private boolean isCustomer;
      private boolean isSupplier;
      private boolean isEmployee;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -43,7 +44,7 @@ public class BusinessPartner  implements java.io.Serializable {
         this.isSupplier = isSupplier;
         this.isEmployee = isEmployee;
     }
-    public BusinessPartner(String firstName, String lastName, String nic, Date birthDay, boolean isCustomer, boolean isSupplier, boolean isEmployee, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set billings, Set businessAddresses, Set users, Set businessTelephones, Set vehicles) {
+    public BusinessPartner(String firstName, String lastName, String nic, Date birthDay, boolean isCustomer, boolean isSupplier, boolean isEmployee, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set billings, Set businessAddresses, Set users, Set businessTelephones, Set vehicles) {
        this.firstName = firstName;
        this.lastName = lastName;
        this.nic = nic;
@@ -51,6 +52,7 @@ public class BusinessPartner  implements java.io.Serializable {
        this.isCustomer = isCustomer;
        this.isSupplier = isSupplier;
        this.isEmployee = isEmployee;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -120,6 +122,13 @@ public class BusinessPartner  implements java.io.Serializable {
     
     public void setIsEmployee(boolean isEmployee) {
         this.isEmployee = isEmployee;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;

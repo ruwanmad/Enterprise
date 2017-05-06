@@ -8,6 +8,7 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.entities.KeyTable;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.utils.HibernateUtil;
+import com.servicemaster.views.CategoryView;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -45,6 +46,10 @@ public class Category extends javax.swing.JInternalFrame {
         btnClose = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnView = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        txtRemark = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        cbxIsActive = new javax.swing.JCheckBox();
 
         setTitle("Category");
 
@@ -90,6 +95,16 @@ public class Category extends javax.swing.JInternalFrame {
 
         btnView.setText("View");
 
+        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel3.setText("Remarks :");
+
+        txtRemark.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel4.setText("Is Active :");
+
+        cbxIsActive.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -98,29 +113,41 @@ public class Category extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtRemark))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel1)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(txtCategoryCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel2)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(btnCodeSearch, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(btnNameSearch, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(btnView)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnUpdate)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnClose)))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtCategoryCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCodeSearch, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnNameSearch, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnView)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnUpdate)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnClose)))
+                                .addComponent(jLabel4)
+                                .addGap(10, 10, 10)
+                                .addComponent(cbxIsActive)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtCategoryCode, txtCategoryName});
 
@@ -143,7 +170,15 @@ public class Category extends javax.swing.JInternalFrame {
                         .addComponent(jLabel2)
                         .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtRemark, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cbxIsActive))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpdate)
@@ -151,7 +186,7 @@ public class Category extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCodeSearch, btnNameSearch, jLabel1, jLabel2, txtCategoryCode, txtCategoryName});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCodeSearch, btnNameSearch, cbxIsActive, jLabel1, jLabel2, jLabel3, jLabel4, txtCategoryCode, txtCategoryName, txtRemark});
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnUpdate, btnView});
 
@@ -167,89 +202,177 @@ public class Category extends javax.swing.JInternalFrame {
 
     private void btnCodeSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCodeSearchActionPerformed
         String categoryCode = txtCategoryCode.getText().trim();
-        List categories = getCategoryByCode(categoryCode);
+        List categories = getCategoryByCode(categoryCode, true);
 
         if (categories.size() > 0) {
-
+            CategoryView categoryView = new CategoryView(categories, this);
+            MainFrame.desktopPane.add(categoryView);
+            categoryView.setVisible(true);
         }
     }//GEN-LAST:event_btnCodeSearchActionPerformed
 
     private void btnNameSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNameSearchActionPerformed
         String categoryName = txtCategoryName.getText().trim();
-        List categories = getCategoryByName(categoryName);
+        List categories = getCategoryByName(categoryName, true);
 
         if (categories.size() > 0) {
-
+            CategoryView categoryView = new CategoryView(categories, this);
+            MainFrame.desktopPane.add(categoryView);
+            categoryView.setVisible(true);
         }
     }//GEN-LAST:event_btnNameSearchActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        String categoryCode = txtCategoryCode.getText().toUpperCase().trim();
         String categoryName = txtCategoryName.getText().toUpperCase().trim();
-        List categoryByName = this.getCategoryByName(categoryName);
-        if (categoryByName.size() > 0) {
-            JOptionPane.showMessageDialog(this, "Item name already exists.", "Exist", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            String catCode;
-            Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
-            query.setParameter("code", "CAT");
-            List keyList = query.list();
-            if (keyList.size() > 0) {
-                KeyTable keyTable = (KeyTable) keyList.get(0);
-                Integer keyNumber = keyTable.getKeyNumber();
-                keyTable.setKeyNumber(keyNumber + 1);
-                keyTable.setModifiedDate(new Date());
-                keyTable.setModifiedTime(new Date());
-                keyTable.setModifiedUser(MainFrame.user.getUserId());
-                session.saveOrUpdate(keyTable);
-                catCode = "CAT" + keyNumber;
-            } else {
-                KeyTable keyTable = new KeyTable();
-                keyTable.setKeyCode("CAT");
-                keyTable.setKeyNumber(1000);
-                keyTable.setKeyRemark("Category");
-                keyTable.setCreatedDate(new Date());
-                keyTable.setCreatedTime(new Date());
-                keyTable.setCreatedUser(MainFrame.user.getUserId());
-                session.saveOrUpdate(keyTable);
-                catCode = "CAT1000";
-            }
+        String categoryRemark = txtRemark.getText().toUpperCase().trim();
+        boolean isActivated = cbxIsActive.isSelected();
 
-            com.servicemaster.entities.Category category = new com.servicemaster.entities.Category();
-            category.setCategoryCode(catCode);
-            category.setCategoryName(categoryName);
-            category.setCreatedDate(new Date());
-            category.setCreatedTime(new Date());
-            category.setCreatedUser(MainFrame.user.getUserId());
-            category.setRemarks(categoryName);
-            session.saveOrUpdate(category);
+        if (categoryCode.isEmpty()) {
+            List categoryByName = this.getCategoryByName(categoryName, false);
+            if (categoryByName.size() > 0) {
+                JOptionPane.showMessageDialog(this, "Item name already exists.", "Exist", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                session.getTransaction().commit();
+                session.close();
+                this.createNewCategory(categoryName, categoryRemark, isActivated);
+            }
+        } else {
+            List categoryByCode = this.getCategoryByCode(categoryCode, false);
+            if (categoryByCode.isEmpty()) {
+                int option = JOptionPane.showConfirmDialog(this, "Code does not exist. Create new?", "New", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    session.getTransaction().commit();
+                    session.close();
+                    this.createNewCategory(categoryName, categoryRemark, isActivated);
+                }
+            } else {
+                int option = JOptionPane.showConfirmDialog(this, "Do you want to update?", "Update", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    com.servicemaster.entities.Category category = new com.servicemaster.entities.Category(categoryCode);
+                    category.setCategoryName(categoryName);
+                    category.setRemarks(categoryRemark);
+                    category.setIsActive(isActivated ? 1 : 0);
+                    category.setCreatedDate(new Date());
+                    category.setCreatedTime(new Date());
+                    category.setCreatedUser(MainFrame.user.getUserId());
+                    category.setRemarks(categoryName);
+                    session.saveOrUpdate(category);
+
+                    session.getTransaction().commit();
+                    session.close();
+
+                    JOptionPane.showMessageDialog(this, "Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    this.resetFrame();
+                }
+            }
         }
-        session.getTransaction().commit();
-        session.close();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private List getCategoryByCode(String categoryCode) {
+    private void createNewCategory(String categoryName, String categoryRemark, boolean isActivated) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Category c where c.categoryCode like :code");
-        query.setParameter("code", "%" + categoryCode + "%");
+        String catCode;
+        Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
+        query.setParameter("code", "CAT");
+        List keyList = query.list();
+        if (keyList.size() > 0) {
+            KeyTable keyTable = (KeyTable) keyList.get(0);
+            Integer keyNumber = keyTable.getKeyNumber();
+            keyTable.setKeyNumber(keyNumber + 1);
+            keyTable.setModifiedDate(new Date());
+            keyTable.setModifiedTime(new Date());
+            keyTable.setModifiedUser(MainFrame.user.getUserId());
+            session.saveOrUpdate(keyTable);
+            catCode = "CAT" + keyNumber;
+        } else {
+            KeyTable keyTable = new KeyTable();
+            keyTable.setKeyCode("CAT");
+            keyTable.setKeyNumber(1000);
+            keyTable.setKeyRemark("Category");
+            keyTable.setCreatedDate(new Date());
+            keyTable.setCreatedTime(new Date());
+            keyTable.setCreatedUser(MainFrame.user.getUserId());
+            session.saveOrUpdate(keyTable);
+            catCode = "CAT1000";
+        }
+
+        com.servicemaster.entities.Category category = new com.servicemaster.entities.Category();
+        category.setCategoryCode(catCode);
+        category.setCategoryName(categoryName);
+        category.setRemarks(categoryRemark);
+        category.setIsActive(isActivated ? 1 : 0);
+        category.setCreatedDate(new Date());
+        category.setCreatedTime(new Date());
+        category.setCreatedUser(MainFrame.user.getUserId());
+        session.saveOrUpdate(category);
+
+        session.getTransaction().commit();
+        session.close();
+
+        JOptionPane.showMessageDialog(this, "Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+        this.resetFrame();
+    }
+
+    private List getCategoryByCode(String categoryCode, boolean like) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query;
+        if (like) {
+            query = session.createQuery("from Category c where c.categoryCode like :code");
+            query.setParameter("code", "%" + categoryCode + "%");
+        } else {
+            query = session.createQuery("from Category c where c.categoryCode = :code");
+            query.setParameter("code", categoryCode);
+        }
         List list = query.list();
         session.getTransaction().commit();
         session.close();
         return list;
     }
 
-    private List getCategoryByName(String categoryName) {
+    private List getCategoryByName(String categoryName, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Category c where c.categoryName like :name");
-        query.setParameter("name", "%" + categoryName + "%");
+        Query query;
+        if (like) {
+            query = session.createQuery("from Category c where c.categoryName like :name");
+            query.setParameter("name", "%" + categoryName + "%");
+        } else {
+            query = session.createQuery("from Category c where c.categoryName = :name");
+            query.setParameter("name", categoryName);
+        }
         List list = query.list();
         session.getTransaction().commit();
         session.close();
         return list;
     }
+
+    private void resetFrame() {
+        txtCategoryCode.setText("");
+        txtCategoryName.setText("");
+        txtRemark.setText("");
+        cbxIsActive.setSelected(false);
+    }
+
+    public void setCbxIsActive(boolean IsActive) {
+        this.cbxIsActive.setSelected(IsActive);
+    }
+
+    public void setTxtCategoryCode(String categoryCode) {
+        this.txtCategoryCode.setText(categoryCode);
+    }
+
+    public void setTxtCategoryName(String categoryName) {
+        this.txtCategoryName.setText(categoryName);
+    }
+
+    public void setTxtRemark(String remark) {
+        this.txtRemark.setText(remark);
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
@@ -257,10 +380,14 @@ public class Category extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnNameSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnView;
+    private javax.swing.JCheckBox cbxIsActive;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField txtCategoryCode;
     private javax.swing.JTextField txtCategoryName;
+    private javax.swing.JTextField txtRemark;
     // End of variables declaration//GEN-END:variables
     private boolean isNewCategory;
 }

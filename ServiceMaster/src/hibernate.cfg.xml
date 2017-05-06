@@ -46,6 +46,7 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/enterprisedb?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">senuja2014</property>
+    <property name="hibernate.show_sql">true</property>
     <mapping resource="com/servicemaster/entities/Vehicle.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/SubCategoryPrinters.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/KeyTable.hbm.xml"/>

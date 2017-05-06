@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated May 4, 2017 11:08:58 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated May 6, 2017 11:29:35 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.entities.SubCategory" table="sub_category" catalog="enterprisedb" optimistic-lock="version">
         <id name="subCategoryId" type="int">
@@ -16,6 +16,12 @@
         </property>
         <property name="subCategoryName" type="string">
             <column name="sub_category_name" length="20" />
+        </property>
+        <property name="subCategoryType" type="string">
+            <column name="sub_category_type" length="10" not-null="true" />
+        </property>
+        <property name="isActive" type="java.lang.Integer">
+            <column name="isActive" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />

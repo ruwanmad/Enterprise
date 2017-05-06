@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated May 4, 2017 11:08:56 PM by Hibernate Tools 4.3.1
+// Generated May 6, 2017 11:29:34 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -16,6 +16,7 @@ public class StorageLocation  implements java.io.Serializable {
      private String storageLocationCode;
      private String storageLocationName;
      private Integer rackNumber;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -32,11 +33,12 @@ public class StorageLocation  implements java.io.Serializable {
     public StorageLocation(int storageLocationId) {
         this.storageLocationId = storageLocationId;
     }
-    public StorageLocation(int storageLocationId, String storageLocationCode, String storageLocationName, Integer rackNumber, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set itemStorages) {
+    public StorageLocation(int storageLocationId, String storageLocationCode, String storageLocationName, Integer rackNumber, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set itemStorages) {
        this.storageLocationId = storageLocationId;
        this.storageLocationCode = storageLocationCode;
        this.storageLocationName = storageLocationName;
        this.rackNumber = rackNumber;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -74,6 +76,13 @@ public class StorageLocation  implements java.io.Serializable {
     
     public void setRackNumber(Integer rackNumber) {
         this.rackNumber = rackNumber;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;

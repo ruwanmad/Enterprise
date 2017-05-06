@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated May 4, 2017 11:08:56 PM by Hibernate Tools 4.3.1
+// Generated May 6, 2017 11:29:34 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -23,6 +23,7 @@ public class Item  implements java.io.Serializable {
      private String issueMethod;
      private Float quantity;
      private Float reorderQuantity;
+     private Integer isActive;
      private Date creadetDate;
      private Date createdTime;
      private Integer createdUser;
@@ -44,7 +45,7 @@ public class Item  implements java.io.Serializable {
         this.itemCode = itemCode;
         this.itemName = itemName;
     }
-    public Item(int itemId, SubCategory subCategory, String itemCode, String itemName, Integer sellingUom, Integer buyingUom, Float costPrice, Float sellingPrice, String issueMethod, Float quantity, Float reorderQuantity, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set grnLines, Set serviceItems, Set itemStorages) {
+    public Item(int itemId, SubCategory subCategory, String itemCode, String itemName, Integer sellingUom, Integer buyingUom, Float costPrice, Float sellingPrice, String issueMethod, Float quantity, Float reorderQuantity, Integer isActive, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set grnLines, Set serviceItems, Set itemStorages) {
        this.itemId = itemId;
        this.subCategory = subCategory;
        this.itemCode = itemCode;
@@ -56,6 +57,7 @@ public class Item  implements java.io.Serializable {
        this.issueMethod = issueMethod;
        this.quantity = quantity;
        this.reorderQuantity = reorderQuantity;
+       this.isActive = isActive;
        this.creadetDate = creadetDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -144,6 +146,13 @@ public class Item  implements java.io.Serializable {
     
     public void setReorderQuantity(Float reorderQuantity) {
         this.reorderQuantity = reorderQuantity;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreadetDate() {
         return this.creadetDate;

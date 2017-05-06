@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated May 4, 2017 11:08:56 PM by Hibernate Tools 4.3.1
+// Generated May 6, 2017 11:29:34 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -16,6 +16,8 @@ public class SubCategory  implements java.io.Serializable {
      private Category category;
      private String subCategoryCode;
      private String subCategoryName;
+     private String subCategoryType;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -30,16 +32,19 @@ public class SubCategory  implements java.io.Serializable {
     }
 
 	
-    public SubCategory(int subCategoryId, Category category, String subCategoryCode) {
+    public SubCategory(int subCategoryId, Category category, String subCategoryCode, String subCategoryType) {
         this.subCategoryId = subCategoryId;
         this.category = category;
         this.subCategoryCode = subCategoryCode;
+        this.subCategoryType = subCategoryType;
     }
-    public SubCategory(int subCategoryId, Category category, String subCategoryCode, String subCategoryName, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set items, Set subCategoryPrinterses) {
+    public SubCategory(int subCategoryId, Category category, String subCategoryCode, String subCategoryName, String subCategoryType, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set items, Set subCategoryPrinterses) {
        this.subCategoryId = subCategoryId;
        this.category = category;
        this.subCategoryCode = subCategoryCode;
        this.subCategoryName = subCategoryName;
+       this.subCategoryType = subCategoryType;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -78,6 +83,20 @@ public class SubCategory  implements java.io.Serializable {
     
     public void setSubCategoryName(String subCategoryName) {
         this.subCategoryName = subCategoryName;
+    }
+    public String getSubCategoryType() {
+        return this.subCategoryType;
+    }
+    
+    public void setSubCategoryType(String subCategoryType) {
+        this.subCategoryType = subCategoryType;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;

@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated May 4, 2017 11:08:56 PM by Hibernate Tools 4.3.1
+// Generated May 6, 2017 11:29:34 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -15,6 +15,7 @@ public class Category  implements java.io.Serializable {
      private Integer categoryId;
      private String categoryCode;
      private String categoryName;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -31,9 +32,10 @@ public class Category  implements java.io.Serializable {
     public Category(String categoryCode) {
         this.categoryCode = categoryCode;
     }
-    public Category(String categoryCode, String categoryName, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set subCategories) {
+    public Category(String categoryCode, String categoryName, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set subCategories) {
        this.categoryCode = categoryCode;
        this.categoryName = categoryName;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -64,6 +66,13 @@ public class Category  implements java.io.Serializable {
     
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;
