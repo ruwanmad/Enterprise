@@ -32,6 +32,7 @@ public class EnableFeatures {
                     break;
                 }
                 case "4": {
+                    mainFrame.mReports.setEnabled(true);
                     break;
                 }
                 case "5": {
@@ -174,6 +175,30 @@ public class EnableFeatures {
                     break;
                 }
                 case "59": {
+                    break;
+                }
+                case "111":{
+                    mainFrame.miCategory.setEnabled(true);
+                    break;
+                }
+                case "112":{
+                    mainFrame.miSubCategory.setEnabled(true);
+                    break;
+                }
+                case "113":{
+                    mainFrame.miItems.setEnabled(true);
+                    break;
+                }
+                case "114":{
+                    mainFrame.miLocations.setEnabled(true);
+                    break;
+                }
+                case "115":{
+                    mainFrame.miBusinessPartner.setEnabled(true);
+                    break;
+                }
+                case "116":{
+                    mainFrame.miPrinters.setEnabled(true);
                     break;
                 }
             }

@@ -6,6 +6,8 @@
 package com.servicemaster.views;
 
 import com.servicemaster.entities.Category;
+import com.servicemaster.guiFunctions.LableFunctions;
+import java.awt.Color;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -42,9 +44,10 @@ public class CategoryView extends javax.swing.JInternalFrame {
 
         scrollPane = new javax.swing.JScrollPane();
         categoryTable = new javax.swing.JTable();
-        btnClose = new javax.swing.JButton();
-        btnSelect = new javax.swing.JButton();
+        lblSelect = new javax.swing.JLabel();
+        lblClose = new javax.swing.JLabel();
 
+        setTitle("Category View");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -93,17 +96,39 @@ public class CategoryView extends javax.swing.JInternalFrame {
         });
         scrollPane.setViewportView(categoryTable);
 
-        btnClose.setText("Close");
-        btnClose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseActionPerformed(evt);
+        lblSelect.setBackground(new java.awt.Color(150, 255, 150));
+        lblSelect.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblSelect.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSelect.setText("Select");
+        lblSelect.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblSelect.setOpaque(true);
+        lblSelect.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSelectMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblSelectMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblSelectMouseExited(evt);
             }
         });
 
-        btnSelect.setText("Select");
-        btnSelect.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelectActionPerformed(evt);
+        lblClose.setBackground(new java.awt.Color(150, 255, 150));
+        lblClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblClose.setText("Close");
+        lblClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblClose.setOpaque(true);
+        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCloseMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCloseMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCloseMouseExited(evt);
             }
         });
 
@@ -114,27 +139,22 @@ public class CategoryView extends javax.swing.JInternalFrame {
             .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSelect)
+                .addComponent(lblSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnClose)
+                .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnSelect});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSelect))
+                    .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnSelect});
 
         setBounds(0, 0, 500, 324);
     }// </editor-fold>//GEN-END:initComponents
@@ -152,23 +172,39 @@ public class CategoryView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_formInternalFrameOpened
 
-    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        int option = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
-            this.dispose();
-        }
-    }//GEN-LAST:event_btnCloseActionPerformed
-
-    private void btnSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectActionPerformed
-        this.selectCategory();
-    }//GEN-LAST:event_btnSelectActionPerformed
-
     private void categoryTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoryTableMouseClicked
         int clickCount = evt.getClickCount();
         if (clickCount == 2) {
             this.selectCategory();
         }
     }//GEN-LAST:event_categoryTableMouseClicked
+
+    private void lblSelectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseClicked
+        this.selectCategory();
+    }//GEN-LAST:event_lblSelectMouseClicked
+
+    private void lblSelectMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+    }//GEN-LAST:event_lblSelectMouseEntered
+
+    private void lblSelectMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+    }//GEN-LAST:event_lblSelectMouseExited
+
+    private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
+        int option = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_lblCloseMouseClicked
+
+    private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+    }//GEN-LAST:event_lblCloseMouseEntered
+
+    private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+    }//GEN-LAST:event_lblCloseMouseExited
 
     private void selectCategory() {
         int selectedRow = categoryTable.getSelectedRow();
@@ -177,13 +213,14 @@ public class CategoryView extends javax.swing.JInternalFrame {
         categoryFrame.setTxtCategoryName(category.getCategoryName());
         categoryFrame.setTxtRemark(category.getRemarks());
         categoryFrame.setCbxIsActive((category.getIsActive() == 1));
+        categoryFrame.setTxtCodeEditable(false);
         this.dispose();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnClose;
-    private javax.swing.JButton btnSelect;
     private javax.swing.JTable categoryTable;
+    private javax.swing.JLabel lblClose;
+    private javax.swing.JLabel lblSelect;
     private javax.swing.JScrollPane scrollPane;
     // End of variables declaration//GEN-END:variables
 }

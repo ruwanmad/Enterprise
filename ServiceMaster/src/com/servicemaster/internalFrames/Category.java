@@ -7,8 +7,10 @@ package com.servicemaster.internalFrames;
 
 import com.servicemaster.entities.KeyTable;
 import com.servicemaster.forms.MainFrame;
+import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.CategoryView;
+import java.awt.Color;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -41,15 +43,15 @@ public class Category extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         txtCategoryCode = new javax.swing.JTextField();
         txtCategoryName = new javax.swing.JTextField();
-        btnCodeSearch = new javax.swing.JButton();
-        btnNameSearch = new javax.swing.JButton();
-        btnClose = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
-        btnView = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txtRemark = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         cbxIsActive = new javax.swing.JCheckBox();
+        lblClose = new javax.swing.JLabel();
+        lblUpdate = new javax.swing.JLabel();
+        lblView = new javax.swing.JLabel();
+        lblCodeSearch = new javax.swing.JLabel();
+        lblNameSearch = new javax.swing.JLabel();
 
         setTitle("Category");
 
@@ -63,38 +65,6 @@ public class Category extends javax.swing.JInternalFrame {
 
         txtCategoryName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        btnCodeSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        btnCodeSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        btnCodeSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCodeSearchActionPerformed(evt);
-            }
-        });
-
-        btnNameSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        btnNameSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        btnNameSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNameSearchActionPerformed(evt);
-            }
-        });
-
-        btnClose.setText("Close");
-        btnClose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseActionPerformed(evt);
-            }
-        });
-
-        btnUpdate.setText("Update");
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
-
-        btnView.setText("View");
-
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel3.setText("Remarks :");
 
@@ -104,6 +74,94 @@ public class Category extends javax.swing.JInternalFrame {
         jLabel4.setText("Is Active :");
 
         cbxIsActive.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        lblClose.setBackground(new java.awt.Color(150, 255, 150));
+        lblClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblClose.setText("Close");
+        lblClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblClose.setOpaque(true);
+        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCloseMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCloseMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCloseMouseExited(evt);
+            }
+        });
+
+        lblUpdate.setBackground(new java.awt.Color(150, 255, 150));
+        lblUpdate.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblUpdate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUpdate.setText("Update");
+        lblUpdate.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblUpdate.setOpaque(true);
+        lblUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblUpdateMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblUpdateMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblUpdateMouseExited(evt);
+            }
+        });
+
+        lblView.setBackground(new java.awt.Color(150, 255, 150));
+        lblView.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblView.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblView.setText("View");
+        lblView.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblView.setOpaque(true);
+        lblView.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblViewMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblViewMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblViewMouseExited(evt);
+            }
+        });
+
+        lblCodeSearch.setBackground(new java.awt.Color(150, 255, 150));
+        lblCodeSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCodeSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        lblCodeSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblCodeSearch.setOpaque(true);
+        lblCodeSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCodeSearchMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCodeSearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCodeSearchMouseExited(evt);
+            }
+        });
+
+        lblNameSearch.setBackground(new java.awt.Color(150, 255, 150));
+        lblNameSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNameSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        lblNameSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblNameSearch.setOpaque(true);
+        lblNameSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblNameSearchMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblNameSearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblNameSearchMouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,33 +174,33 @@ public class Category extends javax.swing.JInternalFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtRemark))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblClose, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel1)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(txtCategoryCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel2)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(btnCodeSearch, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(btnNameSearch, javax.swing.GroupLayout.Alignment.TRAILING)))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(btnView)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnUpdate)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnClose)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(10, 10, 10)
-                                .addComponent(cbxIsActive)))
+                                .addComponent(cbxIsActive))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtCategoryCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblCodeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -151,25 +209,25 @@ public class Category extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtCategoryCode, txtCategoryName});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCodeSearch, btnNameSearch});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnUpdate, btnView});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblCodeSearch, lblNameSearch});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCodeSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
-                        .addComponent(txtCategoryCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtCategoryCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblCodeSearch))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
                         .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNameSearch))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -178,51 +236,29 @@ public class Category extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(cbxIsActive))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUpdate)
-                    .addComponent(btnView))
+                    .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCodeSearch, btnNameSearch, cbxIsActive, jLabel1, jLabel2, jLabel3, jLabel4, txtCategoryCode, txtCategoryName, txtRemark});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, jLabel1, jLabel2, jLabel3, jLabel4, lblCodeSearch, lblNameSearch, txtCategoryCode, txtCategoryName, txtRemark});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnUpdate, btnView});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+    private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
         int selectedOption = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
         if (selectedOption == JOptionPane.YES_OPTION) {
             this.dispose();
         }
-    }//GEN-LAST:event_btnCloseActionPerformed
+    }//GEN-LAST:event_lblCloseMouseClicked
 
-    private void btnCodeSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCodeSearchActionPerformed
-        String categoryCode = txtCategoryCode.getText().trim();
-        List categories = getCategoryByCode(categoryCode, true);
-
-        if (categories.size() > 0) {
-            CategoryView categoryView = new CategoryView(categories, this);
-            MainFrame.desktopPane.add(categoryView);
-            categoryView.setVisible(true);
-        }
-    }//GEN-LAST:event_btnCodeSearchActionPerformed
-
-    private void btnNameSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNameSearchActionPerformed
-        String categoryName = txtCategoryName.getText().trim();
-        List categories = getCategoryByName(categoryName, true);
-
-        if (categories.size() > 0) {
-            CategoryView categoryView = new CategoryView(categories, this);
-            MainFrame.desktopPane.add(categoryView);
-            categoryView.setVisible(true);
-        }
-    }//GEN-LAST:event_btnNameSearchActionPerformed
-
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+    private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         String categoryCode = txtCategoryCode.getText().toUpperCase().trim();
@@ -255,10 +291,10 @@ public class Category extends javax.swing.JInternalFrame {
                     category.setCategoryName(categoryName);
                     category.setRemarks(categoryRemark);
                     category.setIsActive(isActivated ? 1 : 0);
-                    category.setCreatedDate(new Date());
-                    category.setCreatedTime(new Date());
-                    category.setCreatedUser(MainFrame.user.getUserId());
-                    category.setRemarks(categoryName);
+                    category.setModifiedDate(new Date());
+                    category.setModifiedTime(new Date());
+                    category.setModifiedUser(MainFrame.user.getUserId());
+                    category.setRemarks(categoryRemark);
                     session.saveOrUpdate(category);
 
                     session.getTransaction().commit();
@@ -269,7 +305,73 @@ public class Category extends javax.swing.JInternalFrame {
                 }
             }
         }
-    }//GEN-LAST:event_btnUpdateActionPerformed
+    }//GEN-LAST:event_lblUpdateMouseClicked
+
+    private void lblViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblViewMouseClicked
+
+    private void lblViewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+    }//GEN-LAST:event_lblViewMouseEntered
+
+    private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+    }//GEN-LAST:event_lblUpdateMouseEntered
+
+    private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+    }//GEN-LAST:event_lblCloseMouseEntered
+
+    private void lblViewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+    }//GEN-LAST:event_lblViewMouseExited
+
+    private void lblUpdateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+    }//GEN-LAST:event_lblUpdateMouseExited
+
+    private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+    }//GEN-LAST:event_lblCloseMouseExited
+
+    private void lblCodeSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseClicked
+        String categoryCode = txtCategoryCode.getText().trim();
+        List categories = getCategoryByCode(categoryCode, true);
+
+        if (categories.size() > 0) {
+            CategoryView categoryView = new CategoryView(categories, this);
+            MainFrame.desktopPane.add(categoryView);
+            categoryView.setVisible(true);
+        }
+    }//GEN-LAST:event_lblCodeSearchMouseClicked
+
+    private void lblNameSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseClicked
+        String categoryName = txtCategoryName.getText().trim();
+        List categories = getCategoryByName(categoryName, true);
+
+        if (categories.size() > 0) {
+            CategoryView categoryView = new CategoryView(categories, this);
+            MainFrame.desktopPane.add(categoryView);
+            categoryView.setVisible(true);
+        }
+    }//GEN-LAST:event_lblNameSearchMouseClicked
+
+    private void lblCodeSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+    }//GEN-LAST:event_lblCodeSearchMouseEntered
+
+    private void lblNameSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+    }//GEN-LAST:event_lblNameSearchMouseEntered
+
+    private void lblCodeSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+    }//GEN-LAST:event_lblCodeSearchMouseExited
+
+    private void lblNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+    }//GEN-LAST:event_lblNameSearchMouseExited
 
     private void createNewCategory(String categoryName, String categoryRemark, boolean isActivated) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -355,6 +457,7 @@ public class Category extends javax.swing.JInternalFrame {
         txtCategoryName.setText("");
         txtRemark.setText("");
         cbxIsActive.setSelected(false);
+        txtCategoryCode.setEditable(true);
     }
 
     public void setCbxIsActive(boolean IsActive) {
@@ -373,21 +476,23 @@ public class Category extends javax.swing.JInternalFrame {
         this.txtRemark.setText(remark);
     }
 
+    public void setTxtCodeEditable(boolean editable) {
+        txtCategoryCode.setEditable(editable);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnClose;
-    private javax.swing.JButton btnCodeSearch;
-    private javax.swing.JButton btnNameSearch;
-    private javax.swing.JButton btnUpdate;
-    private javax.swing.JButton btnView;
     private javax.swing.JCheckBox cbxIsActive;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel lblClose;
+    private javax.swing.JLabel lblCodeSearch;
+    private javax.swing.JLabel lblNameSearch;
+    private javax.swing.JLabel lblUpdate;
+    private javax.swing.JLabel lblView;
     private javax.swing.JTextField txtCategoryCode;
     private javax.swing.JTextField txtCategoryName;
     private javax.swing.JTextField txtRemark;
     // End of variables declaration//GEN-END:variables
-    private boolean isNewCategory;
 }

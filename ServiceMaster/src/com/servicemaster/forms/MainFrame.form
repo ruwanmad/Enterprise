@@ -31,7 +31,14 @@
                       <KeyStroke key="Shift+Ctrl+C"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Category"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miCategoryActionPerformed"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                  </AuxValues>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="miSubCategory">
                   <Properties>
@@ -39,7 +46,11 @@
                       <KeyStroke key="Shift+Ctrl+S"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Sub Category"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                  </AuxValues>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="miItems">
                   <Properties>
@@ -47,7 +58,11 @@
                       <KeyStroke key="Shift+Ctrl+I"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Items"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                  </AuxValues>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="miLocations">
                   <Properties>
@@ -55,7 +70,11 @@
                       <KeyStroke key="Shift+Ctrl+L"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Locations"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                  </AuxValues>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="miBusinessPartner">
                   <Properties>
@@ -63,7 +82,11 @@
                       <KeyStroke key="Shift+Ctrl+B"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Business Partner"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                  </AuxValues>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="miPrinters">
                   <Properties>
@@ -71,7 +94,11 @@
                       <KeyStroke key="Shift+Ctrl+P"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Printers"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                  </AuxValues>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -128,7 +155,11 @@
         <Menu class="javax.swing.JMenu" name="mReports">
           <Properties>
             <Property name="text" type="java.lang.String" value="Reports"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Menu>
         <Menu class="javax.swing.JMenu" name="mOptions">
           <Properties>

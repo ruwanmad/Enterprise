@@ -7,15 +7,19 @@ package com.servicemaster.forms;
 
 import com.servicemaster.entities.Module;
 import com.servicemaster.entities.User;
+import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.internalFrames.Category;
 import com.servicemaster.internalFrames.ShortCuts;
 import com.servicemaster.utils.HibernateUtil;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -32,7 +36,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.border.MatteBorder;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -46,6 +53,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form MainFrame
+     *
      * @param user
      */
     public MainFrame(User user) {
@@ -141,26 +149,37 @@ public class MainFrame extends javax.swing.JFrame {
 
         miCategory.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miCategory.setText("Category");
+        miCategory.setEnabled(false);
+        miCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miCategoryActionPerformed(evt);
+            }
+        });
         mMasterFiles.add(miCategory);
 
         miSubCategory.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miSubCategory.setText("Sub Category");
+        miSubCategory.setEnabled(false);
         mMasterFiles.add(miSubCategory);
 
         miItems.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miItems.setText("Items");
+        miItems.setEnabled(false);
         mMasterFiles.add(miItems);
 
         miLocations.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miLocations.setText("Locations");
+        miLocations.setEnabled(false);
         mMasterFiles.add(miLocations);
 
         miBusinessPartner.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miBusinessPartner.setText("Business Partner");
+        miBusinessPartner.setEnabled(false);
         mMasterFiles.add(miBusinessPartner);
 
         miPrinters.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miPrinters.setText("Printers");
+        miPrinters.setEnabled(false);
         mMasterFiles.add(miPrinters);
 
         mFile.add(mMasterFiles);
@@ -193,6 +212,7 @@ public class MainFrame extends javax.swing.JFrame {
         menuBar.add(mTransactions);
 
         mReports.setText("Reports");
+        mReports.setEnabled(false);
         menuBar.add(mReports);
 
         mOptions.setText("Options");
@@ -321,6 +341,10 @@ public class MainFrame extends javax.swing.JFrame {
         this.exitApllication();
     }//GEN-LAST:event_formWindowClosing
 
+    private void miCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCategoryActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miCategoryActionPerformed
+
     private void exitApllication() {
         int option = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
@@ -365,17 +389,32 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public void addShortCuts(String name) {
-        JButton button = new JButton(name);
-        button.addActionListener(new ActionListener() {
+        JLabel label = new JLabel(name);
+        label.setName(name);
+        label.setOpaque(true);
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                MainFrame.openWindow(MainFrame.allModuleMap.get(((JLabel) event.getSource()).getName().trim()));
+            }
 
             @Override
-            public void actionPerformed(ActionEvent e) {
-                MainFrame.openWindow(MainFrame.allModuleMap.get(e.getActionCommand()));
+            public void mouseEntered(MouseEvent event) {
+                LableFunctions.changeBackgroundColor(event.getSource(), new Color(50, 255, 50));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent event) {
+                LableFunctions.changeBackgroundColor(event.getSource(), new Color(150, 255, 150));
             }
         });
-        button.setPreferredSize(new Dimension(144, 50));
-        button.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
-        this.panelShortcuts.add(button);
+        label.setPreferredSize(new Dimension(144, 50));
+        label.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        label.setBackground(new Color(150, 255, 150));
+        label.setBorder(new MatteBorder(1, 1, 1, 1, new Color(50, 255, 50)));
+        this.panelShortcuts.add(label);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -385,18 +424,18 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenu mFile;
     public javax.swing.JMenu mMasterFiles;
     public javax.swing.JMenu mOptions;
-    private javax.swing.JMenu mReports;
+    public javax.swing.JMenu mReports;
     public javax.swing.JMenu mTransactions;
     private javax.swing.JMenuBar menuBar;
     public javax.swing.JMenuItem miAddShortcuts;
-    private javax.swing.JMenuItem miBusinessPartner;
-    private javax.swing.JMenuItem miCategory;
+    public javax.swing.JMenuItem miBusinessPartner;
+    public javax.swing.JMenuItem miCategory;
     private javax.swing.JMenuItem miChangeBackground;
     private javax.swing.JMenuItem miExit;
-    private javax.swing.JMenuItem miItems;
-    private javax.swing.JMenuItem miLocations;
-    private javax.swing.JMenuItem miPrinters;
-    private javax.swing.JMenuItem miSubCategory;
+    public javax.swing.JMenuItem miItems;
+    public javax.swing.JMenuItem miLocations;
+    public javax.swing.JMenuItem miPrinters;
+    public javax.swing.JMenuItem miSubCategory;
     public javax.swing.JMenuItem miUserPrivilages;
     public javax.swing.JMenuItem miUsers;
     public javax.swing.JPanel panelShortcuts;
