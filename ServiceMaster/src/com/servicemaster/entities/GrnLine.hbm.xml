@@ -1,30 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated May 7, 2017 7:35:29 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated May 31, 2017 1:24:14 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.entities.GrnLine" table="grn_line" catalog="enterprisedb" optimistic-lock="version">
-        <composite-id name="id" class="com.servicemaster.entities.GrnLineId">
-            <key-property name="grnLineId" type="int">
-                <column name="grn_line_id" />
-            </key-property>
-            <key-property name="itemSubCategoryCategoryCategoryCode" type="string">
-                <column name="item_sub_category_category_category_code" length="15" />
-            </key-property>
-            <key-property name="itemSubCategorySubCategoryCode" type="string">
-                <column name="item_sub_category_sub_category_code" length="15" />
-            </key-property>
-            <key-property name="itemItemCode" type="string">
-                <column name="item_item_code" length="15" />
-            </key-property>
-        </composite-id>
+        <id name="grnLineId" type="int">
+            <column name="grn_line_id" />
+            <generator class="assigned" />
+        </id>
         <many-to-one name="grn" class="com.servicemaster.entities.Grn" fetch="select">
             <column name="grn_grn_id" not-null="true" />
-        </many-to-one>
-        <many-to-one name="item" class="com.servicemaster.entities.Item" update="false" insert="false" fetch="select">
-            <column name="item_sub_category_category_category_code" length="15" not-null="true" />
-            <column name="item_sub_category_sub_category_code" length="15" not-null="true" />
-            <column name="item_item_code" length="15" not-null="true" />
         </many-to-one>
         <property name="unitPrice" type="java.lang.Float">
             <column name="unit_price" precision="12" scale="0" />

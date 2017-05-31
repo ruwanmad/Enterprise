@@ -47,8 +47,9 @@ Contributor(s):
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">senuja2014</property>
     <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
     <mapping resource="com/servicemaster/entities/Vehicle.hbm.xml"/>
-    <mapping resource="com/servicemaster/entities/SubCategoryPrinters.hbm.xml"/>
+    <mapping resource="com/servicemaster/entities/SubCategoryType.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/KeyTable.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/BillingLine.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/ServiceItem.hbm.xml"/>
@@ -66,6 +67,7 @@ Contributor(s):
     <mapping resource="com/servicemaster/entities/Item.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/BusinessPartner.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/User.hbm.xml"/>
+    <mapping resource="com/servicemaster/entities/PrinterSubCategory.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/TelephoneNumber.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/Printer.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/Module.hbm.xml"/>

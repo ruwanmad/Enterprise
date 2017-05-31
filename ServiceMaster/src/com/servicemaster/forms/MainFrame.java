@@ -8,16 +8,15 @@ package com.servicemaster.forms;
 import com.servicemaster.entities.Module;
 import com.servicemaster.entities.User;
 import com.servicemaster.guiFunctions.LableFunctions;
-import com.servicemaster.internalFrames.Category;
-import com.servicemaster.internalFrames.ShortCuts;
+import com.servicemaster.internalFrames.CategoryFrame;
+import com.servicemaster.internalFrames.ShortCutsFrame;
+import com.servicemaster.internalFrames.SubCategoryFrame;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -33,7 +32,6 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -160,6 +158,11 @@ public class MainFrame extends javax.swing.JFrame {
         miSubCategory.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miSubCategory.setText("Sub Category");
         miSubCategory.setEnabled(false);
+        miSubCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSubCategoryActionPerformed(evt);
+            }
+        });
         mMasterFiles.add(miSubCategory);
 
         miItems.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
@@ -311,7 +314,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void miAddShortcutsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAddShortcutsActionPerformed
-        ShortCuts shortCuts = new ShortCuts(this);
+        ShortCutsFrame shortCuts = new ShortCutsFrame(this);
         shortCuts.setLocation(300, 0);
         desktopPane.add(shortCuts);
         shortCuts.setVisible(true);
@@ -345,6 +348,10 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miCategoryActionPerformed
 
+    private void miSubCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSubCategoryActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miSubCategoryActionPerformed
+
     private void exitApllication() {
         int option = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
@@ -356,16 +363,17 @@ public class MainFrame extends javax.swing.JFrame {
         JInternalFrame internalFrame = null;
         switch (moduleCode) {
             case "1": {
-                internalFrame = new Category();
                 break;
             }
             case "2": {
                 break;
             }
             case "3": {
+                internalFrame = new CategoryFrame();
                 break;
             }
             case "4": {
+                internalFrame = new SubCategoryFrame();
                 break;
             }
             case "5": {

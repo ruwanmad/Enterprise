@@ -5,8 +5,9 @@
  */
 package com.servicemaster.views;
 
-import com.servicemaster.entities.Category;
+import com.servicemaster.entities.SubCategory;
 import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.internalFrames.SubCategoryFrame;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -16,21 +17,21 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author RuwanM
  */
-public class CategoryView extends javax.swing.JInternalFrame {
+public class SubCategoryView extends javax.swing.JInternalFrame {
 
     private final List list;
-    private final com.servicemaster.internalFrames.CategoryFrame categoryFrame;
+    private final com.servicemaster.internalFrames.SubCategoryFrame subCategoryFrame;
 
     /**
      * Creates new form CategoryView
      *
      * @param list
-     * @param category
+     * @param subCategory
      */
-    public CategoryView(List<Category> list, com.servicemaster.internalFrames.CategoryFrame category) {
+    public SubCategoryView(List<SubCategory> list, SubCategoryFrame subCategory) {
         initComponents();
         this.list = list;
-        this.categoryFrame = category;
+        this.subCategoryFrame = subCategory;
     }
 
     /**
@@ -43,7 +44,7 @@ public class CategoryView extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         scrollPane = new javax.swing.JScrollPane();
-        categoryTable = new javax.swing.JTable();
+        subCategoryTable = new javax.swing.JTable();
         lblSelect = new javax.swing.JLabel();
         lblClose = new javax.swing.JLabel();
 
@@ -66,19 +67,19 @@ public class CategoryView extends javax.swing.JInternalFrame {
             }
         });
 
-        categoryTable.setModel(new javax.swing.table.DefaultTableModel(
+        subCategoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Cat. Code", "Cat. Name", "Remark", "Is Active"
+                "Sub Cat. Code", "Sub Cat. Name", "Cat. Code", "Sub Cat. Type", "Remark", "Is Active"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -89,12 +90,12 @@ public class CategoryView extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        categoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        subCategoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                categoryTableMouseClicked(evt);
+                subCategoryTableMouseClicked(evt);
             }
         });
-        scrollPane.setViewportView(categoryTable);
+        scrollPane.setViewportView(subCategoryTable);
 
         lblSelect.setBackground(new java.awt.Color(150, 255, 150));
         lblSelect.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
@@ -136,7 +137,7 @@ public class CategoryView extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+            .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -156,31 +157,36 @@ public class CategoryView extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        setBounds(0, 0, 500, 324);
+        setBounds(0, 0, 788, 324);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         if (!list.isEmpty()) {
-            DefaultTableModel tableModel = (DefaultTableModel) categoryTable.getModel();
+            DefaultTableModel tableModel = (DefaultTableModel) subCategoryTable.getModel();
             tableModel.setRowCount(0);
             for (Object object : list) {
-                if (object instanceof Category) {
-                    Category category = (Category) object;
-                    tableModel.addRow(new Object[]{category.getCategoryCode(), category.getCategoryName(), category.getRemarks(), (category.getIsActive() == 1)});
+                if (object instanceof SubCategory) {
+                    SubCategory subCategory = (SubCategory) object;
+                    tableModel.addRow(new Object[]{subCategory.getSubCategoryCode(), 
+                        subCategory.getSubCategoryName(), 
+                        subCategory.getCategory().getCategoryCode(), 
+                        subCategory.getSubCategoryType().getSubCategoryTypeCode(),
+                        subCategory.getRemarks(), 
+                        subCategory.getIsActive() == 1});
                 }
             }
         }
     }//GEN-LAST:event_formInternalFrameOpened
 
-    private void categoryTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoryTableMouseClicked
+    private void subCategoryTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subCategoryTableMouseClicked
         int clickCount = evt.getClickCount();
         if (clickCount == 2) {
-            this.selectCategory();
+            this.selectSubCategory();
         }
-    }//GEN-LAST:event_categoryTableMouseClicked
+    }//GEN-LAST:event_subCategoryTableMouseClicked
 
     private void lblSelectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseClicked
-        this.selectCategory();
+        this.selectSubCategory();
     }//GEN-LAST:event_lblSelectMouseClicked
 
     private void lblSelectMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseEntered
@@ -206,21 +212,23 @@ public class CategoryView extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
     }//GEN-LAST:event_lblCloseMouseExited
 
-    private void selectCategory() {
-        int selectedRow = categoryTable.getSelectedRow();
-        Category category = (Category) list.get(selectedRow);
-        categoryFrame.setTxtCategoryCode(category.getCategoryCode());
-        categoryFrame.setTxtCategoryName(category.getCategoryName());
-        categoryFrame.setTxtRemark(category.getRemarks());
-        categoryFrame.setCbxIsActive((category.getIsActive() == 1));
-        categoryFrame.setTxtCodeEditable(false);
+    private void selectSubCategory() {
+        int selectedRow = subCategoryTable.getSelectedRow();
+        SubCategory subCategory = (SubCategory) list.get(selectedRow);
+        subCategoryFrame.setTxtSubcategoryCode(subCategory.getSubCategoryCode());
+        subCategoryFrame.setTxtSubcategoryName(subCategory.getSubCategoryName());
+        subCategoryFrame.setTxtRemark(subCategory.getRemarks());
+        subCategoryFrame.setCbxIsActive((subCategory.getIsActive() == 1));
+        subCategoryFrame.setCmbCategory(subCategory.getCategory().getCategoryCode());
+        subCategoryFrame.setCmbSubCategoryType(subCategory.getSubCategoryType().getSubCategoryTypeCode());
+        subCategoryFrame.setTxtCodeEditable(false);
         this.dispose();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable categoryTable;
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblSelect;
     private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JTable subCategoryTable;
     // End of variables declaration//GEN-END:variables
 }

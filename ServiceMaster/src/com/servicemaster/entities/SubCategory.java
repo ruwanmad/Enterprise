@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated May 7, 2017 7:35:27 PM by Hibernate Tools 4.3.1
+// Generated May 31, 2017 1:24:12 PM by Hibernate Tools 4.3.1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -10,10 +10,10 @@ import java.util.Set;
  */
 public class SubCategory implements java.io.Serializable {
 
-    private SubCategoryId id;
+    private String subCategoryCode;
     private Category category;
+    private SubCategoryType subCategoryType;
     private String subCategoryName;
-    private String subCategoryType;
     private Integer isActive;
     private Date createdDate;
     private Date createdTime;
@@ -23,22 +23,26 @@ public class SubCategory implements java.io.Serializable {
     private Integer modifiedUser;
     private String remarks;
     private Set items = new HashSet(0);
-    private Set subCategoryPrinterses = new HashSet(0);
+    private Set printerSubCategories = new HashSet(0);
 
     public SubCategory() {
     }
 
-    public SubCategory(SubCategoryId id, Category category, String subCategoryType) {
-        this.id = id;
+    public SubCategory(String subCategoryCode) {
+        this.subCategoryCode = subCategoryCode;
+    }
+
+    public SubCategory(String subCategoryCode, Category category, SubCategoryType subCategoryType) {
+        this.subCategoryCode = subCategoryCode;
         this.category = category;
         this.subCategoryType = subCategoryType;
     }
 
-    public SubCategory(SubCategoryId id, Category category, String subCategoryName, String subCategoryType, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set items, Set subCategoryPrinterses) {
-        this.id = id;
+    public SubCategory(String subCategoryCode, Category category, SubCategoryType subCategoryType, String subCategoryName, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set items, Set printerSubCategories) {
+        this.subCategoryCode = subCategoryCode;
         this.category = category;
-        this.subCategoryName = subCategoryName;
         this.subCategoryType = subCategoryType;
+        this.subCategoryName = subCategoryName;
         this.isActive = isActive;
         this.createdDate = createdDate;
         this.createdTime = createdTime;
@@ -48,15 +52,15 @@ public class SubCategory implements java.io.Serializable {
         this.modifiedUser = modifiedUser;
         this.remarks = remarks;
         this.items = items;
-        this.subCategoryPrinterses = subCategoryPrinterses;
+        this.printerSubCategories = printerSubCategories;
     }
 
-    public SubCategoryId getId() {
-        return this.id;
+    public String getSubCategoryCode() {
+        return this.subCategoryCode;
     }
 
-    public void setId(SubCategoryId id) {
-        this.id = id;
+    public void setSubCategoryCode(String subCategoryCode) {
+        this.subCategoryCode = subCategoryCode;
     }
 
     public Category getCategory() {
@@ -67,20 +71,20 @@ public class SubCategory implements java.io.Serializable {
         this.category = category;
     }
 
+    public SubCategoryType getSubCategoryType() {
+        return this.subCategoryType;
+    }
+
+    public void setSubCategoryType(SubCategoryType subCategoryType) {
+        this.subCategoryType = subCategoryType;
+    }
+
     public String getSubCategoryName() {
         return this.subCategoryName;
     }
 
     public void setSubCategoryName(String subCategoryName) {
         this.subCategoryName = subCategoryName;
-    }
-
-    public String getSubCategoryType() {
-        return this.subCategoryType;
-    }
-
-    public void setSubCategoryType(String subCategoryType) {
-        this.subCategoryType = subCategoryType;
     }
 
     public Integer getIsActive() {
@@ -155,12 +159,12 @@ public class SubCategory implements java.io.Serializable {
         this.items = items;
     }
 
-    public Set getSubCategoryPrinterses() {
-        return this.subCategoryPrinterses;
+    public Set getPrinterSubCategories() {
+        return this.printerSubCategories;
     }
 
-    public void setSubCategoryPrinterses(Set subCategoryPrinterses) {
-        this.subCategoryPrinterses = subCategoryPrinterses;
+    public void setPrinterSubCategories(Set printerSubCategories) {
+        this.printerSubCategories = printerSubCategories;
     }
 
 }

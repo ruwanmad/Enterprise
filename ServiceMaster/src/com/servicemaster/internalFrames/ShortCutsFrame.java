@@ -19,7 +19,7 @@ import org.hibernate.Session;
  *
  * @author Ruwan Madawala
  */
-public class ShortCuts extends javax.swing.JInternalFrame {
+public class ShortCutsFrame extends javax.swing.JInternalFrame {
 
     private final MainFrame mainFrame;
 
@@ -28,7 +28,7 @@ public class ShortCuts extends javax.swing.JInternalFrame {
      *
      * @param mainFrame
      */
-    public ShortCuts(MainFrame mainFrame) {
+    public ShortCutsFrame(MainFrame mainFrame) {
         initComponents();
         this.mainFrame = mainFrame;
     }
@@ -58,20 +58,20 @@ public class ShortCuts extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setTitle("Shortcuts");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameOpened(evt);
-            }
-            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
             }
         });
 

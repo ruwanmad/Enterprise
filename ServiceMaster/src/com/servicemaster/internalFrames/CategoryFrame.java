@@ -5,6 +5,7 @@
  */
 package com.servicemaster.internalFrames;
 
+import com.servicemaster.entities.Category;
 import com.servicemaster.entities.KeyTable;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.guiFunctions.LableFunctions;
@@ -21,12 +22,12 @@ import org.hibernate.Session;
  *
  * @author Ruwan Madawala
  */
-public class Category extends javax.swing.JInternalFrame {
+public class CategoryFrame extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Category
      */
-    public Category() {
+    public CategoryFrame() {
         initComponents();
     }
 
@@ -287,7 +288,7 @@ public class Category extends javax.swing.JInternalFrame {
             } else {
                 int option = JOptionPane.showConfirmDialog(this, "Do you want to update?", "Update", JOptionPane.YES_NO_OPTION);
                 if (option == JOptionPane.YES_OPTION) {
-                    com.servicemaster.entities.Category category = new com.servicemaster.entities.Category(categoryCode);
+                    Category category = new Category(categoryCode);
                     category.setCategoryName(categoryName);
                     category.setRemarks(categoryRemark);
                     category.setIsActive(isActivated ? 1 : 0);
@@ -339,7 +340,7 @@ public class Category extends javax.swing.JInternalFrame {
         String categoryCode = txtCategoryCode.getText().trim();
         List categories = getCategoryByCode(categoryCode, true);
 
-        if (categories.size() > 0) {
+        if (!categories.isEmpty()) {
             CategoryView categoryView = new CategoryView(categories, this);
             MainFrame.desktopPane.add(categoryView);
             categoryView.setVisible(true);
@@ -401,7 +402,7 @@ public class Category extends javax.swing.JInternalFrame {
             catCode = "CAT1000";
         }
 
-        com.servicemaster.entities.Category category = new com.servicemaster.entities.Category();
+        Category category = new Category();
         category.setCategoryCode(catCode);
         category.setCategoryName(categoryName);
         category.setRemarks(categoryRemark);
