@@ -9,6 +9,7 @@ import com.servicemaster.entities.Module;
 import com.servicemaster.entities.User;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.internalFrames.CategoryFrame;
+import com.servicemaster.internalFrames.LocationFrame;
 import com.servicemaster.internalFrames.ShortCutsFrame;
 import com.servicemaster.internalFrames.SubCategoryFrame;
 import com.servicemaster.utils.HibernateUtil;
@@ -85,12 +86,14 @@ public class MainFrame extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         mFile = new javax.swing.JMenu();
         mMasterFiles = new javax.swing.JMenu();
+        miStorage = new javax.swing.JMenuItem();
+        miLocations = new javax.swing.JMenuItem();
         miCategory = new javax.swing.JMenuItem();
         miSubCategory = new javax.swing.JMenuItem();
         miItems = new javax.swing.JMenuItem();
-        miLocations = new javax.swing.JMenuItem();
         miBusinessPartner = new javax.swing.JMenuItem();
         miPrinters = new javax.swing.JMenuItem();
+        miVehicles = new javax.swing.JMenuItem();
         js1 = new javax.swing.JPopupMenu.Separator();
         miUsers = new javax.swing.JMenuItem();
         miUserPrivilages = new javax.swing.JMenuItem();
@@ -145,6 +148,21 @@ public class MainFrame extends javax.swing.JFrame {
         mMasterFiles.setText("Master Files");
         mMasterFiles.setEnabled(false);
 
+        miStorage.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        miStorage.setText("Storage");
+        miStorage.setEnabled(false);
+        mMasterFiles.add(miStorage);
+
+        miLocations.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        miLocations.setText("Locations");
+        miLocations.setEnabled(false);
+        miLocations.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miLocationsActionPerformed(evt);
+            }
+        });
+        mMasterFiles.add(miLocations);
+
         miCategory.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miCategory.setText("Category");
         miCategory.setEnabled(false);
@@ -170,11 +188,6 @@ public class MainFrame extends javax.swing.JFrame {
         miItems.setEnabled(false);
         mMasterFiles.add(miItems);
 
-        miLocations.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        miLocations.setText("Locations");
-        miLocations.setEnabled(false);
-        mMasterFiles.add(miLocations);
-
         miBusinessPartner.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miBusinessPartner.setText("Business Partner");
         miBusinessPartner.setEnabled(false);
@@ -184,6 +197,11 @@ public class MainFrame extends javax.swing.JFrame {
         miPrinters.setText("Printers");
         miPrinters.setEnabled(false);
         mMasterFiles.add(miPrinters);
+
+        miVehicles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        miVehicles.setText("Vehicles");
+        miVehicles.setEnabled(false);
+        mMasterFiles.add(miVehicles);
 
         mFile.add(mMasterFiles);
         mFile.add(js1);
@@ -352,6 +370,10 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miSubCategoryActionPerformed
 
+    private void miLocationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miLocationsActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miLocationsActionPerformed
+
     private void exitApllication() {
         int option = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
@@ -369,20 +391,39 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }
             case "3": {
-                internalFrame = new CategoryFrame();
                 break;
             }
             case "4": {
-                internalFrame = new SubCategoryFrame();
+                internalFrame = new LocationFrame();
                 break;
             }
             case "5": {
+                internalFrame = new CategoryFrame();
                 break;
             }
             case "6": {
+                internalFrame = new SubCategoryFrame();
                 break;
             }
             case "7": {
+                break;
+            }
+            case "8": {
+                break;
+            }
+            case "9": {
+                break;
+            }
+            case "10": {
+                break;
+            }
+            case "11": {
+                break;
+            }
+            case "12": {
+                break;
+            }
+            case "13": {
                 break;
             }
             default: {
@@ -443,9 +484,11 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenuItem miItems;
     public javax.swing.JMenuItem miLocations;
     public javax.swing.JMenuItem miPrinters;
+    public javax.swing.JMenuItem miStorage;
     public javax.swing.JMenuItem miSubCategory;
     public javax.swing.JMenuItem miUserPrivilages;
     public javax.swing.JMenuItem miUsers;
+    public javax.swing.JMenuItem miVehicles;
     public javax.swing.JPanel panelShortcuts;
     // End of variables declaration//GEN-END:variables
     public static final TreeMap<String, String> allModuleMap = new TreeMap<>();

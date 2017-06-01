@@ -1,21 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated May 31, 2017 1:24:14 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated May 31, 2017 4:52:38 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.entities.StorageLocation" table="storage_location" catalog="enterprisedb" optimistic-lock="version">
-        <id name="storageLocationId" type="int">
-            <column name="storage_location_id" />
+    <class name="com.servicemaster.entities.RackSlot" table="rack_slot" catalog="enterprisedb" optimistic-lock="version">
+        <id name="rackSlotCode" type="string">
+            <column name="rack_slot_code" length="10" />
             <generator class="assigned" />
         </id>
-        <property name="storageLocationCode" type="string">
-            <column name="storage_location_code" length="15" />
-        </property>
-        <property name="storageLocationName" type="string">
-            <column name="storage_location_name" length="100" />
-        </property>
-        <property name="rackNumber" type="java.lang.Integer">
-            <column name="rack_number" />
+        <many-to-one name="rack" class="com.servicemaster.entities.Rack" fetch="select">
+            <column name="rack_rack_code" length="10" not-null="true" />
+        </many-to-one>
+        <property name="rackSlotName" type="string">
+            <column name="rack_slot_name" length="45" />
         </property>
         <property name="isActive" type="java.lang.Integer">
             <column name="isActive" />
@@ -39,13 +36,13 @@
             <column name="modified_user" />
         </property>
         <property name="remark" type="string">
-            <column name="remark" length="100" />
+            <column name="remark" length="45" />
         </property>
-        <set name="itemStorages" table="item_storage" inverse="true" lazy="true" fetch="select">
+        <set name="items" table="item" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="storage_location_storage_location_id" not-null="true" />
+                <column name="rack_slot_rack_slot_code" length="10" not-null="true" />
             </key>
-            <one-to-many class="com.servicemaster.entities.ItemStorage" />
+            <one-to-many class="com.servicemaster.entities.Item" />
         </set>
     </class>
 </hibernate-mapping>

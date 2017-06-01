@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated May 31, 2017 1:24:12 PM by Hibernate Tools 4.3.1
+// Generated May 31, 2017 4:52:36 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -12,6 +12,7 @@ public class GrnLine  implements java.io.Serializable {
 
      private int grnLineId;
      private Grn grn;
+     private Item item;
      private Float unitPrice;
      private Float receivedQuantity;
      private Float totalPrice;
@@ -29,13 +30,15 @@ public class GrnLine  implements java.io.Serializable {
     }
 
 	
-    public GrnLine(int grnLineId, Grn grn) {
+    public GrnLine(int grnLineId, Grn grn, Item item) {
         this.grnLineId = grnLineId;
         this.grn = grn;
+        this.item = item;
     }
-    public GrnLine(int grnLineId, Grn grn, Float unitPrice, Float receivedQuantity, Float totalPrice, Float rejectedQuantity, String rejectedReason, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
+    public GrnLine(int grnLineId, Grn grn, Item item, Float unitPrice, Float receivedQuantity, Float totalPrice, Float rejectedQuantity, String rejectedReason, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
        this.grnLineId = grnLineId;
        this.grn = grn;
+       this.item = item;
        this.unitPrice = unitPrice;
        this.receivedQuantity = receivedQuantity;
        this.totalPrice = totalPrice;
@@ -63,6 +66,13 @@ public class GrnLine  implements java.io.Serializable {
     
     public void setGrn(Grn grn) {
         this.grn = grn;
+    }
+    public Item getItem() {
+        return this.item;
+    }
+    
+    public void setItem(Item item) {
+        this.item = item;
     }
     public Float getUnitPrice() {
         return this.unitPrice;

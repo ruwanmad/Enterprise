@@ -14,7 +14,6 @@ import com.servicemaster.forms.MainFrame;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.SubCategoryView;
-import java.awt.Color;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
@@ -140,6 +139,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         jLabel5.setText("Is Active :");
 
         cbxIsActive.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cbxIsActive.setSelected(true);
 
         lblClose.setBackground(new java.awt.Color(150, 255, 150));
         lblClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
@@ -320,11 +320,11 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblCodeSearchMouseClicked
 
     private void lblCodeSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblCodeSearchMouseEntered
 
     private void lblCodeSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCodeSearchMouseExited
 
     private void lblNameSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseClicked
@@ -339,11 +339,11 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblNameSearchMouseClicked
 
     private void lblNameSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblNameSearchMouseEntered
 
     private void lblNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblNameSearchMouseExited
 
     private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
@@ -354,11 +354,11 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblCloseMouseClicked
 
     private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblCloseMouseEntered
 
     private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCloseMouseExited
 
     private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
@@ -429,11 +429,11 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblUpdateMouseClicked
 
     private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblUpdateMouseEntered
 
     private void lblUpdateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblUpdateMouseExited
 
     private void lblViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseClicked
@@ -441,11 +441,11 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblViewMouseClicked
 
     private void lblViewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblViewMouseEntered
 
     private void lblViewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblViewMouseExited
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
@@ -578,7 +578,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         } else {
             KeyTable keyTable = new KeyTable();
             keyTable.setKeyCode("SUB");
-            keyTable.setKeyNumber(1000);
+            keyTable.setKeyNumber(1001);
             keyTable.setKeyRemark("Sub Category");
             keyTable.setCreatedDate(new Date());
             keyTable.setCreatedTime(new Date());

@@ -3,13 +3,13 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated May 31, 2017 4:52:38 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.entities.ServiceBay" table="service_bay" catalog="enterprisedb" optimistic-lock="version">
-        <id name="serviceBayCode" type="string">
-            <column name="service_bay_code" length="15" />
+    <class name="com.servicemaster.entities.Storage" table="storage" catalog="enterprisedb" optimistic-lock="version">
+        <id name="storageCode" type="string">
+            <column name="storage_code" length="15" />
             <generator class="assigned" />
         </id>
-        <property name="serviceBayName" type="string">
-            <column name="service_bay_name" length="45" />
+        <property name="storageName" type="string">
+            <column name="storage_name" length="100" />
         </property>
         <property name="isActive" type="java.lang.Integer">
             <column name="isActive" />
@@ -35,11 +35,11 @@
         <property name="remark" type="string">
             <column name="remark" length="100" />
         </property>
-        <set name="services" table="service" inverse="true" lazy="true" fetch="select">
+        <set name="racks" table="rack" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="service_bay_service_bay_code" length="15" not-null="true" />
+                <column name="storage_storage_code" length="15" not-null="true" />
             </key>
-            <one-to-many class="com.servicemaster.entities.Service" />
+            <one-to-many class="com.servicemaster.entities.Rack" />
         </set>
     </class>
 </hibernate-mapping>

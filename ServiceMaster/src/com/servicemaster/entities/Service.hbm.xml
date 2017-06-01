@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated May 31, 2017 1:24:14 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated May 31, 2017 4:52:38 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.entities.Service" table="service" catalog="enterprisedb" optimistic-lock="version">
         <id name="serviceId" type="int">
@@ -9,7 +9,7 @@
             <generator class="assigned" />
         </id>
         <many-to-one name="serviceBay" class="com.servicemaster.entities.ServiceBay" fetch="select">
-            <column name="service_bay_service_bay_id" not-null="true" />
+            <column name="service_bay_service_bay_code" length="15" not-null="true" />
         </many-to-one>
         <many-to-one name="vehicle" class="com.servicemaster.entities.Vehicle" fetch="select">
             <column name="vehicle_vehicle_id" not-null="true" />

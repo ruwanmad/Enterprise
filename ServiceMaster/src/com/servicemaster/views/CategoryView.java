@@ -5,9 +5,10 @@
  */
 package com.servicemaster.views;
 
+import com.servicemaster.data.SystemData;
 import com.servicemaster.entities.Category;
 import com.servicemaster.guiFunctions.LableFunctions;
-import java.awt.Color;
+import com.servicemaster.internalFrames.CategoryFrame;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class CategoryView extends javax.swing.JInternalFrame {
 
     private final List list;
-    private final com.servicemaster.internalFrames.CategoryFrame categoryFrame;
+    private final CategoryFrame categoryFrame;
 
     /**
      * Creates new form CategoryView
@@ -27,7 +28,7 @@ public class CategoryView extends javax.swing.JInternalFrame {
      * @param list
      * @param category
      */
-    public CategoryView(List<Category> list, com.servicemaster.internalFrames.CategoryFrame category) {
+    public CategoryView(List<Category> list, CategoryFrame category) {
         initComponents();
         this.list = list;
         this.categoryFrame = category;
@@ -184,11 +185,11 @@ public class CategoryView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblSelectMouseClicked
 
     private void lblSelectMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblSelectMouseEntered
 
     private void lblSelectMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblSelectMouseExited
 
     private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
@@ -199,11 +200,11 @@ public class CategoryView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblCloseMouseClicked
 
     private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblCloseMouseEntered
 
     private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCloseMouseExited
 
     private void selectCategory() {

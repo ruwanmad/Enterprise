@@ -3,13 +3,16 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated May 31, 2017 4:52:38 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.entities.ServiceBay" table="service_bay" catalog="enterprisedb" optimistic-lock="version">
-        <id name="serviceBayCode" type="string">
-            <column name="service_bay_code" length="15" />
+    <class name="com.servicemaster.entities.Rack" table="rack" catalog="enterprisedb" optimistic-lock="version">
+        <id name="rackCode" type="string">
+            <column name="rack_code" length="10" />
             <generator class="assigned" />
         </id>
-        <property name="serviceBayName" type="string">
-            <column name="service_bay_name" length="45" />
+        <many-to-one name="storage" class="com.servicemaster.entities.Storage" fetch="select">
+            <column name="storage_storage_code" length="15" not-null="true" />
+        </many-to-one>
+        <property name="rackName" type="string">
+            <column name="rack_name" length="45" />
         </property>
         <property name="isActive" type="java.lang.Integer">
             <column name="isActive" />
@@ -33,13 +36,13 @@
             <column name="modified_user" />
         </property>
         <property name="remark" type="string">
-            <column name="remark" length="100" />
+            <column name="remark" length="45" />
         </property>
-        <set name="services" table="service" inverse="true" lazy="true" fetch="select">
+        <set name="rackSlots" table="rack_slot" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="service_bay_service_bay_code" length="15" not-null="true" />
+                <column name="rack_rack_code" length="10" not-null="true" />
             </key>
-            <one-to-many class="com.servicemaster.entities.Service" />
+            <one-to-many class="com.servicemaster.entities.RackSlot" />
         </set>
     </class>
 </hibernate-mapping>

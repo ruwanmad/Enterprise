@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated May 31, 2017 1:24:12 PM by Hibernate Tools 4.3.1
+// Generated May 31, 2017 4:52:36 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,6 +13,7 @@ public class Item  implements java.io.Serializable {
 
 
      private String itemCode;
+     private RackSlot rackSlot;
      private SubCategory subCategory;
      private String itemName;
      private Integer sellingUom;
@@ -30,20 +31,22 @@ public class Item  implements java.io.Serializable {
      private Date modifiedTime;
      private Integer modifiedUser;
      private String remark;
+     private Set grnLines = new HashSet(0);
      private Set serviceItems = new HashSet(0);
-     private Set itemStorages = new HashSet(0);
 
     public Item() {
     }
 
 	
-    public Item(String itemCode, SubCategory subCategory, String itemName) {
+    public Item(String itemCode, RackSlot rackSlot, SubCategory subCategory, String itemName) {
         this.itemCode = itemCode;
+        this.rackSlot = rackSlot;
         this.subCategory = subCategory;
         this.itemName = itemName;
     }
-    public Item(String itemCode, SubCategory subCategory, String itemName, Integer sellingUom, Integer buyingUom, Float costPrice, Float sellingPrice, String issueMethod, Float quantity, Float reorderQuantity, Integer isActive, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set serviceItems, Set itemStorages) {
+    public Item(String itemCode, RackSlot rackSlot, SubCategory subCategory, String itemName, Integer sellingUom, Integer buyingUom, Float costPrice, Float sellingPrice, String issueMethod, Float quantity, Float reorderQuantity, Integer isActive, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set grnLines, Set serviceItems) {
        this.itemCode = itemCode;
+       this.rackSlot = rackSlot;
        this.subCategory = subCategory;
        this.itemName = itemName;
        this.sellingUom = sellingUom;
@@ -61,8 +64,8 @@ public class Item  implements java.io.Serializable {
        this.modifiedTime = modifiedTime;
        this.modifiedUser = modifiedUser;
        this.remark = remark;
+       this.grnLines = grnLines;
        this.serviceItems = serviceItems;
-       this.itemStorages = itemStorages;
     }
    
     public String getItemCode() {
@@ -71,6 +74,13 @@ public class Item  implements java.io.Serializable {
     
     public void setItemCode(String itemCode) {
         this.itemCode = itemCode;
+    }
+    public RackSlot getRackSlot() {
+        return this.rackSlot;
+    }
+    
+    public void setRackSlot(RackSlot rackSlot) {
+        this.rackSlot = rackSlot;
     }
     public SubCategory getSubCategory() {
         return this.subCategory;
@@ -191,19 +201,19 @@ public class Item  implements java.io.Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+    public Set getGrnLines() {
+        return this.grnLines;
+    }
+    
+    public void setGrnLines(Set grnLines) {
+        this.grnLines = grnLines;
+    }
     public Set getServiceItems() {
         return this.serviceItems;
     }
     
     public void setServiceItems(Set serviceItems) {
         this.serviceItems = serviceItems;
-    }
-    public Set getItemStorages() {
-        return this.itemStorages;
-    }
-    
-    public void setItemStorages(Set itemStorages) {
-        this.itemStorages = itemStorages;
     }
 
 

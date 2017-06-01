@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated May 31, 2017 1:24:12 PM by Hibernate Tools 4.3.1
+// Generated May 31, 2017 4:52:36 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -12,7 +12,6 @@ import java.util.Set;
 public class ServiceBay  implements java.io.Serializable {
 
 
-     private int serviceBayId;
      private String serviceBayCode;
      private String serviceBayName;
      private Integer isActive;
@@ -29,12 +28,10 @@ public class ServiceBay  implements java.io.Serializable {
     }
 
 	
-    public ServiceBay(int serviceBayId, String serviceBayCode) {
-        this.serviceBayId = serviceBayId;
+    public ServiceBay(String serviceBayCode) {
         this.serviceBayCode = serviceBayCode;
     }
-    public ServiceBay(int serviceBayId, String serviceBayCode, String serviceBayName, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set services) {
-       this.serviceBayId = serviceBayId;
+    public ServiceBay(String serviceBayCode, String serviceBayName, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set services) {
        this.serviceBayCode = serviceBayCode;
        this.serviceBayName = serviceBayName;
        this.isActive = isActive;
@@ -48,13 +45,6 @@ public class ServiceBay  implements java.io.Serializable {
        this.services = services;
     }
    
-    public int getServiceBayId() {
-        return this.serviceBayId;
-    }
-    
-    public void setServiceBayId(int serviceBayId) {
-        this.serviceBayId = serviceBayId;
-    }
     public String getServiceBayCode() {
         return this.serviceBayCode;
     }

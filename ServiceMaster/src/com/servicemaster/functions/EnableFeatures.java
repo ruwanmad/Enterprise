@@ -178,27 +178,38 @@ public class EnableFeatures {
                     break;
                 }
                 case "111":{
-                    mainFrame.miCategory.setEnabled(true);
+                    mainFrame.miStorage.setEnabled(true);
                     break;
                 }
                 case "112":{
-                    mainFrame.miSubCategory.setEnabled(true);
-                    break;
-                }
-                case "113":{
-                    mainFrame.miItems.setEnabled(true);
-                    break;
-                }
-                case "114":{
                     mainFrame.miLocations.setEnabled(true);
                     break;
                 }
+                case "113":{
+                    mainFrame.miCategory.setEnabled(true);
+                    break;
+                }
+                case "114":{
+                    mainFrame.miSubCategory.setEnabled(true);
+                    break;
+                }
                 case "115":{
-                    mainFrame.miBusinessPartner.setEnabled(true);
+                    mainFrame.miItems.setEnabled(true);
                     break;
                 }
                 case "116":{
+                    mainFrame.miBusinessPartner.setEnabled(true);
+                    break;
+                }
+                case "117":{
                     mainFrame.miPrinters.setEnabled(true);
+                    break;
+                }
+                case "118":{
+                    mainFrame.miVehicles.setEnabled(true);
+                    break;
+                }
+                case "119":{
                     break;
                 }
             }

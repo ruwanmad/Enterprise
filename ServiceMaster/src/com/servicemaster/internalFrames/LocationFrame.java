@@ -5,13 +5,14 @@
  */
 package com.servicemaster.internalFrames;
 
-import com.servicemaster.data.SystemData;
 import com.servicemaster.entities.Category;
 import com.servicemaster.entities.KeyTable;
+import com.servicemaster.entities.ServiceBay;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.utils.HibernateUtil;
-import com.servicemaster.views.CategoryView;
+import com.servicemaster.views.LocationView;
+import java.awt.Color;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -22,12 +23,12 @@ import org.hibernate.Session;
  *
  * @author Ruwan Madawala
  */
-public class CategoryFrame extends javax.swing.JInternalFrame {
+public class LocationFrame extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Category
      */
-    public CategoryFrame() {
+    public LocationFrame() {
         initComponents();
     }
 
@@ -42,8 +43,8 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtCategoryCode = new javax.swing.JTextField();
-        txtCategoryName = new javax.swing.JTextField();
+        txtLocationCode = new javax.swing.JTextField();
+        txtLocationName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtRemark = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -54,17 +55,17 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
         lblCodeSearch = new javax.swing.JLabel();
         lblNameSearch = new javax.swing.JLabel();
 
-        setTitle("Category");
+        setTitle("Locations");
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel1.setText("Category code :");
+        jLabel1.setText("Location code :");
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel2.setText("Category name :");
+        jLabel2.setText("Location name :");
 
-        txtCategoryCode.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtLocationCode.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        txtCategoryName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtLocationName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel3.setText("Remarks :");
@@ -172,10 +173,6 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtRemark))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -184,7 +181,11 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblClose, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtRemark))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(10, 10, 10)
@@ -194,11 +195,11 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtCategoryCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtLocationCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(txtLocationName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblCodeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -209,7 +210,7 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtCategoryCode, txtCategoryName});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtLocationCode, txtLocationName});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
 
@@ -222,13 +223,13 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
-                        .addComponent(txtCategoryCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtLocationCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblCodeSearch))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
-                        .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtLocationName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblNameSearch))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -238,7 +239,7 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(cbxIsActive))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -246,7 +247,7 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, jLabel1, jLabel2, jLabel3, jLabel4, lblCodeSearch, lblNameSearch, txtCategoryCode, txtCategoryName, txtRemark});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, jLabel1, jLabel2, jLabel3, jLabel4, lblCodeSearch, lblNameSearch, txtLocationCode, txtLocationName, txtRemark});
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
 
@@ -263,41 +264,40 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
     private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        String categoryCode = txtCategoryCode.getText().toUpperCase().trim();
-        String categoryName = txtCategoryName.getText().toUpperCase().trim();
-        String categoryRemark = txtRemark.getText().toUpperCase().trim();
+        String locationCode = txtLocationCode.getText().toUpperCase().trim();
+        String locationName = txtLocationName.getText().toUpperCase().trim();
+        String remark = txtRemark.getText().toUpperCase().trim();
         boolean isActivated = cbxIsActive.isSelected();
 
-        if (categoryCode.isEmpty()) {
-            List categoryByName = this.getCategoryByName(categoryName, false);
-            if (categoryByName.size() > 0) {
+        if (locationCode.isEmpty()) {
+            List locationByName = this.getLocationByName(locationName, false);
+            if (locationByName.size() > 0) {
                 JOptionPane.showMessageDialog(this, "Item name already exists.", "Exist", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 session.getTransaction().commit();
                 session.close();
-                this.createNewCategory(categoryName, categoryRemark, isActivated);
+                this.createNewLocation(locationName, remark, isActivated);
             }
         } else {
-            List categoryByCode = this.getCategoryByCode(categoryCode, false);
-            if (categoryByCode.isEmpty()) {
+            List locationByCode = this.getLocationByCode(locationCode, false);
+            if (locationByCode.isEmpty()) {
                 int option = JOptionPane.showConfirmDialog(this, "Code does not exist. Create new?", "New", JOptionPane.YES_NO_OPTION);
                 if (option == JOptionPane.YES_OPTION) {
                     session.getTransaction().commit();
                     session.close();
-                    this.createNewCategory(categoryName, categoryRemark, isActivated);
+                    this.createNewLocation(locationName, remark, isActivated);
                 }
             } else {
                 int option = JOptionPane.showConfirmDialog(this, "Do you want to update?", "Update", JOptionPane.YES_NO_OPTION);
                 if (option == JOptionPane.YES_OPTION) {
-                    Category category = new Category(categoryCode);
-                    category.setCategoryName(categoryName);
-                    category.setRemarks(categoryRemark);
-                    category.setIsActive(isActivated ? 1 : 0);
-                    category.setModifiedDate(new Date());
-                    category.setModifiedTime(new Date());
-                    category.setModifiedUser(MainFrame.user.getUserId());
-                    category.setRemarks(categoryRemark);
-                    session.saveOrUpdate(category);
+                    ServiceBay serviceBay = new ServiceBay(locationCode);
+                    serviceBay.setServiceBayName(locationName);
+                    serviceBay.setRemark(remark);
+                    serviceBay.setIsActive(isActivated ? 1 : 0);
+                    serviceBay.setModifiedDate(new Date());
+                    serviceBay.setModifiedTime(new Date());
+                    serviceBay.setModifiedUser(MainFrame.user.getUserId());
+                    session.saveOrUpdate(serviceBay);
 
                     session.getTransaction().commit();
                     session.close();
@@ -314,73 +314,73 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblViewMouseClicked
 
     private void lblViewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
     }//GEN-LAST:event_lblViewMouseEntered
 
     private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
     }//GEN-LAST:event_lblUpdateMouseEntered
 
     private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
     }//GEN-LAST:event_lblCloseMouseEntered
 
     private void lblViewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
     }//GEN-LAST:event_lblViewMouseExited
 
     private void lblUpdateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
     }//GEN-LAST:event_lblUpdateMouseExited
 
     private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
     }//GEN-LAST:event_lblCloseMouseExited
 
     private void lblCodeSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseClicked
-        String categoryCode = txtCategoryCode.getText().trim();
-        List categories = getCategoryByCode(categoryCode, true);
+        String locationCode = txtLocationCode.getText().trim();
+        List locations = getLocationByCode(locationCode, true);
 
-        if (!categories.isEmpty()) {
-            CategoryView categoryView = new CategoryView(categories, this);
-            MainFrame.desktopPane.add(categoryView);
-            categoryView.setVisible(true);
+        if (!locations.isEmpty()) {
+            LocationView locationView = new LocationView(locations, this);
+            MainFrame.desktopPane.add(locationView);
+            locationView.setVisible(true);
         }
     }//GEN-LAST:event_lblCodeSearchMouseClicked
 
     private void lblNameSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseClicked
-        String categoryName = txtCategoryName.getText().trim();
-        List categories = getCategoryByName(categoryName, true);
+        String locationName = txtLocationName.getText().trim();
+        List locations = getLocationByName(locationName, true);
 
-        if (categories.size() > 0) {
-            CategoryView categoryView = new CategoryView(categories, this);
-            MainFrame.desktopPane.add(categoryView);
-            categoryView.setVisible(true);
+        if (locations.size() > 0) {
+            LocationView locationView = new LocationView(locations, this);
+            MainFrame.desktopPane.add(locationView);
+            locationView.setVisible(true);
         }
     }//GEN-LAST:event_lblNameSearchMouseClicked
 
     private void lblCodeSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
     }//GEN-LAST:event_lblCodeSearchMouseEntered
 
     private void lblNameSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
     }//GEN-LAST:event_lblNameSearchMouseEntered
 
     private void lblCodeSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
     }//GEN-LAST:event_lblCodeSearchMouseExited
 
     private void lblNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
     }//GEN-LAST:event_lblNameSearchMouseExited
 
-    private void createNewCategory(String categoryName, String categoryRemark, boolean isActivated) {
+    private void createNewLocation(String locationName, String remark, boolean isActivated) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        String catCode;
+        String locationCode;
         Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
-        query.setParameter("code", "CAT");
+        query.setParameter("code", "LOC");
         List keyList = query.list();
         if (keyList.size() > 0) {
             KeyTable keyTable = (KeyTable) keyList.get(0);
@@ -390,28 +390,28 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
             keyTable.setModifiedTime(new Date());
             keyTable.setModifiedUser(MainFrame.user.getUserId());
             session.saveOrUpdate(keyTable);
-            catCode = "CAT" + keyNumber;
+            locationCode = "LOC" + keyNumber;
         } else {
             KeyTable keyTable = new KeyTable();
-            keyTable.setKeyCode("CAT");
+            keyTable.setKeyCode("LOC");
             keyTable.setKeyNumber(1001);
             keyTable.setKeyRemark("Category");
             keyTable.setCreatedDate(new Date());
             keyTable.setCreatedTime(new Date());
             keyTable.setCreatedUser(MainFrame.user.getUserId());
             session.saveOrUpdate(keyTable);
-            catCode = "CAT1000";
+            locationCode = "LOC1000";
         }
 
-        Category category = new Category();
-        category.setCategoryCode(catCode);
-        category.setCategoryName(categoryName);
-        category.setRemarks(categoryRemark);
-        category.setIsActive(isActivated ? 1 : 0);
-        category.setCreatedDate(new Date());
-        category.setCreatedTime(new Date());
-        category.setCreatedUser(MainFrame.user.getUserId());
-        session.saveOrUpdate(category);
+        ServiceBay serviceBay = new ServiceBay();
+        serviceBay.setServiceBayCode(locationCode);
+        serviceBay.setServiceBayName(locationName);
+        serviceBay.setRemark(remark);
+        serviceBay.setIsActive(isActivated ? 1 : 0);
+        serviceBay.setCreatedDate(new Date());
+        serviceBay.setCreatedTime(new Date());
+        serviceBay.setCreatedUser(MainFrame.user.getUserId());
+        session.saveOrUpdate(serviceBay);
 
         session.getTransaction().commit();
         session.close();
@@ -420,16 +420,16 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
         this.resetFrame();
     }
 
-    private List getCategoryByCode(String categoryCode, boolean like) {
+    private List getLocationByCode(String locationCode, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query;
         if (like) {
-            query = session.createQuery("from Category c where c.categoryCode like :code");
-            query.setParameter("code", "%" + categoryCode + "%");
+            query = session.createQuery("from ServiceBay s where s.serviceBayCode like :code");
+            query.setParameter("code", "%" + locationCode + "%");
         } else {
-            query = session.createQuery("from Category c where c.categoryCode = :code");
-            query.setParameter("code", categoryCode);
+            query = session.createQuery("from ServiceBay s where s.serviceBayCode = :code");
+            query.setParameter("code", locationCode);
         }
         List list = query.list();
         session.getTransaction().commit();
@@ -437,16 +437,16 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
         return list;
     }
 
-    private List getCategoryByName(String categoryName, boolean like) {
+    private List getLocationByName(String locationName, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query;
         if (like) {
-            query = session.createQuery("from Category c where c.categoryName like :name");
-            query.setParameter("name", "%" + categoryName + "%");
+            query = session.createQuery("from ServiceBay s where s.serviceBayName like :name");
+            query.setParameter("name", "%" + locationName + "%");
         } else {
-            query = session.createQuery("from Category c where c.categoryName = :name");
-            query.setParameter("name", categoryName);
+            query = session.createQuery("from ServiceBay s where s.serviceBayName = :name");
+            query.setParameter("name", locationName);
         }
         List list = query.list();
         session.getTransaction().commit();
@@ -455,23 +455,23 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
     }
 
     private void resetFrame() {
-        txtCategoryCode.setText("");
-        txtCategoryName.setText("");
+        txtLocationCode.setText("");
+        txtLocationName.setText("");
         txtRemark.setText("");
         cbxIsActive.setSelected(false);
-        txtCategoryCode.setEditable(true);
+        txtLocationCode.setEditable(true);
     }
 
     public void setCbxIsActive(boolean IsActive) {
         this.cbxIsActive.setSelected(IsActive);
     }
 
-    public void setTxtCategoryCode(String categoryCode) {
-        this.txtCategoryCode.setText(categoryCode);
+    public void setTxtLocationCode(String categoryCode) {
+        this.txtLocationCode.setText(categoryCode);
     }
 
-    public void setTxtCategoryName(String categoryName) {
-        this.txtCategoryName.setText(categoryName);
+    public void setTxtLocationName(String categoryName) {
+        this.txtLocationName.setText(categoryName);
     }
 
     public void setTxtRemark(String remark) {
@@ -479,7 +479,7 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
     }
 
     public void setTxtCodeEditable(boolean editable) {
-        txtCategoryCode.setEditable(editable);
+        txtLocationCode.setEditable(editable);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -493,8 +493,8 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblNameSearch;
     private javax.swing.JLabel lblUpdate;
     private javax.swing.JLabel lblView;
-    private javax.swing.JTextField txtCategoryCode;
-    private javax.swing.JTextField txtCategoryName;
+    private javax.swing.JTextField txtLocationCode;
+    private javax.swing.JTextField txtLocationName;
     private javax.swing.JTextField txtRemark;
     // End of variables declaration//GEN-END:variables
 }
