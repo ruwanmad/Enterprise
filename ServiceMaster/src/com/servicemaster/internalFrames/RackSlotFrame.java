@@ -6,16 +6,18 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
-import com.servicemaster.entities.Category;
 import com.servicemaster.entities.KeyTable;
-import com.servicemaster.entities.SubCategory;
-import com.servicemaster.entities.SubCategoryType;
+import com.servicemaster.entities.Rack;
+import com.servicemaster.entities.RackSlot;
+import com.servicemaster.entities.Storage;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.utils.HibernateUtil;
-import com.servicemaster.views.SubCategoryView;
+import com.servicemaster.views.RackSlotView;
+import java.awt.event.ItemEvent;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import org.hibernate.Query;
@@ -25,12 +27,12 @@ import org.hibernate.Session;
  *
  * @author RuwanM
  */
-public class SubCategoryFrame extends javax.swing.JInternalFrame {
+public class RackSlotFrame extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form SubCategory
      */
-    public SubCategoryFrame() {
+    public RackSlotFrame() {
         initComponents();
     }
 
@@ -44,12 +46,12 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        txtSubcategoryCode = new javax.swing.JTextField();
+        txtSlotCode = new javax.swing.JTextField();
         lblCodeSearch = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        cmbCategory = new javax.swing.JComboBox<>();
+        cmbStorage = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        txtSubcategoryName = new javax.swing.JTextField();
+        txtSlotName = new javax.swing.JTextField();
         lblNameSearch = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtRemark = new javax.swing.JTextField();
@@ -59,9 +61,9 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         lblUpdate = new javax.swing.JLabel();
         lblView = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        cmbSubCategoryType = new javax.swing.JComboBox<>();
+        cmbRack = new javax.swing.JComboBox<>();
 
-        setTitle("Sub category");
+        setTitle("Rack Slots");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -81,9 +83,9 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel1.setText("Sub category code :");
+        jLabel1.setText("Slot code :");
 
-        txtSubcategoryCode.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtSlotCode.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
         lblCodeSearch.setBackground(new java.awt.Color(150, 255, 150));
         lblCodeSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -103,15 +105,20 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel2.setText("Category code :");
+        jLabel2.setText("Storage code :");
 
-        cmbCategory.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        cmbCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--" }));
+        cmbStorage.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cmbStorage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--" }));
+        cmbStorage.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbStorageItemStateChanged(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel3.setText("Sub category name :");
+        jLabel3.setText("Slot name :");
 
-        txtSubcategoryName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtSlotName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
         lblNameSearch.setBackground(new java.awt.Color(150, 255, 150));
         lblNameSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -196,10 +203,10 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         });
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel6.setText("Sub category type :");
+        jLabel6.setText("Rack Code :");
 
-        cmbSubCategoryType.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        cmbSubCategoryType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--" }));
+        cmbRack.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cmbRack.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -215,11 +222,11 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtSubcategoryCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtSlotCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblCodeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cmbStorage, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -239,11 +246,11 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cmbSubCategoryType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cmbRack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(10, 10, 10)
-                        .addComponent(txtSubcategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSlotName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -253,9 +260,9 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblCodeSearch, lblNameSearch});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtSubcategoryCode, txtSubcategoryName});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtSlotCode, txtSlotName});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbCategory, cmbSubCategoryType, txtRemark});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbRack, cmbStorage, txtRemark});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
 
@@ -267,21 +274,21 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                     .addComponent(lblCodeSearch)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
-                        .addComponent(txtSubcategoryCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtSlotCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
-                        .addComponent(txtSubcategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtSlotName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblNameSearch))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbStorage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(cmbSubCategoryType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbRack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -298,7 +305,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbCategory, cmbSubCategoryType, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, lblCodeSearch, lblNameSearch, txtRemark, txtSubcategoryCode, txtSubcategoryName});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbRack, cmbStorage, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, lblCodeSearch, lblNameSearch, txtRemark, txtSlotCode, txtSlotName});
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
 
@@ -306,13 +313,13 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblCodeSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseClicked
-        String subCategoryCode = txtSubcategoryCode.getText().trim();
+        String rackSlotCode = txtSlotCode.getText().trim();
 
-        List subCategories = getSubCategoryByCode(subCategoryCode, true);
-        if (!subCategories.isEmpty()) {
-            SubCategoryView subCategoryView = new SubCategoryView(subCategories, this);
-            MainFrame.desktopPane.add(subCategoryView);
-            subCategoryView.setVisible(true);
+        List rackSlots = getRackSlotByCode(rackSlotCode, true);
+        if (!rackSlots.isEmpty()) {
+            RackSlotView rackSlotView = new RackSlotView(rackSlots, this);
+            MainFrame.desktopPane.add(rackSlotView);
+            rackSlotView.setVisible(true);
         }
     }//GEN-LAST:event_lblCodeSearchMouseClicked
 
@@ -325,13 +332,13 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblCodeSearchMouseExited
 
     private void lblNameSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseClicked
-        String subCategoryName = txtSubcategoryName.getText().trim();
-        List subCategories = getSubCategoryByName(subCategoryName, true);
+        String rackSlotName = txtSlotName.getText().trim();
+        List rackSlots = getRackSlotByName(rackSlotName, true);
 
-        if (subCategories.size() > 0) {
-            SubCategoryView subCategoryView = new SubCategoryView(subCategories, this);
-            MainFrame.desktopPane.add(subCategoryView);
-            subCategoryView.setVisible(true);
+        if (rackSlots.size() > 0) {
+            RackSlotView rackSlotView = new RackSlotView(rackSlots, this);
+            MainFrame.desktopPane.add(rackSlotView);
+            rackSlotView.setVisible(true);
         }
     }//GEN-LAST:event_lblNameSearchMouseClicked
 
@@ -361,58 +368,54 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        String subCategoryCode = txtSubcategoryCode.getText().toUpperCase().trim();
-        String subCategoryName = txtSubcategoryName.getText().toUpperCase().trim();
-        String category = ((String) cmbCategory.getSelectedItem()).trim();
-        String type = ((String) cmbSubCategoryType.getSelectedItem()).trim();
+        String slotCode = txtSlotCode.getText().toUpperCase().trim();
+        String slotName = txtSlotName.getText().toUpperCase().trim();
+        String storage = ((String) cmbStorage.getSelectedItem()).trim();
+        String rack = ((String) cmbRack.getSelectedItem()).trim();
         String remark = txtRemark.getText().toUpperCase().trim();
         boolean isActivated = cbxIsActive.isSelected();
 
-        if (subCategoryCode.isEmpty()) {
-            List subCategories = this.getSubCategoryByName(subCategoryName, false);
+        if (slotCode.isEmpty()) {
+            List subCategories = this.getRackSlotByName(slotName, false);
             if (subCategories.size() > 0) {
                 JOptionPane.showMessageDialog(this, "Item name already exists.", "Exist", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 session.getTransaction().commit();
                 session.close();
-                if (category.equalsIgnoreCase(SystemData.COMBO_DEFAULT) || type.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                    JOptionPane.showMessageDialog(this, "Please select a valid category and type", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+                if (storage.equalsIgnoreCase(SystemData.COMBO_DEFAULT) || rack.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
+                    JOptionPane.showMessageDialog(this, "Please select a valid storage and rack", "Invalid", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    this.createNewSubCategory(subCategoryName, remark, isActivated, this.categoryMap.get(category.split("-")[0].trim()), 
-                            this.subCategoryTypeMap.get(type.split("-")[0].trim()));
+                    this.createNewRackSlot(slotName, remark, isActivated, this.rackMap.get(rack.split("-")[0].trim()));
                 }
             }
         } else {
-            List subCategories = this.getSubCategoryByCode(subCategoryCode, false);
+            List subCategories = this.getRackSlotByCode(slotCode, false);
             if (subCategories.isEmpty()) {
                 int option = JOptionPane.showConfirmDialog(this, "Code does not exist. Create new?", "New", JOptionPane.YES_NO_OPTION);
                 if (option == JOptionPane.YES_OPTION) {
                     session.getTransaction().commit();
                     session.close();
-                    if (category.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                        JOptionPane.showMessageDialog(this, "Please select a valid category", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+                    if (storage.equalsIgnoreCase(SystemData.COMBO_DEFAULT) || rack.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
+                        JOptionPane.showMessageDialog(this, "Please select a valid storage and rack", "Invalid", JOptionPane.INFORMATION_MESSAGE);
                     } else {
-                        this.createNewSubCategory(subCategoryName, remark, isActivated, this.categoryMap.get(category.split("-")[0].trim()), 
-                            this.subCategoryTypeMap.get(type.split("-")[0].trim()));
+                        this.createNewRackSlot(slotName, remark, isActivated, this.rackMap.get(rack.split("-")[0].trim()));
                     }
                 }
             } else {
                 int option = JOptionPane.showConfirmDialog(this, "Do you want to update?", "Update", JOptionPane.YES_NO_OPTION);
                 if (option == JOptionPane.YES_OPTION) {
-                    if (category.equalsIgnoreCase(SystemData.COMBO_DEFAULT) || type.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
+                    if (storage.equalsIgnoreCase(SystemData.COMBO_DEFAULT) || rack.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
                         JOptionPane.showMessageDialog(this, "Please select a valid category and type", "Invalid", JOptionPane.INFORMATION_MESSAGE);
                     } else {
-                        SubCategory subCategory = new SubCategory(subCategoryCode);
-                        subCategory.setSubCategoryName(subCategoryName);
-                        subCategory.setCategory(this.categoryMap.get(category.split("-")[0].trim()));
-                        subCategory.setSubCategoryType(this.subCategoryTypeMap.get(type.split("-")[0].trim()));
-                        subCategory.setRemarks(remark);
-                        subCategory.setIsActive(isActivated ? 1 : 0);
-                        subCategory.setModifiedDate(new Date());
-                        subCategory.setModifiedTime(new Date());
-                        subCategory.setModifiedUser(MainFrame.user.getUserId());
-                        subCategory.setRemarks(remark);
-                        session.saveOrUpdate(subCategory);
+                        RackSlot rackSlot = new RackSlot(slotCode);
+                        rackSlot.setRackSlotName(slotName);
+                        rackSlot.setRack(this.rackMap.get(rack.split("-")[0].trim()));
+                        rackSlot.setRemark(remark);
+                        rackSlot.setIsActive(isActivated ? 1 : 0);
+                        rackSlot.setModifiedDate(new Date());
+                        rackSlot.setModifiedTime(new Date());
+                        rackSlot.setModifiedUser(MainFrame.user.getUserId());
+                        session.saveOrUpdate(rackSlot);
 
                         session.getTransaction().commit();
                         session.close();
@@ -449,30 +452,30 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        Query query = session.createQuery("from Category c order by c.categoryCode");
+        Query query = session.createQuery("from Storage s order by s.storageCode");
         List list = query.list();
         if (!list.isEmpty()) {
             for (Object object : list) {
-                if (object instanceof com.servicemaster.entities.Category) {
-                    Category category = (Category) object;
-                    String categoryName = category.getCategoryName();
-                    String catecoryCode = category.getCategoryCode();
-                    cmbCategory.addItem(catecoryCode + "-" + categoryName);
-                    this.categoryMap.put(catecoryCode, category);
+                if (object instanceof Storage) {
+                    Storage storage = (Storage) object;
+                    String storageName = storage.getStorageName();
+                    String storageCode = storage.getStorageCode();
+                    cmbStorage.addItem(storageCode + "-" + storageName);
+                    this.storageMap.put(storageCode, storage);
                 }
             }
         }
 
-        query = session.createQuery("from SubCategoryType s order by s.subCategoryTypeCode");
+        query = session.createQuery("from Rack r order by r.rackCode");
         list = query.list();
         if (!list.isEmpty()) {
             for (Object object : list) {
-                if (object instanceof com.servicemaster.entities.SubCategoryType) {
-                    SubCategoryType categoryType = (SubCategoryType) object;
-                    String typeCode = categoryType.getSubCategoryTypeCode();
-                    String typeName = categoryType.getSubCategoryTypeName();
-                    cmbSubCategoryType.addItem(typeCode + "-" + typeName);
-                    this.subCategoryTypeMap.put(typeCode, categoryType);
+                if (object instanceof Rack) {
+                    Rack rack = (Rack) object;
+                    String rackCode = rack.getRackCode();
+                    String rackName = rack.getRackName();
+                    cmbRack.addItem(rackCode + "-" + rackName);
+                    this.rackMap.put(rackCode, rack);
                 }
             }
         }
@@ -480,6 +483,32 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         session.getTransaction().commit();
         session.close();
     }//GEN-LAST:event_formInternalFrameOpened
+
+    private void cmbStorageItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbStorageItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            cmbRack.removeAllItems();
+            cmbRack.addItem(SystemData.COMBO_DEFAULT);
+            String storage = (String) evt.getItem();
+
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+
+            Query query = session.createQuery("from Rack r where r.storage = :code");
+            query.setParameter("code", storage.split("-")[0].trim());
+
+            List rackList = query.list();
+            if (!rackList.isEmpty()) {
+                for (Object tempRack : rackList) {
+                    if (tempRack instanceof Rack) {
+                        Rack rack = (Rack) tempRack;
+                        cmbRack.addItem(rack.getRackCode() + "-" + rack.getRackName());
+                    }
+                }
+            }
+            session.getTransaction().commit();
+            session.close();
+        }
+    }//GEN-LAST:event_cmbStorageItemStateChanged
 
     public void setCbxIsActive(boolean isActive) {
         this.cbxIsActive.setSelected(isActive);
@@ -489,38 +518,38 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         this.txtRemark.setText(remark);
     }
 
-    public void setTxtSubcategoryCode(String subCategoryCode) {
-        this.txtSubcategoryCode.setText(subCategoryCode);
+    public void setTxtSlotCode(String subCategoryCode) {
+        this.txtSlotCode.setText(subCategoryCode);
     }
 
-    public void setTxtSubcategoryName(String subCategoryName) {
-        this.txtSubcategoryName.setText(subCategoryName);
+    public void setTxtSlotName(String subCategoryName) {
+        this.txtSlotName.setText(subCategoryName);
     }
 
-    public void setCmbCategory(String category) {
-        Category cat = this.categoryMap.get(category);
-        this.cmbCategory.setSelectedItem(cat.getCategoryCode()+"-"+cat.getCategoryName());
+    public void setCmbStorage(String storage) {
+        Storage stor = this.storageMap.get(storage);
+        this.cmbStorage.setSelectedItem(stor.getStorageCode() + "-" + stor.getStorageName());
     }
-    
-    public void setCmbSubCategoryType(String subCategoryType){
-        SubCategoryType categoryType = this.subCategoryTypeMap.get(subCategoryType);
-        this.cmbSubCategoryType.setSelectedItem(categoryType.getSubCategoryTypeCode()+"-"+categoryType.getSubCategoryTypeName());
+
+    public void setCmbRack(String rack) {
+        Rack rc = this.rackMap.get(rack);
+        this.cmbRack.setSelectedItem(rc.getRackCode() + "-" + rc.getRackName());
     }
-    
+
     public void setTxtCodeEditable(boolean editable) {
-        txtSubcategoryCode.setEditable(editable);
+        txtSlotCode.setEditable(editable);
     }
 
-    private List getSubCategoryByCode(String subCategoryCode, boolean like) {
+    private List getRackSlotByCode(String rackSlotCode, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query;
         if (like) {
-            query = session.createQuery("from SubCategory s join fetch s.subCategoryType where s.subCategoryCode like :code");
-            query.setParameter("code", "%" + subCategoryCode + "%");
+            query = session.createQuery("from RackSlot r join fetch r.rack where r.rackSlotCode like :code");
+            query.setParameter("code", "%" + rackSlotCode + "%");
         } else {
-            query = session.createQuery("from SubCategory s join fetch s.subCategoryType where s.subCategoryCode = :code");
-            query.setParameter("code", subCategoryCode);
+            query = session.createQuery("from RackSlot r join fetch r.rack where r.rackSlotCode = :code");
+            query.setParameter("code", rackSlotCode);
         }
         List list = query.list();
         session.getTransaction().commit();
@@ -528,16 +557,16 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         return list;
     }
 
-    private List getSubCategoryByName(String subCategoryName, boolean like) {
+    private List getRackSlotByName(String rackSlotName, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query;
         if (like) {
-            query = session.createQuery("from SubCategory s join fetch s.subCategoryType where s.subCategoryName like :name");
-            query.setParameter("name", "%" + subCategoryName + "%");
+            query = session.createQuery("from RackSlot r join fetch r.rack where r.rackSlotName like :name");
+            query.setParameter("name", "%" + rackSlotName + "%");
         } else {
-            query = session.createQuery("from SubCategory s join fetch s.subCategoryType where s.subCategoryName = :name");
-            query.setParameter("name", subCategoryName);
+            query = session.createQuery("from RackSlot r join fetch r.rack where r.rackSlotName = :name");
+            query.setParameter("name", rackSlotName);
         }
         List list = query.list();
         session.getTransaction().commit();
@@ -546,22 +575,30 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     }
 
     private void resetFrame() {
-        txtSubcategoryCode.setText("");
-        txtSubcategoryName.setText("");
+        txtSlotCode.setText("");
+        txtSlotName.setText("");
         txtRemark.setText("");
         cbxIsActive.setSelected(false);
-        txtSubcategoryCode.setEditable(true);
-        cmbCategory.setSelectedIndex(0);
-        cmbSubCategoryType.setSelectedIndex(0);
+        txtSlotCode.setEditable(true);
+        cmbStorage.setSelectedIndex(0);
+
+        cmbRack.removeAllItems();
+        cmbRack.addItem(SystemData.COMBO_DEFAULT);
+        Set<String> keySet = this.rackMap.keySet();
+        for (String key : keySet) {
+            Rack rack = this.rackMap.get(key);
+            cmbRack.addItem(rack.getRackCode() + "-" + rack.getRackName());
+        }
+
+        cmbRack.setSelectedIndex(0);
     }
 
-    private void createNewSubCategory(String subCategoryName, String remark, boolean isActivated,
-            com.servicemaster.entities.Category category, SubCategoryType type) {
+    private void createNewRackSlot(String subCategoryName, String remark, boolean isActivated, Rack rack) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         String catCode;
         Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
-        query.setParameter("code", "SUB");
+        query.setParameter("code", "SLT");
         List keyList = query.list();
         if (keyList.size() > 0) {
             KeyTable keyTable = (KeyTable) keyList.get(0);
@@ -571,30 +608,29 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
             keyTable.setModifiedTime(new Date());
             keyTable.setModifiedUser(MainFrame.user.getUserId());
             session.saveOrUpdate(keyTable);
-            catCode = "SUB" + keyNumber;
+            catCode = "SLT" + keyNumber;
         } else {
             KeyTable keyTable = new KeyTable();
-            keyTable.setKeyCode("SUB");
+            keyTable.setKeyCode("SLT");
             keyTable.setKeyNumber(1001);
-            keyTable.setKeyRemark("Sub Category");
+            keyTable.setKeyRemark("Rack slot");
             keyTable.setCreatedDate(new Date());
             keyTable.setCreatedTime(new Date());
             keyTable.setCreatedUser(MainFrame.user.getUserId());
             session.saveOrUpdate(keyTable);
-            catCode = "SUB1000";
+            catCode = "SLT1000";
         }
 
-        SubCategory subCategory = new SubCategory();
-        subCategory.setSubCategoryCode(catCode);
-        subCategory.setSubCategoryName(subCategoryName);
-        subCategory.setCategory(category);
-        subCategory.setSubCategoryType(type);
-        subCategory.setRemarks(remark);
-        subCategory.setIsActive(isActivated ? 1 : 0);
-        subCategory.setCreatedDate(new Date());
-        subCategory.setCreatedTime(new Date());
-        subCategory.setCreatedUser(MainFrame.user.getUserId());
-        session.saveOrUpdate(subCategory);
+        RackSlot rackSlot = new RackSlot();
+        rackSlot.setRackSlotCode(catCode);
+        rackSlot.setRackSlotName(subCategoryName);
+        rackSlot.setRack(rack);
+        rackSlot.setRemark(remark);
+        rackSlot.setIsActive(isActivated ? 1 : 0);
+        rackSlot.setCreatedDate(new Date());
+        rackSlot.setCreatedTime(new Date());
+        rackSlot.setCreatedUser(MainFrame.user.getUserId());
+        session.saveOrUpdate(rackSlot);
 
         session.getTransaction().commit();
         session.close();
@@ -605,8 +641,8 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbxIsActive;
-    private javax.swing.JComboBox<String> cmbCategory;
-    private javax.swing.JComboBox<String> cmbSubCategoryType;
+    private javax.swing.JComboBox<String> cmbRack;
+    private javax.swing.JComboBox<String> cmbStorage;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -619,9 +655,9 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblUpdate;
     private javax.swing.JLabel lblView;
     private javax.swing.JTextField txtRemark;
-    private javax.swing.JTextField txtSubcategoryCode;
-    private javax.swing.JTextField txtSubcategoryName;
+    private javax.swing.JTextField txtSlotCode;
+    private javax.swing.JTextField txtSlotName;
     // End of variables declaration//GEN-END:variables
-    private final TreeMap<String, Category> categoryMap = new TreeMap<>();
-    private final TreeMap<String, SubCategoryType> subCategoryTypeMap = new TreeMap<>();
+    private final TreeMap<String, Storage> storageMap = new TreeMap<>();
+    private final TreeMap<String, Rack> rackMap = new TreeMap<>();
 }

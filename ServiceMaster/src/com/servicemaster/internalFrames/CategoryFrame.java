@@ -67,7 +67,7 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
         txtCategoryName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel3.setText("Remarks :");
+        jLabel3.setText("Remark :");
 
         txtRemark.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
@@ -187,7 +187,7 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addGap(10, 10, 10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(cbxIsActive))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -178,7 +178,7 @@ public class EnableFeatures {
                     break;
                 }
                 case "111":{
-                    mainFrame.miStorage.setEnabled(true);
+                    mainFrame.mStorage.setEnabled(true);
                     break;
                 }
                 case "112":{

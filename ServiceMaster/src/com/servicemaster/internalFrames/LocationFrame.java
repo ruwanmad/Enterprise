@@ -5,14 +5,13 @@
  */
 package com.servicemaster.internalFrames;
 
-import com.servicemaster.entities.Category;
+import com.servicemaster.data.SystemData;
 import com.servicemaster.entities.KeyTable;
 import com.servicemaster.entities.ServiceBay;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.LocationView;
-import java.awt.Color;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -68,7 +67,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         txtLocationName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel3.setText("Remarks :");
+        jLabel3.setText("Remark :");
 
         txtRemark.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
@@ -188,7 +187,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
                                 .addComponent(txtRemark))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addGap(10, 10, 10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(cbxIsActive))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,27 +313,27 @@ public class LocationFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblViewMouseClicked
 
     private void lblViewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblViewMouseEntered
 
     private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblUpdateMouseEntered
 
     private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblCloseMouseEntered
 
     private void lblViewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblViewMouseExited
 
     private void lblUpdateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblUpdateMouseExited
 
     private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCloseMouseExited
 
     private void lblCodeSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseClicked
@@ -360,19 +359,19 @@ public class LocationFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblNameSearchMouseClicked
 
     private void lblCodeSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblCodeSearchMouseEntered
 
     private void lblNameSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblNameSearchMouseEntered
 
     private void lblCodeSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCodeSearchMouseExited
 
     private void lblNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblNameSearchMouseExited
 
     private void createNewLocation(String locationName, String remark, boolean isActivated) {
@@ -395,7 +394,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
             KeyTable keyTable = new KeyTable();
             keyTable.setKeyCode("LOC");
             keyTable.setKeyNumber(1001);
-            keyTable.setKeyRemark("Category");
+            keyTable.setKeyRemark("Location");
             keyTable.setCreatedDate(new Date());
             keyTable.setCreatedTime(new Date());
             keyTable.setCreatedUser(MainFrame.user.getUserId());

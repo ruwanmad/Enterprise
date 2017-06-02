@@ -5,14 +5,27 @@
  */
 package com.servicemaster.internalFrames;
 
+import com.servicemaster.data.SystemData;
+import com.servicemaster.entities.KeyTable;
+import com.servicemaster.entities.Storage;
+import com.servicemaster.forms.MainFrame;
+import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.utils.HibernateUtil;
+import com.servicemaster.views.StorageView;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 /**
  *
- * @author RuwanM
+ * @author Ruwan Madawala
  */
 public class StorageFrame extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form StorageFrame
+     * Creates new form Category
      */
     public StorageFrame() {
         initComponents();
@@ -27,24 +40,507 @@ public class StorageFrame extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setClosable(true);
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtStorageCode = new javax.swing.JTextField();
+        txtStorageName = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtRemark = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        cbxIsActive = new javax.swing.JCheckBox();
+        lblClose = new javax.swing.JLabel();
+        lblUpdate = new javax.swing.JLabel();
+        lblView = new javax.swing.JLabel();
+        lblCodeSearch = new javax.swing.JLabel();
+        lblNameSearch = new javax.swing.JLabel();
+        lblRacks = new javax.swing.JLabel();
+
         setTitle("Storage");
+
+        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel1.setText("Storage code :");
+
+        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel2.setText("Storage name :");
+
+        txtStorageCode.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        txtStorageName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel3.setText("Remark :");
+
+        txtRemark.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel4.setText("Is Active :");
+
+        cbxIsActive.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cbxIsActive.setSelected(true);
+
+        lblClose.setBackground(new java.awt.Color(150, 255, 150));
+        lblClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblClose.setText("Close");
+        lblClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblClose.setOpaque(true);
+        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCloseMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCloseMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCloseMouseExited(evt);
+            }
+        });
+
+        lblUpdate.setBackground(new java.awt.Color(150, 255, 150));
+        lblUpdate.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblUpdate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUpdate.setText("Update");
+        lblUpdate.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblUpdate.setOpaque(true);
+        lblUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblUpdateMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblUpdateMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblUpdateMouseExited(evt);
+            }
+        });
+
+        lblView.setBackground(new java.awt.Color(150, 255, 150));
+        lblView.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblView.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblView.setText("View");
+        lblView.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblView.setOpaque(true);
+        lblView.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblViewMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblViewMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblViewMouseExited(evt);
+            }
+        });
+
+        lblCodeSearch.setBackground(new java.awt.Color(150, 255, 150));
+        lblCodeSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCodeSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        lblCodeSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblCodeSearch.setOpaque(true);
+        lblCodeSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCodeSearchMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCodeSearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCodeSearchMouseExited(evt);
+            }
+        });
+
+        lblNameSearch.setBackground(new java.awt.Color(150, 255, 150));
+        lblNameSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNameSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        lblNameSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblNameSearch.setOpaque(true);
+        lblNameSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblNameSearchMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblNameSearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblNameSearchMouseExited(evt);
+            }
+        });
+
+        lblRacks.setBackground(new java.awt.Color(150, 255, 150));
+        lblRacks.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblRacks.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblRacks.setText("Racks");
+        lblRacks.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblRacks.setEnabled(false);
+        lblRacks.setOpaque(true);
+        lblRacks.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblRacksMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblRacksMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblRacksMouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblRacks, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblClose, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtRemark))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbxIsActive))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtStorageCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtStorageName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblCodeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4});
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtStorageCode, txtStorageName});
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblCodeSearch, lblNameSearch});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(txtStorageCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblCodeSearch))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(txtStorageName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNameSearch))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtRemark, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cbxIsActive))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblRacks, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, jLabel1, jLabel2, jLabel3, jLabel4, lblCodeSearch, lblNameSearch, txtRemark, txtStorageCode, txtStorageName});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
+        int selectedOption = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
+        if (selectedOption == JOptionPane.YES_OPTION) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_lblCloseMouseClicked
+
+    private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        String storageCode = txtStorageCode.getText().toUpperCase().trim();
+        String storageName = txtStorageName.getText().toUpperCase().trim();
+        String remark = txtRemark.getText().toUpperCase().trim();
+        boolean isActivated = cbxIsActive.isSelected();
+
+        if (storageCode.isEmpty()) {
+            List storageByName = this.getStorageByName(storageName, false);
+            if (storageByName.size() > 0) {
+                JOptionPane.showMessageDialog(this, "Item name already exists.", "Exist", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                session.getTransaction().commit();
+                session.close();
+                this.createNewLocation(storageName, remark, isActivated);
+            }
+        } else {
+            List storageByCode = this.getStorageByCode(storageCode, false);
+            if (storageByCode.isEmpty()) {
+                int option = JOptionPane.showConfirmDialog(this, "Code does not exist. Create new?", "New", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    session.getTransaction().commit();
+                    session.close();
+                    this.createNewLocation(storageName, remark, isActivated);
+                }
+            } else {
+                int option = JOptionPane.showConfirmDialog(this, "Do you want to update?", "Update", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    Storage storage = new Storage(storageCode);
+                    storage.setStorageName(storageName);
+                    storage.setRemark(remark);
+                    storage.setIsActive(isActivated ? 1 : 0);
+                    storage.setModifiedDate(new Date());
+                    storage.setModifiedTime(new Date());
+                    storage.setModifiedUser(MainFrame.user.getUserId());
+                    session.saveOrUpdate(storage);
+
+                    session.getTransaction().commit();
+                    session.close();
+
+                    JOptionPane.showMessageDialog(this, "Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    this.resetFrame();
+
+                    this.lblRacks.setEnabled(true);
+                }
+            }
+        }
+    }//GEN-LAST:event_lblUpdateMouseClicked
+
+    private void lblViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblViewMouseClicked
+
+    private void lblViewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblViewMouseEntered
+
+    private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblUpdateMouseEntered
+
+    private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblCloseMouseEntered
+
+    private void lblViewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblViewMouseExited
+
+    private void lblUpdateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblUpdateMouseExited
+
+    private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblCloseMouseExited
+
+    private void lblCodeSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseClicked
+        String storageCode = txtStorageCode.getText().trim();
+        List storage = getStorageByCode(storageCode, true);
+
+        if (!storage.isEmpty()) {
+            StorageView storageView = new StorageView(storage, this);
+            MainFrame.desktopPane.add(storageView);
+            storageView.setVisible(true);
+        }
+    }//GEN-LAST:event_lblCodeSearchMouseClicked
+
+    private void lblNameSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseClicked
+        String storageName = txtStorageName.getText().trim();
+        List storage = getStorageByName(storageName, true);
+
+        if (storage.size() > 0) {
+            StorageView storageView = new StorageView(storage, this);
+            MainFrame.desktopPane.add(storageView);
+            storageView.setVisible(true);
+        }
+    }//GEN-LAST:event_lblNameSearchMouseClicked
+
+    private void lblCodeSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblCodeSearchMouseEntered
+
+    private void lblNameSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblNameSearchMouseEntered
+
+    private void lblCodeSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblCodeSearchMouseExited
+
+    private void lblNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblNameSearchMouseExited
+
+    private void lblRacksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRacksMouseClicked
+        if (this.lblRacks.isEnabled()) {
+            MainFrame.openWindow("4");
+            this.dispose();
+        }
+    }//GEN-LAST:event_lblRacksMouseClicked
+
+    private void lblRacksMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRacksMouseEntered
+        if (this.lblRacks.isEnabled()) {
+            LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+        }
+    }//GEN-LAST:event_lblRacksMouseEntered
+
+    private void lblRacksMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRacksMouseExited
+        if (this.lblRacks.isEnabled()) {
+            LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+        }
+    }//GEN-LAST:event_lblRacksMouseExited
+
+    private void createNewLocation(String locationName, String remark, boolean isActivated) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        String storageCode;
+        Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
+        query.setParameter("code", "STO");
+        List keyList = query.list();
+        if (keyList.size() > 0) {
+            KeyTable keyTable = (KeyTable) keyList.get(0);
+            Integer keyNumber = keyTable.getKeyNumber();
+            keyTable.setKeyNumber(keyNumber + 1);
+            keyTable.setModifiedDate(new Date());
+            keyTable.setModifiedTime(new Date());
+            keyTable.setModifiedUser(MainFrame.user.getUserId());
+            session.saveOrUpdate(keyTable);
+            storageCode = "STO" + keyNumber;
+        } else {
+            KeyTable keyTable = new KeyTable();
+            keyTable.setKeyCode("STO");
+            keyTable.setKeyNumber(1001);
+            keyTable.setKeyRemark("Storage");
+            keyTable.setCreatedDate(new Date());
+            keyTable.setCreatedTime(new Date());
+            keyTable.setCreatedUser(MainFrame.user.getUserId());
+            session.saveOrUpdate(keyTable);
+            storageCode = "STO1000";
+        }
+
+        Storage storage = new Storage();
+        storage.setStorageCode(storageCode);
+        storage.setStorageName(locationName);
+        storage.setRemark(remark);
+        storage.setIsActive(isActivated ? 1 : 0);
+        storage.setCreatedDate(new Date());
+        storage.setCreatedTime(new Date());
+        storage.setCreatedUser(MainFrame.user.getUserId());
+        session.saveOrUpdate(storage);
+
+        session.getTransaction().commit();
+        session.close();
+
+        JOptionPane.showMessageDialog(this, "Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+        this.resetFrame();
+
+        this.lblRacks.setEnabled(true);
+    }
+
+    private List getStorageByCode(String storageCode, boolean like) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query;
+        if (like) {
+            query = session.createQuery("from Storage s where s.storageCode like :code");
+            query.setParameter("code", "%" + storageCode + "%");
+        } else {
+            query = session.createQuery("from Storage s where s.storageCode = :code");
+            query.setParameter("code", storageCode);
+        }
+        List list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
+    }
+
+    private List getStorageByName(String storageName, boolean like) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query;
+        if (like) {
+            query = session.createQuery("from Storage s where s.storageName like :name");
+            query.setParameter("name", "%" + storageName + "%");
+        } else {
+            query = session.createQuery("from Storage s where s.storageName = :name");
+            query.setParameter("name", storageName);
+        }
+        List list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
+    }
+
+    private void resetFrame() {
+        txtStorageCode.setText("");
+        txtStorageName.setText("");
+        txtRemark.setText("");
+        cbxIsActive.setSelected(false);
+        txtStorageCode.setEditable(true);
+    }
+
+    public void setCbxIsActive(boolean IsActive) {
+        this.cbxIsActive.setSelected(IsActive);
+    }
+
+    public void setTxtStorageCode(String categoryCode) {
+        this.txtStorageCode.setText(categoryCode);
+    }
+
+    public void setTxtStorageName(String categoryName) {
+        this.txtStorageName.setText(categoryName);
+    }
+
+    public void setTxtRemark(String remark) {
+        this.txtRemark.setText(remark);
+    }
+
+    public void setTxtCodeEditable(boolean editable) {
+        txtStorageCode.setEditable(editable);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox cbxIsActive;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel lblClose;
+    private javax.swing.JLabel lblCodeSearch;
+    private javax.swing.JLabel lblNameSearch;
+    private javax.swing.JLabel lblRacks;
+    private javax.swing.JLabel lblUpdate;
+    private javax.swing.JLabel lblView;
+    private javax.swing.JTextField txtRemark;
+    private javax.swing.JTextField txtStorageCode;
+    private javax.swing.JTextField txtStorageName;
     // End of variables declaration//GEN-END:variables
 }

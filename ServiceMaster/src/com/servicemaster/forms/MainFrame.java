@@ -10,7 +10,10 @@ import com.servicemaster.entities.User;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.internalFrames.CategoryFrame;
 import com.servicemaster.internalFrames.LocationFrame;
+import com.servicemaster.internalFrames.RackSlotFrame;
+import com.servicemaster.internalFrames.RacksFrame;
 import com.servicemaster.internalFrames.ShortCutsFrame;
+import com.servicemaster.internalFrames.StorageFrame;
 import com.servicemaster.internalFrames.SubCategoryFrame;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.Color;
@@ -27,9 +30,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -86,7 +89,10 @@ public class MainFrame extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         mFile = new javax.swing.JMenu();
         mMasterFiles = new javax.swing.JMenu();
+        mStorage = new javax.swing.JMenu();
         miStorage = new javax.swing.JMenuItem();
+        miStorageRacks = new javax.swing.JMenuItem();
+        miRackSlots = new javax.swing.JMenuItem();
         miLocations = new javax.swing.JMenuItem();
         miCategory = new javax.swing.JMenuItem();
         miSubCategory = new javax.swing.JMenuItem();
@@ -148,10 +154,37 @@ public class MainFrame extends javax.swing.JFrame {
         mMasterFiles.setText("Master Files");
         mMasterFiles.setEnabled(false);
 
+        mStorage.setText("Storage");
+        mStorage.setEnabled(false);
+
         miStorage.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miStorage.setText("Storage");
-        miStorage.setEnabled(false);
-        mMasterFiles.add(miStorage);
+        miStorage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miStorageActionPerformed(evt);
+            }
+        });
+        mStorage.add(miStorage);
+
+        miStorageRacks.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        miStorageRacks.setText("Storage Racks");
+        miStorageRacks.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miStorageRacksActionPerformed(evt);
+            }
+        });
+        mStorage.add(miStorageRacks);
+
+        miRackSlots.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        miRackSlots.setText("Rack Slots");
+        miRackSlots.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miRackSlotsActionPerformed(evt);
+            }
+        });
+        mStorage.add(miRackSlots);
+
+        mMasterFiles.add(mStorage);
 
         miLocations.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miLocations.setText("Locations");
@@ -211,7 +244,7 @@ public class MainFrame extends javax.swing.JFrame {
         miUsers.setEnabled(false);
         mFile.add(miUsers);
 
-        miUserPrivilages.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        miUserPrivilages.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miUserPrivilages.setText("User Privilages");
         miUserPrivilages.setEnabled(false);
         mFile.add(miUserPrivilages);
@@ -285,7 +318,7 @@ public class MainFrame extends javax.swing.JFrame {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        Query query = session.createQuery("from Module m");
+        Query query = session.createQuery("from Module m order by m.moduleId");
         List objectList = query.list();
         for (Object object : objectList) {
             if (object instanceof Module) {
@@ -296,7 +329,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
 
-        query = session.createQuery("from Module m where m.isShortcutAdded = 0 order by m.moduleCode");
+        query = session.createQuery("from Module m where m.isShortcutAdded = 0 order by m.moduleId");
         objectList = query.list();
         for (Object object : objectList) {
             if (object instanceof Module) {
@@ -307,7 +340,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
 
-        query = session.createQuery("from Module m where m.isShortcutAdded = 1 order by m.moduleCode");
+        query = session.createQuery("from Module m where m.isShortcutAdded = 1 order by m.moduleId");
         objectList = query.list();
         for (Object object : objectList) {
             if (object instanceof Module) {
@@ -374,6 +407,18 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miLocationsActionPerformed
 
+    private void miStorageRacksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miStorageRacksActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miStorageRacksActionPerformed
+
+    private void miStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miStorageActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miStorageActionPerformed
+
+    private void miRackSlotsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRackSlotsActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miRackSlotsActionPerformed
+
     private void exitApllication() {
         int option = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
@@ -391,24 +436,27 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }
             case "3": {
+                internalFrame = new StorageFrame();
                 break;
             }
             case "4": {
-                internalFrame = new LocationFrame();
+                internalFrame = new RacksFrame();
                 break;
             }
             case "5": {
-                internalFrame = new CategoryFrame();
+                internalFrame = new RackSlotFrame();
                 break;
             }
             case "6": {
-                internalFrame = new SubCategoryFrame();
+                internalFrame = new LocationFrame();
                 break;
             }
             case "7": {
+                internalFrame = new CategoryFrame();
                 break;
             }
             case "8": {
+                internalFrame = new SubCategoryFrame();
                 break;
             }
             case "9": {
@@ -474,6 +522,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenu mMasterFiles;
     public javax.swing.JMenu mOptions;
     public javax.swing.JMenu mReports;
+    public javax.swing.JMenu mStorage;
     public javax.swing.JMenu mTransactions;
     private javax.swing.JMenuBar menuBar;
     public javax.swing.JMenuItem miAddShortcuts;
@@ -484,14 +533,16 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenuItem miItems;
     public javax.swing.JMenuItem miLocations;
     public javax.swing.JMenuItem miPrinters;
-    public javax.swing.JMenuItem miStorage;
+    private javax.swing.JMenuItem miRackSlots;
+    private javax.swing.JMenuItem miStorage;
+    private javax.swing.JMenuItem miStorageRacks;
     public javax.swing.JMenuItem miSubCategory;
     public javax.swing.JMenuItem miUserPrivilages;
     public javax.swing.JMenuItem miUsers;
     public javax.swing.JMenuItem miVehicles;
     public javax.swing.JPanel panelShortcuts;
     // End of variables declaration//GEN-END:variables
-    public static final TreeMap<String, String> allModuleMap = new TreeMap<>();
-    public static final TreeMap<String, String> availableModuleMap = new TreeMap<>();
-    public static final TreeMap<String, String> addedModuleMap = new TreeMap<>();
+    public static final LinkedHashMap<String, String> allModuleMap = new LinkedHashMap<>();
+    public static final LinkedHashMap<String, String> availableModuleMap = new LinkedHashMap<>();
+    public static final LinkedHashMap<String, String> addedModuleMap = new LinkedHashMap<>();
 }
