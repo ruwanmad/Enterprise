@@ -6,6 +6,7 @@
 package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
+import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.entities.Rack;
 import com.servicemaster.entities.RackSlot;
 import com.servicemaster.entities.Storage;
@@ -14,7 +15,6 @@ import com.servicemaster.internalFrames.RackSlotFrame;
 import com.servicemaster.utils.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -233,8 +233,8 @@ public class RackSlotView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblSelectMouseExited
 
     private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        int option = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             this.dispose();
         }
     }//GEN-LAST:event_lblCloseMouseClicked

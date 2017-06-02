@@ -6,11 +6,11 @@
 package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
+import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.entities.SubCategory;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.internalFrames.SubCategoryFrame;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -167,11 +167,11 @@ public class SubCategoryView extends javax.swing.JInternalFrame {
             for (Object object : list) {
                 if (object instanceof SubCategory) {
                     SubCategory subCategory = (SubCategory) object;
-                    tableModel.addRow(new Object[]{subCategory.getSubCategoryCode(), 
-                        subCategory.getSubCategoryName(), 
-                        subCategory.getCategory().getCategoryCode(), 
+                    tableModel.addRow(new Object[]{subCategory.getSubCategoryCode(),
+                        subCategory.getSubCategoryName(),
+                        subCategory.getCategory().getCategoryCode(),
                         subCategory.getSubCategoryType().getSubCategoryTypeCode(),
-                        subCategory.getRemarks(), 
+                        subCategory.getRemarks(),
                         subCategory.getIsActive() == 1});
                 }
             }
@@ -198,8 +198,8 @@ public class SubCategoryView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblSelectMouseExited
 
     private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        int option = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             this.dispose();
         }
     }//GEN-LAST:event_lblCloseMouseClicked

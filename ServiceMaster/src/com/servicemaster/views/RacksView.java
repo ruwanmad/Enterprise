@@ -6,11 +6,11 @@
 package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
+import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.entities.Rack;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.internalFrames.RacksFrame;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -167,10 +167,10 @@ public class RacksView extends javax.swing.JInternalFrame {
             for (Object object : list) {
                 if (object instanceof Rack) {
                     Rack rack = (Rack) object;
-                    tableModel.addRow(new Object[]{rack.getRackCode(), 
-                        rack.getRackName(), 
-                        rack.getStorage().getStorageCode(), 
-                        rack.getRemark(), 
+                    tableModel.addRow(new Object[]{rack.getRackCode(),
+                        rack.getRackName(),
+                        rack.getStorage().getStorageCode(),
+                        rack.getRemark(),
                         rack.getIsActive() == 1});
                 }
             }
@@ -197,8 +197,8 @@ public class RacksView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblSelectMouseExited
 
     private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        int option = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             this.dispose();
         }
     }//GEN-LAST:event_lblCloseMouseClicked

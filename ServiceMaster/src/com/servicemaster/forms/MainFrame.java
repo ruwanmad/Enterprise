@@ -5,6 +5,8 @@
  */
 package com.servicemaster.forms;
 
+import com.servicemaster.dialogs.ConfirmationDialog;
+import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.entities.Module;
 import com.servicemaster.entities.User;
 import com.servicemaster.guiFunctions.LableFunctions;
@@ -39,7 +41,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 import org.hibernate.Query;
@@ -379,7 +380,7 @@ public class MainFrame extends javax.swing.JFrame {
                 File selectedFile = fileChooser.getSelectedFile();
                 Path path = Paths.get("images");
                 Files.copy(new FileInputStream(selectedFile), path, StandardCopyOption.REPLACE_EXISTING);
-                JOptionPane.showMessageDialog(this, "Please restart the application", "Restart", JOptionPane.INFORMATION_MESSAGE);
+                InformationDialog.showMessageBox("Please restart the application", "Restart");
                 System.exit(0);
             } catch (IOException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -420,8 +421,8 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_miRackSlotsActionPerformed
 
     private void exitApllication() {
-        int option = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             System.exit(0);
         }
     }

@@ -6,6 +6,8 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
+import com.servicemaster.dialogs.ConfirmationDialog;
+import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.entities.KeyTable;
 import com.servicemaster.entities.Storage;
 import com.servicemaster.forms.MainFrame;
@@ -14,7 +16,6 @@ import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.StorageView;
 import java.util.Date;
 import java.util.List;
-import javax.swing.JOptionPane;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -277,8 +278,8 @@ public class StorageFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        int selectedOption = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
-        if (selectedOption == JOptionPane.YES_OPTION) {
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             this.dispose();
         }
     }//GEN-LAST:event_lblCloseMouseClicked
@@ -294,7 +295,7 @@ public class StorageFrame extends javax.swing.JInternalFrame {
         if (storageCode.isEmpty()) {
             List storageByName = this.getStorageByName(storageName, false);
             if (storageByName.size() > 0) {
-                JOptionPane.showMessageDialog(this, "Item name already exists.", "Exist", JOptionPane.INFORMATION_MESSAGE);
+                InformationDialog.showMessageBox("Item name already exists.", "Exist");
             } else {
                 session.getTransaction().commit();
                 session.close();
@@ -303,15 +304,15 @@ public class StorageFrame extends javax.swing.JInternalFrame {
         } else {
             List storageByCode = this.getStorageByCode(storageCode, false);
             if (storageByCode.isEmpty()) {
-                int option = JOptionPane.showConfirmDialog(this, "Code does not exist. Create new?", "New", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
+                ConfirmationDialog.showMessageBox("Code does not exist. Create new?", "New");
+                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
                     session.getTransaction().commit();
                     session.close();
                     this.createNewLocation(storageName, remark, isActivated);
                 }
             } else {
-                int option = JOptionPane.showConfirmDialog(this, "Do you want to update?", "Update", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
+                ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
+                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
                     Storage storage = new Storage(storageCode);
                     storage.setStorageName(storageName);
                     storage.setRemark(remark);
@@ -324,7 +325,7 @@ public class StorageFrame extends javax.swing.JInternalFrame {
                     session.getTransaction().commit();
                     session.close();
 
-                    JOptionPane.showMessageDialog(this, "Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    InformationDialog.showMessageBox("Updated successfully.", "Success");
                     this.resetFrame();
 
                     this.lblRacks.setEnabled(true);
@@ -459,7 +460,7 @@ public class StorageFrame extends javax.swing.JInternalFrame {
         session.getTransaction().commit();
         session.close();
 
-        JOptionPane.showMessageDialog(this, "Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+        InformationDialog.showMessageBox("Updated successfully.", "Success");
         this.resetFrame();
 
         this.lblRacks.setEnabled(true);

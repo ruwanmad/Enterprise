@@ -6,6 +6,8 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
+import com.servicemaster.dialogs.ConfirmationDialog;
+import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.entities.KeyTable;
 import com.servicemaster.entities.ServiceBay;
 import com.servicemaster.forms.MainFrame;
@@ -14,7 +16,6 @@ import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.LocationView;
 import java.util.Date;
 import java.util.List;
-import javax.swing.JOptionPane;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -254,8 +255,8 @@ public class LocationFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        int selectedOption = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
-        if (selectedOption == JOptionPane.YES_OPTION) {
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             this.dispose();
         }
     }//GEN-LAST:event_lblCloseMouseClicked
@@ -271,7 +272,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         if (locationCode.isEmpty()) {
             List locationByName = this.getLocationByName(locationName, false);
             if (locationByName.size() > 0) {
-                JOptionPane.showMessageDialog(this, "Item name already exists.", "Exist", JOptionPane.INFORMATION_MESSAGE);
+                InformationDialog.showMessageBox("Item name already exists.", "Exist");
             } else {
                 session.getTransaction().commit();
                 session.close();
@@ -280,15 +281,15 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         } else {
             List locationByCode = this.getLocationByCode(locationCode, false);
             if (locationByCode.isEmpty()) {
-                int option = JOptionPane.showConfirmDialog(this, "Code does not exist. Create new?", "New", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
+                ConfirmationDialog.showMessageBox("Code does not exist. Create new?", "New");
+                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
                     session.getTransaction().commit();
                     session.close();
                     this.createNewLocation(locationName, remark, isActivated);
                 }
             } else {
-                int option = JOptionPane.showConfirmDialog(this, "Do you want to update?", "Update", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
+                ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
+                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
                     ServiceBay serviceBay = new ServiceBay(locationCode);
                     serviceBay.setServiceBayName(locationName);
                     serviceBay.setRemark(remark);
@@ -301,7 +302,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
                     session.getTransaction().commit();
                     session.close();
 
-                    JOptionPane.showMessageDialog(this, "Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    InformationDialog.showMessageBox("Updated successfully.", "Success");
                     this.resetFrame();
                 }
             }
@@ -415,7 +416,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         session.getTransaction().commit();
         session.close();
 
-        JOptionPane.showMessageDialog(this, "Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+        InformationDialog.showMessageBox("Updated successfully.", "Success");
         this.resetFrame();
     }
 

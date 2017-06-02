@@ -6,6 +6,7 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
+import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.entities.Module;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.guiFunctions.LableFunctions;
@@ -13,7 +14,6 @@ import com.servicemaster.utils.HibernateUtil;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -95,7 +95,7 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
         lblAdd.setBackground(new java.awt.Color(150, 255, 150));
         lblAdd.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         lblAdd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAdd.setText("->");
+        lblAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/right_arrow.png"))); // NOI18N
         lblAdd.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
         lblAdd.setOpaque(true);
         lblAdd.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -113,7 +113,7 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
         lblRemove.setBackground(new java.awt.Color(150, 255, 150));
         lblRemove.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         lblRemove.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblRemove.setText("<-");
+        lblRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left_arrow.png"))); // NOI18N
         lblRemove.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
         lblRemove.setOpaque(true);
         lblRemove.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -316,8 +316,8 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblRemoveMouseExited
 
     private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        int option = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             this.dispose();
         }
     }//GEN-LAST:event_lblCloseMouseClicked

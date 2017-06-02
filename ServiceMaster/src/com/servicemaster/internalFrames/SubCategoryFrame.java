@@ -6,6 +6,8 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
+import com.servicemaster.dialogs.ConfirmationDialog;
+import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.entities.Category;
 import com.servicemaster.entities.KeyTable;
 import com.servicemaster.entities.SubCategory;
@@ -17,7 +19,6 @@ import com.servicemaster.views.SubCategoryView;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
-import javax.swing.JOptionPane;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -344,8 +345,8 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblNameSearchMouseExited
 
     private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        int selectedOption = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
-        if (selectedOption == JOptionPane.YES_OPTION) {
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             this.dispose();
         }
     }//GEN-LAST:event_lblCloseMouseClicked
@@ -371,36 +372,36 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         if (subCategoryCode.isEmpty()) {
             List subCategories = this.getSubCategoryByName(subCategoryName, false);
             if (subCategories.size() > 0) {
-                JOptionPane.showMessageDialog(this, "Item name already exists.", "Exist", JOptionPane.INFORMATION_MESSAGE);
+                InformationDialog.showMessageBox("Item name already exists.", "Exist");
             } else {
                 session.getTransaction().commit();
                 session.close();
                 if (category.equalsIgnoreCase(SystemData.COMBO_DEFAULT) || type.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                    JOptionPane.showMessageDialog(this, "Please select a valid category and type", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+                    InformationDialog.showMessageBox("Please select a valid category and type", "Invalid");
                 } else {
-                    this.createNewSubCategory(subCategoryName, remark, isActivated, this.categoryMap.get(category.split("-")[0].trim()), 
+                    this.createNewSubCategory(subCategoryName, remark, isActivated, this.categoryMap.get(category.split("-")[0].trim()),
                             this.subCategoryTypeMap.get(type.split("-")[0].trim()));
                 }
             }
         } else {
             List subCategories = this.getSubCategoryByCode(subCategoryCode, false);
             if (subCategories.isEmpty()) {
-                int option = JOptionPane.showConfirmDialog(this, "Code does not exist. Create new?", "New", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
+                ConfirmationDialog.showMessageBox("Code does not exist. Create new?", "New");
+                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
                     session.getTransaction().commit();
                     session.close();
                     if (category.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                        JOptionPane.showMessageDialog(this, "Please select a valid category", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+                        InformationDialog.showMessageBox("Please select a valid category and type", "Invalid");
                     } else {
-                        this.createNewSubCategory(subCategoryName, remark, isActivated, this.categoryMap.get(category.split("-")[0].trim()), 
-                            this.subCategoryTypeMap.get(type.split("-")[0].trim()));
+                        this.createNewSubCategory(subCategoryName, remark, isActivated, this.categoryMap.get(category.split("-")[0].trim()),
+                                this.subCategoryTypeMap.get(type.split("-")[0].trim()));
                     }
                 }
             } else {
-                int option = JOptionPane.showConfirmDialog(this, "Do you want to update?", "Update", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
+                ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
+                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
                     if (category.equalsIgnoreCase(SystemData.COMBO_DEFAULT) || type.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                        JOptionPane.showMessageDialog(this, "Please select a valid category and type", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+                        InformationDialog.showMessageBox("Please select a valid category and type", "Invalid");
                     } else {
                         SubCategory subCategory = new SubCategory(subCategoryCode);
                         subCategory.setSubCategoryName(subCategoryName);
@@ -417,7 +418,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                         session.getTransaction().commit();
                         session.close();
 
-                        JOptionPane.showMessageDialog(this, "Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        InformationDialog.showMessageBox("Updated successfully.", "Success");
                         this.resetFrame();
                     }
                 }
@@ -499,14 +500,14 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
 
     public void setCmbCategory(String category) {
         Category cat = this.categoryMap.get(category);
-        this.cmbCategory.setSelectedItem(cat.getCategoryCode()+"-"+cat.getCategoryName());
+        this.cmbCategory.setSelectedItem(cat.getCategoryCode() + "-" + cat.getCategoryName());
     }
-    
-    public void setCmbSubCategoryType(String subCategoryType){
+
+    public void setCmbSubCategoryType(String subCategoryType) {
         SubCategoryType categoryType = this.subCategoryTypeMap.get(subCategoryType);
-        this.cmbSubCategoryType.setSelectedItem(categoryType.getSubCategoryTypeCode()+"-"+categoryType.getSubCategoryTypeName());
+        this.cmbSubCategoryType.setSelectedItem(categoryType.getSubCategoryTypeCode() + "-" + categoryType.getSubCategoryTypeName());
     }
-    
+
     public void setTxtCodeEditable(boolean editable) {
         txtSubcategoryCode.setEditable(editable);
     }
@@ -599,7 +600,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         session.getTransaction().commit();
         session.close();
 
-        JOptionPane.showMessageDialog(this, "Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+        InformationDialog.showMessageBox("Updated successfully.", "Success");
         this.resetFrame();
     }
 

@@ -6,6 +6,8 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
+import com.servicemaster.dialogs.ConfirmationDialog;
+import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.entities.Category;
 import com.servicemaster.entities.KeyTable;
 import com.servicemaster.forms.MainFrame;
@@ -14,7 +16,6 @@ import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.CategoryView;
 import java.util.Date;
 import java.util.List;
-import javax.swing.JOptionPane;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -254,8 +255,8 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        int selectedOption = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
-        if (selectedOption == JOptionPane.YES_OPTION) {
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             this.dispose();
         }
     }//GEN-LAST:event_lblCloseMouseClicked
@@ -271,7 +272,7 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
         if (categoryCode.isEmpty()) {
             List categoryByName = this.getCategoryByName(categoryName, false);
             if (categoryByName.size() > 0) {
-                JOptionPane.showMessageDialog(this, "Item name already exists.", "Exist", JOptionPane.INFORMATION_MESSAGE);
+                InformationDialog.showMessageBox("Item name already exists.", "Exist");
             } else {
                 session.getTransaction().commit();
                 session.close();
@@ -280,15 +281,15 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
         } else {
             List categoryByCode = this.getCategoryByCode(categoryCode, false);
             if (categoryByCode.isEmpty()) {
-                int option = JOptionPane.showConfirmDialog(this, "Code does not exist. Create new?", "New", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
+                ConfirmationDialog.showMessageBox("Code does not exist. Create new?", "New");
+                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
                     session.getTransaction().commit();
                     session.close();
                     this.createNewCategory(categoryName, categoryRemark, isActivated);
                 }
             } else {
-                int option = JOptionPane.showConfirmDialog(this, "Do you want to update?", "Update", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
+                ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
+                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
                     Category category = new Category(categoryCode);
                     category.setCategoryName(categoryName);
                     category.setRemarks(categoryRemark);
@@ -302,7 +303,7 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
                     session.getTransaction().commit();
                     session.close();
 
-                    JOptionPane.showMessageDialog(this, "Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    InformationDialog.showMessageBox("Updated successfully.", "Success");
                     this.resetFrame();
                 }
             }
@@ -416,7 +417,7 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
         session.getTransaction().commit();
         session.close();
 
-        JOptionPane.showMessageDialog(this, "Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+        InformationDialog.showMessageBox("Updated successfully.", "Success");
         this.resetFrame();
     }
 

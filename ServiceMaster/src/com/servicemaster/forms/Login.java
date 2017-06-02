@@ -5,6 +5,7 @@
  */
 package com.servicemaster.forms;
 
+import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.entities.User;
 import com.servicemaster.entities.UserPrivilage;
 import com.servicemaster.functions.EnableFeatures;
@@ -14,7 +15,6 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -228,7 +228,7 @@ public class Login extends javax.swing.JFrame {
         String username = txtUsername.getText().trim();
         String password = new String(pwdPassword.getPassword());
         if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter valid details", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+            InformationDialog.showMessageBox("Please enter valid details", "Invalid");
         } else {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();            
@@ -254,7 +254,7 @@ public class Login extends javax.swing.JFrame {
                     this.dispose();
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Invalid username or password. Please try again.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+                InformationDialog.showMessageBox("Invalid username or password. Please try again.", "Invalid");
             }
             session.getTransaction().commit();
             session.close();

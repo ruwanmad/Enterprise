@@ -6,6 +6,8 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
+import com.servicemaster.dialogs.ConfirmationDialog;
+import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.entities.KeyTable;
 import com.servicemaster.entities.Rack;
 import com.servicemaster.entities.Storage;
@@ -16,7 +18,6 @@ import com.servicemaster.views.RacksView;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
-import javax.swing.JOptionPane;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -351,8 +352,8 @@ public class RacksFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblNameSearchMouseExited
 
     private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        int selectedOption = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
-        if (selectedOption == JOptionPane.YES_OPTION) {
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             this.dispose();
         }
     }//GEN-LAST:event_lblCloseMouseClicked
@@ -377,12 +378,12 @@ public class RacksFrame extends javax.swing.JInternalFrame {
         if (rackCode.isEmpty()) {
             List subCategories = this.getRackByName(rackName, false);
             if (subCategories.size() > 0) {
-                JOptionPane.showMessageDialog(this, "Item name already exists.", "Exist", JOptionPane.INFORMATION_MESSAGE);
+                InformationDialog.showMessageBox("Item name already exists.", "Exist");
             } else {
                 session.getTransaction().commit();
                 session.close();
                 if (storage.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                    JOptionPane.showMessageDialog(this, "Please select a valid storage", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+                    InformationDialog.showMessageBox("Please select a valid storage", "Invalid");
                 } else {
                     this.createNewRack(rackName, remark, isActivated, this.storageMap.get(storage.split("-")[0].trim()));
                 }
@@ -390,21 +391,21 @@ public class RacksFrame extends javax.swing.JInternalFrame {
         } else {
             List subCategories = this.getRackByCode(rackCode, false);
             if (subCategories.isEmpty()) {
-                int option = JOptionPane.showConfirmDialog(this, "Code does not exist. Create new?", "New", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
+                ConfirmationDialog.showMessageBox("Code does not exist. Create new?", "New");
+                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
                     session.getTransaction().commit();
                     session.close();
                     if (storage.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                        JOptionPane.showMessageDialog(this, "Please select a valid category", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+                        InformationDialog.showMessageBox("Please select a valid storage", "Invalid");
                     } else {
                         this.createNewRack(rackName, remark, isActivated, this.storageMap.get(storage.split("-")[0].trim()));
                     }
                 }
             } else {
-                int option = JOptionPane.showConfirmDialog(this, "Do you want to update?", "Update", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
+                ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
+                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
                     if (storage.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                        JOptionPane.showMessageDialog(this, "Please select a valid storage", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+                        InformationDialog.showMessageBox("Please select a valid storage", "Invalid");
                     } else {
                         Rack rack = new Rack(rackCode);
                         rack.setRackName(rackName);
@@ -419,7 +420,7 @@ public class RacksFrame extends javax.swing.JInternalFrame {
                         session.getTransaction().commit();
                         session.close();
 
-                        JOptionPane.showMessageDialog(this, "Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        InformationDialog.showMessageBox("Updated successfully.", "Success");
                         this.resetFrame();
 
                         this.lblSlots.setEnabled(true);
@@ -601,7 +602,7 @@ public class RacksFrame extends javax.swing.JInternalFrame {
         session.getTransaction().commit();
         session.close();
 
-        JOptionPane.showMessageDialog(this, "Updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+        InformationDialog.showMessageBox("Updated successfully.", "Success");
         this.resetFrame();
 
         this.lblSlots.setEnabled(true);

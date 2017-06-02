@@ -8,6 +8,7 @@ package com.servicemaster.main;
 
 import com.servicemaster.forms.Login;
 import com.servicemaster.utils.HibernateUtil;
+import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -24,6 +25,12 @@ public class Main {
      */
     public static void main(String[] args) {
         try {
+            Font miFont = new Font("Segoe UI", Font.PLAIN, 16);
+            UIManager.put("MenuItem.font", miFont);
+            
+            Font mFont = new Font("Segoe UI", Font.PLAIN, 16);
+            UIManager.put("Menu.font", mFont);
+            
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
