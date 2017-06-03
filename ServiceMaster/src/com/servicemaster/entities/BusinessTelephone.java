@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated Jun 3, 2017 10:01:09 AM by Hibernate Tools 4.3.1
+// Generated Jun 3, 2017 12:02:18 PM by Hibernate Tools 4.3.1
 
 
 
@@ -9,25 +9,25 @@ package com.servicemaster.entities;
 public class BusinessTelephone  implements java.io.Serializable {
 
 
-     private int businessTelephoneId;
+     private BusinessTelephoneId id;
      private BusinessPartner businessPartner;
      private TelephoneNumber telephoneNumber;
 
     public BusinessTelephone() {
     }
 
-    public BusinessTelephone(int businessTelephoneId, BusinessPartner businessPartner, TelephoneNumber telephoneNumber) {
-       this.businessTelephoneId = businessTelephoneId;
+    public BusinessTelephone(BusinessTelephoneId id, BusinessPartner businessPartner, TelephoneNumber telephoneNumber) {
+       this.id = id;
        this.businessPartner = businessPartner;
        this.telephoneNumber = telephoneNumber;
     }
    
-    public int getBusinessTelephoneId() {
-        return this.businessTelephoneId;
+    public BusinessTelephoneId getId() {
+        return this.id;
     }
     
-    public void setBusinessTelephoneId(int businessTelephoneId) {
-        this.businessTelephoneId = businessTelephoneId;
+    public void setId(BusinessTelephoneId id) {
+        this.id = id;
     }
     public BusinessPartner getBusinessPartner() {
         return this.businessPartner;

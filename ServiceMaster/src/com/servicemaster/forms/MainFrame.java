@@ -5,6 +5,7 @@
  */
 package com.servicemaster.forms;
 
+import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.entities.Module;
@@ -96,11 +97,11 @@ public class MainFrame extends javax.swing.JFrame {
         miStorageRacks = new javax.swing.JMenuItem();
         miRackSlots = new javax.swing.JMenuItem();
         miLocations = new javax.swing.JMenuItem();
+        miPrinters = new javax.swing.JMenuItem();
         miCategory = new javax.swing.JMenuItem();
         miSubCategory = new javax.swing.JMenuItem();
         miItems = new javax.swing.JMenuItem();
         miBusinessPartner = new javax.swing.JMenuItem();
-        miPrinters = new javax.swing.JMenuItem();
         miVehicles = new javax.swing.JMenuItem();
         js1 = new javax.swing.JPopupMenu.Separator();
         miUsers = new javax.swing.JMenuItem();
@@ -137,8 +138,8 @@ public class MainFrame extends javax.swing.JFrame {
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(desktopPaneLayout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(panelShortcuts, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(298, Short.MAX_VALUE))
+                .addComponent(panelShortcuts, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(136, Short.MAX_VALUE))
         );
         desktopPaneLayout.setVerticalGroup(
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,6 +199,16 @@ public class MainFrame extends javax.swing.JFrame {
         });
         mMasterFiles.add(miLocations);
 
+        miPrinters.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        miPrinters.setText("Printers");
+        miPrinters.setEnabled(false);
+        miPrinters.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPrintersActionPerformed(evt);
+            }
+        });
+        mMasterFiles.add(miPrinters);
+
         miCategory.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miCategory.setText("Category");
         miCategory.setEnabled(false);
@@ -227,16 +238,6 @@ public class MainFrame extends javax.swing.JFrame {
         miBusinessPartner.setText("Business Partner");
         miBusinessPartner.setEnabled(false);
         mMasterFiles.add(miBusinessPartner);
-
-        miPrinters.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        miPrinters.setText("Printers");
-        miPrinters.setEnabled(false);
-        miPrinters.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miPrintersActionPerformed(evt);
-            }
-        });
-        mMasterFiles.add(miPrinters);
 
         miVehicles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miVehicles.setText("Vehicles");
@@ -509,15 +510,15 @@ public class MainFrame extends javax.swing.JFrame {
 
             @Override
             public void mouseEntered(MouseEvent event) {
-                LableFunctions.changeBackgroundColor(event.getSource(), new Color(50, 255, 50));
+                LableFunctions.changeBackgroundColor(event.getSource(), SystemData.MOUSE_ENTER_COLOR);
             }
 
             @Override
             public void mouseExited(MouseEvent event) {
-                LableFunctions.changeBackgroundColor(event.getSource(), new Color(150, 255, 150));
+                LableFunctions.changeBackgroundColor(event.getSource(), SystemData.MOUSE_EXIT_COLOR);
             }
         });
-        label.setPreferredSize(new Dimension(144, 50));
+        label.setPreferredSize(new Dimension(150, 50));
         label.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);

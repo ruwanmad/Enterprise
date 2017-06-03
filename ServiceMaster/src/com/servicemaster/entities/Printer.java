@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated Jun 3, 2017 10:01:09 AM by Hibernate Tools 4.3.1
+// Generated Jun 3, 2017 12:02:18 PM by Hibernate Tools 4.3.1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -20,7 +20,7 @@ public class Printer implements java.io.Serializable {
     private Date modifiedTime;
     private Integer modifiedUser;
     private String remarks;
-    private Set printerSubCategories = new HashSet(0);
+    private Set subCategories = new HashSet(0);
 
     public Printer() {
     }
@@ -34,18 +34,18 @@ public class Printer implements java.io.Serializable {
         this.printerName = printerName;
     }
 
-    public Printer(String printerCode, String printerName, Integer isActive, Date reatedDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set printerSubCategories) {
+    public Printer(String printerCode, String printerName, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set subCategories) {
         this.printerCode = printerCode;
         this.printerName = printerName;
         this.isActive = isActive;
-        this.createdDate = reatedDate;
+        this.createdDate = createdDate;
         this.createdTime = createdTime;
         this.createdUser = createdUser;
         this.modifiedDate = modifiedDate;
         this.modifiedTime = modifiedTime;
         this.modifiedUser = modifiedUser;
         this.remarks = remarks;
-        this.printerSubCategories = printerSubCategories;
+        this.subCategories = subCategories;
     }
 
     public String getPrinterCode() {
@@ -128,12 +128,12 @@ public class Printer implements java.io.Serializable {
         this.remarks = remarks;
     }
 
-    public Set getPrinterSubCategories() {
-        return this.printerSubCategories;
+    public Set getSubCategories() {
+        return this.subCategories;
     }
 
-    public void setPrinterSubCategories(Set printerSubCategories) {
-        this.printerSubCategories = printerSubCategories;
+    public void setSubCategories(Set subCategories) {
+        this.subCategories = subCategories;
     }
 
 }

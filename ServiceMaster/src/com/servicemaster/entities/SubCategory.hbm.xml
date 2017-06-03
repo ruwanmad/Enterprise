@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jun 3, 2017 10:01:11 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Jun 3, 2017 12:02:20 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.entities.SubCategory" table="sub_category" catalog="enterprisedb" optimistic-lock="version">
         <id name="subCategoryCode" type="string">
@@ -10,6 +10,9 @@
         </id>
         <many-to-one name="category" class="com.servicemaster.entities.Category" fetch="select">
             <column name="category_category_code" length="15" not-null="true" />
+        </many-to-one>
+        <many-to-one name="printer" class="com.servicemaster.entities.Printer" fetch="select">
+            <column name="printer_printer_code" length="10" not-null="true" />
         </many-to-one>
         <many-to-one name="subCategoryType" class="com.servicemaster.entities.SubCategoryType" fetch="select">
             <column name="sub_category_type_sub_category_type_code" length="10" not-null="true" />
@@ -46,12 +49,6 @@
                 <column name="sub_category_sub_category_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.entities.Item" />
-        </set>
-        <set name="printerSubCategories" table="printer_sub_category" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="sub_category_sub_category_code" length="15" not-null="true" />
-            </key>
-            <one-to-many class="com.servicemaster.entities.PrinterSubCategory" />
         </set>
     </class>
 </hibernate-mapping>

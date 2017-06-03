@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jun 3, 2017 10:01:11 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Jun 3, 2017 12:02:20 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.entities.Printer" table="printer" catalog="enterprisedb" optimistic-lock="version">
         <id name="printerCode" type="string">
@@ -35,11 +35,11 @@
         <property name="remarks" type="string">
             <column name="remarks" length="100" />
         </property>
-        <set name="printerSubCategories" table="printer_sub_category" inverse="true" lazy="true" fetch="select">
+        <set name="subCategories" table="sub_category" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="printer_printer_code" length="10" not-null="true" />
             </key>
-            <one-to-many class="com.servicemaster.entities.PrinterSubCategory" />
+            <one-to-many class="com.servicemaster.entities.SubCategory" />
         </set>
     </class>
 </hibernate-mapping>

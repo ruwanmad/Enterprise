@@ -221,6 +221,7 @@ public class SubCategoryView extends javax.swing.JInternalFrame {
         subCategoryFrame.setCbxIsActive((subCategory.getIsActive() == 1));
         subCategoryFrame.setCmbCategory(subCategory.getCategory().getCategoryCode());
         subCategoryFrame.setCmbSubCategoryType(subCategory.getSubCategoryType().getSubCategoryTypeCode());
+        subCategoryFrame.setCmbPrinter(subCategory.getPrinter().getPrinterCode());
         subCategoryFrame.setTxtCodeEditable(false);
         this.dispose();
     }

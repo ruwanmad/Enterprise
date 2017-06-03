@@ -10,6 +10,7 @@ import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.entities.Category;
 import com.servicemaster.entities.KeyTable;
+import com.servicemaster.entities.Printer;
 import com.servicemaster.entities.SubCategory;
 import com.servicemaster.entities.SubCategoryType;
 import com.servicemaster.forms.MainFrame;
@@ -61,6 +62,8 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         lblView = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         cmbSubCategoryType = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        cmbPrinter = new javax.swing.JComboBox<>();
 
         setTitle("Sub category");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -202,6 +205,12 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         cmbSubCategoryType.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         cmbSubCategoryType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--" }));
 
+        jLabel7.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel7.setText("Printer :");
+
+        cmbPrinter.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cmbPrinter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -231,32 +240,39 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                         .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbxIsActive)
-                            .addComponent(txtRemark, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cmbSubCategoryType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(10, 10, 10)
-                        .addComponent(txtSubcategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbxIsActive)
+                                    .addComponent(txtRemark, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cmbSubCategoryType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(10, 10, 10)
+                                .addComponent(txtSubcategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cmbPrinter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblCodeSearch, lblNameSearch});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtSubcategoryCode, txtSubcategoryName});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbCategory, cmbSubCategoryType, txtRemark});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbCategory, cmbPrinter, cmbSubCategoryType, txtRemark});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
 
@@ -285,13 +301,17 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                     .addComponent(cmbSubCategoryType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(cmbPrinter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtRemark, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbxIsActive)
                     .addComponent(jLabel5))
-                .addGap(26, 26, 26)
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -299,7 +319,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbCategory, cmbSubCategoryType, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, lblCodeSearch, lblNameSearch, txtRemark, txtSubcategoryCode, txtSubcategoryName});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbCategory, cmbPrinter, cmbSubCategoryType, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, lblCodeSearch, lblNameSearch, txtRemark, txtSubcategoryCode, txtSubcategoryName});
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
 
@@ -366,6 +386,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         String subCategoryName = txtSubcategoryName.getText().toUpperCase().trim();
         String category = ((String) cmbCategory.getSelectedItem()).trim();
         String type = ((String) cmbSubCategoryType.getSelectedItem()).trim();
+        String printer = ((String) cmbPrinter.getSelectedItem()).trim();
         String remark = txtRemark.getText().toUpperCase().trim();
         boolean isActivated = cbxIsActive.isSelected();
 
@@ -380,7 +401,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                     InformationDialog.showMessageBox("Please select a valid category and type", "Invalid");
                 } else {
                     this.createNewSubCategory(subCategoryName, remark, isActivated, this.categoryMap.get(category.split("-")[0].trim()),
-                            this.subCategoryTypeMap.get(type.split("-")[0].trim()));
+                            this.subCategoryTypeMap.get(type.split("-")[0].trim()), this.printerMap.get(printer.split("-")[0].trim()));
                 }
             }
         } else {
@@ -394,7 +415,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                         InformationDialog.showMessageBox("Please select a valid category and type", "Invalid");
                     } else {
                         this.createNewSubCategory(subCategoryName, remark, isActivated, this.categoryMap.get(category.split("-")[0].trim()),
-                                this.subCategoryTypeMap.get(type.split("-")[0].trim()));
+                                this.subCategoryTypeMap.get(type.split("-")[0].trim()), this.printerMap.get(printer.split("-")[0].trim()));
                     }
                 }
             } else {
@@ -407,6 +428,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                         subCategory.setSubCategoryName(subCategoryName);
                         subCategory.setCategory(this.categoryMap.get(category.split("-")[0].trim()));
                         subCategory.setSubCategoryType(this.subCategoryTypeMap.get(type.split("-")[0].trim()));
+                        subCategory.setPrinter(this.printerMap.get(printer.split("-")[0].trim()));
                         subCategory.setRemarks(remark);
                         subCategory.setIsActive(isActivated ? 1 : 0);
                         subCategory.setModifiedDate(new Date());
@@ -454,7 +476,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         List list = query.list();
         if (!list.isEmpty()) {
             for (Object object : list) {
-                if (object instanceof com.servicemaster.entities.Category) {
+                if (object instanceof Category) {
                     Category category = (Category) object;
                     String categoryName = category.getCategoryName();
                     String catecoryCode = category.getCategoryCode();
@@ -468,12 +490,26 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         list = query.list();
         if (!list.isEmpty()) {
             for (Object object : list) {
-                if (object instanceof com.servicemaster.entities.SubCategoryType) {
+                if (object instanceof SubCategoryType) {
                     SubCategoryType categoryType = (SubCategoryType) object;
                     String typeCode = categoryType.getSubCategoryTypeCode();
                     String typeName = categoryType.getSubCategoryTypeName();
                     cmbSubCategoryType.addItem(typeCode + "-" + typeName);
                     this.subCategoryTypeMap.put(typeCode, categoryType);
+                }
+            }
+        }
+
+        query = session.createQuery("from Printer p order by p.printerCode");
+        list = query.list();
+        if (!list.isEmpty()) {
+            for (Object object : list) {
+                if (object instanceof Printer) {
+                    Printer printer = (Printer) object;
+                    String printerCode = printer.getPrinterCode();
+                    String printerName = printer.getPrinterName();
+                    cmbPrinter.addItem(printerCode + "-" + printerName);
+                    this.printerMap.put(printerCode, printer);
                 }
             }
         }
@@ -508,6 +544,11 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         this.cmbSubCategoryType.setSelectedItem(categoryType.getSubCategoryTypeCode() + "-" + categoryType.getSubCategoryTypeName());
     }
 
+    public void setCmbPrinter(String printer) {
+        Printer prin = this.printerMap.get(printer);
+        this.cmbPrinter.setSelectedItem(prin.getPrinterCode() + "-" + prin.getPrinterName());
+    }
+
     public void setTxtCodeEditable(boolean editable) {
         txtSubcategoryCode.setEditable(editable);
     }
@@ -517,10 +558,10 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         session.beginTransaction();
         Query query;
         if (like) {
-            query = session.createQuery("from SubCategory s join fetch s.subCategoryType where s.subCategoryCode like :code");
+            query = session.createQuery("from SubCategory s join fetch s.subCategoryType join fetch s.printer where s.subCategoryCode like :code");
             query.setParameter("code", "%" + subCategoryCode + "%");
         } else {
-            query = session.createQuery("from SubCategory s join fetch s.subCategoryType where s.subCategoryCode = :code");
+            query = session.createQuery("from SubCategory s join fetch s.subCategoryType join fetch s.printer where s.subCategoryCode = :code");
             query.setParameter("code", subCategoryCode);
         }
         List list = query.list();
@@ -534,10 +575,10 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         session.beginTransaction();
         Query query;
         if (like) {
-            query = session.createQuery("from SubCategory s join fetch s.subCategoryType where s.subCategoryName like :name");
+            query = session.createQuery("from SubCategory s join fetch s.subCategoryType join fetch s.printer where s.subCategoryName like :name");
             query.setParameter("name", "%" + subCategoryName + "%");
         } else {
-            query = session.createQuery("from SubCategory s join fetch s.subCategoryType where s.subCategoryName = :name");
+            query = session.createQuery("from SubCategory s join fetch s.subCategoryType join fetch s.printer where s.subCategoryName = :name");
             query.setParameter("name", subCategoryName);
         }
         List list = query.list();
@@ -554,10 +595,11 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         txtSubcategoryCode.setEditable(true);
         cmbCategory.setSelectedIndex(0);
         cmbSubCategoryType.setSelectedIndex(0);
+        cmbPrinter.setSelectedIndex(0);
     }
 
     private void createNewSubCategory(String subCategoryName, String remark, boolean isActivated,
-            com.servicemaster.entities.Category category, SubCategoryType type) {
+            com.servicemaster.entities.Category category, SubCategoryType type, Printer printer) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         String catCode;
@@ -590,6 +632,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         subCategory.setSubCategoryName(subCategoryName);
         subCategory.setCategory(category);
         subCategory.setSubCategoryType(type);
+        subCategory.setPrinter(printer);
         subCategory.setRemarks(remark);
         subCategory.setIsActive(isActivated ? 1 : 0);
         subCategory.setCreatedDate(new Date());
@@ -607,6 +650,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbxIsActive;
     private javax.swing.JComboBox<String> cmbCategory;
+    private javax.swing.JComboBox<String> cmbPrinter;
     private javax.swing.JComboBox<String> cmbSubCategoryType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -614,6 +658,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCodeSearch;
     private javax.swing.JLabel lblNameSearch;
@@ -625,4 +670,5 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
     private final TreeMap<String, Category> categoryMap = new TreeMap<>();
     private final TreeMap<String, SubCategoryType> subCategoryTypeMap = new TreeMap<>();
+    private final TreeMap<String, Printer> printerMap = new TreeMap<>();
 }

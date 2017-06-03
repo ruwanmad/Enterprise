@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated Jun 3, 2017 10:01:09 AM by Hibernate Tools 4.3.1
+// Generated Jun 3, 2017 12:02:18 PM by Hibernate Tools 4.3.1
 
 
 
@@ -9,25 +9,25 @@ package com.servicemaster.entities;
 public class BusinessAddress  implements java.io.Serializable {
 
 
-     private int businessAddressId;
+     private BusinessAddressId id;
      private Address address;
      private BusinessPartner businessPartner;
 
     public BusinessAddress() {
     }
 
-    public BusinessAddress(int businessAddressId, Address address, BusinessPartner businessPartner) {
-       this.businessAddressId = businessAddressId;
+    public BusinessAddress(BusinessAddressId id, Address address, BusinessPartner businessPartner) {
+       this.id = id;
        this.address = address;
        this.businessPartner = businessPartner;
     }
    
-    public int getBusinessAddressId() {
-        return this.businessAddressId;
+    public BusinessAddressId getId() {
+        return this.id;
     }
     
-    public void setBusinessAddressId(int businessAddressId) {
-        this.businessAddressId = businessAddressId;
+    public void setId(BusinessAddressId id) {
+        this.id = id;
     }
     public Address getAddress() {
         return this.address;

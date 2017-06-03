@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated Jun 3, 2017 10:01:09 AM by Hibernate Tools 4.3.1
+// Generated Jun 3, 2017 12:02:18 PM by Hibernate Tools 4.3.1
 
 
 
@@ -9,25 +9,25 @@ package com.servicemaster.entities;
 public class ServiceItem  implements java.io.Serializable {
 
 
-     private int serviceItemId;
+     private ServiceItemId id;
      private Item item;
      private Service service;
 
     public ServiceItem() {
     }
 
-    public ServiceItem(int serviceItemId, Item item, Service service) {
-       this.serviceItemId = serviceItemId;
+    public ServiceItem(ServiceItemId id, Item item, Service service) {
+       this.id = id;
        this.item = item;
        this.service = service;
     }
    
-    public int getServiceItemId() {
-        return this.serviceItemId;
+    public ServiceItemId getId() {
+        return this.id;
     }
     
-    public void setServiceItemId(int serviceItemId) {
-        this.serviceItemId = serviceItemId;
+    public void setId(ServiceItemId id) {
+        this.id = id;
     }
     public Item getItem() {
         return this.item;

@@ -56,8 +56,8 @@ Contributor(s):
     <mapping resource="com/servicemaster/entities/ServiceItem.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/UserPrivilage.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/BusinessTelephone.hbm.xml"/>
-    <mapping resource="com/servicemaster/entities/Category.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/Grn.hbm.xml"/>
+    <mapping resource="com/servicemaster/entities/Category.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/Service.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/SubCategory.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/ServiceBay.hbm.xml"/>
@@ -67,7 +67,6 @@ Contributor(s):
     <mapping resource="com/servicemaster/entities/Item.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/BusinessPartner.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/User.hbm.xml"/>
-    <mapping resource="com/servicemaster/entities/PrinterSubCategory.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/TelephoneNumber.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/Printer.hbm.xml"/>
     <mapping resource="com/servicemaster/entities/Module.hbm.xml"/>

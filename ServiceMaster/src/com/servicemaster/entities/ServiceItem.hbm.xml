@@ -1,17 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jun 3, 2017 10:01:11 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Jun 3, 2017 12:02:20 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.entities.ServiceItem" table="service_item" catalog="enterprisedb" optimistic-lock="version">
-        <id name="serviceItemId" type="int">
-            <column name="service_item_id" />
-            <generator class="assigned" />
-        </id>
-        <many-to-one name="item" class="com.servicemaster.entities.Item" fetch="select">
+        <composite-id name="id" class="com.servicemaster.entities.ServiceItemId">
+            <key-property name="serviceServiceId" type="int">
+                <column name="service_service_id" />
+            </key-property>
+            <key-property name="itemItemCode" type="string">
+                <column name="item_item_code" length="15" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="item" class="com.servicemaster.entities.Item" update="false" insert="false" fetch="select">
             <column name="item_item_code" length="15" not-null="true" />
         </many-to-one>
-        <many-to-one name="service" class="com.servicemaster.entities.Service" fetch="select">
+        <many-to-one name="service" class="com.servicemaster.entities.Service" update="false" insert="false" fetch="select">
             <column name="service_service_id" not-null="true" />
         </many-to-one>
     </class>
