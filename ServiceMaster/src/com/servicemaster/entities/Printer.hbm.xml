@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated May 31, 2017 4:52:38 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Jun 3, 2017 10:01:11 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.entities.Printer" table="printer" catalog="enterprisedb" optimistic-lock="version">
-        <id name="printerId" type="java.lang.Integer">
-            <column name="printer_id" />
-            <generator class="identity" />
+        <id name="printerCode" type="string">
+            <column name="printer_code" length="10" />
+            <generator class="assigned" />
         </id>
         <property name="printerName" type="string">
             <column name="printer_name" length="50" not-null="true" />
@@ -14,8 +14,8 @@
         <property name="isActive" type="java.lang.Integer">
             <column name="isActive" />
         </property>
-        <property name="reatedDate" type="date">
-            <column name="reated_date" length="10" />
+        <property name="createdDate" type="date">
+            <column name="created_date" length="10" />
         </property>
         <property name="createdTime" type="time">
             <column name="created_time" length="8" />
@@ -37,7 +37,7 @@
         </property>
         <set name="printerSubCategories" table="printer_sub_category" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="printer_printer_id" not-null="true" />
+                <column name="printer_printer_code" length="10" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.entities.PrinterSubCategory" />
         </set>

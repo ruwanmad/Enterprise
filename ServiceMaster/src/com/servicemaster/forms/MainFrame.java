@@ -12,6 +12,7 @@ import com.servicemaster.entities.User;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.internalFrames.CategoryFrame;
 import com.servicemaster.internalFrames.LocationFrame;
+import com.servicemaster.internalFrames.PrinterFrame;
 import com.servicemaster.internalFrames.RackSlotFrame;
 import com.servicemaster.internalFrames.RacksFrame;
 import com.servicemaster.internalFrames.ShortCutsFrame;
@@ -230,6 +231,11 @@ public class MainFrame extends javax.swing.JFrame {
         miPrinters.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miPrinters.setText("Printers");
         miPrinters.setEnabled(false);
+        miPrinters.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPrintersActionPerformed(evt);
+            }
+        });
         mMasterFiles.add(miPrinters);
 
         miVehicles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
@@ -420,6 +426,10 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miRackSlotsActionPerformed
 
+    private void miPrintersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPrintersActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miPrintersActionPerformed
+
     private void exitApllication() {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -467,6 +477,7 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }
             case "11": {
+                internalFrame = new PrinterFrame();
                 break;
             }
             case "12": {

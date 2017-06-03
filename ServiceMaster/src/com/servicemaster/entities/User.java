@@ -1,5 +1,5 @@
 package com.servicemaster.entities;
-// Generated May 31, 2017 4:52:36 PM by Hibernate Tools 4.3.1
+// Generated Jun 3, 2017 10:01:09 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
