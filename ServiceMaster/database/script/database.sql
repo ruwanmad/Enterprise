@@ -166,7 +166,6 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES ('CAT1000','LUBRICANTS',1,'2017-06-04','13:42:28',1,NULL,NULL,NULL,'LUBRICANTS');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -379,7 +378,7 @@ CREATE TABLE `key_table` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   PRIMARY KEY (`key_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -388,7 +387,7 @@ CREATE TABLE `key_table` (
 
 LOCK TABLES `key_table` WRITE;
 /*!40000 ALTER TABLE `key_table` DISABLE KEYS */;
-INSERT INTO `key_table` VALUES (1,'STO',1001,'Storage','2017-06-04','13:40:14',1,NULL,NULL,NULL),(2,'RAC',1001,'Rack','2017-06-04','13:40:33',1,NULL,NULL,NULL),(3,'SLT',1001,'Rack slot','2017-06-04','13:40:51',1,NULL,NULL,NULL),(4,'LOC',1001,'Location','2017-06-04','13:41:10',1,NULL,NULL,NULL),(5,'PRN',1001,'Printers','2017-06-04','13:41:35',1,NULL,NULL,NULL),(6,'CAT',1001,'Category','2017-06-04','13:42:28',1,NULL,NULL,NULL),(7,'SCT',1001,'Sub category type','2017-06-04','13:42:44',1,NULL,NULL,NULL),(8,'SUB',1001,'Sub Category','2017-06-04','13:43:14',1,NULL,NULL,NULL);
+INSERT INTO `key_table` VALUES (1,'VHT',1001,'Vehicle type','2017-06-04','23:29:18',1,NULL,NULL,NULL),(2,'VEH',1001,'Vehicle','2017-06-04','23:30:28',1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `key_table` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -423,7 +422,7 @@ CREATE TABLE `module` (
 
 LOCK TABLES `module` WRITE;
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
-INSERT INTO `module` VALUES (1,'1','Users','users.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Users module'),(2,'2','User Privilages','up.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'User privilages module'),(3,'3','Storage','storage.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Storage module'),(4,'4','Storage Racks','racks.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Storage Racks module'),(5,'5','Rack Slots','slots.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Rack Slots module'),(6,'6','Locations','locations.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Locations module'),(7,'7','Category','category.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Category module'),(8,'8','Sub Category Type','sct.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Sub category type module'),(9,'9','Sub Category','sc.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Sub category module'),(10,'10','Items','items.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Items module'),(11,'11','Business Partner','bp.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Business partner module'),(12,'12','Printers','printers.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Printers module'),(13,'13','Vehivle Type','vt.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Vehivle Type module'),(14,'14','Vehivles','vehivles.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Vehivles module'),(15,'15','Add Shortcuts','as.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Add Shortcuts module');
+INSERT INTO `module` VALUES (1,'1','Users','users.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Users module'),(2,'2','User Privilages','up.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'User privilages module'),(3,'3','Storage','storage.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Storage module'),(4,'4','Storage Racks','racks.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Storage Racks module'),(5,'5','Rack Slots','slots.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Rack Slots module'),(6,'6','Locations','locations.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Locations module'),(7,'7','Category','category.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Category module'),(8,'8','Sub Category Type','sct.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Sub category type module'),(9,'9','Sub Category','sc.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Sub category module'),(10,'10','Items','items.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Items module'),(11,'11','Business Partner','bp.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Business partner module'),(12,'12','Printers','printers.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Printers module'),(13,'13','Vehicle Type','vt.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Vehivle Type module'),(14,'14','Vehicles','vehivles.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Vehivles module'),(15,'15','Add Shortcuts','as.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Add Shortcuts module');
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -522,7 +521,6 @@ CREATE TABLE `printer` (
 
 LOCK TABLES `printer` WRITE;
 /*!40000 ALTER TABLE `printer` DISABLE KEYS */;
-INSERT INTO `printer` VALUES ('PRN1000','STORE PRINTER',1,'2017-06-04','13:41:35',1,NULL,NULL,NULL,'STORE PRINTER');
 /*!40000 ALTER TABLE `printer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -557,7 +555,6 @@ CREATE TABLE `rack` (
 
 LOCK TABLES `rack` WRITE;
 /*!40000 ALTER TABLE `rack` DISABLE KEYS */;
-INSERT INTO `rack` VALUES ('RAC1000','RACK 1',1,'2017-06-04','13:40:33',1,NULL,NULL,NULL,'RACK 1','STO1000');
 /*!40000 ALTER TABLE `rack` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -592,7 +589,6 @@ CREATE TABLE `rack_slot` (
 
 LOCK TABLES `rack_slot` WRITE;
 /*!40000 ALTER TABLE `rack_slot` DISABLE KEYS */;
-INSERT INTO `rack_slot` VALUES ('SLT1000','SLOT 1',1,'2017-06-04','13:40:51',1,NULL,NULL,NULL,'SLOT 1','RAC1000');
 /*!40000 ALTER TABLE `rack_slot` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -613,12 +609,12 @@ CREATE TABLE `service` (
   `modified_user` int(11) DEFAULT NULL,
   `servicecol` varchar(45) DEFAULT NULL,
   `service_bay_service_bay_code` varchar(15) NOT NULL,
-  `vehicle_vehicle_number` varchar(15) NOT NULL,
+  `vehicle_vehicle_code` varchar(15) NOT NULL,
   PRIMARY KEY (`service_code`),
   KEY `fk_service_service_bay1_idx` (`service_bay_service_bay_code`),
-  KEY `fk_service_vehicle1_idx` (`vehicle_vehicle_number`),
+  KEY `fk_service_vehicle1_idx` (`vehicle_vehicle_code`),
   CONSTRAINT `fk_service_service_bay1` FOREIGN KEY (`service_bay_service_bay_code`) REFERENCES `service_bay` (`service_bay_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_service_vehicle1` FOREIGN KEY (`vehicle_vehicle_number`) REFERENCES `vehicle` (`vehicle_number`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_service_vehicle1` FOREIGN KEY (`vehicle_vehicle_code`) REFERENCES `vehicle` (`vehicle_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -659,7 +655,6 @@ CREATE TABLE `service_bay` (
 
 LOCK TABLES `service_bay` WRITE;
 /*!40000 ALTER TABLE `service_bay` DISABLE KEYS */;
-INSERT INTO `service_bay` VALUES ('LOC1000','SERVICE BAY 1',1,'2017-06-04','13:41:10',1,NULL,NULL,NULL,'SERVICE BAY 1');
 /*!40000 ALTER TABLE `service_bay` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -717,7 +712,6 @@ CREATE TABLE `storage` (
 
 LOCK TABLES `storage` WRITE;
 /*!40000 ALTER TABLE `storage` DISABLE KEYS */;
-INSERT INTO `storage` VALUES ('STO1000','MAIN STORE',1,'2017-06-04','13:40:14',1,NULL,NULL,NULL,'MAIN STORE');
 /*!40000 ALTER TABLE `storage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -758,7 +752,6 @@ CREATE TABLE `sub_category` (
 
 LOCK TABLES `sub_category` WRITE;
 /*!40000 ALTER TABLE `sub_category` DISABLE KEYS */;
-INSERT INTO `sub_category` VALUES ('SUB1000','BREACK OIL',1,'2017-06-04','13:43:14',1,NULL,NULL,NULL,'BREACK OIL','CAT1000','PRN1000','SCT1000');
 /*!40000 ALTER TABLE `sub_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -790,7 +783,6 @@ CREATE TABLE `sub_category_type` (
 
 LOCK TABLES `sub_category_type` WRITE;
 /*!40000 ALTER TABLE `sub_category_type` DISABLE KEYS */;
-INSERT INTO `sub_category_type` VALUES ('SCT1000','SELL',1,'SELL','2017-06-04','13:42:44',1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sub_category_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -904,9 +896,9 @@ DROP TABLE IF EXISTS `vehicle`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `vehicle` (
+  `vehicle_code` varchar(15) NOT NULL,
   `vehicle_number` varchar(15) NOT NULL,
   `manufacturered_year` varchar(10) DEFAULT NULL,
-  `vehicle_type` varchar(20) DEFAULT NULL,
   `isActive` int(11) DEFAULT '1',
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
@@ -917,7 +909,7 @@ CREATE TABLE `vehicle` (
   `remark` varchar(255) DEFAULT NULL,
   `business_partner_business_partner_code` varchar(15) NOT NULL,
   `vehicle_type_vehicle_type_code` varchar(15) NOT NULL,
-  PRIMARY KEY (`vehicle_number`),
+  PRIMARY KEY (`vehicle_code`),
   KEY `fk_vehicle_business_partner1_idx` (`business_partner_business_partner_code`),
   KEY `fk_vehicle_vehicle_type1_idx` (`vehicle_type_vehicle_type_code`),
   CONSTRAINT `fk_vehicle_business_partner1` FOREIGN KEY (`business_partner_business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -931,6 +923,7 @@ CREATE TABLE `vehicle` (
 
 LOCK TABLES `vehicle` WRITE;
 /*!40000 ALTER TABLE `vehicle` DISABLE KEYS */;
+INSERT INTO `vehicle` VALUES ('CAJ-1082','CAJ-1082','2015',1,NULL,NULL,NULL,'2017-06-04','23:42:15',1,'ADMIN CAR','BPT1000','VHT1000'),('VEH1000','CAJ-1082','2015',1,'2017-06-04','23:30:29',1,NULL,NULL,NULL,'RUWAN CAR','BPT1000','VHT1000');
 /*!40000 ALTER TABLE `vehicle` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -962,6 +955,7 @@ CREATE TABLE `vehicle_type` (
 
 LOCK TABLES `vehicle_type` WRITE;
 /*!40000 ALTER TABLE `vehicle_type` DISABLE KEYS */;
+INSERT INTO `vehicle_type` VALUES ('VHT1000','CAR',1,'2017-06-04','23:29:18',1,NULL,NULL,NULL,'CAR');
 /*!40000 ALTER TABLE `vehicle_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -978,4 +972,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-04 13:44:50
+-- Dump completed on 2017-06-04 23:45:40
