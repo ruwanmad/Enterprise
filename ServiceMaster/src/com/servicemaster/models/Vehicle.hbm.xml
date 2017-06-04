@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jun 4, 2017 11:13:31 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Jun 4, 2017 10:24:33 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Vehicle" table="vehicle" catalog="enterprisedb" optimistic-lock="version">
-        <id name="vehicleNumber" type="string">
-            <column name="vehicle_number" length="15" />
+        <id name="vehicleCode" type="string">
+            <column name="vehicle_code" length="15" />
             <generator class="assigned" />
         </id>
         <many-to-one name="businessPartner" class="com.servicemaster.models.BusinessPartner" fetch="select">
@@ -14,11 +14,11 @@
         <many-to-one name="vehicleType" class="com.servicemaster.models.VehicleType" fetch="select">
             <column name="vehicle_type_vehicle_type_code" length="15" not-null="true" />
         </many-to-one>
+        <property name="vehicleNumber" type="string">
+            <column name="vehicle_number" length="15" not-null="true" />
+        </property>
         <property name="manufactureredYear" type="string">
             <column name="manufacturered_year" length="10" />
-        </property>
-        <property name="vehicleType_1" type="string">
-            <column name="vehicle_type" length="20" />
         </property>
         <property name="isActive" type="java.lang.Integer">
             <column name="isActive" />
@@ -46,7 +46,7 @@
         </property>
         <set name="services" table="service" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="vehicle_vehicle_number" length="15" not-null="true" />
+                <column name="vehicle_vehicle_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.Service" />
         </set>

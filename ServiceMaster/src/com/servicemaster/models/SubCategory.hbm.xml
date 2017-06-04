@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jun 4, 2017 11:13:31 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Jun 4, 2017 10:24:33 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.SubCategory" table="sub_category" catalog="enterprisedb" optimistic-lock="version">
         <id name="subCategoryCode" type="string">
@@ -15,7 +15,7 @@
             <column name="printer_printer_code" length="15" not-null="true" />
         </many-to-one>
         <many-to-one name="subCategoryType" class="com.servicemaster.models.SubCategoryType" fetch="select">
-            <column name="sub_category_type_sub_category_type_code" length="10" not-null="true" />
+            <column name="sub_category_type_sub_category_type_code" length="15" not-null="true" />
         </many-to-one>
         <property name="subCategoryName" type="string">
             <column name="sub_category_name" length="20" />

@@ -9,6 +9,7 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.internalFrames.BussinesPatnerFrame;
 import com.servicemaster.internalFrames.CategoryFrame;
 import com.servicemaster.internalFrames.ItemFrame;
 import com.servicemaster.internalFrames.LocationFrame;
@@ -19,6 +20,8 @@ import com.servicemaster.internalFrames.ShortCutsFrame;
 import com.servicemaster.internalFrames.StorageFrame;
 import com.servicemaster.internalFrames.SubCategoryFrame;
 import com.servicemaster.internalFrames.SubCategoryTypeFrame;
+import com.servicemaster.internalFrames.VehicleFrame;
+import com.servicemaster.internalFrames.VehicleTypeFrame;
 import com.servicemaster.models.Module;
 import com.servicemaster.models.User;
 import com.servicemaster.utils.HibernateUtil;
@@ -258,17 +261,32 @@ public class MainFrame extends javax.swing.JFrame {
         miBusinessPartner.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miBusinessPartner.setText("Business Partner");
         miBusinessPartner.setEnabled(false);
+        miBusinessPartner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miBusinessPartnerActionPerformed(evt);
+            }
+        });
         mMasterFiles.add(miBusinessPartner);
         mMasterFiles.add(jSeparator4);
 
         miVehileType.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miVehileType.setText("Vehicle Type");
         miVehileType.setEnabled(false);
+        miVehileType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miVehileTypeActionPerformed(evt);
+            }
+        });
         mMasterFiles.add(miVehileType);
 
         miVehicles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miVehicles.setText("Vehicles");
         miVehicles.setEnabled(false);
+        miVehicles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miVehiclesActionPerformed(evt);
+            }
+        });
         mMasterFiles.add(miVehicles);
 
         mFile.add(mMasterFiles);
@@ -462,6 +480,18 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miSubCategoryTypeActionPerformed
 
+    private void miBusinessPartnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miBusinessPartnerActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miBusinessPartnerActionPerformed
+
+    private void miVehileTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miVehileTypeActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miVehileTypeActionPerformed
+
+    private void miVehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miVehiclesActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miVehiclesActionPerformed
+
     private void exitApllication() {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -511,6 +541,7 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }
             case "11": {
+                internalFrame = new BussinesPatnerFrame();
                 break;
             }
             case "12": {
@@ -518,9 +549,11 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }
             case "13": {
+                internalFrame = new VehicleTypeFrame();
                 break;
             }
             case "14": {
+                internalFrame = new VehicleFrame();
                 break;
             }
             case "15": {
