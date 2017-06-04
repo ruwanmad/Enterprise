@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 4, 2017 11:13:31 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.servicemaster.models.ServiceItem" table="service_item" catalog="enterprisedb" optimistic-lock="version">
+        <composite-id name="id" class="com.servicemaster.models.ServiceItemId">
+            <key-property name="itemItemCode" type="string">
+                <column name="item_item_code" length="15" />
+            </key-property>
+            <key-property name="serviceServiceCode" type="string">
+                <column name="service_service_code" length="15" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="item" class="com.servicemaster.models.Item" update="false" insert="false" fetch="select">
+            <column name="item_item_code" length="15" not-null="true" />
+        </many-to-one>
+        <many-to-one name="service" class="com.servicemaster.models.Service" update="false" insert="false" fetch="select">
+            <column name="service_service_code" length="15" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

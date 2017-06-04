@@ -8,10 +8,10 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.entities.Category;
-import com.servicemaster.entities.KeyTable;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.models.Category;
+import com.servicemaster.models.KeyTable;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.CategoryView;
 import java.util.Date;
@@ -319,7 +319,7 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblViewMouseEntered
 
     private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblUpdateMouseEntered
 
     private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
@@ -331,7 +331,7 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblViewMouseExited
 
     private void lblUpdateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblUpdateMouseExited
 
     private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited

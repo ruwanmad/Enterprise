@@ -7,9 +7,9 @@ package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
-import com.servicemaster.entities.Printer;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.internalFrames.PrinterFrame;
+import com.servicemaster.models.Printer;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 

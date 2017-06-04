@@ -7,9 +7,9 @@ package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
-import com.servicemaster.entities.Module;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.models.Module;
 import com.servicemaster.utils.HibernateUtil;
 import java.util.Date;
 import java.util.List;

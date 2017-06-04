@@ -23,10 +23,11 @@ DROP TABLE IF EXISTS `address`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `address` (
-  `address_id` int(11) NOT NULL AUTO_INCREMENT,
+  `address_code` varchar(15) NOT NULL,
   `adress_line_1` varchar(100) DEFAULT NULL,
   `adress_line_2` varchar(100) DEFAULT NULL,
   `adress_line_3` varchar(100) DEFAULT NULL,
+  `isActive` int(11) DEFAULT NULL,
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
   `created_user` int(11) DEFAULT NULL,
@@ -34,8 +35,8 @@ CREATE TABLE `address` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   `remarks` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`address_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`address_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,80 +49,6 @@ LOCK TABLES `address` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `billing`
---
-
-DROP TABLE IF EXISTS `billing`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `billing` (
-  `billing_id` int(11) NOT NULL,
-  `net_amount` float DEFAULT NULL,
-  `discount` float DEFAULT NULL,
-  `created_date` date DEFAULT NULL,
-  `created_time` time DEFAULT NULL,
-  `created_user` int(11) DEFAULT NULL,
-  `modified_date` date DEFAULT NULL,
-  `modified_time` time DEFAULT NULL,
-  `modified_user` int(11) DEFAULT NULL,
-  `business_partner_business_partner_id` int(11) NOT NULL,
-  `service_service_id` int(11) NOT NULL,
-  PRIMARY KEY (`billing_id`),
-  KEY `fk_billing_business_partner1_idx` (`business_partner_business_partner_id`),
-  KEY `fk_billing_service1_idx` (`service_service_id`),
-  CONSTRAINT `fk_billing_business_partner1` FOREIGN KEY (`business_partner_business_partner_id`) REFERENCES `business_partner` (`business_partner_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_billing_service1` FOREIGN KEY (`service_service_id`) REFERENCES `service` (`service_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `billing`
---
-
-LOCK TABLES `billing` WRITE;
-/*!40000 ALTER TABLE `billing` DISABLE KEYS */;
-/*!40000 ALTER TABLE `billing` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `billing_line`
---
-
-DROP TABLE IF EXISTS `billing_line`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `billing_line` (
-  `billing_line_id` int(11) NOT NULL,
-  `discount` float DEFAULT NULL,
-  `tax1` float DEFAULT NULL,
-  `tax2` float DEFAULT NULL,
-  `tax3` float DEFAULT NULL,
-  `tax4` float DEFAULT NULL,
-  `tax5` float DEFAULT NULL,
-  `created_date` date DEFAULT NULL,
-  `created_time` time DEFAULT NULL,
-  `created_user` int(11) DEFAULT NULL,
-  `modified_date` date DEFAULT NULL,
-  `modified_time` time DEFAULT NULL,
-  `modified_user` int(11) DEFAULT NULL,
-  `remark` varchar(100) DEFAULT NULL,
-  `billing_billing_id` int(11) NOT NULL,
-  PRIMARY KEY (`billing_line_id`),
-  KEY `fk_billing_line_billing1_idx` (`billing_billing_id`),
-  CONSTRAINT `fk_billing_line_billing1` FOREIGN KEY (`billing_billing_id`) REFERENCES `billing` (`billing_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `billing_line`
---
-
-LOCK TABLES `billing_line` WRITE;
-/*!40000 ALTER TABLE `billing_line` DISABLE KEYS */;
-/*!40000 ALTER TABLE `billing_line` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `business_address`
 --
 
@@ -129,12 +56,12 @@ DROP TABLE IF EXISTS `business_address`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `business_address` (
-  `business_partner_business_partner_id` int(11) NOT NULL,
-  `address_address_id` int(11) NOT NULL,
-  KEY `fk_business_address_business_partner1_idx` (`business_partner_business_partner_id`),
-  KEY `fk_business_address_address1_idx` (`address_address_id`),
-  CONSTRAINT `fk_business_address_address1` FOREIGN KEY (`address_address_id`) REFERENCES `address` (`address_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_business_address_business_partner1` FOREIGN KEY (`business_partner_business_partner_id`) REFERENCES `business_partner` (`business_partner_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `address_address_code` varchar(15) NOT NULL,
+  `business_partner_business_partner_code` varchar(15) NOT NULL,
+  KEY `fk_business_address_address1_idx` (`address_address_code`),
+  KEY `fk_business_address_business_partner1_idx` (`business_partner_business_partner_code`),
+  CONSTRAINT `fk_business_address_address1` FOREIGN KEY (`address_address_code`) REFERENCES `address` (`address_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_business_address_business_partner1` FOREIGN KEY (`business_partner_business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -155,7 +82,7 @@ DROP TABLE IF EXISTS `business_partner`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `business_partner` (
-  `business_partner_id` int(11) NOT NULL AUTO_INCREMENT,
+  `business_partner_code` varchar(15) NOT NULL,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) DEFAULT NULL,
   `nic` varchar(45) DEFAULT NULL,
@@ -171,8 +98,8 @@ CREATE TABLE `business_partner` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   `remarks` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`business_partner_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`business_partner_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +108,7 @@ CREATE TABLE `business_partner` (
 
 LOCK TABLES `business_partner` WRITE;
 /*!40000 ALTER TABLE `business_partner` DISABLE KEYS */;
-INSERT INTO `business_partner` VALUES (1,'System','Administrator','','1900-01-01',1,1,1,1,'2017-05-01','08:00:00',1,'1900-01-01','12:00:00',1,'System administrator');
+INSERT INTO `business_partner` VALUES ('BPT1000','System','Administrator','','1900-01-01',1,1,1,1,'2017-05-01','08:00:00',1,'1900-01-01','12:00:00',1,'System administrator');
 /*!40000 ALTER TABLE `business_partner` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,12 +120,12 @@ DROP TABLE IF EXISTS `business_telephone`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `business_telephone` (
-  `telephone_number_telephone_number_id` int(11) NOT NULL,
-  `business_partner_business_partner_id` int(11) NOT NULL,
-  KEY `fk_business_telephone_telephone_number1_idx` (`telephone_number_telephone_number_id`),
-  KEY `fk_business_telephone_business_partner1_idx` (`business_partner_business_partner_id`),
-  CONSTRAINT `fk_business_telephone_business_partner1` FOREIGN KEY (`business_partner_business_partner_id`) REFERENCES `business_partner` (`business_partner_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_business_telephone_telephone_number1` FOREIGN KEY (`telephone_number_telephone_number_id`) REFERENCES `telephone_number` (`telephone_number_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `telephone_number_telephone_number_code` varchar(15) NOT NULL,
+  `business_partner_business_partner_code` varchar(15) NOT NULL,
+  KEY `fk_business_telephone_telephone_number1_idx` (`telephone_number_telephone_number_code`),
+  KEY `fk_business_telephone_business_partner1_idx` (`business_partner_business_partner_code`),
+  CONSTRAINT `fk_business_telephone_business_partner1` FOREIGN KEY (`business_partner_business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_business_telephone_telephone_number1` FOREIGN KEY (`telephone_number_telephone_number_code`) REFERENCES `telephone_number` (`telephone_number_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -239,7 +166,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES ('CAT1000','FOOD',1,'2017-06-03','12:21:08',1,NULL,NULL,NULL,'FOOD');
+INSERT INTO `category` VALUES ('CAT1000','LUBRICANTS',1,'2017-06-04','13:42:28',1,NULL,NULL,NULL,'LUBRICANTS');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,10 +178,10 @@ DROP TABLE IF EXISTS `grn`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `grn` (
-  `grn_id` int(11) NOT NULL,
-  `grn_number` varchar(15) DEFAULT NULL,
-  `grn_date` date DEFAULT NULL,
+  `grn_code` varchar(15) NOT NULL,
+  `grn_number` varchar(15) NOT NULL,
   `grn_time` time DEFAULT NULL,
+  `grn_date` date DEFAULT NULL,
   `handed_over_by` varchar(45) DEFAULT NULL,
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
@@ -263,7 +190,7 @@ CREATE TABLE `grn` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   `remark` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`grn_id`)
+  PRIMARY KEY (`grn_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -284,7 +211,7 @@ DROP TABLE IF EXISTS `grn_line`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `grn_line` (
-  `grn_line_id` int(11) NOT NULL,
+  `grn_line_code` varchar(15) NOT NULL,
   `unit_price` float DEFAULT NULL,
   `received_quantity` float DEFAULT NULL,
   `total_price` float DEFAULT NULL,
@@ -299,10 +226,11 @@ CREATE TABLE `grn_line` (
   `remark` varchar(100) DEFAULT NULL,
   `grn_grn_id` int(11) NOT NULL,
   `item_item_code` varchar(15) NOT NULL,
-  PRIMARY KEY (`grn_line_id`),
-  KEY `fk_grn_line_grn1_idx` (`grn_grn_id`),
+  `grn_grn_code` varchar(15) NOT NULL,
+  PRIMARY KEY (`grn_line_code`),
   KEY `fk_grn_line_item1_idx` (`item_item_code`),
-  CONSTRAINT `fk_grn_line_grn1` FOREIGN KEY (`grn_grn_id`) REFERENCES `grn` (`grn_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `fk_grn_line_grn1_idx` (`grn_grn_code`),
+  CONSTRAINT `fk_grn_line_grn1` FOREIGN KEY (`grn_grn_code`) REFERENCES `grn` (`grn_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_grn_line_item1` FOREIGN KEY (`item_item_code`) REFERENCES `item` (`item_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -314,6 +242,78 @@ CREATE TABLE `grn_line` (
 LOCK TABLES `grn_line` WRITE;
 /*!40000 ALTER TABLE `grn_line` DISABLE KEYS */;
 /*!40000 ALTER TABLE `grn_line` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `invoice`
+--
+
+DROP TABLE IF EXISTS `invoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `invoice` (
+  `invoice_number` varchar(15) NOT NULL,
+  `net_amount` float DEFAULT NULL,
+  `discount` float DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL,
+  `modified_time` time DEFAULT NULL,
+  `modified_user` int(11) DEFAULT NULL,
+  `service_service_id` int(11) NOT NULL,
+  `service_service_code` varchar(15) NOT NULL,
+  PRIMARY KEY (`invoice_number`),
+  KEY `fk_invoice_service1_idx` (`service_service_code`),
+  CONSTRAINT `fk_invoice_service1` FOREIGN KEY (`service_service_code`) REFERENCES `service` (`service_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `invoice`
+--
+
+LOCK TABLES `invoice` WRITE;
+/*!40000 ALTER TABLE `invoice` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `invoice_line`
+--
+
+DROP TABLE IF EXISTS `invoice_line`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `invoice_line` (
+  `invoice_line_code` varchar(10) NOT NULL,
+  `discount` float DEFAULT NULL,
+  `tax1` float DEFAULT NULL,
+  `tax2` float DEFAULT NULL,
+  `tax3` float DEFAULT NULL,
+  `tax4` float DEFAULT NULL,
+  `tax5` float DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL,
+  `modified_time` time DEFAULT NULL,
+  `modified_user` int(11) DEFAULT NULL,
+  `remark` varchar(100) DEFAULT NULL,
+  `invoice_invoice_number` varchar(10) NOT NULL,
+  PRIMARY KEY (`invoice_line_code`),
+  KEY `fk_invoice_line_invoice1_idx` (`invoice_invoice_number`),
+  CONSTRAINT `fk_invoice_line_invoice1` FOREIGN KEY (`invoice_invoice_number`) REFERENCES `invoice` (`invoice_number`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `invoice_line`
+--
+
+LOCK TABLES `invoice_line` WRITE;
+/*!40000 ALTER TABLE `invoice_line` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invoice_line` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -379,7 +379,7 @@ CREATE TABLE `key_table` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   PRIMARY KEY (`key_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -388,7 +388,7 @@ CREATE TABLE `key_table` (
 
 LOCK TABLES `key_table` WRITE;
 /*!40000 ALTER TABLE `key_table` DISABLE KEYS */;
-INSERT INTO `key_table` VALUES (1,'CAT',1001,'Category','2017-06-03','12:21:08',1,NULL,NULL,NULL),(2,'PRN',1001,'Printers','2017-06-03','12:21:39',1,NULL,NULL,NULL),(4,'SUB',1001,'Sub Category','2017-06-03','12:26:43',1,NULL,NULL,NULL),(5,'LOC',1001,'Location','2017-06-03','21:29:05',1,NULL,NULL,NULL);
+INSERT INTO `key_table` VALUES (1,'STO',1001,'Storage','2017-06-04','13:40:14',1,NULL,NULL,NULL),(2,'RAC',1001,'Rack','2017-06-04','13:40:33',1,NULL,NULL,NULL),(3,'SLT',1001,'Rack slot','2017-06-04','13:40:51',1,NULL,NULL,NULL),(4,'LOC',1001,'Location','2017-06-04','13:41:10',1,NULL,NULL,NULL),(5,'PRN',1001,'Printers','2017-06-04','13:41:35',1,NULL,NULL,NULL),(6,'CAT',1001,'Category','2017-06-04','13:42:28',1,NULL,NULL,NULL),(7,'SCT',1001,'Sub category type','2017-06-04','13:42:44',1,NULL,NULL,NULL),(8,'SUB',1001,'Sub Category','2017-06-04','13:43:14',1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `key_table` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -405,6 +405,7 @@ CREATE TABLE `module` (
   `module_name` varchar(45) DEFAULT NULL,
   `icon_name` varchar(45) DEFAULT NULL,
   `isShortcut_added` int(11) DEFAULT '0',
+  `isActive` int(11) DEFAULT NULL,
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
   `created_user` int(11) DEFAULT NULL,
@@ -422,8 +423,75 @@ CREATE TABLE `module` (
 
 LOCK TABLES `module` WRITE;
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
-INSERT INTO `module` VALUES (1,'1','Users','users.png',0,'2016-01-01','12:00:00',1,'2017-06-03','21:27:44',1,'Users module'),(2,'2','User Privilages','up.png',0,'2016-01-01','12:00:00',1,'2017-06-03','21:27:44',1,'User privilages module'),(3,'3','Storage','storage.png',0,'2016-01-01','12:00:00',1,'2017-06-03','21:27:44',1,'Storage module'),(4,'4','Storage Racks','racks.png',0,'2016-01-01','12:00:00',1,'2017-06-03','21:27:44',1,'Storage Racks module'),(5,'5','Rack Slots','slots.png',0,'2016-01-01','12:00:00',1,'2017-06-03','21:27:44',1,'Rack Slots module'),(6,'6','Locations','locations.png',0,'2016-01-01','12:00:00',1,'2017-06-03','21:27:44',1,'Locations module'),(7,'7','Category','category.png',1,'2016-01-01','12:00:00',1,'2017-06-03','21:27:44',1,'Category module'),(8,'8','Sub Category','sc.png',1,'2016-01-01','12:00:00',1,'2017-06-03','21:27:44',1,'Sub category module'),(9,'9','Items','items.png',0,'2016-01-01','12:00:00',1,'2017-06-03','21:27:44',1,'Items module'),(10,'10','Business Partner','bp.png',0,'2016-01-01','12:00:00',1,'2017-06-03','21:27:44',1,'Business partner module'),(11,'11','Printers','printers.png',0,'2016-01-01','12:00:00',1,'2017-06-03','21:27:44',1,'Printers module'),(12,'12','Add Shortcuts','as.png',0,'2016-01-01','12:00:00',1,'2017-06-03','21:27:44',1,'Add Shortcuts module');
+INSERT INTO `module` VALUES (1,'1','Users','users.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Users module'),(2,'2','User Privilages','up.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'User privilages module'),(3,'3','Storage','storage.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Storage module'),(4,'4','Storage Racks','racks.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Storage Racks module'),(5,'5','Rack Slots','slots.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Rack Slots module'),(6,'6','Locations','locations.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Locations module'),(7,'7','Category','category.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Category module'),(8,'8','Sub Category Type','sct.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Sub category type module'),(9,'9','Sub Category','sc.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Sub category module'),(10,'10','Items','items.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Items module'),(11,'11','Business Partner','bp.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Business partner module'),(12,'12','Printers','printers.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Printers module'),(13,'13','Vehivle Type','vt.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Vehivle Type module'),(14,'14','Vehivles','vehivles.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Vehivles module'),(15,'15','Add Shortcuts','as.png',0,1,'2016-01-01','12:00:00',1,'2017-06-03','00:34:32',1,'Add Shortcuts module');
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payment`
+--
+
+DROP TABLE IF EXISTS `payment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `payment` (
+  `payment_code` varchar(15) NOT NULL,
+  `amount` float DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL,
+  `modified_time` time DEFAULT NULL,
+  `modified_user` int(11) DEFAULT NULL,
+  `remark` varchar(150) DEFAULT NULL,
+  `payment_type_payment_type_code` varchar(15) NOT NULL,
+  `invoice_invoice_number` varchar(15) NOT NULL,
+  PRIMARY KEY (`payment_code`),
+  KEY `fk_payment_payment_type1_idx` (`payment_type_payment_type_code`),
+  KEY `fk_payment_invoice1_idx` (`invoice_invoice_number`),
+  CONSTRAINT `fk_payment_invoice1` FOREIGN KEY (`invoice_invoice_number`) REFERENCES `invoice` (`invoice_number`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_payment_payment_type1` FOREIGN KEY (`payment_type_payment_type_code`) REFERENCES `payment_type` (`payment_type_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payment`
+--
+
+LOCK TABLES `payment` WRITE;
+/*!40000 ALTER TABLE `payment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payment_type`
+--
+
+DROP TABLE IF EXISTS `payment_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `payment_type` (
+  `payment_type_code` varchar(15) NOT NULL,
+  `payment_type_name` varchar(45) DEFAULT NULL,
+  `isActive` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL,
+  `modified_time` time DEFAULT NULL,
+  `modified_user` int(11) DEFAULT NULL,
+  `remark` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`payment_type_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payment_type`
+--
+
+LOCK TABLES `payment_type` WRITE;
+/*!40000 ALTER TABLE `payment_type` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payment_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -434,7 +502,7 @@ DROP TABLE IF EXISTS `printer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `printer` (
-  `printer_code` varchar(10) NOT NULL,
+  `printer_code` varchar(15) NOT NULL,
   `printer_name` varchar(50) NOT NULL,
   `isActive` int(11) DEFAULT '1',
   `created_date` date DEFAULT NULL,
@@ -454,7 +522,7 @@ CREATE TABLE `printer` (
 
 LOCK TABLES `printer` WRITE;
 /*!40000 ALTER TABLE `printer` DISABLE KEYS */;
-INSERT INTO `printer` VALUES ('PRN1000','KOT',1,'2017-06-03','12:21:39',1,NULL,NULL,NULL,'KITCHEN PRINTER');
+INSERT INTO `printer` VALUES ('PRN1000','STORE PRINTER',1,'2017-06-04','13:41:35',1,NULL,NULL,NULL,'STORE PRINTER');
 /*!40000 ALTER TABLE `printer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -466,7 +534,7 @@ DROP TABLE IF EXISTS `rack`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rack` (
-  `rack_code` varchar(10) NOT NULL,
+  `rack_code` varchar(15) NOT NULL,
   `rack_name` varchar(45) DEFAULT NULL,
   `isActive` int(11) DEFAULT NULL,
   `created_date` date DEFAULT NULL,
@@ -489,6 +557,7 @@ CREATE TABLE `rack` (
 
 LOCK TABLES `rack` WRITE;
 /*!40000 ALTER TABLE `rack` DISABLE KEYS */;
+INSERT INTO `rack` VALUES ('RAC1000','RACK 1',1,'2017-06-04','13:40:33',1,NULL,NULL,NULL,'RACK 1','STO1000');
 /*!40000 ALTER TABLE `rack` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -500,7 +569,7 @@ DROP TABLE IF EXISTS `rack_slot`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rack_slot` (
-  `rack_slot_code` varchar(10) NOT NULL,
+  `rack_slot_code` varchar(15) NOT NULL,
   `rack_slot_name` varchar(45) DEFAULT NULL,
   `isActive` int(11) DEFAULT NULL,
   `created_date` date DEFAULT NULL,
@@ -523,6 +592,7 @@ CREATE TABLE `rack_slot` (
 
 LOCK TABLES `rack_slot` WRITE;
 /*!40000 ALTER TABLE `rack_slot` DISABLE KEYS */;
+INSERT INTO `rack_slot` VALUES ('SLT1000','SLOT 1',1,'2017-06-04','13:40:51',1,NULL,NULL,NULL,'SLOT 1','RAC1000');
 /*!40000 ALTER TABLE `rack_slot` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -534,7 +604,6 @@ DROP TABLE IF EXISTS `service`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `service` (
-  `service_id` int(11) NOT NULL,
   `service_code` varchar(15) NOT NULL,
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
@@ -543,13 +612,13 @@ CREATE TABLE `service` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   `servicecol` varchar(45) DEFAULT NULL,
-  `vehicle_vehicle_id` int(11) NOT NULL,
   `service_bay_service_bay_code` varchar(15) NOT NULL,
-  PRIMARY KEY (`service_id`),
-  KEY `fk_service_vehicle1_idx` (`vehicle_vehicle_id`),
+  `vehicle_vehicle_number` varchar(15) NOT NULL,
+  PRIMARY KEY (`service_code`),
   KEY `fk_service_service_bay1_idx` (`service_bay_service_bay_code`),
+  KEY `fk_service_vehicle1_idx` (`vehicle_vehicle_number`),
   CONSTRAINT `fk_service_service_bay1` FOREIGN KEY (`service_bay_service_bay_code`) REFERENCES `service_bay` (`service_bay_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_service_vehicle1` FOREIGN KEY (`vehicle_vehicle_id`) REFERENCES `vehicle` (`vehicle_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_service_vehicle1` FOREIGN KEY (`vehicle_vehicle_number`) REFERENCES `vehicle` (`vehicle_number`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -590,7 +659,7 @@ CREATE TABLE `service_bay` (
 
 LOCK TABLES `service_bay` WRITE;
 /*!40000 ALTER TABLE `service_bay` DISABLE KEYS */;
-INSERT INTO `service_bay` VALUES ('LOC1000','SERVICE BAY 1',1,'2017-06-03','21:29:05',1,NULL,NULL,NULL,'SERVICE BAY 1');
+INSERT INTO `service_bay` VALUES ('LOC1000','SERVICE BAY 1',1,'2017-06-04','13:41:10',1,NULL,NULL,NULL,'SERVICE BAY 1');
 /*!40000 ALTER TABLE `service_bay` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -602,12 +671,12 @@ DROP TABLE IF EXISTS `service_item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `service_item` (
-  `service_service_id` int(11) NOT NULL,
   `item_item_code` varchar(15) NOT NULL,
-  KEY `fk_service_item_service1_idx` (`service_service_id`),
+  `service_service_code` varchar(15) NOT NULL,
   KEY `fk_service_item_item1_idx` (`item_item_code`),
+  KEY `fk_service_item_service1_idx` (`service_service_code`),
   CONSTRAINT `fk_service_item_item1` FOREIGN KEY (`item_item_code`) REFERENCES `item` (`item_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_service_item_service1` FOREIGN KEY (`service_service_id`) REFERENCES `service` (`service_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_service_item_service1` FOREIGN KEY (`service_service_code`) REFERENCES `service` (`service_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -648,6 +717,7 @@ CREATE TABLE `storage` (
 
 LOCK TABLES `storage` WRITE;
 /*!40000 ALTER TABLE `storage` DISABLE KEYS */;
+INSERT INTO `storage` VALUES ('STO1000','MAIN STORE',1,'2017-06-04','13:40:14',1,NULL,NULL,NULL,'MAIN STORE');
 /*!40000 ALTER TABLE `storage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -670,12 +740,12 @@ CREATE TABLE `sub_category` (
   `modified_user` int(11) DEFAULT NULL,
   `remarks` varchar(100) DEFAULT NULL,
   `category_category_code` varchar(15) NOT NULL,
-  `sub_category_type_sub_category_type_code` varchar(10) NOT NULL,
   `printer_printer_code` varchar(10) NOT NULL,
+  `sub_category_type_sub_category_type_code` varchar(15) NOT NULL,
   PRIMARY KEY (`sub_category_code`),
   KEY `fk_sub_category_category1_idx` (`category_category_code`),
-  KEY `fk_sub_category_sub_category_type1_idx` (`sub_category_type_sub_category_type_code`),
   KEY `fk_sub_category_printer1_idx` (`printer_printer_code`),
+  KEY `fk_sub_category_sub_category_type1_idx` (`sub_category_type_sub_category_type_code`),
   CONSTRAINT `fk_sub_category_category1` FOREIGN KEY (`category_category_code`) REFERENCES `category` (`category_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_sub_category_printer1` FOREIGN KEY (`printer_printer_code`) REFERENCES `printer` (`printer_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_sub_category_sub_category_type1` FOREIGN KEY (`sub_category_type_sub_category_type_code`) REFERENCES `sub_category_type` (`sub_category_type_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -688,7 +758,7 @@ CREATE TABLE `sub_category` (
 
 LOCK TABLES `sub_category` WRITE;
 /*!40000 ALTER TABLE `sub_category` DISABLE KEYS */;
-INSERT INTO `sub_category` VALUES ('SUB1000','RICE',1,'2017-06-03','12:26:43',1,NULL,NULL,NULL,'ROW RICE','CAT1000','TYP1000','PRN1000');
+INSERT INTO `sub_category` VALUES ('SUB1000','BREACK OIL',1,'2017-06-04','13:43:14',1,NULL,NULL,NULL,'BREACK OIL','CAT1000','PRN1000','SCT1000');
 /*!40000 ALTER TABLE `sub_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -700,12 +770,13 @@ DROP TABLE IF EXISTS `sub_category_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sub_category_type` (
-  `sub_category_type_code` varchar(10) NOT NULL,
+  `sub_category_type_code` varchar(15) NOT NULL,
   `sub_category_type_name` varchar(45) DEFAULT NULL,
+  `isActive` int(11) DEFAULT NULL,
   `remark` varchar(45) DEFAULT NULL,
-  `create_date` date DEFAULT NULL,
-  `create_time` time DEFAULT NULL,
-  `create_user` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
   `modified_date` date DEFAULT NULL,
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
@@ -719,7 +790,7 @@ CREATE TABLE `sub_category_type` (
 
 LOCK TABLES `sub_category_type` WRITE;
 /*!40000 ALTER TABLE `sub_category_type` DISABLE KEYS */;
-INSERT INTO `sub_category_type` VALUES ('TYP1000','STOCK','Stock items','2016-05-30','12:00:00',1,'1900-01-01','12:00:00',1),('TYP1001','SELL','Selling items','2016-05-30','12:00:00',1,'1900-01-01','12:00:00',1),('TYP1002','BOTH','Stock and selling items','2016-05-30','12:00:00',1,'1900-01-01','12:00:00',1);
+INSERT INTO `sub_category_type` VALUES ('SCT1000','SELL',1,'SELL','2017-06-04','13:42:44',1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sub_category_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -731,8 +802,9 @@ DROP TABLE IF EXISTS `telephone_number`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `telephone_number` (
-  `telephone_number_id` int(11) NOT NULL AUTO_INCREMENT,
+  `telephone_number_code` varchar(15) NOT NULL,
   `telephone_number` varchar(15) DEFAULT NULL,
+  `isActive` int(11) DEFAULT NULL,
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
   `created_user` int(11) DEFAULT NULL,
@@ -740,8 +812,8 @@ CREATE TABLE `telephone_number` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   `remarks` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`telephone_number_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`telephone_number_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -774,11 +846,11 @@ CREATE TABLE `user` (
   `midified_user` int(11) DEFAULT NULL,
   `remarks` varchar(100) DEFAULT NULL,
   `user_privilage_privilage_id` int(11) NOT NULL,
-  `business_partner_business_partner_id` int(11) NOT NULL,
+  `business_partner_business_partner_code` varchar(15) NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `fk_user_user_privilage1_idx` (`user_privilage_privilage_id`),
-  KEY `fk_user_business_partner1_idx` (`business_partner_business_partner_id`),
-  CONSTRAINT `fk_user_business_partner1` FOREIGN KEY (`business_partner_business_partner_id`) REFERENCES `business_partner` (`business_partner_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `fk_user_business_partner1_idx` (`business_partner_business_partner_code`),
+  CONSTRAINT `fk_user_business_partner1` FOREIGN KEY (`business_partner_business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_user_privilage1` FOREIGN KEY (`user_privilage_privilage_id`) REFERENCES `user_privilage` (`privilage_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -789,7 +861,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','admin@123',1,1,'2017-05-01','08:00:00',1,'1900-01-01','12:00:00',1,'System admin',1,1);
+INSERT INTO `user` VALUES (1,'admin','admin@123',1,1,'2017-05-01','08:00:00',1,'1900-01-01','12:00:00',1,'System admin',1,'BPT1000');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -820,7 +892,7 @@ CREATE TABLE `user_privilage` (
 
 LOCK TABLES `user_privilage` WRITE;
 /*!40000 ALTER TABLE `user_privilage` DISABLE KEYS */;
-INSERT INTO `user_privilage` VALUES (1,'1,2,3,4,5,11,12,13,14,15,21,22,23,24,25,31,32,33,34,35,41,42,43,44,45,51,52,53,54,55,111,112,113,114,115,116,117,118','2017-05-01','08:00:00',1,'1900-01-01','12:00:00',1,'System admin role');
+INSERT INTO `user_privilage` VALUES (1,'1,2,3,4,5,11,12,13,14,15,21,22,23,24,25,31,32,33,34,35,41,42,43,44,45,51,52,53,54,55,111,112,113,114,115,116,117,118,119,1110,1111,1112,1113,1114,1115','2017-05-01','08:00:00',1,'1900-01-01','12:00:00',1,'System admin role');
 /*!40000 ALTER TABLE `user_privilage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -832,11 +904,9 @@ DROP TABLE IF EXISTS `vehicle`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `vehicle` (
-  `vehicle_id` int(11) NOT NULL,
-  `vehicle_number` varchar(15) DEFAULT NULL,
+  `vehicle_number` varchar(15) NOT NULL,
   `manufacturered_year` varchar(10) DEFAULT NULL,
   `vehicle_type` varchar(20) DEFAULT NULL,
-  `business_partner_business_partner_id` int(11) NOT NULL,
   `isActive` int(11) DEFAULT '1',
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
@@ -845,9 +915,13 @@ CREATE TABLE `vehicle` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`vehicle_id`),
-  KEY `fk_vehicle_business_partner1_idx` (`business_partner_business_partner_id`),
-  CONSTRAINT `fk_vehicle_business_partner1` FOREIGN KEY (`business_partner_business_partner_id`) REFERENCES `business_partner` (`business_partner_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `business_partner_business_partner_code` varchar(15) NOT NULL,
+  `vehicle_type_vehicle_type_code` varchar(15) NOT NULL,
+  PRIMARY KEY (`vehicle_number`),
+  KEY `fk_vehicle_business_partner1_idx` (`business_partner_business_partner_code`),
+  KEY `fk_vehicle_vehicle_type1_idx` (`vehicle_type_vehicle_type_code`),
+  CONSTRAINT `fk_vehicle_business_partner1` FOREIGN KEY (`business_partner_business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_vehicle_vehicle_type1` FOREIGN KEY (`vehicle_type_vehicle_type_code`) REFERENCES `vehicle_type` (`vehicle_type_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -858,6 +932,37 @@ CREATE TABLE `vehicle` (
 LOCK TABLES `vehicle` WRITE;
 /*!40000 ALTER TABLE `vehicle` DISABLE KEYS */;
 /*!40000 ALTER TABLE `vehicle` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vehicle_type`
+--
+
+DROP TABLE IF EXISTS `vehicle_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vehicle_type` (
+  `vehicle_type_code` varchar(15) NOT NULL,
+  `vehicle_type_name` varchar(45) DEFAULT NULL,
+  `isActive` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL,
+  `modified_time` time DEFAULT NULL,
+  `modified_user` int(11) DEFAULT NULL,
+  `remark` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`vehicle_type_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vehicle_type`
+--
+
+LOCK TABLES `vehicle_type` WRITE;
+/*!40000 ALTER TABLE `vehicle_type` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vehicle_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -873,4 +978,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-03 21:37:44
+-- Dump completed on 2017-06-04 13:44:50

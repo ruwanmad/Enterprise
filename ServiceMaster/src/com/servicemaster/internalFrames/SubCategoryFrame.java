@@ -8,13 +8,13 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.entities.Category;
-import com.servicemaster.entities.KeyTable;
-import com.servicemaster.entities.Printer;
-import com.servicemaster.entities.SubCategory;
-import com.servicemaster.entities.SubCategoryType;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.models.Category;
+import com.servicemaster.models.KeyTable;
+import com.servicemaster.models.Printer;
+import com.servicemaster.models.SubCategory;
+import com.servicemaster.models.SubCategoryType;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.SubCategoryView;
 import java.util.Date;
@@ -599,7 +599,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     }
 
     private void createNewSubCategory(String subCategoryName, String remark, boolean isActivated,
-            com.servicemaster.entities.Category category, SubCategoryType type, Printer printer) {
+            Category category, SubCategoryType type, Printer printer) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         String catCode;

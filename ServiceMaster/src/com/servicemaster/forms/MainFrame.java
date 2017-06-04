@@ -8,10 +8,9 @@ package com.servicemaster.forms;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.entities.Module;
-import com.servicemaster.entities.User;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.internalFrames.CategoryFrame;
+import com.servicemaster.internalFrames.ItemFrame;
 import com.servicemaster.internalFrames.LocationFrame;
 import com.servicemaster.internalFrames.PrinterFrame;
 import com.servicemaster.internalFrames.RackSlotFrame;
@@ -19,6 +18,9 @@ import com.servicemaster.internalFrames.RacksFrame;
 import com.servicemaster.internalFrames.ShortCutsFrame;
 import com.servicemaster.internalFrames.StorageFrame;
 import com.servicemaster.internalFrames.SubCategoryFrame;
+import com.servicemaster.internalFrames.SubCategoryTypeFrame;
+import com.servicemaster.models.Module;
+import com.servicemaster.models.User;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -96,12 +98,18 @@ public class MainFrame extends javax.swing.JFrame {
         miStorage = new javax.swing.JMenuItem();
         miStorageRacks = new javax.swing.JMenuItem();
         miRackSlots = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         miLocations = new javax.swing.JMenuItem();
         miPrinters = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         miCategory = new javax.swing.JMenuItem();
+        miSubCategoryType = new javax.swing.JMenuItem();
         miSubCategory = new javax.swing.JMenuItem();
         miItems = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         miBusinessPartner = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        miVehileType = new javax.swing.JMenuItem();
         miVehicles = new javax.swing.JMenuItem();
         js1 = new javax.swing.JPopupMenu.Separator();
         miUsers = new javax.swing.JMenuItem();
@@ -188,6 +196,7 @@ public class MainFrame extends javax.swing.JFrame {
         mStorage.add(miRackSlots);
 
         mMasterFiles.add(mStorage);
+        mMasterFiles.add(jSeparator1);
 
         miLocations.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miLocations.setText("Locations");
@@ -208,6 +217,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         mMasterFiles.add(miPrinters);
+        mMasterFiles.add(jSeparator2);
 
         miCategory.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miCategory.setText("Category");
@@ -218,6 +228,16 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         mMasterFiles.add(miCategory);
+
+        miSubCategoryType.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        miSubCategoryType.setText("Sub Category Type");
+        miSubCategoryType.setEnabled(false);
+        miSubCategoryType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSubCategoryTypeActionPerformed(evt);
+            }
+        });
+        mMasterFiles.add(miSubCategoryType);
 
         miSubCategory.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miSubCategory.setText("Sub Category");
@@ -233,11 +253,18 @@ public class MainFrame extends javax.swing.JFrame {
         miItems.setText("Items");
         miItems.setEnabled(false);
         mMasterFiles.add(miItems);
+        mMasterFiles.add(jSeparator3);
 
         miBusinessPartner.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miBusinessPartner.setText("Business Partner");
         miBusinessPartner.setEnabled(false);
         mMasterFiles.add(miBusinessPartner);
+        mMasterFiles.add(jSeparator4);
+
+        miVehileType.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        miVehileType.setText("Vehicle Type");
+        miVehileType.setEnabled(false);
+        mMasterFiles.add(miVehileType);
 
         miVehicles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miVehicles.setText("Vehicles");
@@ -431,6 +458,10 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miPrintersActionPerformed
 
+    private void miSubCategoryTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSubCategoryTypeActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miSubCategoryTypeActionPerformed
+
     private void exitApllication() {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -468,23 +499,31 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }
             case "8": {
-                internalFrame = new SubCategoryFrame();
+                internalFrame = new SubCategoryTypeFrame();
                 break;
             }
             case "9": {
+                internalFrame = new SubCategoryFrame();
                 break;
             }
             case "10": {
+                internalFrame = new ItemFrame();
                 break;
             }
             case "11": {
-                internalFrame = new PrinterFrame();
                 break;
             }
             case "12": {
+                internalFrame = new PrinterFrame();
                 break;
             }
             case "13": {
+                break;
+            }
+            case "14": {
+                break;
+            }
+            case "15": {
                 break;
             }
             default: {
@@ -529,6 +568,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator js1;
     private javax.swing.JPopupMenu.Separator js2;
     public javax.swing.JMenu mFile;
@@ -550,9 +593,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem miStorage;
     private javax.swing.JMenuItem miStorageRacks;
     public javax.swing.JMenuItem miSubCategory;
+    public javax.swing.JMenuItem miSubCategoryType;
     public javax.swing.JMenuItem miUserPrivilages;
     public javax.swing.JMenuItem miUsers;
     public javax.swing.JMenuItem miVehicles;
+    public javax.swing.JMenuItem miVehileType;
     public javax.swing.JPanel panelShortcuts;
     // End of variables declaration//GEN-END:variables
     public static final LinkedHashMap<String, String> allModuleMap = new LinkedHashMap<>();

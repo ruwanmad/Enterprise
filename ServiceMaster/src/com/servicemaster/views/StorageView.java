@@ -7,9 +7,9 @@ package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
-import com.servicemaster.entities.Storage;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.internalFrames.StorageFrame;
+import com.servicemaster.models.Storage;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 

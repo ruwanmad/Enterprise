@@ -7,11 +7,11 @@ package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
-import com.servicemaster.entities.Rack;
-import com.servicemaster.entities.RackSlot;
-import com.servicemaster.entities.Storage;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.internalFrames.RackSlotFrame;
+import com.servicemaster.models.Rack;
+import com.servicemaster.models.RackSlot;
+import com.servicemaster.models.Storage;
 import com.servicemaster.utils.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;

@@ -5,8 +5,8 @@
  */
 package com.servicemaster.functions;
 
-import com.servicemaster.entities.UserPrivilage;
 import com.servicemaster.forms.MainFrame;
+import com.servicemaster.models.UserPrivilage;
 
 /**
  *
@@ -177,39 +177,60 @@ public class EnableFeatures {
                 case "59": {
                     break;
                 }
-                case "111":{
+                case "111": {
                     mainFrame.mStorage.setEnabled(true);
                     break;
                 }
-                case "112":{
+                case "112": {
                     mainFrame.miLocations.setEnabled(true);
                     break;
                 }
-                case "113":{
-                    mainFrame.miCategory.setEnabled(true);
-                    break;
-                }
-                case "114":{
-                    mainFrame.miSubCategory.setEnabled(true);
-                    break;
-                }
-                case "115":{
-                    mainFrame.miItems.setEnabled(true);
-                    break;
-                }
-                case "116":{
-                    mainFrame.miBusinessPartner.setEnabled(true);
-                    break;
-                }
-                case "117":{
+                case "113": {
                     mainFrame.miPrinters.setEnabled(true);
                     break;
                 }
-                case "118":{
+                case "114": {
+                    mainFrame.miCategory.setEnabled(true);
+                    break;
+                }
+                case "115": {
+                    mainFrame.miSubCategoryType.setEnabled(true);
+                    break;
+                }
+                case "116": {
+                    mainFrame.miSubCategory.setEnabled(true);
+                    break;
+                }
+                case "117": {
+                    mainFrame.miItems.setEnabled(true);
+                    break;
+                }
+                case "118": {
+                    mainFrame.miBusinessPartner.setEnabled(true);
+                    break;
+                }
+                case "119": {
+                    mainFrame.miBusinessPartner.setEnabled(true);
+                    break;
+                }
+                case "1110": {
+                    mainFrame.miVehileType.setEnabled(true);
+                    break;
+                }
+                case "1111": {
                     mainFrame.miVehicles.setEnabled(true);
                     break;
                 }
-                case "119":{
+                case "1112": {
+                    break;
+                }
+                case "1113": {
+                    break;
+                }
+                case "1114": {
+                    break;
+                }
+                case "1115": {
                     break;
                 }
             }

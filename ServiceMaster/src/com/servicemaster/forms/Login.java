@@ -6,8 +6,6 @@
 package com.servicemaster.forms;
 
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.entities.User;
-import com.servicemaster.entities.UserPrivilage;
 import com.servicemaster.functions.EnableFeatures;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.utils.HibernateUtil;
@@ -17,6 +15,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import com.servicemaster.models.User;
+import com.servicemaster.models.UserPrivilage;
 
 /**
  *
