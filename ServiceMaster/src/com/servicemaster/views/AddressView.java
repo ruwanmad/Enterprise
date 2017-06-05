@@ -7,8 +7,10 @@ package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
+import com.servicemaster.forms.MainFrame;
 import com.servicemaster.guiFunctions.LableFunctions;
-import com.servicemaster.internalFrames.BusinessPatnerFrame;
+import com.servicemaster.internalFrames.AddressFrame;
+import com.servicemaster.internalFrames.BusinessPartnerFrame;
 import com.servicemaster.models.Address;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -20,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class AddressView extends javax.swing.JInternalFrame {
 
     private final List list;
-    private final BusinessPatnerFrame businessPatnerFrame;
+    private final BusinessPartnerFrame businessPatnerFrame;
 
     /**
      * Creates new form CategoryView
@@ -28,7 +30,7 @@ public class AddressView extends javax.swing.JInternalFrame {
      * @param list
      * @param businessPatnerFrame
      */
-    public AddressView(List<Address> list, BusinessPatnerFrame businessPatnerFrame) {
+    public AddressView(List<Address> list, BusinessPartnerFrame businessPatnerFrame) {
         initComponents();
         this.list = list;
         this.businessPatnerFrame = businessPatnerFrame;
@@ -47,6 +49,7 @@ public class AddressView extends javax.swing.JInternalFrame {
         addressTable = new javax.swing.JTable();
         lblSelect = new javax.swing.JLabel();
         lblClose = new javax.swing.JLabel();
+        lblAdd = new javax.swing.JLabel();
 
         setTitle("Category View");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -133,6 +136,24 @@ public class AddressView extends javax.swing.JInternalFrame {
             }
         });
 
+        lblAdd.setBackground(new java.awt.Color(150, 255, 150));
+        lblAdd.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblAdd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAdd.setText("Add");
+        lblAdd.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblAdd.setOpaque(true);
+        lblAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAddMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblAddMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblAddMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -140,22 +161,30 @@ public class AddressView extends javax.swing.JInternalFrame {
             .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblAdd, lblClose, lblSelect});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblAdd, lblClose, lblSelect});
 
         setBounds(0, 0, 500, 324);
     }// </editor-fold>//GEN-END:initComponents
@@ -207,6 +236,21 @@ public class AddressView extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCloseMouseExited
 
+    private void lblAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseClicked
+        AddressFrame addressFrame = new AddressFrame(businessPatnerFrame);
+        MainFrame.desktopPane.add(addressFrame);
+        addressFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblAddMouseClicked
+
+    private void lblAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblAddMouseEntered
+
+    private void lblAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblAddMouseExited
+
     private void selectAddress() {
         int selectedRow = addressTable.getSelectedRow();
         Address address = (Address) list.get(selectedRow);
@@ -218,6 +262,7 @@ public class AddressView extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable addressTable;
+    private javax.swing.JLabel lblAdd;
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblSelect;
     private javax.swing.JScrollPane scrollPane;

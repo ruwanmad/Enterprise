@@ -33,12 +33,12 @@ import org.hibernate.Session;
  *
  * @author RuwanM
  */
-public class BusinessPatnerFrame extends javax.swing.JInternalFrame {
+public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form BussinesPatnerFrame
      */
-    public BusinessPatnerFrame() {
+    public BusinessPartnerFrame() {
         initComponents();
     }
 

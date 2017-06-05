@@ -8,7 +8,7 @@ package com.servicemaster.views;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.guiFunctions.LableFunctions;
-import com.servicemaster.internalFrames.BusinessPatnerFrame;
+import com.servicemaster.internalFrames.BusinessPartnerFrame;
 import com.servicemaster.models.Address;
 import com.servicemaster.models.BusinessAddress;
 import com.servicemaster.models.BusinessPartner;
@@ -26,7 +26,7 @@ import org.hibernate.Hibernate;
 public class BusinessPatnerView extends javax.swing.JInternalFrame {
 
     private final List list;
-    private final BusinessPatnerFrame businessPartnerFrame;
+    private final BusinessPartnerFrame businessPartnerFrame;
 
     /**
      * Creates new form CategoryView
@@ -34,7 +34,7 @@ public class BusinessPatnerView extends javax.swing.JInternalFrame {
      * @param list
      * @param businessPatnerFrame
      */
-    public BusinessPatnerView(List<BusinessPartner> list, BusinessPatnerFrame businessPatnerFrame) {
+    public BusinessPatnerView(List<BusinessPartner> list, BusinessPartnerFrame businessPatnerFrame) {
         initComponents();
         this.list = list;
         this.businessPartnerFrame = businessPatnerFrame;

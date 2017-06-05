@@ -7,9 +7,10 @@ package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
+import com.servicemaster.forms.MainFrame;
 import com.servicemaster.guiFunctions.LableFunctions;
-import com.servicemaster.internalFrames.BusinessPatnerFrame;
-import com.servicemaster.models.Address;
+import com.servicemaster.internalFrames.BusinessPartnerFrame;
+import com.servicemaster.internalFrames.TelephoneNumberFrame;
 import com.servicemaster.models.TelephoneNumber;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -21,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class TelephoneNumeberView extends javax.swing.JInternalFrame {
 
     private final List list;
-    private final BusinessPatnerFrame businessPatnerFrame;
+    private final BusinessPartnerFrame businessPatnerFrame;
 
     /**
      * Creates new form CategoryView
@@ -29,7 +30,7 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
      * @param list
      * @param businessPatnerFrame
      */
-    public TelephoneNumeberView(List<TelephoneNumber> list, BusinessPatnerFrame businessPatnerFrame) {
+    public TelephoneNumeberView(List<TelephoneNumber> list, BusinessPartnerFrame businessPatnerFrame) {
         initComponents();
         this.list = list;
         this.businessPatnerFrame = businessPatnerFrame;
@@ -48,6 +49,7 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
         telephoneNumberTable = new javax.swing.JTable();
         lblSelect = new javax.swing.JLabel();
         lblClose = new javax.swing.JLabel();
+        lblAdd = new javax.swing.JLabel();
 
         setTitle("Category View");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -68,6 +70,7 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
             }
         });
 
+        telephoneNumberTable.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         telephoneNumberTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -91,6 +94,7 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        telephoneNumberTable.setRowHeight(18);
         telephoneNumberTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 telephoneNumberTableMouseClicked(evt);
@@ -134,33 +138,55 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
             }
         });
 
+        lblAdd.setBackground(new java.awt.Color(150, 255, 150));
+        lblAdd.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblAdd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAdd.setText("Add");
+        lblAdd.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblAdd.setOpaque(true);
+        lblAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAddMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblAddMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblAddMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addContainerGap()
+                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(lblSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setBounds(0, 0, 326, 324);
+        setBounds(0, 0, 336, 326);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
@@ -210,6 +236,20 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCloseMouseExited
 
+    private void lblAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseClicked
+        TelephoneNumberFrame telephoneNumberFrame = new TelephoneNumberFrame(businessPatnerFrame);
+        MainFrame.desktopPane.add(telephoneNumberFrame);
+        telephoneNumberFrame.setVisible(true);
+    }//GEN-LAST:event_lblAddMouseClicked
+
+    private void lblAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblAddMouseEntered
+
+    private void lblAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblAddMouseExited
+
     private void selectTelephoneNumber() {
         int selectedRow = telephoneNumberTable.getSelectedRow();
         TelephoneNumber telephoneNumber = (TelephoneNumber) list.get(selectedRow);
@@ -218,6 +258,7 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel lblAdd;
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblSelect;
     private javax.swing.JScrollPane scrollPane;
