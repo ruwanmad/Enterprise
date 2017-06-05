@@ -33,6 +33,7 @@ public class BusinessAddressId implements java.io.Serializable {
         this.businessPartnerBusinessPartnerCode = businessPartnerBusinessPartnerCode;
     }
 
+    @Override
     public boolean equals(Object other) {
         if ((this == other)) {
             return true;
@@ -45,10 +46,11 @@ public class BusinessAddressId implements java.io.Serializable {
         }
         BusinessAddressId castOther = (BusinessAddressId) other;
 
-        return ((this.getAddressAddressCode() == castOther.getAddressAddressCode()) || (this.getAddressAddressCode() != null && castOther.getAddressAddressCode() != null && this.getAddressAddressCode().equals(castOther.getAddressAddressCode())))
-                && ((this.getBusinessPartnerBusinessPartnerCode() == castOther.getBusinessPartnerBusinessPartnerCode()) || (this.getBusinessPartnerBusinessPartnerCode() != null && castOther.getBusinessPartnerBusinessPartnerCode() != null && this.getBusinessPartnerBusinessPartnerCode().equals(castOther.getBusinessPartnerBusinessPartnerCode())));
+        return ((this.getAddressAddressCode() == null ? castOther.getAddressAddressCode() == null : this.getAddressAddressCode().equals(castOther.getAddressAddressCode())) || (this.getAddressAddressCode() != null && castOther.getAddressAddressCode() != null && this.getAddressAddressCode().equals(castOther.getAddressAddressCode())))
+                && ((this.getBusinessPartnerBusinessPartnerCode() == null ? castOther.getBusinessPartnerBusinessPartnerCode() == null : this.getBusinessPartnerBusinessPartnerCode().equals(castOther.getBusinessPartnerBusinessPartnerCode())) || (this.getBusinessPartnerBusinessPartnerCode() != null && castOther.getBusinessPartnerBusinessPartnerCode() != null && this.getBusinessPartnerBusinessPartnerCode().equals(castOther.getBusinessPartnerBusinessPartnerCode())));
     }
 
+    @Override
     public int hashCode() {
         int result = 17;
 

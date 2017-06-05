@@ -9,7 +9,7 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.guiFunctions.LableFunctions;
-import com.servicemaster.internalFrames.BussinesPatnerFrame;
+import com.servicemaster.internalFrames.BusinessPatnerFrame;
 import com.servicemaster.internalFrames.CategoryFrame;
 import com.servicemaster.internalFrames.ItemFrame;
 import com.servicemaster.internalFrames.LocationFrame;
@@ -541,7 +541,7 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }
             case "11": {
-                internalFrame = new BussinesPatnerFrame();
+                internalFrame = new BusinessPatnerFrame();
                 break;
             }
             case "12": {
