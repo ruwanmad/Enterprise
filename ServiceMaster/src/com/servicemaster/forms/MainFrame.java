@@ -255,6 +255,11 @@ public class MainFrame extends javax.swing.JFrame {
         miItems.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miItems.setText("Items");
         miItems.setEnabled(false);
+        miItems.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miItemsActionPerformed(evt);
+            }
+        });
         mMasterFiles.add(miItems);
         mMasterFiles.add(jSeparator3);
 
@@ -491,6 +496,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void miVehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miVehiclesActionPerformed
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miVehiclesActionPerformed
+
+    private void miItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miItemsActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miItemsActionPerformed
 
     private void exitApllication() {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
