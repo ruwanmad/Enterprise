@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Jun 4, 2017 10:24:30 PM by Hibernate Tools 4.3.1
+// Generated Jul 26, 2017 11:33:46 PM by Hibernate Tools 3.6.0
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,8 +11,8 @@ import java.util.Set;
 public class Vehicle implements java.io.Serializable {
 
     private String vehicleCode;
-    private BusinessPartner businessPartner;
     private VehicleType vehicleType;
+    private BusinessPartner businessPartner;
     private String vehicleNumber;
     private String manufactureredYear;
     private Integer isActive;
@@ -32,17 +32,17 @@ public class Vehicle implements java.io.Serializable {
         this.vehicleCode = vehicleCode;
     }
 
-    public Vehicle(String vehicleCode, BusinessPartner businessPartner, VehicleType vehicleType, String vehicleNumber) {
+    public Vehicle(String vehicleCode, VehicleType vehicleType, BusinessPartner businessPartner, String vehicleNumber) {
         this.vehicleCode = vehicleCode;
-        this.businessPartner = businessPartner;
         this.vehicleType = vehicleType;
+        this.businessPartner = businessPartner;
         this.vehicleNumber = vehicleNumber;
     }
 
-    public Vehicle(String vehicleCode, BusinessPartner businessPartner, VehicleType vehicleType, String vehicleNumber, String manufactureredYear, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set services) {
+    public Vehicle(String vehicleCode, VehicleType vehicleType, BusinessPartner businessPartner, String vehicleNumber, String manufactureredYear, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set services) {
         this.vehicleCode = vehicleCode;
-        this.businessPartner = businessPartner;
         this.vehicleType = vehicleType;
+        this.businessPartner = businessPartner;
         this.vehicleNumber = vehicleNumber;
         this.manufactureredYear = manufactureredYear;
         this.isActive = isActive;
@@ -64,20 +64,20 @@ public class Vehicle implements java.io.Serializable {
         this.vehicleCode = vehicleCode;
     }
 
-    public BusinessPartner getBusinessPartner() {
-        return this.businessPartner;
-    }
-
-    public void setBusinessPartner(BusinessPartner businessPartner) {
-        this.businessPartner = businessPartner;
-    }
-
     public VehicleType getVehicleType() {
         return this.vehicleType;
     }
 
     public void setVehicleType(VehicleType vehicleType) {
         this.vehicleType = vehicleType;
+    }
+
+    public BusinessPartner getBusinessPartner() {
+        return this.businessPartner;
+    }
+
+    public void setBusinessPartner(BusinessPartner businessPartner) {
+        this.businessPartner = businessPartner;
     }
 
     public String getVehicleNumber() {

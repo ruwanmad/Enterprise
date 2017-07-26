@@ -352,6 +352,10 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
             }
             mainFrame.panelShortcuts.revalidate();
             mainFrame.panelShortcuts.repaint();
+        } else {
+            mainFrame.panelShortcuts.removeAll();
+            mainFrame.panelShortcuts.revalidate();
+            mainFrame.panelShortcuts.repaint();
         }
 
         model = (DefaultListModel<String>) listAvailable.getModel();
@@ -378,7 +382,7 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblOKMouseEntered
 
     private void lblOKMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOKMouseExited
-        // TODO add your handling code here:
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblOKMouseExited
 
 

@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jun 4, 2017 10:24:33 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Jul 26, 2017 11:33:48 PM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.Payment" table="payment" catalog="enterprisedb" optimistic-lock="version">
+    <class name="com.servicemaster.models.Payment" table="payment" catalog="enterprisedb">
         <id name="paymentCode" type="string">
             <column name="payment_code" length="15" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="invoice" class="com.servicemaster.models.Invoice" fetch="select">
-            <column name="invoice_invoice_number" length="15" not-null="true" />
-        </many-to-one>
         <many-to-one name="paymentType" class="com.servicemaster.models.PaymentType" fetch="select">
             <column name="payment_type_payment_type_code" length="15" not-null="true" />
+        </many-to-one>
+        <many-to-one name="invoice" class="com.servicemaster.models.Invoice" fetch="select">
+            <column name="invoice_invoice_number" length="15" not-null="true" />
         </many-to-one>
         <property name="amount" type="java.lang.Float">
             <column name="amount" precision="12" scale="0" />
