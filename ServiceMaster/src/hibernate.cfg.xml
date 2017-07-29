@@ -8,7 +8,7 @@
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">senuja2014</property>
     <property name="hibernate.show_sql">true</property>
-    <property name="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property>
+    <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
     <mapping resource="com/servicemaster/models/KeyTable.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Invoice.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Rack.hbm.xml"/>
