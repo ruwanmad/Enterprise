@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Jul 26, 2017 11:33:46 PM by Hibernate Tools 3.6.0
+// Generated Jul 31, 2017 10:27:22 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,8 +11,8 @@ public class UomConversion  implements java.io.Serializable {
 
 
      private String uomConversionCode;
-     private Uom uomByUomUomCodeTo;
      private Uom uomByUomUomCode;
+     private Uom uomByUomUomCodeTo;
      private Float multipliedBy;
      private Float dividedBy;
      private String uomConversioncol;
@@ -28,15 +28,15 @@ public class UomConversion  implements java.io.Serializable {
     }
 
 	
-    public UomConversion(String uomConversionCode, Uom uomByUomUomCodeTo, Uom uomByUomUomCode) {
+    public UomConversion(String uomConversionCode, Uom uomByUomUomCode, Uom uomByUomUomCodeTo) {
         this.uomConversionCode = uomConversionCode;
-        this.uomByUomUomCodeTo = uomByUomUomCodeTo;
         this.uomByUomUomCode = uomByUomUomCode;
+        this.uomByUomUomCodeTo = uomByUomUomCodeTo;
     }
-    public UomConversion(String uomConversionCode, Uom uomByUomUomCodeTo, Uom uomByUomUomCode, Float multipliedBy, Float dividedBy, String uomConversioncol, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks) {
+    public UomConversion(String uomConversionCode, Uom uomByUomUomCode, Uom uomByUomUomCodeTo, Float multipliedBy, Float dividedBy, String uomConversioncol, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks) {
        this.uomConversionCode = uomConversionCode;
-       this.uomByUomUomCodeTo = uomByUomUomCodeTo;
        this.uomByUomUomCode = uomByUomUomCode;
+       this.uomByUomUomCodeTo = uomByUomUomCodeTo;
        this.multipliedBy = multipliedBy;
        this.dividedBy = dividedBy;
        this.uomConversioncol = uomConversioncol;
@@ -56,19 +56,19 @@ public class UomConversion  implements java.io.Serializable {
     public void setUomConversionCode(String uomConversionCode) {
         this.uomConversionCode = uomConversionCode;
     }
-    public Uom getUomByUomUomCodeTo() {
-        return this.uomByUomUomCodeTo;
-    }
-    
-    public void setUomByUomUomCodeTo(Uom uomByUomUomCodeTo) {
-        this.uomByUomUomCodeTo = uomByUomUomCodeTo;
-    }
     public Uom getUomByUomUomCode() {
         return this.uomByUomUomCode;
     }
     
     public void setUomByUomUomCode(Uom uomByUomUomCode) {
         this.uomByUomUomCode = uomByUomUomCode;
+    }
+    public Uom getUomByUomUomCodeTo() {
+        return this.uomByUomUomCodeTo;
+    }
+    
+    public void setUomByUomUomCodeTo(Uom uomByUomUomCodeTo) {
+        this.uomByUomUomCodeTo = uomByUomUomCodeTo;
     }
     public Float getMultipliedBy() {
         return this.multipliedBy;

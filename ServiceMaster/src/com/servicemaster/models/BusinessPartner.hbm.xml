@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jul 26, 2017 11:33:48 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated Jul 31, 2017 10:27:24 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.BusinessPartner" table="business_partner" catalog="enterprisedb">
+    <class name="com.servicemaster.models.BusinessPartner" table="business_partner" catalog="enterprisedb" optimistic-lock="version">
         <id name="businessPartnerCode" type="string">
             <column name="business_partner_code" length="15" />
             <generator class="assigned" />
@@ -53,17 +53,17 @@
         <property name="remarks" type="string">
             <column name="remarks" length="100" />
         </property>
-        <set name="users" table="user" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="business_partner_business_partner_code" length="15" not-null="true" />
-            </key>
-            <one-to-many class="com.servicemaster.models.User" />
-        </set>
         <set name="businessAddresses" table="business_address" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="business_partner_business_partner_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.BusinessAddress" />
+        </set>
+        <set name="users" table="user" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="business_partner_business_partner_code" length="15" not-null="true" />
+            </key>
+            <one-to-many class="com.servicemaster.models.User" />
         </set>
         <set name="businessTelephones" table="business_telephone" inverse="true" lazy="true" fetch="select">
             <key>

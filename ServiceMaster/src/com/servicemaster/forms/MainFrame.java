@@ -16,6 +16,7 @@ import com.servicemaster.internalFrames.LocationFrame;
 import com.servicemaster.internalFrames.PrinterFrame;
 import com.servicemaster.internalFrames.RackSlotFrame;
 import com.servicemaster.internalFrames.RacksFrame;
+import com.servicemaster.internalFrames.ServiceFrame;
 import com.servicemaster.internalFrames.ShortCutsFrame;
 import com.servicemaster.internalFrames.StorageFrame;
 import com.servicemaster.internalFrames.SubCategoryFrame;
@@ -32,6 +33,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -39,6 +41,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -120,6 +123,7 @@ public class MainFrame extends javax.swing.JFrame {
         js2 = new javax.swing.JPopupMenu.Separator();
         miExit = new javax.swing.JMenuItem();
         mTransactions = new javax.swing.JMenu();
+        miService = new javax.swing.JMenuItem();
         mReports = new javax.swing.JMenu();
         mOptions = new javax.swing.JMenu();
         miAddShortcuts = new javax.swing.JMenuItem();
@@ -321,6 +325,17 @@ public class MainFrame extends javax.swing.JFrame {
 
         mTransactions.setText("Transactions");
         mTransactions.setEnabled(false);
+
+        miService.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        miService.setText("Service");
+        miService.setEnabled(false);
+        miService.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miServiceActionPerformed(evt);
+            }
+        });
+        mTransactions.add(miService);
+
         menuBar.add(mTransactions);
 
         mReports.setText("Reports");
@@ -383,7 +398,11 @@ public class MainFrame extends javax.swing.JFrame {
                 Module module = (Module) object;
                 String moduleCode = module.getModuleCode();
                 String moduleName = module.getModuleName();
-                allModuleMap.put(moduleName, moduleCode);
+                int max = module.getIsMaximized();
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("ModuleCode", moduleCode);
+                map.put("Max", max);
+                allModuleMap.put(moduleName, map);
             }
         }
 
@@ -394,7 +413,11 @@ public class MainFrame extends javax.swing.JFrame {
                 Module module = (Module) object;
                 String moduleCode = module.getModuleCode();
                 String moduleName = module.getModuleName();
-                availableModuleMap.put(moduleName, moduleCode);
+                int max = module.getIsMaximized();
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("ModuleCode", moduleCode);
+                map.put("Max", max);
+                availableModuleMap.put(moduleName, map);
             }
         }
 
@@ -405,7 +428,11 @@ public class MainFrame extends javax.swing.JFrame {
                 Module module = (Module) object;
                 String moduleCode = module.getModuleCode();
                 String moduleName = module.getModuleName();
-                addedModuleMap.put(moduleName, moduleCode);
+                int max = module.getIsMaximized();
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("ModuleCode", moduleCode);
+                map.put("Max", max);
+                addedModuleMap.put(moduleName, map);
             }
         }
         session.getTransaction().commit();
@@ -501,6 +528,10 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miItemsActionPerformed
 
+    private void miServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miServiceActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miServiceActionPerformed
+
     private void exitApllication() {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -508,7 +539,15 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
-    public static void openWindow(String moduleCode) {
+    public static void openWindow(HashMap<String, Object> moduleDetailsMap) {
+        String moduleCode = (String) moduleDetailsMap.get("ModuleCode");
+        int max = (int) moduleDetailsMap.get("Max");
+
+        boolean maximized = false;
+        if (max == 1) {
+            maximized = true;
+        }
+
         JInternalFrame internalFrame = null;
         switch (moduleCode) {
             case "1": {
@@ -568,14 +607,23 @@ public class MainFrame extends javax.swing.JFrame {
             case "15": {
                 break;
             }
+            case "16": {
+                internalFrame = new ServiceFrame();
+                break;
+            }
             default: {
                 internalFrame = null;
             }
         }
 
         if (internalFrame != null) {
-            desktopPane.add(internalFrame);
-            internalFrame.setVisible(true);
+            try {
+                desktopPane.add(internalFrame);
+                internalFrame.setMaximum(maximized);
+                internalFrame.setVisible(true);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -632,6 +680,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenuItem miLocations;
     public javax.swing.JMenuItem miPrinters;
     private javax.swing.JMenuItem miRackSlots;
+    public javax.swing.JMenuItem miService;
     private javax.swing.JMenuItem miStorage;
     private javax.swing.JMenuItem miStorageRacks;
     public javax.swing.JMenuItem miSubCategory;
@@ -642,7 +691,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenuItem miVehileType;
     public javax.swing.JPanel panelShortcuts;
     // End of variables declaration//GEN-END:variables
-    public static final LinkedHashMap<String, String> allModuleMap = new LinkedHashMap<>();
-    public static final LinkedHashMap<String, String> availableModuleMap = new LinkedHashMap<>();
-    public static final LinkedHashMap<String, String> addedModuleMap = new LinkedHashMap<>();
+    public static final LinkedHashMap<String, HashMap<String, Object>> allModuleMap = new LinkedHashMap<>();
+    public static final LinkedHashMap<String, HashMap<String, Object>> availableModuleMap = new LinkedHashMap<>();
+    public static final LinkedHashMap<String, HashMap<String, Object>> addedModuleMap = new LinkedHashMap<>();
 }

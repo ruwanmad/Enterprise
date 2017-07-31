@@ -675,7 +675,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                     address.setAdressLine3(addressLine3);
 
                     BusinessAddressId businessAddressId = new BusinessAddressId(addressCode, businessPatnerCode);
-                    BusinessAddress businessAddress = new BusinessAddress(businessAddressId, businessPartner, address);
+                    BusinessAddress businessAddress = new BusinessAddress(businessAddressId, address, businessPartner);
 
                     session.saveOrUpdate(businessAddress);
 
@@ -684,7 +684,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                     telephoneNumber.setTelephoneNumber(telephoneNum);
 
                     BusinessTelephoneId businessTelephoneId = new BusinessTelephoneId(telephoneCode, businessPatnerCode);
-                    BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, telephoneNumber, businessPartner);
+                    BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, businessPartner, telephoneNumber);
 
                     session.saveOrUpdate(businessTelephone);
                 } else {
@@ -743,7 +743,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                         address.setAdressLine3(addressLine3);
 
                         BusinessAddressId businessAddressId = new BusinessAddressId(addressCode, businessPatnerCode);
-                        BusinessAddress businessAddress = new BusinessAddress(businessAddressId, businessPartner, address);
+                        BusinessAddress businessAddress = new BusinessAddress(businessAddressId, address, businessPartner);
 
                         session.saveOrUpdate(businessAddress);
 
@@ -752,7 +752,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                         telephoneNumber.setTelephoneNumber(telephoneNum);
 
                         BusinessTelephoneId businessTelephoneId = new BusinessTelephoneId(telephoneCode, businessPatnerCode);
-                        BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, telephoneNumber, businessPartner);
+                        BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, businessPartner, telephoneNumber);
 
                         session.saveOrUpdate(businessTelephone);
                     }
@@ -783,7 +783,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                         address.setAdressLine3(addressLine3);
 
                         BusinessAddressId businessAddressId = new BusinessAddressId(addressCode, businessPatnerCode);
-                        BusinessAddress businessAddress = new BusinessAddress(businessAddressId, businessPartner, address);
+                        BusinessAddress businessAddress = new BusinessAddress(businessAddressId, address, businessPartner);
 
                         session.saveOrUpdate(businessAddress);
 
@@ -792,7 +792,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                         telephoneNumber.setTelephoneNumber(telephoneNum);
 
                         BusinessTelephoneId businessTelephoneId = new BusinessTelephoneId(telephoneCode, businessPatnerCode);
-                        BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, telephoneNumber, businessPartner);
+                        BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, businessPartner, telephoneNumber);
 
                         session.saveOrUpdate(businessTelephone);
                     }

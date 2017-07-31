@@ -5,6 +5,7 @@
  */
 package com.servicemaster.forms;
 
+import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.functions.EnableFeatures;
 import com.servicemaster.guiFunctions.LableFunctions;
@@ -205,11 +206,11 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_lblCancelMouseClicked
 
     private void lblCancelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblCancelMouseEntered
 
     private void lblCancelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCancelMouseExited
 
     private void lblLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLoginMouseClicked
@@ -217,11 +218,11 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_lblLoginMouseClicked
 
     private void lblLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLoginMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(50, 255, 50));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblLoginMouseEntered
 
     private void lblLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLoginMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), new Color(150, 255, 150));
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblLoginMouseExited
 
     private void login() {
@@ -231,7 +232,7 @@ public class Login extends javax.swing.JFrame {
             InformationDialog.showMessageBox("Please enter valid details", "Invalid");
         } else {
             Session session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();            
+            session.beginTransaction();
             Query query = session.createQuery("from User u where u.userName = '" + username + "' and u.password = '" + password + "'");
             List objectList = query.list();
 

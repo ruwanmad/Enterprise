@@ -12,6 +12,7 @@ import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.models.Module;
 import com.servicemaster.utils.HibernateUtil;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import org.hibernate.Query;
@@ -341,8 +342,9 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
             for (Object value : array) {
                 if (value instanceof String) {
                     mainFrame.addShortCuts(value.toString());
+                    HashMap<String,Object> map =  MainFrame.allModuleMap.get(value.toString());
 
-                    Module module = (Module) session.load(Module.class, Integer.parseInt(MainFrame.allModuleMap.get(value.toString())));
+                    Module module = (Module) session.load(Module.class, Integer.parseInt((String) map.get("ModuleCode")));
                     module.setIsShortcutAdded(1);
                     module.setModifiedDate(new Date());
                     module.setModifiedTime(new Date());
@@ -363,7 +365,9 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
             Object[] array = model.toArray();
             for (Object value : array) {
                 if (value instanceof String) {
-                    Module module = (Module) session.load(Module.class, Integer.parseInt(MainFrame.allModuleMap.get(value.toString())));
+                    HashMap<String,Object> map =  MainFrame.allModuleMap.get(value.toString());
+                    
+                    Module module = (Module) session.load(Module.class, Integer.parseInt((String) map.get("ModuleCode")));
                     module.setIsShortcutAdded(0);
                     module.setModifiedDate(new Date());
                     module.setModifiedTime(new Date());

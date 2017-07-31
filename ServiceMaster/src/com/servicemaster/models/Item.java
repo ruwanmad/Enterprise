@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Jul 26, 2017 11:33:46 PM by Hibernate Tools 3.6.0
+// Generated Jul 31, 2017 10:27:22 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,10 +13,10 @@ public class Item  implements java.io.Serializable {
 
 
      private String itemCode;
-     private SubCategory subCategory;
-     private Uom uomBySellingUom;
      private RackSlot rackSlot;
+     private SubCategory subCategory;
      private Uom uomByBuyingUom;
+     private Uom uomBySellingUom;
      private String itemName;
      private Float sellingPrice;
      private String issueMethod;
@@ -30,29 +30,29 @@ public class Item  implements java.io.Serializable {
      private Date modifiedTime;
      private Integer modifiedUser;
      private String remark;
-     private Set bomItems = new HashSet(0);
      private Set grnLines = new HashSet(0);
      private Set boms = new HashSet(0);
      private Set serviceHasItems = new HashSet(0);
+     private Set bomItems = new HashSet(0);
 
     public Item() {
     }
 
 	
-    public Item(String itemCode, SubCategory subCategory, Uom uomBySellingUom, RackSlot rackSlot, Uom uomByBuyingUom, String itemName) {
+    public Item(String itemCode, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName) {
         this.itemCode = itemCode;
-        this.subCategory = subCategory;
-        this.uomBySellingUom = uomBySellingUom;
         this.rackSlot = rackSlot;
+        this.subCategory = subCategory;
         this.uomByBuyingUom = uomByBuyingUom;
+        this.uomBySellingUom = uomBySellingUom;
         this.itemName = itemName;
     }
-    public Item(String itemCode, SubCategory subCategory, Uom uomBySellingUom, RackSlot rackSlot, Uom uomByBuyingUom, String itemName, Float sellingPrice, String issueMethod, Float reorderQuantity, Integer isPhysical, Integer isActive, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set bomItems, Set grnLines, Set boms, Set serviceHasItems) {
+    public Item(String itemCode, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, Float sellingPrice, String issueMethod, Float reorderQuantity, Integer isPhysical, Integer isActive, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set grnLines, Set boms, Set serviceHasItems, Set bomItems) {
        this.itemCode = itemCode;
-       this.subCategory = subCategory;
-       this.uomBySellingUom = uomBySellingUom;
        this.rackSlot = rackSlot;
+       this.subCategory = subCategory;
        this.uomByBuyingUom = uomByBuyingUom;
+       this.uomBySellingUom = uomBySellingUom;
        this.itemName = itemName;
        this.sellingPrice = sellingPrice;
        this.issueMethod = issueMethod;
@@ -66,10 +66,10 @@ public class Item  implements java.io.Serializable {
        this.modifiedTime = modifiedTime;
        this.modifiedUser = modifiedUser;
        this.remark = remark;
-       this.bomItems = bomItems;
        this.grnLines = grnLines;
        this.boms = boms;
        this.serviceHasItems = serviceHasItems;
+       this.bomItems = bomItems;
     }
    
     public String getItemCode() {
@@ -79,20 +79,6 @@ public class Item  implements java.io.Serializable {
     public void setItemCode(String itemCode) {
         this.itemCode = itemCode;
     }
-    public SubCategory getSubCategory() {
-        return this.subCategory;
-    }
-    
-    public void setSubCategory(SubCategory subCategory) {
-        this.subCategory = subCategory;
-    }
-    public Uom getUomBySellingUom() {
-        return this.uomBySellingUom;
-    }
-    
-    public void setUomBySellingUom(Uom uomBySellingUom) {
-        this.uomBySellingUom = uomBySellingUom;
-    }
     public RackSlot getRackSlot() {
         return this.rackSlot;
     }
@@ -100,12 +86,26 @@ public class Item  implements java.io.Serializable {
     public void setRackSlot(RackSlot rackSlot) {
         this.rackSlot = rackSlot;
     }
+    public SubCategory getSubCategory() {
+        return this.subCategory;
+    }
+    
+    public void setSubCategory(SubCategory subCategory) {
+        this.subCategory = subCategory;
+    }
     public Uom getUomByBuyingUom() {
         return this.uomByBuyingUom;
     }
     
     public void setUomByBuyingUom(Uom uomByBuyingUom) {
         this.uomByBuyingUom = uomByBuyingUom;
+    }
+    public Uom getUomBySellingUom() {
+        return this.uomBySellingUom;
+    }
+    
+    public void setUomBySellingUom(Uom uomBySellingUom) {
+        this.uomBySellingUom = uomBySellingUom;
     }
     public String getItemName() {
         return this.itemName;
@@ -198,13 +198,6 @@ public class Item  implements java.io.Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-    public Set getBomItems() {
-        return this.bomItems;
-    }
-    
-    public void setBomItems(Set bomItems) {
-        this.bomItems = bomItems;
-    }
     public Set getGrnLines() {
         return this.grnLines;
     }
@@ -225,6 +218,13 @@ public class Item  implements java.io.Serializable {
     
     public void setServiceHasItems(Set serviceHasItems) {
         this.serviceHasItems = serviceHasItems;
+    }
+    public Set getBomItems() {
+        return this.bomItems;
+    }
+    
+    public void setBomItems(Set bomItems) {
+        this.bomItems = bomItems;
     }
 
 

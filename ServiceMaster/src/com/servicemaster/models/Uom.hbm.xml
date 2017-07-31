@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jul 26, 2017 11:33:48 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated Jul 31, 2017 10:27:24 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.Uom" table="uom" catalog="enterprisedb">
+    <class name="com.servicemaster.models.Uom" table="uom" catalog="enterprisedb" optimistic-lock="version">
         <id name="uomCode" type="string">
             <column name="uom_code" length="15" />
             <generator class="assigned" />
@@ -38,15 +38,15 @@
         <property name="remarks" type="string">
             <column name="remarks" length="100" />
         </property>
-        <set name="itemsForSellingUom" table="item" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="selling_uom" length="15" not-null="true" />
-            </key>
-            <one-to-many class="com.servicemaster.models.Item" />
-        </set>
         <set name="itemsForBuyingUom" table="item" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="buying_uom" length="15" not-null="true" />
+            </key>
+            <one-to-many class="com.servicemaster.models.Item" />
+        </set>
+        <set name="itemsForSellingUom" table="item" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="selling_uom" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.Item" />
         </set>

@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Jul 26, 2017 11:33:46 PM by Hibernate Tools 3.6.0
+// Generated Jul 31, 2017 10:27:22 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,8 +11,8 @@ public class User  implements java.io.Serializable {
 
 
      private Integer userId;
-     private UserPrivilage userPrivilage;
      private BusinessPartner businessPartner;
+     private UserPrivilage userPrivilage;
      private String userName;
      private String password;
      private int userLevel;
@@ -29,16 +29,16 @@ public class User  implements java.io.Serializable {
     }
 
 	
-    public User(UserPrivilage userPrivilage, BusinessPartner businessPartner, String userName, String password, int userLevel) {
-        this.userPrivilage = userPrivilage;
+    public User(BusinessPartner businessPartner, UserPrivilage userPrivilage, String userName, String password, int userLevel) {
         this.businessPartner = businessPartner;
+        this.userPrivilage = userPrivilage;
         this.userName = userName;
         this.password = password;
         this.userLevel = userLevel;
     }
-    public User(UserPrivilage userPrivilage, BusinessPartner businessPartner, String userName, String password, int userLevel, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date midifiedDate, Date modifiedTime, Integer midifiedUser, String remarks) {
-       this.userPrivilage = userPrivilage;
+    public User(BusinessPartner businessPartner, UserPrivilage userPrivilage, String userName, String password, int userLevel, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date midifiedDate, Date modifiedTime, Integer midifiedUser, String remarks) {
        this.businessPartner = businessPartner;
+       this.userPrivilage = userPrivilage;
        this.userName = userName;
        this.password = password;
        this.userLevel = userLevel;
@@ -59,19 +59,19 @@ public class User  implements java.io.Serializable {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
-    public UserPrivilage getUserPrivilage() {
-        return this.userPrivilage;
-    }
-    
-    public void setUserPrivilage(UserPrivilage userPrivilage) {
-        this.userPrivilage = userPrivilage;
-    }
     public BusinessPartner getBusinessPartner() {
         return this.businessPartner;
     }
     
     public void setBusinessPartner(BusinessPartner businessPartner) {
         this.businessPartner = businessPartner;
+    }
+    public UserPrivilage getUserPrivilage() {
+        return this.userPrivilage;
+    }
+    
+    public void setUserPrivilage(UserPrivilage userPrivilage) {
+        this.userPrivilage = userPrivilage;
     }
     public String getUserName() {
         return this.userName;

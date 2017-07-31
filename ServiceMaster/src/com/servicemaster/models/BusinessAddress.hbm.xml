@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jul 26, 2017 11:33:48 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated Jul 31, 2017 10:27:24 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.BusinessAddress" table="business_address" catalog="enterprisedb">
+    <class name="com.servicemaster.models.BusinessAddress" table="business_address" catalog="enterprisedb" optimistic-lock="version">
         <composite-id name="id" class="com.servicemaster.models.BusinessAddressId">
             <key-property name="addressAddressCode" type="string">
                 <column name="address_address_code" length="15" />
@@ -12,11 +12,11 @@
                 <column name="business_partner_business_partner_code" length="15" />
             </key-property>
         </composite-id>
-        <many-to-one name="businessPartner" class="com.servicemaster.models.BusinessPartner" update="false" insert="false" fetch="select">
-            <column name="business_partner_business_partner_code" length="15" not-null="true" />
-        </many-to-one>
         <many-to-one name="address" class="com.servicemaster.models.Address" update="false" insert="false" fetch="select">
             <column name="address_address_code" length="15" not-null="true" />
+        </many-to-one>
+        <many-to-one name="businessPartner" class="com.servicemaster.models.BusinessPartner" update="false" insert="false" fetch="select">
+            <column name="business_partner_business_partner_code" length="15" not-null="true" />
         </many-to-one>
     </class>
 </hibernate-mapping>

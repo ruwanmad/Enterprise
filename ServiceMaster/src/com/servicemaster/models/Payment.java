@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Jul 26, 2017 11:33:46 PM by Hibernate Tools 3.6.0
+// Generated Jul 31, 2017 10:27:22 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,8 +11,8 @@ public class Payment  implements java.io.Serializable {
 
 
      private String paymentCode;
-     private PaymentType paymentType;
      private Invoice invoice;
+     private PaymentType paymentType;
      private Float amount;
      private Date createdDate;
      private Date createdTime;
@@ -26,15 +26,15 @@ public class Payment  implements java.io.Serializable {
     }
 
 	
-    public Payment(String paymentCode, PaymentType paymentType, Invoice invoice) {
+    public Payment(String paymentCode, Invoice invoice, PaymentType paymentType) {
         this.paymentCode = paymentCode;
-        this.paymentType = paymentType;
         this.invoice = invoice;
+        this.paymentType = paymentType;
     }
-    public Payment(String paymentCode, PaymentType paymentType, Invoice invoice, Float amount, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
+    public Payment(String paymentCode, Invoice invoice, PaymentType paymentType, Float amount, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
        this.paymentCode = paymentCode;
-       this.paymentType = paymentType;
        this.invoice = invoice;
+       this.paymentType = paymentType;
        this.amount = amount;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
@@ -52,19 +52,19 @@ public class Payment  implements java.io.Serializable {
     public void setPaymentCode(String paymentCode) {
         this.paymentCode = paymentCode;
     }
-    public PaymentType getPaymentType() {
-        return this.paymentType;
-    }
-    
-    public void setPaymentType(PaymentType paymentType) {
-        this.paymentType = paymentType;
-    }
     public Invoice getInvoice() {
         return this.invoice;
     }
     
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
+    }
+    public PaymentType getPaymentType() {
+        return this.paymentType;
+    }
+    
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
     }
     public Float getAmount() {
         return this.amount;

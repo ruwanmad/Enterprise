@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Jul 26, 2017 11:33:46 PM by Hibernate Tools 3.6.0
+// Generated Jul 31, 2017 10:27:22 PM by Hibernate Tools 4.3.1
 
 
 
@@ -10,16 +10,16 @@ public class ServiceHasItem  implements java.io.Serializable {
 
 
      private ServiceHasItemId id;
-     private Service service;
      private Item item;
+     private Service service;
 
     public ServiceHasItem() {
     }
 
-    public ServiceHasItem(ServiceHasItemId id, Service service, Item item) {
+    public ServiceHasItem(ServiceHasItemId id, Item item, Service service) {
        this.id = id;
-       this.service = service;
        this.item = item;
+       this.service = service;
     }
    
     public ServiceHasItemId getId() {
@@ -29,19 +29,19 @@ public class ServiceHasItem  implements java.io.Serializable {
     public void setId(ServiceHasItemId id) {
         this.id = id;
     }
-    public Service getService() {
-        return this.service;
-    }
-    
-    public void setService(Service service) {
-        this.service = service;
-    }
     public Item getItem() {
         return this.item;
     }
     
     public void setItem(Item item) {
         this.item = item;
+    }
+    public Service getService() {
+        return this.service;
+    }
+    
+    public void setService(Service service) {
+        this.service = service;
     }
 
 

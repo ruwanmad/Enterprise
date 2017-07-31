@@ -15,6 +15,7 @@ import com.servicemaster.models.Storage;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.StorageView;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -402,7 +403,10 @@ public class StorageFrame extends javax.swing.JInternalFrame {
 
     private void lblRacksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRacksMouseClicked
         if (this.lblRacks.isEnabled()) {
-            MainFrame.openWindow("4");
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("ModuleCode", "4");
+            map.put("Max", 0);
+            MainFrame.openWindow(map);
             this.dispose();
         }
     }//GEN-LAST:event_lblRacksMouseClicked

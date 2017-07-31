@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Jul 26, 2017 11:33:46 PM by Hibernate Tools 3.6.0
+// Generated Jul 31, 2017 10:27:22 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,8 +13,8 @@ public class Service  implements java.io.Serializable {
 
 
      private String serviceCode;
-     private Vehicle vehicle;
      private ServiceBay serviceBay;
+     private Vehicle vehicle;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -29,15 +29,15 @@ public class Service  implements java.io.Serializable {
     }
 
 	
-    public Service(String serviceCode, Vehicle vehicle, ServiceBay serviceBay) {
+    public Service(String serviceCode, ServiceBay serviceBay, Vehicle vehicle) {
         this.serviceCode = serviceCode;
-        this.vehicle = vehicle;
         this.serviceBay = serviceBay;
+        this.vehicle = vehicle;
     }
-    public Service(String serviceCode, Vehicle vehicle, ServiceBay serviceBay, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String servicecol, Set invoices, Set serviceHasItems) {
+    public Service(String serviceCode, ServiceBay serviceBay, Vehicle vehicle, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String servicecol, Set invoices, Set serviceHasItems) {
        this.serviceCode = serviceCode;
-       this.vehicle = vehicle;
        this.serviceBay = serviceBay;
+       this.vehicle = vehicle;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -56,19 +56,19 @@ public class Service  implements java.io.Serializable {
     public void setServiceCode(String serviceCode) {
         this.serviceCode = serviceCode;
     }
-    public Vehicle getVehicle() {
-        return this.vehicle;
-    }
-    
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
     public ServiceBay getServiceBay() {
         return this.serviceBay;
     }
     
     public void setServiceBay(ServiceBay serviceBay) {
         this.serviceBay = serviceBay;
+    }
+    public Vehicle getVehicle() {
+        return this.vehicle;
+    }
+    
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
     public Date getCreatedDate() {
         return this.createdDate;

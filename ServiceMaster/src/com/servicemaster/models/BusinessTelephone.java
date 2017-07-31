@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Jul 26, 2017 11:33:46 PM by Hibernate Tools 3.6.0
+// Generated Jul 31, 2017 10:27:22 PM by Hibernate Tools 4.3.1
 
 
 
@@ -10,16 +10,16 @@ public class BusinessTelephone  implements java.io.Serializable {
 
 
      private BusinessTelephoneId id;
-     private TelephoneNumber telephoneNumber;
      private BusinessPartner businessPartner;
+     private TelephoneNumber telephoneNumber;
 
     public BusinessTelephone() {
     }
 
-    public BusinessTelephone(BusinessTelephoneId id, TelephoneNumber telephoneNumber, BusinessPartner businessPartner) {
+    public BusinessTelephone(BusinessTelephoneId id, BusinessPartner businessPartner, TelephoneNumber telephoneNumber) {
        this.id = id;
-       this.telephoneNumber = telephoneNumber;
        this.businessPartner = businessPartner;
+       this.telephoneNumber = telephoneNumber;
     }
    
     public BusinessTelephoneId getId() {
@@ -29,19 +29,19 @@ public class BusinessTelephone  implements java.io.Serializable {
     public void setId(BusinessTelephoneId id) {
         this.id = id;
     }
-    public TelephoneNumber getTelephoneNumber() {
-        return this.telephoneNumber;
-    }
-    
-    public void setTelephoneNumber(TelephoneNumber telephoneNumber) {
-        this.telephoneNumber = telephoneNumber;
-    }
     public BusinessPartner getBusinessPartner() {
         return this.businessPartner;
     }
     
     public void setBusinessPartner(BusinessPartner businessPartner) {
         this.businessPartner = businessPartner;
+    }
+    public TelephoneNumber getTelephoneNumber() {
+        return this.telephoneNumber;
+    }
+    
+    public void setTelephoneNumber(TelephoneNumber telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
     }
 
 

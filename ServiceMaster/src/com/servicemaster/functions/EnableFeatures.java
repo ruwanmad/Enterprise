@@ -69,6 +69,7 @@ public class EnableFeatures {
                     break;
                 }
                 case "21": {
+                    mainFrame.miService.setEnabled(true);
                     break;
                 }
                 case "22": {

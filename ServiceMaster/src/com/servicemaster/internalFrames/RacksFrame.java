@@ -16,6 +16,7 @@ import com.servicemaster.models.Storage;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.RacksView;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 import org.hibernate.Query;
@@ -474,7 +475,10 @@ public class RacksFrame extends javax.swing.JInternalFrame {
 
     private void lblSlotsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSlotsMouseClicked
         if (this.lblSlots.isEnabled()) {
-            MainFrame.openWindow("5");
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("ModuleCode", "5");
+            map.put("Max", 0);
+            MainFrame.openWindow(map);
             this.dispose();
         }
     }//GEN-LAST:event_lblSlotsMouseClicked

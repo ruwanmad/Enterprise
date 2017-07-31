@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jul 26, 2017 11:33:48 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated Jul 31, 2017 10:27:24 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.BusinessTelephone" table="business_telephone" catalog="enterprisedb">
+    <class name="com.servicemaster.models.BusinessTelephone" table="business_telephone" catalog="enterprisedb" optimistic-lock="version">
         <composite-id name="id" class="com.servicemaster.models.BusinessTelephoneId">
             <key-property name="telephoneNumberTelephoneNumberCode" type="string">
                 <column name="telephone_number_telephone_number_code" length="15" />
@@ -12,11 +12,11 @@
                 <column name="business_partner_business_partner_code" length="15" />
             </key-property>
         </composite-id>
-        <many-to-one name="telephoneNumber" class="com.servicemaster.models.TelephoneNumber" update="false" insert="false" fetch="select">
-            <column name="telephone_number_telephone_number_code" length="15" not-null="true" />
-        </many-to-one>
         <many-to-one name="businessPartner" class="com.servicemaster.models.BusinessPartner" update="false" insert="false" fetch="select">
             <column name="business_partner_business_partner_code" length="15" not-null="true" />
+        </many-to-one>
+        <many-to-one name="telephoneNumber" class="com.servicemaster.models.TelephoneNumber" update="false" insert="false" fetch="select">
+            <column name="telephone_number_telephone_number_code" length="15" not-null="true" />
         </many-to-one>
     </class>
 </hibernate-mapping>
