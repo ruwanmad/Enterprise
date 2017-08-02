@@ -16,7 +16,7 @@ import com.servicemaster.internalFrames.LocationFrame;
 import com.servicemaster.internalFrames.PrinterFrame;
 import com.servicemaster.internalFrames.RackSlotFrame;
 import com.servicemaster.internalFrames.RacksFrame;
-import com.servicemaster.internalFrames.ServiceFrame;
+import com.servicemaster.internalFrames.ServicesFrame;
 import com.servicemaster.internalFrames.ShortCutsFrame;
 import com.servicemaster.internalFrames.StorageFrame;
 import com.servicemaster.internalFrames.SubCategoryFrame;
@@ -608,7 +608,7 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }
             case "16": {
-                internalFrame = new ServiceFrame();
+                internalFrame = new ServicesFrame();
                 break;
             }
             default: {
