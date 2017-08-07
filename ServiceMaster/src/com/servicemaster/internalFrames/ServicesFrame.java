@@ -6,13 +6,23 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
-import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.guiFunctions.LableFunctions;
-import java.awt.Color;
+import com.servicemaster.models.BusinessAddress;
+import com.servicemaster.models.Service;
+import com.servicemaster.models.ServiceHasItem;
+import com.servicemaster.models.Vehicle;
+import com.servicemaster.utils.HibernateUtil;
 import java.beans.PropertyVetoException;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 /**
  *
@@ -25,6 +35,10 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
      */
     public ServicesFrame() {
         initComponents();
+
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        listModel.addElement("No services available");
+        listServices.setModel(listModel);
     }
 
     /**
@@ -48,6 +62,23 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Services");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
         toolbar.setFloatable(false);
         toolbar.setRollover(true);
@@ -95,10 +126,12 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
 
         jSplitPane1.setDividerLocation(150);
 
-        listServices.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "No Current Services" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        listServices.setBackground(new java.awt.Color(51, 204, 255));
+        listServices.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        listServices.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listServicesMouseClicked(evt);
+            }
         });
         jScrollPane1.setViewportView(listServices);
 
@@ -150,18 +183,83 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
             ServiceFrame serviceFrame = new ServiceFrame(null);
             desktopPane.add(serviceFrame);
             serviceFrame.setMaximum(true);
-            
+
             BasicInternalFrameUI internalFrameUI = (BasicInternalFrameUI) serviceFrame.getUI();
             internalFrameUI.setNorthPane(null);
             serviceFrame.setBorder(null);
-            
+
             serviceFrame.setVisible(true);
         } catch (PropertyVetoException ex) {
             Logger.getLogger(ServicesFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_lblNewServiceMouseClicked
 
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        this.loadServices();
+    }//GEN-LAST:event_formInternalFrameOpened
+
+    private void listServicesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listServicesMouseClicked
+        if (evt.getClickCount() == 2) {
+            try {
+                String value = listServices.getSelectedValue();
+                Service service = serviceMap.get(value);
+
+                ServiceFrame serviceFrame = new ServiceFrame(service);
+                desktopPane.add(serviceFrame);
+                serviceFrame.setMaximum(true);
+                serviceFrame.setVisible(true);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(ServicesFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_listServicesMouseClicked
+
+    public void loadServices() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Query query = session.createQuery("from Service s order by s.serviceCode");
+        List list = query.list();
+
+        DefaultListModel<String> listModel = (DefaultListModel<String>) listServices.getModel();
+        listModel.clear();
+
+        if (!list.isEmpty()) {
+            for (Object object : list) {
+                if (object instanceof Service) {
+                    Service service = (Service) object;
+                    Vehicle vehicle = service.getVehicle();
+
+                    Hibernate.initialize(vehicle.getBusinessPartner());
+                    Hibernate.initialize(service.getServiceBay());
+                    Hibernate.initialize(service.getVehicle());
+
+                    Set addresses = vehicle.getBusinessPartner().getBusinessAddresses();
+                    for (Object tempAddresse : addresses) {
+                        if (tempAddresse instanceof BusinessAddress) {
+                            BusinessAddress businessAddress = (BusinessAddress) tempAddresse;
+                            Hibernate.initialize(businessAddress.getAddress());
+                        }
+                    }
+                    
+                    Set serviseItems = service.getServiceHasItems();
+                    for (Object tempServiceItem : serviseItems) {
+                        if (tempServiceItem instanceof ServiceHasItem) {
+                            ServiceHasItem serviceHasItem = (ServiceHasItem) tempServiceItem;
+                            Hibernate.initialize(serviceHasItem);
+                            Hibernate.initialize(serviceHasItem.getItem());
+                        }
+                    }
+
+                    listModel.addElement(vehicle.getVehicleNumber());
+                    serviceMap.put(vehicle.getVehicleNumber(), service);
+                }
+            }
+        }
+
+        session.close();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktopPane;
@@ -172,4 +270,5 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
     private javax.swing.JToolBar toolbar;
     private javax.swing.JPanel toolbarPanel;
     // End of variables declaration//GEN-END:variables
+    private final TreeMap<String, Service> serviceMap = new TreeMap<>();
 }

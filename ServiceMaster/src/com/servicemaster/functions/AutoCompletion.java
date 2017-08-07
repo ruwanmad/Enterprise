@@ -5,6 +5,8 @@
  */
 package com.servicemaster.functions;
 
+import com.servicemaster.internalFrames.ServiceFrame;
+import com.servicemaster.models.Service;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -87,10 +89,6 @@ public class AutoCompletion extends PlainDocument {
                     case KeyEvent.VK_ENTER:
                         if (!editor.getText().isEmpty()) {
                             nextFocusable.requestFocus();
-//                            if (nextFocusable instanceof JTextComponent) {
-//                                JTextComponent textComponent = (JTextComponent) nextFocusable;
-//                                textComponent.selectAll();
-//                            }
                         }
                         break;
                 }
@@ -106,7 +104,6 @@ public class AutoCompletion extends PlainDocument {
 
             @Override
             public void focusLost(FocusEvent e) {
-                // Workaround for Bug 5100422 - Hide Popup on focus loss
                 if (hidePopupOnFocusLoss) {
                     comboBox.setPopupVisible(false);
                 }

@@ -7,8 +7,10 @@ package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
+import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.AutoCompletion;
+import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.models.Address;
 import com.servicemaster.models.BusinessAddress;
@@ -17,12 +19,16 @@ import com.servicemaster.models.BusinessTelephone;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.Service;
 import com.servicemaster.models.ServiceBay;
+import com.servicemaster.models.ServiceHasItem;
 import com.servicemaster.models.Vehicle;
+import com.servicemaster.timers.FocusTimer;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
 import java.util.TreeMap;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
@@ -135,6 +141,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         cmbVehicle.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbVehicleItemStateChanged(evt);
+            }
+        });
+        cmbVehicle.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cmbVehicleFocusGained(evt);
             }
         });
 
@@ -445,6 +456,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblItems.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblItemsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblItems);
         if (tblItems.getColumnModel().getColumnCount() > 0) {
             tblItems.getColumnModel().getColumn(0).setResizable(false);
@@ -576,10 +592,55 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
     private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
         if (service != null) {
-            
+
         } else {
-            
+            KeyCodeFunctions codeFunctions = new KeyCodeFunctions();
+            String serviceCode = codeFunctions.getKey("SVR", "Service");
+            Date date = new Date();
+
+            service = new Service();
+            service.setServiceCode(serviceCode);
+            service.setMilage(Float.parseFloat(txtLastServicesMilage.getText().trim()));
+            service.setCreatedDate(date);
+            service.setCreatedTime(date);
+            service.setCreatedUser(MainFrame.user.getUserId());
+            service.setServiceBay(serviceBayMap.get(((String) cmbServiceBay.getSelectedItem()).trim()));
+            service.setVehicle(vehicleMap.get(((String) cmbVehicle.getSelectedItem()).trim()));
+
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+
+            session.saveOrUpdate(service);
+
+            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                String itemName = (String) tblItems.getValueAt(i, 1);
+                float quantity = (float) tblItems.getValueAt(i, 2);
+                float subTotal = (float) tblItems.getValueAt(i, 4);
+                float discount = (float) tblItems.getValueAt(i, 5);
+                float itemTotal = (float) tblItems.getValueAt(i, 6);
+
+                ServiceHasItem serviceHasItem = new ServiceHasItem();
+                serviceHasItem.setItem(itemMap.get(itemName));
+                serviceHasItem.setService(service);
+                serviceHasItem.setQuantity(quantity);
+                serviceHasItem.setSubTotal(subTotal);
+                serviceHasItem.setDiscount(discount);
+                serviceHasItem.setTotal(itemTotal);
+                serviceHasItem.setCreatedDate(date);
+                serviceHasItem.setCreatedTime(date);
+                serviceHasItem.setCreatedUser(MainFrame.user.getUserId());
+                serviceHasItem.setRemark(itemName);
+
+                session.saveOrUpdate(serviceHasItem);
+            }
+
+            session.getTransaction().commit();
+            session.close();
         }
+
+        InformationDialog.showMessageBox("Updated successfully", "Success");
+        this.resetWindow();
     }//GEN-LAST:event_lblUpdateMouseClicked
 
     private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
@@ -607,12 +668,6 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rbtNumberKeyPressed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        if (service == null) {
-            this.lblUpdate.setText("Save");
-        } else {
-            this.lblUpdate.setText("Update");
-        }
-
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
@@ -622,6 +677,71 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
         session.getTransaction().commit();
         session.close();
+
+        if (service == null) {
+            this.lblUpdate.setText("Save");
+            cmbVehicle.requestFocus();
+        } else {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+
+            cmbVehicle.setSelectedItem(service.getVehicle().getVehicleNumber());
+            txtLastServicesMilage.setText("" + service.getMilage());
+
+            lblCustomerName.setText(service.getVehicle().getBusinessPartner().getFirstName() + " " + service.getVehicle().getBusinessPartner().getLastName());
+            Set businessAddresses = service.getVehicle().getBusinessPartner().getBusinessAddresses();
+            for (Object object : businessAddresses) {
+                if (object instanceof BusinessAddress) {
+                    BusinessAddress businessAddress = (BusinessAddress) object;
+                    Address address = businessAddress.getAddress();
+                    lblAddress1.setText(address.getAdressLine1());
+                    lblAddress2.setText(address.getAdressLine2());
+                    lblAddress3.setText(address.getAdressLine3());
+                }
+            }
+
+            cmbServiceBay.setSelectedItem(service.getServiceBay().getServiceBayName());
+
+            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+            tableModel.setRowCount(0);
+            Set serviceItems = service.getServiceHasItems();
+
+            float tempGrandSubTotal = 0.0f;
+            float tempGrandDiscount = 0.0f;
+            float tempGrandTotal = 0.0f;
+
+            for (Object object : serviceItems) {
+                if (object instanceof ServiceHasItem) {
+                    ServiceHasItem serviceItem = (ServiceHasItem) object;
+                    Item item = serviceItem.getItem();
+
+                    String itemCode = item.getItemCode();
+                    String itemName = item.getItemName();
+                    float quantity = serviceItem.getQuantity();
+                    float unitPrice = item.getSellingPrice();
+                    float subTotal = serviceItem.getSubTotal();
+                    float discount = serviceItem.getDiscount();
+                    float total = serviceItem.getTotal();
+
+                    tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
+
+                    tempGrandSubTotal += subTotal;
+                    tempGrandDiscount += discount;
+                    tempGrandTotal += total;
+                }
+            }
+
+            txtGrandSubTotal.setText("" + tempGrandSubTotal);
+            txtGrandDiscount.setText("" + tempGrandDiscount);
+            txtGrandTotal.setText("" + tempGrandTotal);
+
+            this.lblUpdate.setText("Update");
+
+            session.close();
+            
+            Timer timer = new Timer();
+            timer.schedule(new FocusTimer(), 500);
+        }
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnNewVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewVehicleActionPerformed
@@ -724,6 +844,16 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtQuantityKeyPressed
 
+    private void tblItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblItemsMouseClicked
+
+    }//GEN-LAST:event_tblItemsMouseClicked
+
+    private void cmbVehicleFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbVehicleFocusGained
+        if (service != null) {
+            cmbItems.requestFocus();
+        }
+    }//GEN-LAST:event_cmbVehicleFocusGained
+
     private void loadVehicles(Session session) {
 
         Query query = session.createQuery("from Vehicle v order by v.vehicleNumber");
@@ -790,10 +920,32 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                     ServiceBay serviceBay = (ServiceBay) object;
                     String serviceBayName = serviceBay.getServiceBayName();
                     cmbServiceBay.addItem(serviceBayName);
-                    serviceBayMap.put(title, serviceBay);
+                    serviceBayMap.put(serviceBayName, serviceBay);
                 }
             }
         }
+    }
+
+    private void resetWindow() {
+        cmbVehicle.setSelectedIndex(0);
+        txtLastServicesMilage.setText("");
+        lblCustomerName.setText("");
+        lblAddress1.setText("");
+        lblAddress2.setText("");
+        lblAddress3.setText("");
+
+        cmbServiceBay.setSelectedIndex(0);
+        txtGrandSubTotal.setText("0.00");
+        txtGrandDiscount.setText("0.00");
+        txtGrandTotal.setText("0.00");
+
+        cmbItems.setSelectedIndex(0);
+        txtQuantity.setText("0.00");
+        txtDiscount.setText("0.00");
+        rbtPercentage.setSelected(true);
+
+        DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+        tableModel.setRowCount(0);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -801,7 +953,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnNewVehicle;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JPanel buttonPanel;
-    private javax.swing.JComboBox<String> cmbItems;
+    public static javax.swing.JComboBox<String> cmbItems;
     private javax.swing.JComboBox<String> cmbServiceBay;
     private javax.swing.JComboBox<String> cmbVehicle;
     private javax.swing.JPanel customerDetailPanel;
@@ -838,7 +990,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField txtQuantity;
     private javax.swing.JPanel vehicleDetailPanel;
     // End of variables declaration//GEN-END:variables
-    private final Service service;
+    private Service service;
     private final TreeMap<String, Vehicle> vehicleMap = new TreeMap<>();
     private final TreeMap<String, ServiceBay> serviceBayMap = new TreeMap<>();
     private final TreeMap<String, Item> itemMap = new TreeMap<>();
