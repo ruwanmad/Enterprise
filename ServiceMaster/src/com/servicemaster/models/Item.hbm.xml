@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jul 31, 2017 10:27:24 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 7, 2017 2:32:42 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Item" table="item" catalog="enterprisedb" optimistic-lock="version">
         <id name="itemCode" type="string">
@@ -70,6 +70,14 @@
                 <column name="item_item_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.Bom" />
+        </set>
+        <set name="manufacturers" table="item_has_manufacturer" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="item_item_code" length="15" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.servicemaster.models.Manufacturer">
+                <column name="manufacturer_manufacturer_code" length="15" not-null="true" />
+            </many-to-many>
         </set>
         <set name="serviceHasItems" table="service_has_item" inverse="true" lazy="true" fetch="select">
             <key>

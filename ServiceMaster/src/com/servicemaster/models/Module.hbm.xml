@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jul 31, 2017 10:27:24 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 7, 2017 2:32:42 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Module" table="module" catalog="enterprisedb" optimistic-lock="version">
         <id name="moduleId" type="int">
@@ -20,11 +20,11 @@
         <property name="isShortcutAdded" type="java.lang.Integer">
             <column name="isShortcut_added" />
         </property>
-        <property name="isMaximized" type="java.lang.Integer">
-            <column name="isMaximized" />
-        </property>
         <property name="isActive" type="java.lang.Integer">
             <column name="isActive" />
+        </property>
+        <property name="isMaximized" type="java.lang.Integer">
+            <column name="isMaximized" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />

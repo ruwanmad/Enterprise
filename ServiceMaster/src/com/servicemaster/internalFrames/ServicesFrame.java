@@ -46,6 +46,7 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
+        setMaximizable(true);
         setTitle("Services");
 
         toolbar.setFloatable(false);
@@ -146,7 +147,7 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
 
     private void lblNewServiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewServiceMouseClicked
         try {
-            ServiceFrame serviceFrame = new ServiceFrame();
+            ServiceFrame serviceFrame = new ServiceFrame(null);
             desktopPane.add(serviceFrame);
             serviceFrame.setMaximum(true);
             

@@ -255,7 +255,7 @@ public class Login extends javax.swing.JFrame {
                     this.dispose();
                 }
             } else {
-                InformationDialog.showMessageBox("Invalid username or password. Please try again.", "Invalid");
+                InformationDialog.showMessageBox("<html>Invalid username or password.<br>Please try again.<html>", "Invalid");
             }
             session.getTransaction().commit();
             session.close();

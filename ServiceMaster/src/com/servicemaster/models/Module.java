@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Jul 31, 2017 10:27:22 PM by Hibernate Tools 4.3.1
+// Generated Aug 7, 2017 2:32:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -15,8 +15,8 @@ public class Module  implements java.io.Serializable {
      private String moduleName;
      private String iconName;
      private Integer isShortcutAdded;
-     private Integer isMaximized;
      private Integer isActive;
+     private Integer isMaximized;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -33,14 +33,14 @@ public class Module  implements java.io.Serializable {
         this.moduleId = moduleId;
         this.moduleCode = moduleCode;
     }
-    public Module(int moduleId, String moduleCode, String moduleName, String iconName, Integer isShortcutAdded, Integer isMaximized, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks) {
+    public Module(int moduleId, String moduleCode, String moduleName, String iconName, Integer isShortcutAdded, Integer isActive, Integer isMaximized, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks) {
        this.moduleId = moduleId;
        this.moduleCode = moduleCode;
        this.moduleName = moduleName;
        this.iconName = iconName;
        this.isShortcutAdded = isShortcutAdded;
-       this.isMaximized = isMaximized;
        this.isActive = isActive;
+       this.isMaximized = isMaximized;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -85,19 +85,19 @@ public class Module  implements java.io.Serializable {
     public void setIsShortcutAdded(Integer isShortcutAdded) {
         this.isShortcutAdded = isShortcutAdded;
     }
-    public Integer getIsMaximized() {
-        return this.isMaximized;
-    }
-    
-    public void setIsMaximized(Integer isMaximized) {
-        this.isMaximized = isMaximized;
-    }
     public Integer getIsActive() {
         return this.isActive;
     }
     
     public void setIsActive(Integer isActive) {
         this.isActive = isActive;
+    }
+    public Integer getIsMaximized() {
+        return this.isMaximized;
+    }
+    
+    public void setIsMaximized(Integer isMaximized) {
+        this.isMaximized = isMaximized;
     }
     public Date getCreatedDate() {
         return this.createdDate;

@@ -396,7 +396,8 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
                     if (vehicleType.equalsIgnoreCase(SystemData.COMBO_DEFAULT) || businessPatner.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
                         InformationDialog.showMessageBox("Please select a valid vehicle type and business patner", "Invalid");
                     } else {
-                        Vehicle vehicle = new Vehicle(vehicleNumber);
+                        Vehicle vehicle = new Vehicle();
+                        vehicle.setVehicleCode(vehicleCode);
                         vehicle.setVehicleNumber(vehicleNumber);
                         vehicle.setManufactureredYear(manufactureYear);
                         vehicle.setVehicleType(this.vehicleTypeMap.get(vehicleType.split("-")[0].trim()));

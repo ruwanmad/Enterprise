@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jul 31, 2017 10:27:24 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 7, 2017 2:32:42 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Invoice" table="invoice" catalog="enterprisedb" optimistic-lock="version">
         <id name="invoiceNumber" type="string">
@@ -43,12 +43,6 @@
                 <column name="invoice_invoice_number" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.Payment" />
-        </set>
-        <set name="invoiceLines" table="invoice_line" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="invoice_invoice_number" length="15" not-null="true" />
-            </key>
-            <one-to-many class="com.servicemaster.models.InvoiceLine" />
         </set>
     </class>
 </hibernate-mapping>

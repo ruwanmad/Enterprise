@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jul 31, 2017 10:27:24 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 7, 2017 2:32:42 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Service" table="service" catalog="enterprisedb" optimistic-lock="version">
         <id name="serviceCode" type="string">
@@ -14,6 +14,9 @@
         <many-to-one name="vehicle" class="com.servicemaster.models.Vehicle" fetch="select">
             <column name="vehicle_vehicle_code" length="15" not-null="true" />
         </many-to-one>
+        <property name="milage" type="java.lang.Float">
+            <column name="milage" precision="12" scale="0" />
+        </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
         </property>
@@ -32,8 +35,8 @@
         <property name="modifiedUser" type="java.lang.Integer">
             <column name="modified_user" />
         </property>
-        <property name="servicecol" type="string">
-            <column name="servicecol" length="45" />
+        <property name="remark" type="string">
+            <column name="remark" length="100" />
         </property>
         <set name="invoices" table="invoice" inverse="true" lazy="true" fetch="select">
             <key>

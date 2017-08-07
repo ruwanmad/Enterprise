@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Jul 31, 2017 10:27:22 PM by Hibernate Tools 4.3.1
+// Generated Aug 7, 2017 2:32:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -24,7 +24,6 @@ public class Invoice  implements java.io.Serializable {
      private Integer modifiedUser;
      private int serviceServiceId;
      private Set payments = new HashSet(0);
-     private Set invoiceLines = new HashSet(0);
 
     public Invoice() {
     }
@@ -35,7 +34,7 @@ public class Invoice  implements java.io.Serializable {
         this.service = service;
         this.serviceServiceId = serviceServiceId;
     }
-    public Invoice(String invoiceNumber, Service service, Float netAmount, Float discount, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, int serviceServiceId, Set payments, Set invoiceLines) {
+    public Invoice(String invoiceNumber, Service service, Float netAmount, Float discount, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, int serviceServiceId, Set payments) {
        this.invoiceNumber = invoiceNumber;
        this.service = service;
        this.netAmount = netAmount;
@@ -48,7 +47,6 @@ public class Invoice  implements java.io.Serializable {
        this.modifiedUser = modifiedUser;
        this.serviceServiceId = serviceServiceId;
        this.payments = payments;
-       this.invoiceLines = invoiceLines;
     }
    
     public String getInvoiceNumber() {
@@ -134,13 +132,6 @@ public class Invoice  implements java.io.Serializable {
     
     public void setPayments(Set payments) {
         this.payments = payments;
-    }
-    public Set getInvoiceLines() {
-        return this.invoiceLines;
-    }
-    
-    public void setInvoiceLines(Set invoiceLines) {
-        this.invoiceLines = invoiceLines;
     }
 
 
