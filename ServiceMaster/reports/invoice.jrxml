@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="30777226-da33-4cba-9ff0-f9262f088062">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="serviceCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     business_partner.`business_partner_code` AS business_partner_business_partner_code,
+     business_partner.`first_name` AS business_partner_first_name,
+     business_partner.`last_name` AS business_partner_last_name,
+     business_address.`business_partner_business_partner_code` AS business_address_business_partner_business_partner_code,
+     vehicle.`vehicle_number` AS vehicle_vehicle_number,
+     service.`milage` AS service_milage,
+     service_has_item.`service_service_code` AS service_has_item_service_service_code,
+     service_has_item.`quantity` AS service_has_item_quantity,
+     service_has_item.`sub_total` AS service_has_item_sub_total,
+     service_has_item.`discount` AS service_has_item_discount,
+     service_has_item.`total` AS service_has_item_total,
+     item.`item_name` AS item_item_name,
+     item.`selling_price` AS item_selling_price,
+     service.`service_code` AS service_service_code,
+     service.`created_date` AS service_created_date,
+     service.`created_time` AS service_created_time,
+     user.`user_name` AS user_user_name
+FROM
+     `business_partner` business_partner INNER JOIN `business_address` business_address ON business_partner.`business_partner_code` = business_address.`business_partner_business_partner_code`
+     INNER JOIN `vehicle` vehicle ON business_partner.`business_partner_code` = vehicle.`business_partner_business_partner_code`
+     INNER JOIN `service` service ON vehicle.`vehicle_code` = service.`vehicle_vehicle_code`
+     INNER JOIN `service_has_item` service_has_item ON service.`service_code` = service_has_item.`service_service_code`
+     INNER JOIN `user` user ON service.`created_user` = user.`user_id`
+     INNER JOIN `item` item ON service_has_item.`item_item_code` = item.`item_code`
+WHERE
+     service.`service_code` = $P{serviceCode}]]>
+	</queryString>
+	<field name="business_partner_business_partner_code" class="java.lang.String"/>
+	<field name="business_partner_first_name" class="java.lang.String"/>
+	<field name="business_partner_last_name" class="java.lang.String"/>
+	<field name="business_address_business_partner_business_partner_code" class="java.lang.String"/>
+	<field name="vehicle_vehicle_number" class="java.lang.String"/>
+	<field name="service_milage" class="java.lang.Float"/>
+	<field name="service_has_item_service_service_code" class="java.lang.String"/>
+	<field name="service_has_item_quantity" class="java.lang.Float"/>
+	<field name="service_has_item_sub_total" class="java.lang.Float"/>
+	<field name="service_has_item_discount" class="java.lang.Float"/>
+	<field name="service_has_item_total" class="java.lang.Float"/>
+	<field name="item_item_name" class="java.lang.String"/>
+	<field name="item_selling_price" class="java.lang.Float"/>
+	<field name="service_service_code" class="java.lang.String"/>
+	<field name="service_created_date" class="java.sql.Date"/>
+	<field name="service_created_time" class="java.sql.Time"/>
+	<field name="user_user_name" class="java.lang.String"/>
+	<variable name="service_has_item_total_1" class="java.lang.Float" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{service_has_item_total}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="140" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="50289e7d-03ce-41ff-8a34-d423061b2025"/>
+				<textElement verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Service Center Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="100" height="20" uuid="4da961c8-9829-4e8e-b46d-1b99595715a2"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Date/Time :]]></text>
+			</staticText>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement x="100" y="30" width="55" height="20" uuid="3ce5ced8-5aab-45d5-a2b3-246ab61491b9"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{service_created_date}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH.mm">
+				<reportElement x="155" y="30" width="100" height="20" uuid="a54883fc-d022-4e8c-be30-89f32a90bae7"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{service_created_time}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="50" width="100" height="20" uuid="917ee4fa-d732-4bd7-8db2-8a90229d36fb"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Vehicle Number]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="50" width="100" height="20" uuid="9bae60f2-6902-4c6b-9cc9-df0321e5e22b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{vehicle_vehicle_number}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="70" width="100" height="20" uuid="eda52d81-ede7-4a71-986a-5740d7792eb8"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Milage :]]></text>
+			</staticText>
+			<textField pattern="###0">
+				<reportElement x="100" y="70" width="100" height="20" uuid="3516eac4-d0ad-46c1-b9c8-d23f7246d97f"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{service_milage}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="255" y="50" width="100" height="20" uuid="d02daf95-e9c4-46a4-9589-e7061b8c6f66"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Customer Name :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="355" y="50" width="200" height="20" uuid="dad310bd-d516-4c86-9415-5900dff011e1"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{business_partner_first_name}+" "+$F{business_partner_last_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="150" height="20" uuid="7be93f7a-cc7d-42ac-a98c-aca8099bd485"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Item]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="183" y="0" width="50" height="20" uuid="2ca47a56-9dcf-44e2-bb61-e2dd41694740"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="243" y="0" width="70" height="20" uuid="70014b20-850e-4e1c-a33d-d879531731ac"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unit Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="403" y="0" width="70" height="20" uuid="186966ba-7660-4f92-ade7-99f927aab11b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Discount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="323" y="0" width="70" height="20" uuid="a17dce0e-2b09-4f07-b015-475911ba345d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sub Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="483" y="0" width="70" height="20" uuid="788867ca-58d0-403c-b5b6-fc9299726373"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="20" width="555" height="1" uuid="7a7f5be5-0f6a-4775-abae-3d8ce72ebf94"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="150" height="20" uuid="0e0298d1-e684-40f1-8d12-ed27e944eeaf"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{item_item_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="183" y="0" width="50" height="20" uuid="1a36e7d8-345d-49e7-b1c9-0e350e1490fd"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{service_has_item_quantity}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="243" y="0" width="70" height="20" uuid="967419f0-12c9-42a2-9db6-30bd7102d97a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{item_selling_price}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="403" y="0" width="70" height="20" uuid="a368fda0-10b0-497d-8700-8d3624402183"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{service_has_item_discount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="323" y="0" width="70" height="20" uuid="d969eb1e-8f34-4b58-ac19-b19b402eecd3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{service_has_item_sub_total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="483" y="0" width="70" height="20" uuid="2a82f0ad-6641-48ca-93bf-e13465e3e39e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{service_has_item_total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="1" width="555" height="1" uuid="18ebb0d6-0c72-45ef-ac71-dcca574a4919"/>
+			</line>
+			<textField pattern="#,##0.00">
+				<reportElement x="483" y="2" width="70" height="20" uuid="6a3845e7-fb9c-4e27-ac37-e810c7ffa578"/>
+				<box>
+					<bottomPen lineWidth="4.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{service_has_item_total_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="45" height="20" uuid="8a9cff02-a693-47db-a6d6-91046aad3c53"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Created By :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="45" y="0" width="100" height="20" uuid="861534c7-6483-4041-891a-8daf87c22e30"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{user_user_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="373" y="0" width="100" height="20" uuid="52a5a875-b0dd-4ba9-bb07-343b36ba9e69"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Created Date/Time :]]></text>
+			</staticText>
+			<textField pattern="yyyy-MM-dd HH:mm aaa">
+				<reportElement x="473" y="0" width="80" height="20" uuid="46206a6e-0695-4254-956a-9a53a87b9e6b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

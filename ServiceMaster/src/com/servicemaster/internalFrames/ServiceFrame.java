@@ -10,6 +10,7 @@ import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.AutoCompletion;
+import com.servicemaster.functions.JdbcConnection;
 import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.models.Address;
@@ -25,13 +26,22 @@ import com.servicemaster.timers.FocusTimer;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -73,8 +83,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         txtLastServicesMilage = new javax.swing.JTextField();
         cmbVehicle = new javax.swing.JComboBox<>();
-        btnNewVehicle = new javax.swing.JButton();
-        btnRefresh = new javax.swing.JButton();
+        lblNew = new javax.swing.JLabel();
+        lblRefresh = new javax.swing.JLabel();
         customerDetailPanel = new javax.swing.JPanel();
         lblAddress3 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -105,6 +115,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         buttonPanel = new javax.swing.JPanel();
         lblClose = new javax.swing.JLabel();
         lblUpdate = new javax.swing.JLabel();
+        lblPrint = new javax.swing.JLabel();
 
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -128,16 +139,21 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
         vehicleDetailPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255)), "Vehicle Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 255))); // NOI18N
 
+        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel1.setText("Vehicle No :");
 
+        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel2.setText("Last service milage :");
 
+        txtLastServicesMilage.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         txtLastServicesMilage.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtLastServicesMilageKeyPressed(evt);
             }
         });
 
+        cmbVehicle.setEditable(true);
+        cmbVehicle.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         cmbVehicle.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbVehicleItemStateChanged(evt);
@@ -149,17 +165,39 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        btnNewVehicle.setText("New");
-        btnNewVehicle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewVehicleActionPerformed(evt);
+        lblNew.setBackground(new java.awt.Color(150, 255, 150));
+        lblNew.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblNew.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNew.setText("New");
+        lblNew.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblNew.setOpaque(true);
+        lblNew.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblNewMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblNewMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblNewMouseExited(evt);
             }
         });
 
-        btnRefresh.setText("Refresh");
-        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshActionPerformed(evt);
+        lblRefresh.setBackground(new java.awt.Color(150, 255, 150));
+        lblRefresh.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblRefresh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblRefresh.setText("Refresh");
+        lblRefresh.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblRefresh.setOpaque(true);
+        lblRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblRefreshMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblRefreshMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblRefreshMouseExited(evt);
             }
         });
 
@@ -179,15 +217,15 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtLastServicesMilage, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNewVehicle)
+                .addComponent(lblNew, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRefresh)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addComponent(lblRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2});
 
-        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnNewVehicle, btnRefresh});
+        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbVehicle, txtLastServicesMilage});
 
         vehicleDetailPanelLayout.setVerticalGroup(
             vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,8 +234,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(cmbVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNewVehicle)
-                    .addComponent(btnRefresh))
+                    .addComponent(lblNew, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -205,26 +243,32 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addContainerGap(51, Short.MAX_VALUE))
         );
 
-        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnNewVehicle, cmbVehicle, jLabel1, jLabel2, txtLastServicesMilage});
+        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbVehicle, jLabel1, jLabel2, lblNew, txtLastServicesMilage});
 
         detailPanel.add(vehicleDetailPanel);
 
         customerDetailPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255)), "Customer Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 255))); // NOI18N
 
         lblAddress3.setBackground(new java.awt.Color(255, 255, 255));
+        lblAddress3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         lblAddress3.setOpaque(true);
 
+        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel3.setText("Customer Name :");
 
+        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel4.setText("Address :");
 
         lblCustomerName.setBackground(new java.awt.Color(255, 255, 255));
+        lblCustomerName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         lblCustomerName.setOpaque(true);
 
         lblAddress1.setBackground(new java.awt.Color(255, 255, 255));
+        lblAddress1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         lblAddress1.setOpaque(true);
 
         lblAddress2.setBackground(new java.awt.Color(255, 255, 255));
+        lblAddress2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         lblAddress2.setOpaque(true);
 
         javax.swing.GroupLayout customerDetailPanelLayout = new javax.swing.GroupLayout(customerDetailPanel);
@@ -274,6 +318,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
         ServiceDetailPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255)), "Service Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 255))); // NOI18N
 
+        jLabel5.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel5.setText("Sub Total :");
 
         txtGrandSubTotal.setEditable(false);
@@ -281,13 +326,17 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         txtGrandSubTotal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         txtGrandSubTotal.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtGrandSubTotal.setText("0.00");
+        txtGrandSubTotal.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
+        jLabel6.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel6.setText("Discount :");
 
         txtGrandDiscount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         txtGrandDiscount.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtGrandDiscount.setText("0.00");
+        txtGrandDiscount.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
+        jLabel7.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel7.setText("Grand Total :");
 
         txtGrandTotal.setEditable(false);
@@ -295,8 +344,13 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         txtGrandTotal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         txtGrandTotal.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtGrandTotal.setText("0.00");
+        txtGrandTotal.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
+        jLabel11.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel11.setText("Service Bay :");
+
+        cmbServiceBay.setEditable(true);
+        cmbServiceBay.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout ServiceDetailPanelLayout = new javax.swing.GroupLayout(ServiceDetailPanel);
         ServiceDetailPanel.setLayout(ServiceDetailPanelLayout);
@@ -307,7 +361,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmbServiceBay, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtGrandSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -341,20 +395,24 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        ServiceDetailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel5, jLabel6, jLabel7, txtGrandDiscount, txtGrandSubTotal, txtGrandTotal});
+        ServiceDetailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbServiceBay, jLabel11, jLabel5, jLabel6, jLabel7, txtGrandDiscount, txtGrandSubTotal, txtGrandTotal});
 
         itemPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255)), "Items", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 255))); // NOI18N
 
+        jLabel8.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel8.setText("Item Name :");
 
         cmbItems.setEditable(true);
+        cmbItems.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
+        jLabel9.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel9.setText("Quantity :");
 
         txtQuantity.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.0"))));
         txtQuantity.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtQuantity.setText("0.0");
         txtQuantity.setToolTipText("");
+        txtQuantity.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         txtQuantity.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtQuantityFocusGained(evt);
@@ -366,12 +424,15 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel10.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel10.setText("Discount :");
 
         txtDiscount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.0"))));
         txtDiscount.setText("0.0");
+        txtDiscount.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
         discountGroup.add(rbtPercentage);
+        rbtPercentage.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         rbtPercentage.setSelected(true);
         rbtPercentage.setText("%");
         rbtPercentage.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -381,6 +442,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         });
 
         discountGroup.add(rbtNumber);
+        rbtNumber.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         rbtNumber.setText("#");
         rbtNumber.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -509,19 +571,39 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        lblPrint.setBackground(new java.awt.Color(150, 255, 150));
+        lblPrint.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblPrint.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblPrint.setText("Print");
+        lblPrint.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblPrint.setOpaque(true);
+        lblPrint.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblPrintMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblPrintMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblPrintMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
         buttonPanel.setLayout(buttonPanelLayout);
         buttonPanelLayout.setHorizontalGroup(
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblUpdate});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblPrint, lblUpdate});
 
         buttonPanelLayout.setVerticalGroup(
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -529,11 +611,12 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblUpdate});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblPrint, lblUpdate});
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -554,7 +637,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(itemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -738,25 +821,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             this.lblUpdate.setText("Update");
 
             session.close();
-            
+
             Timer timer = new Timer();
             timer.schedule(new FocusTimer(), 500);
         }
     }//GEN-LAST:event_formInternalFrameOpened
-
-    private void btnNewVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewVehicleActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get("Vehicles"));
-    }//GEN-LAST:event_btnNewVehicleActionPerformed
-
-    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-
-        this.loadVehicles(session);
-
-        session.getTransaction().commit();
-        session.close();
-    }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void cmbVehicleItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbVehicleItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
@@ -854,6 +923,64 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_cmbVehicleFocusGained
 
+    private void lblPrintMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrintMouseClicked
+        JdbcConnection jbConnection = new JdbcConnection();
+        Connection connection = jbConnection.getConnection();
+
+        if (connection != null) {
+            String reportFile = "reports/invoice.jasper";
+
+            Map map = new HashMap();
+            map.put("serviceCode", this.service.getServiceCode());
+
+            try {
+                JasperPrint jasperPrint = JasperFillManager.fillReport(reportFile, map, connection);
+                JasperViewer.viewReport(jasperPrint, false);
+            } catch (JRException ex) {
+                Logger.getLogger(ServiceFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            jbConnection.closeConnection();
+        }
+    }//GEN-LAST:event_lblPrintMouseClicked
+
+    private void lblPrintMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrintMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblPrintMouseEntered
+
+    private void lblPrintMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrintMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblPrintMouseExited
+
+    private void lblNewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewMouseClicked
+        MainFrame.openWindow(MainFrame.allModuleMap.get("Vehicles"));
+    }//GEN-LAST:event_lblNewMouseClicked
+
+    private void lblNewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblNewMouseEntered
+
+    private void lblNewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblNewMouseExited
+
+    private void lblRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRefreshMouseClicked
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        this.loadVehicles(session);
+
+        session.getTransaction().commit();
+        session.close();
+    }//GEN-LAST:event_lblRefreshMouseClicked
+
+    private void lblRefreshMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRefreshMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblRefreshMouseEntered
+
+    private void lblRefreshMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRefreshMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblRefreshMouseExited
+
     private void loadVehicles(Session session) {
 
         Query query = session.createQuery("from Vehicle v order by v.vehicleNumber");
@@ -950,8 +1077,6 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ServiceDetailPanel;
-    private javax.swing.JButton btnNewVehicle;
-    private javax.swing.JButton btnRefresh;
     private javax.swing.JPanel buttonPanel;
     public static javax.swing.JComboBox<String> cmbItems;
     private javax.swing.JComboBox<String> cmbServiceBay;
@@ -977,6 +1102,9 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblAddress3;
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCustomerName;
+    private javax.swing.JLabel lblNew;
+    private javax.swing.JLabel lblPrint;
+    private javax.swing.JLabel lblRefresh;
     private javax.swing.JLabel lblUpdate;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JRadioButton rbtNumber;

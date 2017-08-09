@@ -124,9 +124,10 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
 
         toolbar.add(toolbarPanel);
 
-        jSplitPane1.setDividerLocation(150);
+        jSplitPane1.setDividerLocation(100);
 
-        listServices.setBackground(new java.awt.Color(51, 204, 255));
+        listServices.setBackground(new java.awt.Color(204, 255, 255));
+        listServices.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         listServices.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         listServices.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -143,7 +144,7 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         desktopPane.setLayout(desktopPaneLayout);
         desktopPaneLayout.setHorizontalGroup(
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 628, Short.MAX_VALUE)
+            .addGap(0, 678, Short.MAX_VALUE)
         );
         desktopPaneLayout.setVerticalGroup(
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,6 +209,11 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
                 ServiceFrame serviceFrame = new ServiceFrame(service);
                 desktopPane.add(serviceFrame);
                 serviceFrame.setMaximum(true);
+
+                BasicInternalFrameUI internalFrameUI = (BasicInternalFrameUI) serviceFrame.getUI();
+                internalFrameUI.setNorthPane(null);
+                serviceFrame.setBorder(null);
+
                 serviceFrame.setVisible(true);
             } catch (PropertyVetoException ex) {
                 Logger.getLogger(ServicesFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -242,7 +248,7 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
                             Hibernate.initialize(businessAddress.getAddress());
                         }
                     }
-                    
+
                     Set serviseItems = service.getServiceHasItems();
                     for (Object tempServiceItem : serviseItems) {
                         if (tempServiceItem instanceof ServiceHasItem) {
