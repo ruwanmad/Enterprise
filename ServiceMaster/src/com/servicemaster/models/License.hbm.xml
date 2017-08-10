@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 10, 2017 10:50:37 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.servicemaster.models.License" table="license" catalog="enterprisedb" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="companyName" type="string">
+            <column name="company_name" length="150" />
+        </property>
+        <property name="addressLine1" type="string">
+            <column name="address_line1" length="100" />
+        </property>
+        <property name="addressLine2" type="string">
+            <column name="address_line2" length="100" />
+        </property>
+        <property name="addressLine3" type="string">
+            <column name="address_line3" length="100" />
+        </property>
+        <property name="telephone" type="string">
+            <column name="telephone" length="15" />
+        </property>
+        <property name="fax" type="string">
+            <column name="fax" length="15" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="45" />
+        </property>
+        <property name="web" type="string">
+            <column name="web" length="45" />
+        </property>
+        <property name="vatNumber" type="string">
+            <column name="vat_number" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

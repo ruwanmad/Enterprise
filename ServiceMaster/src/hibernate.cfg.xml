@@ -65,9 +65,10 @@ Contributor(s):
     <mapping resource="com/servicemaster/models/Manufacturer.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Printer.hbm.xml"/>
     <mapping resource="com/servicemaster/models/GrnLine.hbm.xml"/>
+    <mapping resource="com/servicemaster/models/License.hbm.xml"/>
     <mapping resource="com/servicemaster/models/KeyTable.hbm.xml"/>
-    <mapping resource="com/servicemaster/models/UomConversion.hbm.xml"/>
     <mapping resource="com/servicemaster/models/SubCategoryType.hbm.xml"/>
+    <mapping resource="com/servicemaster/models/UomConversion.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Uom.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Invoice.hbm.xml"/>
     <mapping resource="com/servicemaster/models/BomItem.hbm.xml"/>
