@@ -64,6 +64,8 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         lblCodeSearch = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         cmbBusinessPatner = new javax.swing.JComboBox<>();
+        lblNewBusinessPatner = new javax.swing.JLabel();
+        lblBusinessPatnerRefresh = new javax.swing.JLabel();
 
         setTitle("Vehicle");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -207,6 +209,42 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         cmbBusinessPatner.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         cmbBusinessPatner.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--" }));
 
+        lblNewBusinessPatner.setBackground(new java.awt.Color(150, 255, 150));
+        lblNewBusinessPatner.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblNewBusinessPatner.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNewBusinessPatner.setText("New");
+        lblNewBusinessPatner.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblNewBusinessPatner.setOpaque(true);
+        lblNewBusinessPatner.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblNewBusinessPatnerMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblNewBusinessPatnerMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblNewBusinessPatnerMouseExited(evt);
+            }
+        });
+
+        lblBusinessPatnerRefresh.setBackground(new java.awt.Color(150, 255, 150));
+        lblBusinessPatnerRefresh.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblBusinessPatnerRefresh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBusinessPatnerRefresh.setText("Refresh");
+        lblBusinessPatnerRefresh.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblBusinessPatnerRefresh.setOpaque(true);
+        lblBusinessPatnerRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblBusinessPatnerRefreshMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblBusinessPatnerRefreshMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblBusinessPatnerRefreshMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -226,35 +264,41 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtRemark))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cmbBusinessPatner, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtVehicleCode)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblCodeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cmbVehicleType, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtVehicleNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblNumberSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(yManufactureYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtVehicleCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblCodeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbxIsActive)))
+                                .addComponent(cbxIsActive))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                                        .addComponent(cmbBusinessPatner, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cmbVehicleType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblNewBusinessPatner, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblBusinessPatnerRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtVehicleNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblNumberSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -262,10 +306,6 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtVehicleCode, txtVehicleNumber});
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbBusinessPatner, cmbVehicleType});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,7 +333,10 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(cmbBusinessPatner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbBusinessPatner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblNewBusinessPatner)
+                        .addComponent(lblBusinessPatnerRefresh)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -310,7 +353,7 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbBusinessPatner, cmbVehicleType, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, lblCodeSearch, lblNumberSearch, txtRemark, txtVehicleCode, txtVehicleNumber, yManufactureYear});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbBusinessPatner, cmbVehicleType, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, lblBusinessPatnerRefresh, lblCodeSearch, lblNewBusinessPatner, lblNumberSearch, txtRemark, txtVehicleCode, txtVehicleNumber, yManufactureYear});
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
 
@@ -444,33 +487,9 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        Query query = session.createQuery("from VehicleType v order by v.vehicleTypeCode");
-        List list = query.list();
-        if (!list.isEmpty()) {
-            for (Object object : list) {
-                if (object instanceof VehicleType) {
-                    VehicleType vehicleType = (VehicleType) object;
-                    String vehicleTypeName = vehicleType.getVehicleTypeName();
-                    String vehicleTypeCode = vehicleType.getVehicleTypeCode();
-                    cmbVehicleType.addItem(vehicleTypeCode + "-" + vehicleTypeName);
-                    this.vehicleTypeMap.put(vehicleTypeCode, vehicleType);
-                }
-            }
-        }
-
-        query = session.createQuery("from BusinessPartner b order by b.businessPartnerCode");
-        list = query.list();
-        if (!list.isEmpty()) {
-            for (Object object : list) {
-                if (object instanceof BusinessPartner) {
-                    BusinessPartner businessPartner = (BusinessPartner) object;
-                    String businessPartnerCode = businessPartner.getBusinessPartnerCode();
-                    String businessPartnerName = businessPartner.getFirstName() + " " + businessPartner.getLastName();
-                    cmbBusinessPatner.addItem(businessPartnerCode + "-" + businessPartnerName);
-                    this.businessPatnerMap.put(businessPartnerCode, businessPartner);
-                }
-            }
-        }
+        this.loadVehicleType(session);
+        this.loadBusinessPartner(session);
+        
         session.getTransaction().commit();
         session.close();
     }//GEN-LAST:event_formInternalFrameOpened
@@ -493,6 +512,35 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
     private void lblCodeSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCodeSearchMouseExited
+
+    private void lblNewBusinessPatnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewBusinessPatnerMouseClicked
+        BusinessPartnerFrame partnerFrame = new BusinessPartnerFrame();
+        MainFrame.desktopPane.add(partnerFrame);
+        partnerFrame.setVisible(true);
+    }//GEN-LAST:event_lblNewBusinessPatnerMouseClicked
+
+    private void lblNewBusinessPatnerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewBusinessPatnerMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblNewBusinessPatnerMouseEntered
+
+    private void lblNewBusinessPatnerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewBusinessPatnerMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblNewBusinessPatnerMouseExited
+
+    private void lblBusinessPatnerRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBusinessPatnerRefreshMouseClicked
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        this.loadBusinessPartner(session);
+        session.close();
+    }//GEN-LAST:event_lblBusinessPatnerRefreshMouseClicked
+
+    private void lblBusinessPatnerRefreshMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBusinessPatnerRefreshMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblBusinessPatnerRefreshMouseEntered
+
+    private void lblBusinessPatnerRefreshMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBusinessPatnerRefreshMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblBusinessPatnerRefreshMouseExited
 
     private List getVehicleByCode(String vehicleCode, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -622,6 +670,38 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         this.resetFrame();
     }
 
+    private void loadBusinessPartner(Session session) {
+        Query query = session.createQuery("from BusinessPartner b order by b.businessPartnerCode");
+        List list = query.list();
+        if (!list.isEmpty()) {
+            for (Object object : list) {
+                if (object instanceof BusinessPartner) {
+                    BusinessPartner businessPartner = (BusinessPartner) object;
+                    String businessPartnerCode = businessPartner.getBusinessPartnerCode();
+                    String businessPartnerName = businessPartner.getFirstName() + " " + businessPartner.getLastName();
+                    cmbBusinessPatner.addItem(businessPartnerCode + "-" + businessPartnerName);
+                    this.businessPatnerMap.put(businessPartnerCode, businessPartner);
+                }
+            }
+        }
+    }
+
+    private void loadVehicleType(Session session) {
+        Query query = session.createQuery("from VehicleType v order by v.vehicleTypeCode");
+        List list = query.list();
+        if (!list.isEmpty()) {
+            for (Object object : list) {
+                if (object instanceof VehicleType) {
+                    VehicleType vehicleType = (VehicleType) object;
+                    String vehicleTypeName = vehicleType.getVehicleTypeName();
+                    String vehicleTypeCode = vehicleType.getVehicleTypeCode();
+                    cmbVehicleType.addItem(vehicleTypeCode + "-" + vehicleTypeName);
+                    this.vehicleTypeMap.put(vehicleTypeCode, vehicleType);
+                }
+            }
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbxIsActive;
     private javax.swing.JComboBox<String> cmbBusinessPatner;
@@ -633,8 +713,10 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel lblBusinessPatnerRefresh;
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCodeSearch;
+    private javax.swing.JLabel lblNewBusinessPatner;
     private javax.swing.JLabel lblNumberSearch;
     private javax.swing.JLabel lblUpdate;
     private javax.swing.JLabel lblView;

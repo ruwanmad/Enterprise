@@ -36,6 +36,7 @@ import java.util.Timer;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
@@ -85,6 +86,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         cmbVehicle = new javax.swing.JComboBox<>();
         lblNew = new javax.swing.JLabel();
         lblRefresh = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        dateServiceDate = new com.toedter.calendar.JDateChooser();
         customerDetailPanel = new javax.swing.JPanel();
         lblAddress3 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -201,6 +204,13 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel12.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel12.setText("Date : ");
+
+        dateServiceDate.setDate(new Date());
+        dateServiceDate.setDateFormatString("yyyy-MM-dd");
+        dateServiceDate.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
         javax.swing.GroupLayout vehicleDetailPanelLayout = new javax.swing.GroupLayout(vehicleDetailPanel);
         vehicleDetailPanel.setLayout(vehicleDetailPanelLayout);
         vehicleDetailPanelLayout.setHorizontalGroup(
@@ -213,9 +223,13 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbVehicle, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(vehicleDetailPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel12))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtLastServicesMilage, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtLastServicesMilage, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                            .addComponent(dateServiceDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblNew, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -240,10 +254,14 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtLastServicesMilage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12)
+                    .addComponent(dateServiceDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
-        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbVehicle, jLabel1, jLabel2, lblNew, txtLastServicesMilage});
+        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbVehicle, dateServiceDate, jLabel1, jLabel12, jLabel2, lblNew, txtLastServicesMilage});
 
         detailPanel.add(vehicleDetailPanel);
 
@@ -413,6 +431,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         txtQuantity.setText("0.0");
         txtQuantity.setToolTipText("");
         txtQuantity.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtQuantity.setNextFocusableComponent(txtGrandDiscount);
         txtQuantity.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtQuantityFocusGained(evt);
@@ -430,6 +449,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         txtDiscount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.0"))));
         txtDiscount.setText("0.0");
         txtDiscount.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtDiscount.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDiscountKeyPressed(evt);
+            }
+        });
 
         discountGroup.add(rbtPercentage);
         rbtPercentage.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
@@ -637,7 +661,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(itemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -675,11 +699,49 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
     private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
         if (service != null) {
+            Date date = dateServiceDate.getDate();
 
+            service.setMilage(Float.parseFloat(txtLastServicesMilage.getText().trim()));
+            service.setModifiedDate(date);
+            service.setModifiedTime(date);
+            service.setModifiedUser(MainFrame.user.getUserId());
+            service.setServiceBay(serviceBayMap.get(((String) cmbServiceBay.getSelectedItem()).trim()));
+            service.setVehicle(vehicleMap.get(((String) cmbVehicle.getSelectedItem()).trim()));
+
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+
+            session.saveOrUpdate(service);
+
+            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                String itemName = (String) tblItems.getValueAt(i, 1);
+                float quantity = (float) tblItems.getValueAt(i, 2);
+                float subTotal = (float) tblItems.getValueAt(i, 4);
+                float discount = (float) tblItems.getValueAt(i, 5);
+                float itemTotal = (float) tblItems.getValueAt(i, 6);
+
+                ServiceHasItem serviceHasItem = new ServiceHasItem();
+                serviceHasItem.setItem(itemMap.get(itemName));
+                serviceHasItem.setService(service);
+                serviceHasItem.setQuantity(quantity);
+                serviceHasItem.setSubTotal(subTotal);
+                serviceHasItem.setDiscount(discount);
+                serviceHasItem.setTotal(itemTotal);
+                serviceHasItem.setCreatedDate(date);
+                serviceHasItem.setCreatedTime(date);
+                serviceHasItem.setCreatedUser(MainFrame.user.getUserId());
+                serviceHasItem.setRemark(itemName);
+
+                session.saveOrUpdate(serviceHasItem);
+            }
+
+            session.getTransaction().commit();
+            session.close();
         } else {
             KeyCodeFunctions codeFunctions = new KeyCodeFunctions();
             String serviceCode = codeFunctions.getKey("SVR", "Service");
-            Date date = new Date();
+            Date date = dateServiceDate.getDate();
 
             service = new Service();
             service.setServiceCode(serviceCode);
@@ -784,6 +846,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
 
             cmbServiceBay.setSelectedItem(service.getServiceBay().getServiceBayName());
+            dateServiceDate.setDate(service.getCreatedDate());
 
             DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
             tableModel.setRowCount(0);
@@ -884,37 +947,26 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
     private void txtQuantityKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantityKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-            String itemName = (String) cmbItems.getSelectedItem();
-            Item item = itemMap.get(itemName);
-
-            String itemCode = item.getItemCode();
-            float quantity = Float.parseFloat(txtQuantity.getText().trim());
-            float unitPrice = item.getSellingPrice();
-            float subTotal = quantity * unitPrice;
-            float discount = Float.parseFloat(txtDiscount.getText().trim());
-            float total = subTotal - discount;
-
-            tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
-
-            cmbItems.setSelectedIndex(0);
-            cmbItems.requestFocus();
-            txtQuantity.setText("0.0");
-            txtDiscount.setText("0.0");
-            rbtPercentage.setSelected(true);
-
-            grandSubTotal += subTotal;
-            grandDiscount += discount;
-            grandTotal += total;
-
-            txtGrandSubTotal.setText("" + grandSubTotal);
-            txtGrandDiscount.setText("" + grandDiscount);
-            txtGrandTotal.setText("" + grandTotal);
+            txtDiscount.requestFocus();
         }
     }//GEN-LAST:event_txtQuantityKeyPressed
 
     private void tblItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblItemsMouseClicked
+        int row = tblItems.getSelectedRow();
+        if (row != -1) {
+            String itemName = (String) tblItems.getValueAt(row, 1);
+            String quantity = ((Float) tblItems.getValueAt(row, 2)).toString();
+            String discount = ((Float) tblItems.getValueAt(row, 5)).toString();
 
+            cmbItems.setSelectedItem(itemName);
+            txtQuantity.setText(quantity);
+            txtDiscount.setText(discount);
+
+            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+            tableModel.removeRow(row);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a valid item.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_tblItemsMouseClicked
 
     private void cmbVehicleFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbVehicleFocusGained
@@ -980,6 +1032,47 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private void lblRefreshMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRefreshMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblRefreshMouseExited
+
+    private void txtDiscountKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiscountKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+            String itemName = (String) cmbItems.getSelectedItem();
+            Item item = itemMap.get(itemName);
+
+            String itemCode = item.getItemCode();
+            float quantity = Float.parseFloat(txtQuantity.getText().trim());
+            float unitPrice = item.getSellingPrice();
+            float subTotal = quantity * unitPrice;
+            float discount = Float.parseFloat(txtDiscount.getText().trim());
+            float total = 0.0f;
+            if (discount != 0.0) {
+                if (rbtPercentage.isSelected()) {
+                    discount = (subTotal * discount)/100;
+                    total = subTotal - discount;
+                } else if (rbtNumber.isSelected()) {
+                    total = subTotal - discount;
+                }
+            } else {
+                total = subTotal;
+            }
+
+            tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
+
+            cmbItems.setSelectedIndex(0);
+            cmbItems.requestFocus();
+            txtQuantity.setText("0.0");
+            txtDiscount.setText("0.0");
+            rbtPercentage.setSelected(true);
+
+            grandSubTotal += subTotal;
+            grandDiscount += discount;
+            grandTotal += total;
+
+            txtGrandSubTotal.setText("" + grandSubTotal);
+            txtGrandDiscount.setText("" + grandDiscount);
+            txtGrandTotal.setText("" + grandTotal);
+        }
+    }//GEN-LAST:event_txtDiscountKeyPressed
 
     private void loadVehicles(Session session) {
 
@@ -1082,12 +1175,14 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cmbServiceBay;
     private javax.swing.JComboBox<String> cmbVehicle;
     private javax.swing.JPanel customerDetailPanel;
+    private com.toedter.calendar.JDateChooser dateServiceDate;
     private javax.swing.JPanel detailPanel;
     private javax.swing.ButtonGroup discountGroup;
     private javax.swing.JPanel itemPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

@@ -55,6 +55,7 @@ Contributor(s):
     <mapping resource="com/servicemaster/models/Vehicle.hbm.xml"/>
     <mapping resource="com/servicemaster/models/BusinessAddress.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Bom.hbm.xml"/>
+    <mapping resource="com/servicemaster/models/ServiceStatus.hbm.xml"/>
     <mapping resource="com/servicemaster/models/RackSlot.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Payment.hbm.xml"/>
     <mapping resource="com/servicemaster/models/User.hbm.xml"/>
@@ -77,8 +78,8 @@ Contributor(s):
     <mapping resource="com/servicemaster/models/ServiceHasItem.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Storage.hbm.xml"/>
     <mapping resource="com/servicemaster/models/BusinessPartner.hbm.xml"/>
-    <mapping resource="com/servicemaster/models/PaymentType.hbm.xml"/>
     <mapping resource="com/servicemaster/models/SubCategory.hbm.xml"/>
+    <mapping resource="com/servicemaster/models/PaymentType.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Category.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Service.hbm.xml"/>
   </session-factory>
