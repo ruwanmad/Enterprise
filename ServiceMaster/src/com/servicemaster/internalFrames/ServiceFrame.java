@@ -21,6 +21,7 @@ import com.servicemaster.models.Item;
 import com.servicemaster.models.Service;
 import com.servicemaster.models.ServiceBay;
 import com.servicemaster.models.ServiceHasItem;
+import com.servicemaster.models.ServiceStatus;
 import com.servicemaster.models.Vehicle;
 import com.servicemaster.timers.FocusTimer;
 import com.servicemaster.utils.HibernateUtil;
@@ -37,6 +38,7 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
@@ -53,14 +55,18 @@ import org.hibernate.Session;
  */
 public class ServiceFrame extends javax.swing.JInternalFrame {
 
+    private final ServicesFrame servicesFrame;
+
     /**
      * Creates new form ServiceFrame
      *
      * @param service
+     * @param servicesFrame
      */
-    public ServiceFrame(Service service) {
+    public ServiceFrame(Service service, ServicesFrame servicesFrame) {
         initComponents();
         this.service = service;
+        this.servicesFrame = servicesFrame;
 
         AutoCompletion.enable(cmbVehicle, txtLastServicesMilage);
         AutoCompletion.enable(cmbServiceBay, cmbItems);
@@ -77,6 +83,9 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         discountGroup = new javax.swing.ButtonGroup();
+        tblItemPopup = new javax.swing.JPopupMenu();
+        itemDelete = new javax.swing.JMenuItem();
+        itemEdit = new javax.swing.JMenuItem();
         mainPanel = new javax.swing.JPanel();
         detailPanel = new javax.swing.JPanel();
         vehicleDetailPanel = new javax.swing.JPanel();
@@ -104,6 +113,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         txtGrandTotal = new javax.swing.JFormattedTextField();
         jLabel11 = new javax.swing.JLabel();
         cmbServiceBay = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
+        cmbServiceStatus = new javax.swing.JComboBox<>();
         itemPanel = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         cmbItems = new javax.swing.JComboBox<>();
@@ -119,6 +130,12 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         lblClose = new javax.swing.JLabel();
         lblUpdate = new javax.swing.JLabel();
         lblPrint = new javax.swing.JLabel();
+
+        itemDelete.setText("Delete");
+        tblItemPopup.add(itemDelete);
+
+        itemEdit.setText("Edit");
+        tblItemPopup.add(itemEdit);
 
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -234,7 +251,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addComponent(lblNew, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2});
@@ -370,6 +387,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         cmbServiceBay.setEditable(true);
         cmbServiceBay.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
+        jLabel13.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel13.setText("Service Status :");
+
+        cmbServiceStatus.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
         javax.swing.GroupLayout ServiceDetailPanelLayout = new javax.swing.GroupLayout(ServiceDetailPanel);
         ServiceDetailPanel.setLayout(ServiceDetailPanelLayout);
         ServiceDetailPanelLayout.setHorizontalGroup(
@@ -378,23 +400,29 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbServiceBay, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cmbServiceBay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbServiceStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtGrandSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
+                .addComponent(txtGrandSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtGrandDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
+                .addComponent(txtGrandDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtGrandTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtGrandTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         ServiceDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel5, jLabel6, jLabel7});
+
+        ServiceDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbServiceBay, cmbServiceStatus});
 
         ServiceDetailPanelLayout.setVerticalGroup(
             ServiceDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -407,13 +435,17 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                         .addComponent(txtGrandDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel7)
                         .addComponent(txtGrandTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ServiceDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel11)
-                        .addComponent(cmbServiceBay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ServiceDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(ServiceDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(cmbServiceStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(ServiceDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(cmbServiceBay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
-        ServiceDetailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbServiceBay, jLabel11, jLabel5, jLabel6, jLabel7, txtGrandDiscount, txtGrandSubTotal, txtGrandTotal});
+        ServiceDetailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbServiceBay, jLabel11, jLabel13, jLabel5, jLabel6, jLabel7, txtGrandDiscount, txtGrandSubTotal, txtGrandTotal});
 
         itemPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255)), "Items", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 255))); // NOI18N
 
@@ -661,7 +693,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(itemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -707,6 +739,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             service.setModifiedUser(MainFrame.user.getUserId());
             service.setServiceBay(serviceBayMap.get(((String) cmbServiceBay.getSelectedItem()).trim()));
             service.setVehicle(vehicleMap.get(((String) cmbVehicle.getSelectedItem()).trim()));
+            service.setServiceStatus(serviceStatusMap.get(((String) cmbServiceStatus.getSelectedItem()).trim()));
 
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
@@ -751,6 +784,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             service.setCreatedUser(MainFrame.user.getUserId());
             service.setServiceBay(serviceBayMap.get(((String) cmbServiceBay.getSelectedItem()).trim()));
             service.setVehicle(vehicleMap.get(((String) cmbVehicle.getSelectedItem()).trim()));
+            service.setServiceStatus(serviceStatusMap.get(((String) cmbServiceStatus.getSelectedItem()).trim()));
 
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
@@ -785,7 +819,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         }
 
         InformationDialog.showMessageBox("Updated successfully", "Success");
-        this.resetWindow();
+        this.servicesFrame.loadServices();
+//        this.resetWindow();
     }//GEN-LAST:event_lblUpdateMouseClicked
 
     private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
@@ -819,6 +854,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         this.loadVehicles(session);
         this.loadServiceBays(session);
         this.loadItems(session);
+        this.loadServiceStatus(session);
 
         session.getTransaction().commit();
         session.close();
@@ -852,10 +888,6 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             tableModel.setRowCount(0);
             Set serviceItems = service.getServiceHasItems();
 
-            float tempGrandSubTotal = 0.0f;
-            float tempGrandDiscount = 0.0f;
-            float tempGrandTotal = 0.0f;
-
             for (Object object : serviceItems) {
                 if (object instanceof ServiceHasItem) {
                     ServiceHasItem serviceItem = (ServiceHasItem) object;
@@ -871,15 +903,15 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
                     tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
 
-                    tempGrandSubTotal += subTotal;
-                    tempGrandDiscount += discount;
-                    tempGrandTotal += total;
+                    grandSubTotal += subTotal;
+                    grandDiscount += discount;
+                    grandTotal += total;
                 }
             }
 
-            txtGrandSubTotal.setText("" + tempGrandSubTotal);
-            txtGrandDiscount.setText("" + tempGrandDiscount);
-            txtGrandTotal.setText("" + tempGrandTotal);
+            txtGrandSubTotal.setText("" + grandSubTotal);
+            txtGrandDiscount.setText("" + grandDiscount);
+            txtGrandTotal.setText("" + grandTotal);
 
             this.lblUpdate.setText("Update");
 
@@ -952,20 +984,45 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtQuantityKeyPressed
 
     private void tblItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblItemsMouseClicked
-        int row = tblItems.getSelectedRow();
-        if (row != -1) {
-            String itemName = (String) tblItems.getValueAt(row, 1);
-            String quantity = ((Float) tblItems.getValueAt(row, 2)).toString();
-            String discount = ((Float) tblItems.getValueAt(row, 5)).toString();
-
-            cmbItems.setSelectedItem(itemName);
-            txtQuantity.setText(quantity);
-            txtDiscount.setText(discount);
-
-            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-            tableModel.removeRow(row);
-        } else {
-            JOptionPane.showMessageDialog(this, "Please select a valid item.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+        switch (evt.getButton()) {
+            case 1:
+                if (evt.getClickCount() == 2) {
+                    int row = tblItems.getSelectedRow();
+                    if (row != -1) {
+                        String itemName = (String) tblItems.getValueAt(row, 1);
+                        float quantity = (Float) tblItems.getValueAt(row, 2);
+                        float unitPrice = (Float) tblItems.getValueAt(row, 3);
+                        float discount = (Float) tblItems.getValueAt(row, 5);
+                        
+                        cmbItems.setSelectedItem(itemName);
+                        txtQuantity.setText("" + quantity);
+                        txtDiscount.setText("" + discount);
+                        
+                        DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                        tableModel.removeRow(row);
+                        
+                        float totalItemAmount = unitPrice * quantity;
+                        grandSubTotal = grandSubTotal - totalItemAmount;
+                        grandDiscount = grandDiscount - discount;
+                        grandTotal = grandSubTotal - grandDiscount;
+                        
+                        txtGrandSubTotal.setText("" + grandSubTotal);
+                        txtGrandDiscount.setText("" + grandDiscount);
+                        txtGrandTotal.setText("" + grandTotal);
+                        
+                        cmbItems.requestFocus();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Please select a valid item.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }   break;
+            case 3:
+                int row = tblItems.rowAtPoint(evt.getPoint());
+                int column = tblItems.columnAtPoint(evt.getPoint());
+                tblItems.changeSelection(row, column, false, false);
+                tblItemPopup.show(evt.getComponent(), evt.getX(), evt.getY());
+                break;
+            default:
+                break;
         }
     }//GEN-LAST:event_tblItemsMouseClicked
 
@@ -1047,7 +1104,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             float total = 0.0f;
             if (discount != 0.0) {
                 if (rbtPercentage.isSelected()) {
-                    discount = (subTotal * discount)/100;
+                    discount = (subTotal * discount) / 100;
                     total = subTotal - discount;
                 } else if (rbtNumber.isSelected()) {
                     total = subTotal - discount;
@@ -1146,6 +1203,22 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         }
     }
 
+    private void loadServiceStatus(Session session) {
+        cmbServiceStatus.removeAllItems();
+        Query query = session.createQuery("from ServiceStatus ss order by ss.statusId");
+        List list = query.list();
+        if (!list.isEmpty()) {
+            for (Object object : list) {
+                if (object instanceof ServiceStatus) {
+                    ServiceStatus serviceStatus = (ServiceStatus) object;
+                    String description = serviceStatus.getStatusDescription();
+                    cmbServiceStatus.addItem(description);
+                    serviceStatusMap.put(description, serviceStatus);
+                }
+            }
+        }
+    }
+
     private void resetWindow() {
         cmbVehicle.setSelectedIndex(0);
         txtLastServicesMilage.setText("");
@@ -1173,16 +1246,20 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JPanel buttonPanel;
     public static javax.swing.JComboBox<String> cmbItems;
     private javax.swing.JComboBox<String> cmbServiceBay;
+    private javax.swing.JComboBox<String> cmbServiceStatus;
     private javax.swing.JComboBox<String> cmbVehicle;
     private javax.swing.JPanel customerDetailPanel;
     private com.toedter.calendar.JDateChooser dateServiceDate;
     private javax.swing.JPanel detailPanel;
     private javax.swing.ButtonGroup discountGroup;
+    private javax.swing.JMenuItem itemDelete;
+    private javax.swing.JMenuItem itemEdit;
     private javax.swing.JPanel itemPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1204,6 +1281,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JPanel mainPanel;
     private javax.swing.JRadioButton rbtNumber;
     private javax.swing.JRadioButton rbtPercentage;
+    private javax.swing.JPopupMenu tblItemPopup;
     private javax.swing.JTable tblItems;
     private javax.swing.JFormattedTextField txtDiscount;
     private javax.swing.JFormattedTextField txtGrandDiscount;
@@ -1217,6 +1295,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private final TreeMap<String, Vehicle> vehicleMap = new TreeMap<>();
     private final TreeMap<String, ServiceBay> serviceBayMap = new TreeMap<>();
     private final TreeMap<String, Item> itemMap = new TreeMap<>();
+    private final TreeMap<String, ServiceStatus> serviceStatusMap = new TreeMap<>();
 
     private float grandSubTotal = 0.0f;
     private float grandTotal = 0.0f;

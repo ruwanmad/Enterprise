@@ -181,7 +181,7 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
 
     private void lblNewServiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewServiceMouseClicked
         try {
-            ServiceFrame serviceFrame = new ServiceFrame(null);
+            ServiceFrame serviceFrame = new ServiceFrame(null, this);
             desktopPane.add(serviceFrame);
             serviceFrame.setMaximum(true);
 
@@ -206,7 +206,7 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
                 String value = listServices.getSelectedValue();
                 Service service = serviceMap.get(value);
 
-                ServiceFrame serviceFrame = new ServiceFrame(service);
+                ServiceFrame serviceFrame = new ServiceFrame(service, this);
                 desktopPane.add(serviceFrame);
                 serviceFrame.setMaximum(true);
 
