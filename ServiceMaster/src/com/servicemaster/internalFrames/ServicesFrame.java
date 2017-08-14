@@ -12,13 +12,21 @@ import com.servicemaster.models.Service;
 import com.servicemaster.models.ServiceHasItem;
 import com.servicemaster.models.Vehicle;
 import com.servicemaster.utils.HibernateUtil;
+import java.awt.Color;
+import java.awt.Component;
 import java.beans.PropertyVetoException;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.ListCellRenderer;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
@@ -39,6 +47,7 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         DefaultListModel<String> listModel = new DefaultListModel<>();
         listModel.addElement("No services available");
         listServices.setModel(listModel);
+        listServices.setCellRenderer(this.getListCellRenderer());
     }
 
     /**
@@ -54,9 +63,11 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         toolbarPanel = new javax.swing.JPanel();
         lblNewService = new javax.swing.JLabel();
         jSplitPane1 = new javax.swing.JSplitPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listServices = new javax.swing.JList<>();
         desktopPane = new javax.swing.JDesktopPane();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listServices = new javax.swing.JList<>();
+        lblOpen = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -126,18 +137,6 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
 
         jSplitPane1.setDividerLocation(100);
 
-        listServices.setBackground(new java.awt.Color(204, 255, 255));
-        listServices.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        listServices.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        listServices.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                listServicesMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(listServices);
-
-        jSplitPane1.setLeftComponent(jScrollPane1);
-
         desktopPane.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
@@ -152,6 +151,49 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         );
 
         jSplitPane1.setRightComponent(desktopPane);
+
+        listServices.setBackground(new java.awt.Color(153, 255, 255));
+        listServices.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listServicesMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(listServices);
+
+        lblOpen.setBackground(new java.awt.Color(150, 255, 150));
+        lblOpen.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblOpen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblOpen.setText("Open");
+        lblOpen.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblOpen.setOpaque(true);
+        lblOpen.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblOpenMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblOpenMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblOpenMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(lblOpen, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblOpen, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jSplitPane1.setLeftComponent(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,15 +223,19 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
 
     private void lblNewServiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewServiceMouseClicked
         try {
-            ServiceFrame serviceFrame = new ServiceFrame(null, this);
-            desktopPane.add(serviceFrame);
-            serviceFrame.setMaximum(true);
+            if (this.serviceFrame != null) {
+                JOptionPane.showMessageDialog(this, "Please save and close opened service.", "Close", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                this.serviceFrame = new ServiceFrame(null, this);
+                desktopPane.add(serviceFrame);
+                serviceFrame.setMaximum(true);
 
-            BasicInternalFrameUI internalFrameUI = (BasicInternalFrameUI) serviceFrame.getUI();
-            internalFrameUI.setNorthPane(null);
-            serviceFrame.setBorder(null);
+                BasicInternalFrameUI internalFrameUI = (BasicInternalFrameUI) serviceFrame.getUI();
+                internalFrameUI.setNorthPane(null);
+                serviceFrame.setBorder(null);
 
-            serviceFrame.setVisible(true);
+                serviceFrame.setVisible(true);
+            }
         } catch (PropertyVetoException ex) {
             Logger.getLogger(ServicesFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -202,24 +248,25 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
 
     private void listServicesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listServicesMouseClicked
         if (evt.getClickCount() == 2) {
-            try {
-                String value = listServices.getSelectedValue();
-                Service service = serviceMap.get(value);
-
-                ServiceFrame serviceFrame = new ServiceFrame(service, this);
-                desktopPane.add(serviceFrame);
-                serviceFrame.setMaximum(true);
-
-                BasicInternalFrameUI internalFrameUI = (BasicInternalFrameUI) serviceFrame.getUI();
-                internalFrameUI.setNorthPane(null);
-                serviceFrame.setBorder(null);
-
-                serviceFrame.setVisible(true);
-            } catch (PropertyVetoException ex) {
-                Logger.getLogger(ServicesFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            this.openService();
         }
     }//GEN-LAST:event_listServicesMouseClicked
+
+    private void lblOpenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOpenMouseClicked
+        if (listServices.getSelectedValue() != null) {
+            this.openService();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a valid vehicle.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_lblOpenMouseClicked
+
+    private void lblOpenMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOpenMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblOpenMouseEntered
+
+    private void lblOpenMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOpenMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblOpenMouseExited
 
     public void loadServices() {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -240,6 +287,7 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
                     Hibernate.initialize(vehicle.getBusinessPartner());
                     Hibernate.initialize(service.getServiceBay());
                     Hibernate.initialize(service.getVehicle());
+                    Hibernate.initialize(service.getServiceStatus());
 
                     Set addresses = vehicle.getBusinessPartner().getBusinessAddresses();
                     for (Object tempAddresse : addresses) {
@@ -267,14 +315,58 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         session.close();
     }
 
+    private void openService() {
+        try {
+            String value = listServices.getSelectedValue();
+            Service service = serviceMap.get(value);
+
+            if (serviceFrame != null) {
+                JOptionPane.showMessageDialog(this, "Please save and close opened service.", "Close", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                this.serviceFrame = new ServiceFrame(service, this);
+                desktopPane.add(serviceFrame);
+                serviceFrame.setMaximum(true);
+
+                BasicInternalFrameUI internalFrameUI = (BasicInternalFrameUI) serviceFrame.getUI();
+                internalFrameUI.setNorthPane(null);
+                serviceFrame.setBorder(null);
+
+                serviceFrame.setVisible(true);
+            }
+            listServices.clearSelection();
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(ServicesFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private ListCellRenderer<? super String> getListCellRenderer() {
+        return new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list,
+                    Object value, int index, boolean isSelected,
+                    boolean cellHasFocus) {
+                JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLUE));
+                return listCellRendererComponent;
+            }
+        };
+    }
+
+    public void setServiceFrame(ServiceFrame serviceFrame) {
+        this.serviceFrame = serviceFrame;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktopPane;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JLabel lblNewService;
+    private javax.swing.JLabel lblOpen;
     private javax.swing.JList<String> listServices;
     private javax.swing.JToolBar toolbar;
     private javax.swing.JPanel toolbarPanel;
     // End of variables declaration//GEN-END:variables
     private final TreeMap<String, Service> serviceMap = new TreeMap<>();
+    private ServiceFrame serviceFrame;
 }
