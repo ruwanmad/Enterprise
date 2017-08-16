@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Aug 14, 2017 3:57:16 PM by Hibernate Tools 4.3.1
+// Generated Aug 15, 2017 9:52:50 PM by Hibernate Tools 4.3.1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -15,6 +15,10 @@ public class Service implements java.io.Serializable {
     private ServiceStatus serviceStatus;
     private Vehicle vehicle;
     private Float milage;
+    private Float subTotal;
+    private Float discount;
+    private Float grandTotal;
+    private Integer discounted;
     private Date createdDate;
     private Date createdTime;
     private Integer createdUser;
@@ -35,12 +39,16 @@ public class Service implements java.io.Serializable {
         this.vehicle = vehicle;
     }
 
-    public Service(String serviceCode, ServiceBay serviceBay, ServiceStatus serviceStatus, Vehicle vehicle, Float milage, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set invoices, Set serviceHasItems) {
+    public Service(String serviceCode, ServiceBay serviceBay, ServiceStatus serviceStatus, Vehicle vehicle, Float milage, Float subTotal, Float discount, Float grandTotal, Integer discounted, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set invoices, Set serviceHasItems) {
         this.serviceCode = serviceCode;
         this.serviceBay = serviceBay;
         this.serviceStatus = serviceStatus;
         this.vehicle = vehicle;
         this.milage = milage;
+        this.subTotal = subTotal;
+        this.discount = discount;
+        this.grandTotal = grandTotal;
+        this.discounted = discounted;
         this.createdDate = createdDate;
         this.createdTime = createdTime;
         this.createdUser = createdUser;
@@ -90,6 +98,38 @@ public class Service implements java.io.Serializable {
 
     public void setMilage(Float milage) {
         this.milage = milage;
+    }
+
+    public Float getSubTotal() {
+        return this.subTotal;
+    }
+
+    public void setSubTotal(Float subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public Float getDiscount() {
+        return this.discount;
+    }
+
+    public void setDiscount(Float discount) {
+        this.discount = discount;
+    }
+
+    public Float getGrandTotal() {
+        return this.grandTotal;
+    }
+
+    public void setGrandTotal(Float grandTotal) {
+        this.grandTotal = grandTotal;
+    }
+
+    public Integer getDiscounted() {
+        return this.discounted;
+    }
+
+    public void setDiscounted(Integer discounted) {
+        this.discounted = discounted;
     }
 
     public Date getCreatedDate() {

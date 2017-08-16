@@ -272,7 +272,7 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        Query query = session.createQuery("from Service s order by s.serviceCode");
+        Query query = session.createQuery("from Service s where s.serviceStatus.statusId = 1 or s.serviceStatus.statusId = 2 order by s.serviceCode");
         List list = query.list();
 
         DefaultListModel<String> listModel = (DefaultListModel<String>) listServices.getModel();

@@ -130,6 +130,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         lblClose = new javax.swing.JLabel();
         lblUpdate = new javax.swing.JLabel();
         lblPrint = new javax.swing.JLabel();
+        lblPayment = new javax.swing.JLabel();
 
         itemDelete.setText("Delete");
         itemDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -662,12 +663,32 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        lblPayment.setBackground(new java.awt.Color(150, 255, 150));
+        lblPayment.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblPayment.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblPayment.setText("Payment");
+        lblPayment.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblPayment.setOpaque(true);
+        lblPayment.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblPaymentMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblPaymentMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblPaymentMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
         buttonPanel.setLayout(buttonPanelLayout);
         buttonPanelLayout.setHorizontalGroup(
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -685,7 +706,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -752,6 +774,14 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             Date date = dateServiceDate.getDate();
 
             service.setMilage(Float.parseFloat(txtLastServicesMilage.getText().trim()));
+            service.setSubTotal(grandSubTotal);
+            service.setDiscount(grandDiscount);
+            service.setGrandTotal(grandTotal);
+            if (grandDiscount > 0.0) {
+                service.setDiscounted(1);
+            } else {
+                service.setDiscounted(0);
+            }
             service.setModifiedDate(date);
             service.setModifiedTime(date);
             service.setModifiedUser(MainFrame.user.getUserId());
@@ -795,6 +825,14 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             service = new Service();
             service.setServiceCode(serviceCode);
             service.setMilage(Float.parseFloat(txtLastServicesMilage.getText().trim()));
+            service.setSubTotal(grandSubTotal);
+            service.setDiscount(grandDiscount);
+            service.setGrandTotal(grandTotal);
+            if (grandDiscount > 0.0) {
+                service.setDiscounted(1);
+            } else {
+                service.setDiscounted(0);
+            }
             service.setCreatedDate(date);
             service.setCreatedTime(date);
             service.setCreatedUser(MainFrame.user.getUserId());
@@ -1190,6 +1228,18 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_itemDeleteActionPerformed
 
+    private void lblPaymentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPaymentMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblPaymentMouseClicked
+
+    private void lblPaymentMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPaymentMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblPaymentMouseEntered
+
+    private void lblPaymentMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPaymentMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblPaymentMouseExited
+
     private void loadVehicles(Session session) {
 
         Query query = session.createQuery("from Vehicle v order by v.vehicleNumber");
@@ -1308,7 +1358,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
             cmbItems.setSelectedItem(itemName);
             txtQuantity.setText("" + quantity);
-            txtDiscount.setText("" + discount);
+            txtDiscount.setText("0.0");
 
             DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
             tableModel.removeRow(row);
@@ -1361,6 +1411,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCustomerName;
     private javax.swing.JLabel lblNew;
+    private javax.swing.JLabel lblPayment;
     private javax.swing.JLabel lblPrint;
     private javax.swing.JLabel lblRefresh;
     private javax.swing.JLabel lblUpdate;

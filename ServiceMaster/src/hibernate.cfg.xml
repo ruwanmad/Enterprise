@@ -48,8 +48,8 @@ Contributor(s):
     <property name="hibernate.connection.password">senuja2014</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
-    <mapping resource="com/servicemaster/models/Grn.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Item.hbm.xml"/>
+    <mapping resource="com/servicemaster/models/Grn.hbm.xml"/>
     <mapping resource="com/servicemaster/models/VehicleType.hbm.xml"/>
     <mapping resource="com/servicemaster/models/BusinessTelephone.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Vehicle.hbm.xml"/>

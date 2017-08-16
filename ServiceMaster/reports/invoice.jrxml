@@ -28,7 +28,8 @@
      license.`address_line1` AS license_address_line1,
      license.`address_line2` AS license_address_line2,
      license.`address_line3` AS license_address_line3,
-     license.`telephone` AS license_telephone
+     license.`telephone` AS license_telephone,
+     service_has_item.`id` AS service_has_item_id
 FROM
      `business_partner` business_partner INNER JOIN `vehicle` vehicle ON business_partner.`business_partner_code` = vehicle.`business_partner_business_partner_code`
      INNER JOIN `service` service ON vehicle.`vehicle_code` = service.`vehicle_vehicle_code`
@@ -37,7 +38,9 @@ FROM
      INNER JOIN `item` item ON service_has_item.`item_item_code` = item.`item_code`,
      `license` license
 WHERE
-     service.`service_code` = $P{serviceCode}]]>
+     service.`service_code` = $P{serviceCode}
+ORDER BY
+     service_has_item.`id` ASC]]>
 	</queryString>
 	<field name="business_partner_business_partner_code" class="java.lang.String"/>
 	<field name="business_partner_first_name" class="java.lang.String"/>
@@ -60,6 +63,7 @@ WHERE
 	<field name="license_address_line2" class="java.lang.String"/>
 	<field name="license_address_line3" class="java.lang.String"/>
 	<field name="license_telephone" class="java.lang.String"/>
+	<field name="service_has_item_id" class="java.lang.Integer"/>
 	<variable name="service_has_item_total_1" class="java.lang.Float" resetType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{service_has_item_total}]]></variableExpression>
 	</variable>
@@ -67,7 +71,7 @@ WHERE
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="157" splitType="Stretch">
+		<band height="140" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="555" height="30" uuid="f934a572-10af-469f-9876-d7da3f982211"/>
 				<textElement verticalAlignment="Middle" markup="none">
@@ -76,47 +80,47 @@ WHERE
 				<textFieldExpression><![CDATA[$F{license_company_name}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="94" width="100" height="20" uuid="4da961c8-9829-4e8e-b46d-1b99595715a2"/>
+				<reportElement x="0" y="94" width="100" height="15" uuid="4da961c8-9829-4e8e-b46d-1b99595715a2"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Date/Time :]]></text>
 			</staticText>
 			<textField pattern="yyyy-MM-dd">
-				<reportElement x="100" y="94" width="55" height="20" uuid="3ce5ced8-5aab-45d5-a2b3-246ab61491b9"/>
+				<reportElement x="100" y="94" width="55" height="15" uuid="3ce5ced8-5aab-45d5-a2b3-246ab61491b9"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{service_created_date}]]></textFieldExpression>
 			</textField>
 			<textField pattern="HH.mm">
-				<reportElement x="154" y="94" width="100" height="20" uuid="a54883fc-d022-4e8c-be30-89f32a90bae7"/>
+				<reportElement x="154" y="94" width="100" height="15" uuid="a54883fc-d022-4e8c-be30-89f32a90bae7"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{service_created_time}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="114" width="100" height="20" uuid="917ee4fa-d732-4bd7-8db2-8a90229d36fb"/>
+				<reportElement x="0" y="109" width="100" height="15" uuid="917ee4fa-d732-4bd7-8db2-8a90229d36fb"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Vehicle Number]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="114" width="100" height="20" uuid="9bae60f2-6902-4c6b-9cc9-df0321e5e22b"/>
+				<reportElement x="100" y="109" width="100" height="15" uuid="9bae60f2-6902-4c6b-9cc9-df0321e5e22b"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{vehicle_vehicle_number}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="134" width="100" height="20" uuid="eda52d81-ede7-4a71-986a-5740d7792eb8"/>
+				<reportElement x="0" y="124" width="100" height="15" uuid="eda52d81-ede7-4a71-986a-5740d7792eb8"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Milage :]]></text>
 			</staticText>
 			<textField pattern="###0">
-				<reportElement x="100" y="134" width="100" height="20" uuid="3516eac4-d0ad-46c1-b9c8-d23f7246d97f"/>
+				<reportElement x="100" y="124" width="100" height="15" uuid="3516eac4-d0ad-46c1-b9c8-d23f7246d97f"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{service_milage}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="256" y="134" width="100" height="20" uuid="d02daf95-e9c4-46a4-9589-e7061b8c6f66"/>
+				<reportElement x="255" y="124" width="100" height="15" uuid="d02daf95-e9c4-46a4-9589-e7061b8c6f66"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Customer Name :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="355" y="134" width="200" height="20" uuid="dad310bd-d516-4c86-9415-5900dff011e1"/>
+				<reportElement x="355" y="124" width="200" height="15" uuid="dad310bd-d516-4c86-9415-5900dff011e1"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{business_partner_first_name}+" "+$F{business_partner_last_name}]]></textFieldExpression>
 			</textField>
@@ -141,6 +145,9 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$F{license_address_line3}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="0" y="139" width="555" height="1" uuid="eb652f84-c6f9-4a7e-a8b9-c03da879999b"/>
+			</line>
 		</band>
 	</title>
 	<columnHeader>

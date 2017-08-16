@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 14, 2017 3:57:22 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 15, 2017 9:53:02 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Service" table="service" catalog="enterprisedb" optimistic-lock="version">
         <id name="serviceCode" type="string">
@@ -19,6 +19,18 @@
         </many-to-one>
         <property name="milage" type="java.lang.Float">
             <column name="milage" precision="12" scale="0" />
+        </property>
+        <property name="subTotal" type="java.lang.Float">
+            <column name="sub_total" precision="12" scale="0" />
+        </property>
+        <property name="discount" type="java.lang.Float">
+            <column name="discount" precision="12" scale="0" />
+        </property>
+        <property name="grandTotal" type="java.lang.Float">
+            <column name="grand_total" precision="12" scale="0" />
+        </property>
+        <property name="discounted" type="java.lang.Integer">
+            <column name="discounted" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />

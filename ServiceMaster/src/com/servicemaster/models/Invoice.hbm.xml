@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 14, 2017 3:57:22 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 15, 2017 9:53:02 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Invoice" table="invoice" catalog="enterprisedb" optimistic-lock="version">
         <id name="invoiceNumber" type="string">
@@ -11,12 +11,6 @@
         <many-to-one name="service" class="com.servicemaster.models.Service" fetch="select">
             <column name="service_service_code" length="15" not-null="true" />
         </many-to-one>
-        <property name="netAmount" type="java.lang.Float">
-            <column name="net_amount" precision="12" scale="0" />
-        </property>
-        <property name="discount" type="java.lang.Float">
-            <column name="discount" precision="12" scale="0" />
-        </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
         </property>
@@ -34,9 +28,6 @@
         </property>
         <property name="modifiedUser" type="java.lang.Integer">
             <column name="modified_user" />
-        </property>
-        <property name="serviceServiceId" type="int">
-            <column name="service_service_id" not-null="true" />
         </property>
         <set name="payments" table="payment" inverse="true" lazy="true" fetch="select">
             <key>
