@@ -8,6 +8,7 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
+import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.AutoCompletion;
 import com.servicemaster.functions.JdbcConnection;
@@ -17,6 +18,7 @@ import com.servicemaster.models.Address;
 import com.servicemaster.models.BusinessAddress;
 import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.models.BusinessTelephone;
+import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.Service;
 import com.servicemaster.models.ServiceBay;
@@ -30,6 +32,7 @@ import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,6 +40,7 @@ import java.util.Timer;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
@@ -130,7 +134,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         lblClose = new javax.swing.JLabel();
         lblUpdate = new javax.swing.JLabel();
         lblPrint = new javax.swing.JLabel();
-        lblPayment = new javax.swing.JLabel();
+        lblSettle = new javax.swing.JLabel();
 
         itemDelete.setText("Delete");
         itemDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -663,21 +667,21 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        lblPayment.setBackground(new java.awt.Color(150, 255, 150));
-        lblPayment.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblPayment.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblPayment.setText("Payment");
-        lblPayment.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblPayment.setOpaque(true);
-        lblPayment.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblSettle.setBackground(new java.awt.Color(150, 255, 150));
+        lblSettle.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblSettle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSettle.setText("Settle");
+        lblSettle.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblSettle.setOpaque(true);
+        lblSettle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblPaymentMouseClicked(evt);
+                lblSettleMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblPaymentMouseEntered(evt);
+                lblSettleMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblPaymentMouseExited(evt);
+                lblSettleMouseExited(evt);
             }
         });
 
@@ -687,7 +691,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -697,7 +701,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblPrint, lblUpdate});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblPrint, lblSettle, lblUpdate});
 
         buttonPanelLayout.setVerticalGroup(
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -707,11 +711,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblPrint, lblUpdate});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblPrint, lblSettle, lblUpdate});
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -757,6 +761,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             servicesFrame.setServiceFrame(null);
+            this.servicesFrame.loadServices();
             this.dispose();
         }
     }//GEN-LAST:event_lblCloseMouseClicked
@@ -968,6 +973,13 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 }
             }
 
+            Set invoices = service.getInvoices();
+            for (Object object : invoices) {
+                if (object instanceof Invoice) {
+                    this.invoice = (Invoice) object;
+                }
+            }
+
             txtGrandSubTotal.setText("" + grandSubTotal);
             txtGrandDiscount.setText("" + grandDiscount);
             txtGrandTotal.setText("" + grandTotal);
@@ -978,6 +990,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
             Timer timer = new Timer();
             timer.schedule(new FocusTimer(), 500);
+
+            getRootPane().setBorder(BorderFactory.createLineBorder(SystemData.BORDER_COLOR, 2));
         }
     }//GEN-LAST:event_formInternalFrameOpened
 
@@ -1016,6 +1030,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                             txtLastServicesMilage.setText(tempService.getMilage().toString());
                         }
                     }
+                } else {
+                    txtLastServicesMilage.setText("");
                 }
             }
         }
@@ -1067,6 +1083,28 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cmbVehicleFocusGained
 
     private void lblPrintMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrintMouseClicked
+        if (service.getInvoices().isEmpty()) {
+            KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+            String invoiceCode = keyCodeFunctions.getKey("INV", "Invoices");
+            Date date = new Date();
+
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            invoice = new Invoice(invoiceCode, service);
+            invoice.setCreatedDate(date);
+            invoice.setCreatedTime(date);
+            invoice.setCreatedUser(MainFrame.user.getUserId());
+
+            session.saveOrUpdate(invoice);
+            transaction.commit();
+            session.close();
+
+            Set invoices = new HashSet();
+            invoices.add(invoice);
+
+            service.setInvoices(invoices);
+        }
         JdbcConnection jbConnection = new JdbcConnection();
         Connection connection = jbConnection.getConnection();
 
@@ -1228,17 +1266,18 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_itemDeleteActionPerformed
 
-    private void lblPaymentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPaymentMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblPaymentMouseClicked
+    private void lblSettleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSettleMouseClicked
+        SettlementDialog settlementDialog = new SettlementDialog(null, true, service, invoice, this.serviceStatusMap);
+        settlementDialog.setVisible(true);
+    }//GEN-LAST:event_lblSettleMouseClicked
 
-    private void lblPaymentMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPaymentMouseEntered
+    private void lblSettleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSettleMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblPaymentMouseEntered
+    }//GEN-LAST:event_lblSettleMouseEntered
 
-    private void lblPaymentMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPaymentMouseExited
+    private void lblSettleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSettleMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblPaymentMouseExited
+    }//GEN-LAST:event_lblSettleMouseExited
 
     private void loadVehicles(Session session) {
 
@@ -1411,9 +1450,9 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCustomerName;
     private javax.swing.JLabel lblNew;
-    private javax.swing.JLabel lblPayment;
     private javax.swing.JLabel lblPrint;
     private javax.swing.JLabel lblRefresh;
+    private javax.swing.JLabel lblSettle;
     private javax.swing.JLabel lblUpdate;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JRadioButton rbtNumber;
@@ -1430,6 +1469,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JPanel vehicleDetailPanel;
     // End of variables declaration//GEN-END:variables
     private Service service;
+    private Invoice invoice;
     private final TreeMap<String, Vehicle> vehicleMap = new TreeMap<>();
     private final TreeMap<String, ServiceBay> serviceBayMap = new TreeMap<>();
     private final TreeMap<String, Item> itemMap = new TreeMap<>();

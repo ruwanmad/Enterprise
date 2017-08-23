@@ -290,7 +290,8 @@ public class PrinterFrame extends javax.swing.JInternalFrame {
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    Printer printer = new Printer(printerCode);
+                    Printer printer = new Printer();
+                    printer.setPrinterCode(printerCode);
                     printer.setPrinterName(printerName);
                     printer.setRemarks(remark);
                     printer.setIsActive(isActivated ? 1 : 0);

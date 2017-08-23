@@ -408,7 +408,8 @@ public class RacksFrame extends javax.swing.JInternalFrame {
                     if (storage.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
                         InformationDialog.showMessageBox("Please select a valid storage", "Invalid");
                     } else {
-                        Rack rack = new Rack(rackCode);
+                        Rack rack = new Rack();
+                        rack.setRackCode(rackCode);
                         rack.setRackName(rackName);
                         rack.setStorage(this.storageMap.get(storage.split("-")[0].trim()));
                         rack.setRemark(remark);

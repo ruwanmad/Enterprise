@@ -3,19 +3,13 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Aug 23, 2017 10:07:23 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.Rack" table="rack" catalog="enterprisedb" optimistic-lock="version">
-        <id name="rackCode" type="string">
-            <column name="rack_code" length="15" />
-            <generator class="assigned" />
+    <class name="com.servicemaster.models.ServiceHasItemStatus" table="service_has_item_status" catalog="enterprisedb" optimistic-lock="version">
+        <id name="itemStatusId" type="java.lang.Integer">
+            <column name="item_status_id" />
+            <generator class="identity" />
         </id>
-        <many-to-one name="storage" class="com.servicemaster.models.Storage" fetch="select">
-            <column name="storage_storage_code" length="15" not-null="true" />
-        </many-to-one>
-        <property name="rackName" type="string">
-            <column name="rack_name" length="45" />
-        </property>
-        <property name="isActive" type="java.lang.Integer">
-            <column name="isActive" />
+        <property name="itemStatusDescription" type="string">
+            <column name="item_status_description" length="45" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
@@ -36,13 +30,13 @@
             <column name="modified_user" />
         </property>
         <property name="remark" type="string">
-            <column name="remark" length="45" />
+            <column name="remark" length="100" />
         </property>
-        <set name="rackSlots" table="rack_slot" inverse="true" lazy="true" fetch="select">
+        <set name="serviceHasItems" table="service_has_item" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="rack_rack_code" length="15" not-null="true" />
+                <column name="service_has_item_status_item_status_id" not-null="true" />
             </key>
-            <one-to-many class="com.servicemaster.models.RackSlot" />
+            <one-to-many class="com.servicemaster.models.ServiceHasItem" />
         </set>
     </class>
 </hibernate-mapping>
