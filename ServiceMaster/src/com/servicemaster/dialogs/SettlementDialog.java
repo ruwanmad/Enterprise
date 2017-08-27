@@ -28,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -249,6 +250,41 @@ public class SettlementDialog extends javax.swing.JDialog {
             session.saveOrUpdate(payment);
 
             session.saveOrUpdate(service);
+
+            JOptionPane.showMessageDialog(this, "Playment done successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+            panelWindow.removeAll();
+
+            final CashSettlePanel csettlePanel = new CashSettlePanel(service, this, "PTY1000");
+            this.panelFrame = csettlePanel;
+            this.panelWindow.add(this.panelFrame);
+            this.panelWindow.revalidate();
+            this.panelWindow.repaint();
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    csettlePanel.txtNowPaying.requestFocus();
+                }
+            });
+
+            Query query = session.createQuery("from Payment p where p.invoice = :inv order by p.paymentCode");
+            query.setParameter("inv", this.invoice);
+
+            List list = query.list();
+            if (list.isEmpty()) {
+                csettlePanel.txtTotalAmount.setText("" + service.getGrandTotal());
+                csettlePanel.txtRemainingBalance.setText("" + service.getGrandTotal());
+            } else {
+                float paidAmount = 0.0f;
+                for (Object tempPayment : list) {
+                    if (tempPayment instanceof Payment) {
+                        Payment tPayment = (Payment) tempPayment;
+                        paidAmount += tPayment.getAmount();
+                    }
+                }
+                csettlePanel.txtTotalAmount.setText("" + service.getGrandTotal());
+                csettlePanel.txtPaidAmount.setText("" + paidAmount);
+                csettlePanel.txtRemainingBalance.setText("" + (service.getGrandTotal() - paidAmount));
+            }
 
             transaction.commit();
             session.close();

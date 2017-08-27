@@ -61,8 +61,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                      <Component id="lblNewService" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="687" max="32767" attributes="0"/>
+                      <Component id="lblNewService" min="-2" pref="100" max="-2" attributes="0"/>
+                      <EmptySpace pref="677" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

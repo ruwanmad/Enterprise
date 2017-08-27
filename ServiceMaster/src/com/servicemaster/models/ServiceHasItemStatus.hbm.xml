@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 23, 2017 10:07:23 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 26, 2017 10:09:22 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.ServiceHasItemStatus" table="service_has_item_status" catalog="enterprisedb" optimistic-lock="version">
         <id name="itemStatusId" type="java.lang.Integer">
@@ -34,7 +34,7 @@
         </property>
         <set name="serviceHasItems" table="service_has_item" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="service_has_item_status_item_status_id" not-null="true" />
+                <column name="service_has_item_status_item_status_id" />
             </key>
             <one-to-many class="com.servicemaster.models.ServiceHasItem" />
         </set>

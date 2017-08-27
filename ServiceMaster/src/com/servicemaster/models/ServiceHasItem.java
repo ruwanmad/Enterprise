@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Aug 23, 2017 10:07:01 PM by Hibernate Tools 4.3.1
+// Generated Aug 26, 2017 10:09:18 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -30,10 +30,9 @@ public class ServiceHasItem  implements java.io.Serializable {
     }
 
 	
-    public ServiceHasItem(Item item, Service service, ServiceHasItemStatus serviceHasItemStatus) {
+    public ServiceHasItem(Item item, Service service) {
         this.item = item;
         this.service = service;
-        this.serviceHasItemStatus = serviceHasItemStatus;
     }
     public ServiceHasItem(Item item, Service service, ServiceHasItemStatus serviceHasItemStatus, Float quantity, Float subTotal, Float discount, Float total, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
        this.item = item;

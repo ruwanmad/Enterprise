@@ -23,6 +23,7 @@ import com.servicemaster.models.Item;
 import com.servicemaster.models.Service;
 import com.servicemaster.models.ServiceBay;
 import com.servicemaster.models.ServiceHasItem;
+import com.servicemaster.models.ServiceHasItemStatus;
 import com.servicemaster.models.ServiceStatus;
 import com.servicemaster.models.Vehicle;
 import com.servicemaster.timers.FocusTimer;
@@ -652,7 +653,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         lblPrint.setBackground(new java.awt.Color(150, 255, 150));
         lblPrint.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         lblPrint.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblPrint.setText("Print");
+        lblPrint.setText("Invoice");
         lblPrint.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
         lblPrint.setOpaque(true);
         lblPrint.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -672,6 +673,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         lblSettle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSettle.setText("Settle");
         lblSettle.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblSettle.setEnabled(false);
         lblSettle.setOpaque(true);
         lblSettle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -812,6 +814,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 serviceHasItem.setSubTotal(subTotal);
                 serviceHasItem.setDiscount(discount);
                 serviceHasItem.setTotal(itemTotal);
+                serviceHasItem.setServiceHasItemStatus(this.serviceHasItemStatusMap.get(0));
                 serviceHasItem.setModifiedDate(date);
                 serviceHasItem.setModifiedTime(date);
                 serviceHasItem.setModifiedUser(MainFrame.user.getUserId());
@@ -865,6 +868,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 serviceHasItem.setSubTotal(subTotal);
                 serviceHasItem.setDiscount(discount);
                 serviceHasItem.setTotal(itemTotal);
+                serviceHasItem.setServiceHasItemStatus(this.serviceHasItemStatusMap.get(0));
                 serviceHasItem.setCreatedDate(date);
                 serviceHasItem.setCreatedTime(date);
                 serviceHasItem.setCreatedUser(MainFrame.user.getUserId());
@@ -915,6 +919,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         this.loadServiceBays(session);
         this.loadItems(session);
         this.loadServiceStatus(session);
+        this.loadServiceHasItemStatus(session);
 
         session.getTransaction().commit();
         session.close();
@@ -944,6 +949,9 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
             cmbServiceBay.setSelectedItem(service.getServiceBay().getServiceBayName());
             txtServiceStatus.setText(service.getServiceStatus().getStatusDescription());
+            if (service.getServiceStatus().getStatusId() == 6) {
+                lblSettle.setEnabled(true);
+            }
             dateServiceDate.setDate(service.getCreatedDate());
 
             DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
@@ -1097,13 +1105,16 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             invoice.setCreatedUser(MainFrame.user.getUserId());
 
             session.saveOrUpdate(invoice);
-            transaction.commit();
-            session.close();
+            
 
             Set invoices = new HashSet();
             invoices.add(invoice);
 
             service.setInvoices(invoices);
+            service.setServiceStatus(this.serviceStatusMap.get("Invoiced"));
+            
+            transaction.commit();
+            session.close();
         }
         JdbcConnection jbConnection = new JdbcConnection();
         Connection connection = jbConnection.getConnection();
@@ -1122,6 +1133,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
             jbConnection.closeConnection();
         }
+        
+        lblSettle.setEnabled(true);
     }//GEN-LAST:event_lblPrintMouseClicked
 
     private void lblPrintMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrintMouseEntered
@@ -1240,12 +1253,13 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             if (option == JOptionPane.YES_OPTION) {
                 String itemName = (String) tblItems.getValueAt(tblItems.getSelectedRow(), 1);
                 ServiceHasItem serviceHasItem = serviceHasItemMap.get(itemName);
+                serviceHasItem.setServiceHasItemStatus(this.serviceHasItemStatusMap.get(1));
 
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 Transaction transaction = session.beginTransaction();
 
                 ServiceHasItem mergedHasItem = (ServiceHasItem) session.merge(serviceHasItem);
-                session.delete(mergedHasItem);
+                session.saveOrUpdate(mergedHasItem);
 
                 transaction.commit();
                 session.close();
@@ -1365,6 +1379,20 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         }
     }
 
+    private void loadServiceHasItemStatus(Session session) {
+        Query query = session.createQuery("from ServiceHasItemStatus ss order by ss.itemStatusId");
+        List list = query.list();
+        if (!list.isEmpty()) {
+            for (Object object : list) {
+                if (object instanceof ServiceHasItemStatus) {
+                    ServiceHasItemStatus serviceHasItemStatus = (ServiceHasItemStatus) object;
+                    int id = serviceHasItemStatus.getItemStatusId();
+                    serviceHasItemStatusMap.put(id, serviceHasItemStatus);
+                }
+            }
+        }
+    }
+
     private void resetWindow() {
         cmbVehicle.setSelectedIndex(0);
         txtLastServicesMilage.setText("");
@@ -1475,6 +1503,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private final TreeMap<String, Item> itemMap = new TreeMap<>();
     private final TreeMap<String, ServiceStatus> serviceStatusMap = new TreeMap<>();
     private final TreeMap<String, ServiceHasItem> serviceHasItemMap = new TreeMap<>();
+    private final TreeMap<Integer, ServiceHasItemStatus> serviceHasItemStatusMap = new TreeMap<>();
 
     private float grandSubTotal = 0.0f;
     private float grandTotal = 0.0f;
