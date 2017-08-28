@@ -5,17 +5,82 @@
  */
 package com.servicemaster.internalFrames;
 
+import com.servicemaster.dialogs.InformationDialog;
+import com.servicemaster.models.Item;
+import com.servicemaster.models.RackSlot;
+import com.servicemaster.models.SubCategory;
+import com.servicemaster.models.Uom;
+import com.servicemaster.utils.HibernateUtil;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
+import static jdk.nashorn.internal.objects.NativeString.substring;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+
 /**
  *
- * @author RuwanM
+ * @author Neyomal
  */
 public class ItemFrame extends javax.swing.JInternalFrame {
+   SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        
 
     /**
      * Creates new form ItemFrame
      */
     public ItemFrame() {
         initComponents();
+        
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        
+        Criteria crSub = session.createCriteria(SubCategory.class);
+        List<SubCategory> subList = crSub.list();
+        for (int idx = 0; idx < subList.size(); idx++) {
+            SubCategory sub = subList.get(idx);
+            combSubCategory.addItem(sub.getSubCategoryName());
+        }
+        
+        Criteria crSlot = session.createCriteria(RackSlot.class);
+        List<RackSlot> subSlotList = crSlot.list();
+        for (int idx = 0; idx < subSlotList.size(); idx++) {
+            RackSlot subSlot = subSlotList.get(idx);
+            combRackSlot.addItem(subSlot.getRackSlotName());
+        }
+        
+        Criteria uomCr = session.createCriteria(Uom.class);
+        List<Uom> uomList = uomCr.list();
+        for (int idx = 0; idx < uomList.size(); idx++) {
+            Uom uom = uomList.get(idx);
+            combBUOM.addItem(uom.getUomName());
+            combSUOM.addItem(uom.getUomName());
+        }
+                                
+        transaction.commit();
+        session.close();
+        
+        //Setting default values 
+        txtIssueMethod.setText("1");
+        chkIsPhysical.setSelected(true);
+        txtCrUser.setText("1");
+        txtModifiedUser.setText("1");
+        chkIsActive.setSelected(true);
+        txtCrTime.setText("15:00:00");
+        txtModTime.setText("15:00:00");
+        
     }
 
     /**
@@ -27,24 +92,511 @@ public class ItemFrame extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        txtItemCode = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jXDatePickerCD = new org.jdesktop.swingx.JXDatePicker();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jXDatePickerMD = new org.jdesktop.swingx.JXDatePicker();
+        txtItemName = new javax.swing.JTextField();
+        txtSellingProce = new javax.swing.JTextField();
+        txtIssueMethod = new javax.swing.JTextField();
+        txtReorderQuantity = new javax.swing.JTextField();
+        chkIsPhysical = new javax.swing.JCheckBox();
+        chkIsActive = new javax.swing.JCheckBox();
+        txtCrTime = new javax.swing.JTextField();
+        txtCrUser = new javax.swing.JTextField();
+        txtModTime = new javax.swing.JTextField();
+        txtModifiedUser = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtARemarks = new javax.swing.JTextArea();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        combSubCategory = new javax.swing.JComboBox<>();
+        combRackSlot = new javax.swing.JComboBox<>();
+        btnSave = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
+        btnGenerate = new javax.swing.JButton();
+        combBUOM = new javax.swing.JComboBox<>();
+        combSUOM = new javax.swing.JComboBox<>();
+
         setClosable(true);
-        setTitle("Items");
+        setTitle("Add New Item");
+
+        jLabel1.setText("Item Code");
+
+        txtItemCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtItemCodeActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Item Name");
+
+        jLabel3.setText("Selling Price");
+
+        jLabel4.setText("Issue Method");
+
+        jLabel5.setText("Reorder Quantity");
+
+        jLabel6.setText("Is physical");
+
+        jLabel7.setText("Is Active");
+
+        jLabel8.setText("Created Date");
+
+        jLabel9.setText("Created Time");
+
+        jLabel10.setText("Created User");
+
+        jLabel11.setText("Modified Date");
+
+        jLabel12.setText("Modified Time");
+
+        jLabel13.setText("Modified User");
+
+        jLabel14.setText("Remarks");
+
+        jXDatePickerMD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXDatePickerMDActionPerformed(evt);
+            }
+        });
+
+        txtIssueMethod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIssueMethodActionPerformed(evt);
+            }
+        });
+
+        txtARemarks.setColumns(20);
+        txtARemarks.setRows(5);
+        jScrollPane1.setViewportView(txtARemarks);
+
+        jLabel15.setText("Sub category");
+
+        jLabel16.setText("Rack Slot");
+
+        jLabel17.setText("Buying UOM");
+
+        jLabel18.setText("Selling UOM");
+
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
+
+        btnGenerate.setText("Generate");
+        btnGenerate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 684, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel18))
+                .addGap(54, 54, 54)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                            .addGap(130, 130, 130)
+                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(txtItemCode, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(33, 33, 33)
+                            .addComponent(btnGenerate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtItemName, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtCrUser, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtCrTime, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtReorderQuantity, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtIssueMethod, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtSellingProce, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jXDatePickerCD, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtModifiedUser, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtModTime, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jXDatePickerMD, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chkIsActive)
+                            .addComponent(chkIsPhysical)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(combSUOM, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(combBUOM, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(combRackSlot, javax.swing.GroupLayout.Alignment.LEADING, 0, 111, Short.MAX_VALUE)
+                        .addComponent(combSubCategory, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 471, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtItemCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGenerate))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(txtSellingProce, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(txtIssueMethod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtReorderQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(chkIsPhysical))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(chkIsActive))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jXDatePickerCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtCrTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtCrUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jXDatePickerMD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12)
+                    .addComponent(txtModTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13)
+                    .addComponent(txtModifiedUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(combSubCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(combRackSlot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel17)
+                    .addComponent(combBUOM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addGap(6, 6, 6))
+                    .addComponent(combSUOM, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnClear)
+                    .addComponent(btnSave))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtItemCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtItemCodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtItemCodeActionPerformed
+
+    private void txtIssueMethodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIssueMethodActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIssueMethodActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+        
+        if (!verifyInputs()){
+            InformationDialog.showMessageBox("Fill the required fields", "Transaction Incomplete");
+        }else{
+            try{
+                Session session = sessionFactory.openSession();
+                Transaction transaction = session.beginTransaction();
+
+                String strICode= txtItemCode.getText().toString().trim();
+                String strIName= txtItemName.getText().toString().trim();
+                String strSellingPrice = txtSellingProce.getText().toString().trim();
+
+                String strIssueMethod  = txtIssueMethod.getText().toString().trim();
+                String strReOrderQty   = txtReorderQuantity.getText().toString().trim();
+
+                Boolean bIsPhy    = chkIsPhysical.isSelected();
+
+                Boolean bIsActive = chkIsActive.isSelected();
+                Date dtCrDate  = jXDatePickerCD.getDate();
+                String strCrTime  = txtCrTime.getText().toString();
+
+                String strCrUser  = txtCrUser.getText().toString();
+                Date dtModDate = jXDatePickerMD.getDate();
+                String strModTime = txtModTime.getText().toString().trim();
+
+                String strModUser = txtModifiedUser.getText().toString().trim();
+                String strRemarks = txtARemarks.getText().toString().trim();
+                String strSubCat  =  combSubCategory.getSelectedItem().toString();
+                String strRackSlot = combRackSlot.getSelectedItem().toString();
+                String strBuyUOM =  combBUOM.getSelectedItem().toString();
+                String strSellUOM = combSUOM.getSelectedItem().toString();     
+
+
+                SubCategory catID = (SubCategory) session
+                        .createCriteria(SubCategory.class)
+                        .add( Restrictions.eq("subCategoryName", strSubCat))
+                        .uniqueResult();
+                //txtItemCode.setText(catID.getSubCategoryCode());
+
+
+                RackSlot rack = (RackSlot) session
+                        .createCriteria(RackSlot.class)
+                        .add( Restrictions.eq("rackSlotName", strRackSlot))
+                        .uniqueResult();
+                //txtItemName.setText(rack.getRackSlotCode());
+
+                Uom buom= (Uom) session
+                        .createCriteria(Uom.class)
+                        .add( Restrictions.eq("uomName", strBuyUOM))
+                        .uniqueResult();
+                //txtSellingProce.setText(buom.getUomCode());
+
+                Uom suom= (Uom) session
+                        .createCriteria(Uom.class)
+                        .add( Restrictions.eq("uomName", strSellUOM))
+                        .uniqueResult();
+                //txtIssueMethod.setText(suom.getUomCode());
+
+                Item item = new Item();
+                item.setItemCode(strICode);
+                item.setItemName(strIName);
+                item.setSellingPrice(Float.parseFloat(strSellingPrice));
+                item.setIssueMethod(strIssueMethod);
+                item.setReorderQuantity(Float.parseFloat(strReOrderQty));
+
+                if (bIsPhy = true){
+                    item.setIsPhysical(1);
+                }else {
+                    item.setIsPhysical(0);
+                }
+
+                if (bIsActive = true){
+                    item.setIsActive(1);
+                }else {
+                    item.setIsActive(0);
+                }
+
+                item.setCreadetDate(dtCrDate);
+
+                //Format time
+                DateFormat format = new SimpleDateFormat("hh:mm:ss");
+                Date crTime;
+                try {
+                    crTime = format.parse(strCrTime);
+                    item.setCreatedTime(crTime);
+                } catch (ParseException ex) {
+                    Logger.getLogger(ItemFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+
+                item.setCreatedUser(Integer.parseInt(strCrUser));
+                item.setModifiedDate(dtModDate);
+
+                Date mTime;
+                try {
+                    mTime = format.parse(strModTime);
+                    item.setModifiedTime(mTime);
+                } catch (ParseException ex) {
+                    Logger.getLogger(ItemFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                item.setModifiedUser(Integer.parseInt(strModUser));
+                item.setRemark(strRemarks);
+
+
+                item.setSubCategory((SubCategory) session.load(SubCategory.class, catID.getSubCategoryCode()));
+                item.setRackSlot((RackSlot) session.load(RackSlot.class, rack.getRackSlotCode()));
+                item.setUomByBuyingUom((Uom) session.load(Uom.class, buom.getUomCode()));
+                item.setUomBySellingUom((Uom) session.load(Uom.class, suom.getUomCode()));
+
+                session.save(item);
+                transaction.commit();
+                session.close();
+
+                clearAll();
+            }catch(Exception e){
+                InformationDialog.showMessageBox("Invalid entry. Retry again", "Transaction Status");
+            }
+        }
+        
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void jXDatePickerMDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePickerMDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jXDatePickerMDActionPerformed
+
+    private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
+        // TODO add your handling code here:
+        
+        try{
+            Session session = sessionFactory.openSession();
+            Transaction transaction = session.beginTransaction();
+
+            Criteria c = session.createCriteria(Item.class);
+            c.addOrder(Order.desc("itemCode"));
+            c.setMaxResults(1);
+            Item item = (Item)c.uniqueResult();
+            String code = item.getItemCode();
+
+            String match = "ITM";
+            String part = code.substring(match.length(),code.length());
+            int newCode = Integer.parseInt(part)+1;
+
+            txtItemCode.setText(match+newCode);
+            //return (Thingy)c.uniqueResult();
+
+            transaction.commit();
+            session.close();
+
+        }catch(HibernateException e){
+            InformationDialog.showMessageBox("No database connection.", "Transaction Status");
+        }
+        
+    }//GEN-LAST:event_btnGenerateActionPerformed
+
+    public void clearAll(){
+        txtItemCode.setText("");
+        txtItemName.setText("");
+        txtSellingProce.setText("");        
+        txtReorderQuantity.setText("");      
+        txtARemarks.setText("");
+        jXDatePickerCD.setDate(null);
+        jXDatePickerMD.setDate(null);
+        
+        String strSubCat  =  combSubCategory.getSelectedItem().toString();
+        String strRackSlot = combRackSlot.getSelectedItem().toString();
+        String strBuyUOM =  combBUOM.getSelectedItem().toString();
+        String strSellUOM = combSUOM.getSelectedItem().toString(); 
+        
+        InformationDialog.showMessageBox("New record added", "Transaction Completed");
+    }
+    
+    public boolean verifyInputs(){
+        if ((txtItemCode.getText().isEmpty())
+                ||(txtItemName.getText().isEmpty())
+                ||(txtSellingProce.getText().isEmpty())
+                ||(txtReorderQuantity.getText().isEmpty()
+                ||(jXDatePickerCD.getDate()==null))){ 
+            return false;
+        }
+        return true;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnGenerate;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JCheckBox chkIsActive;
+    private javax.swing.JCheckBox chkIsPhysical;
+    private javax.swing.JComboBox<String> combBUOM;
+    private javax.swing.JComboBox<String> combRackSlot;
+    private javax.swing.JComboBox<String> combSUOM;
+    private javax.swing.JComboBox<String> combSubCategory;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private org.jdesktop.swingx.JXDatePicker jXDatePickerCD;
+    private org.jdesktop.swingx.JXDatePicker jXDatePickerMD;
+    private javax.swing.JTextArea txtARemarks;
+    private javax.swing.JTextField txtCrTime;
+    private javax.swing.JTextField txtCrUser;
+    private javax.swing.JTextField txtIssueMethod;
+    private javax.swing.JTextField txtItemCode;
+    private javax.swing.JTextField txtItemName;
+    private javax.swing.JTextField txtModTime;
+    private javax.swing.JTextField txtModifiedUser;
+    private javax.swing.JTextField txtReorderQuantity;
+    private javax.swing.JTextField txtSellingProce;
     // End of variables declaration//GEN-END:variables
 }
