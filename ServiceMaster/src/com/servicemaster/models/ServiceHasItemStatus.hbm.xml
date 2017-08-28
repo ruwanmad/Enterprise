@@ -3,22 +3,13 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Aug 26, 2017 10:09:22 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.Address" table="address" catalog="enterprisedb" optimistic-lock="version">
-        <id name="addressCode" type="string">
-            <column name="address_code" length="15" />
-            <generator class="assigned" />
+    <class name="com.servicemaster.models.ServiceHasItemStatus" table="service_has_item_status" catalog="enterprisedb" optimistic-lock="version">
+        <id name="itemStatusId" type="java.lang.Integer">
+            <column name="item_status_id" />
+            <generator class="identity" />
         </id>
-        <property name="adressLine1" type="string">
-            <column name="adress_line_1" length="100" />
-        </property>
-        <property name="adressLine2" type="string">
-            <column name="adress_line_2" length="100" />
-        </property>
-        <property name="adressLine3" type="string">
-            <column name="adress_line_3" length="100" />
-        </property>
-        <property name="isActive" type="java.lang.Integer">
-            <column name="isActive" />
+        <property name="itemStatusDescription" type="string">
+            <column name="item_status_description" length="45" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
@@ -38,14 +29,14 @@
         <property name="modifiedUser" type="java.lang.Integer">
             <column name="modified_user" />
         </property>
-        <property name="remarks" type="string">
-            <column name="remarks" length="100" />
+        <property name="remark" type="string">
+            <column name="remark" length="100" />
         </property>
-        <set name="businessAddresses" table="business_address" inverse="true" lazy="true" fetch="select">
+        <set name="serviceHasItems" table="service_has_item" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="address_address_code" length="15" not-null="true" />
+                <column name="service_has_item_status_item_status_id" />
             </key>
-            <one-to-many class="com.servicemaster.models.BusinessAddress" />
+            <one-to-many class="com.servicemaster.models.ServiceHasItem" />
         </set>
     </class>
 </hibernate-mapping>

@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Aug 15, 2017 9:52:50 PM by Hibernate Tools 4.3.1
+// Generated Aug 26, 2017 10:09:18 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,6 +13,7 @@ public class ServiceHasItem  implements java.io.Serializable {
      private Integer id;
      private Item item;
      private Service service;
+     private ServiceHasItemStatus serviceHasItemStatus;
      private Float quantity;
      private Float subTotal;
      private Float discount;
@@ -33,9 +34,10 @@ public class ServiceHasItem  implements java.io.Serializable {
         this.item = item;
         this.service = service;
     }
-    public ServiceHasItem(Item item, Service service, Float quantity, Float subTotal, Float discount, Float total, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
+    public ServiceHasItem(Item item, Service service, ServiceHasItemStatus serviceHasItemStatus, Float quantity, Float subTotal, Float discount, Float total, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
        this.item = item;
        this.service = service;
+       this.serviceHasItemStatus = serviceHasItemStatus;
        this.quantity = quantity;
        this.subTotal = subTotal;
        this.discount = discount;
@@ -69,6 +71,13 @@ public class ServiceHasItem  implements java.io.Serializable {
     
     public void setService(Service service) {
         this.service = service;
+    }
+    public ServiceHasItemStatus getServiceHasItemStatus() {
+        return this.serviceHasItemStatus;
+    }
+    
+    public void setServiceHasItemStatus(ServiceHasItemStatus serviceHasItemStatus) {
+        this.serviceHasItemStatus = serviceHasItemStatus;
     }
     public Float getQuantity() {
         return this.quantity;

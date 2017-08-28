@@ -58,6 +58,7 @@ Contributor(s):
     <mapping resource="com/servicemaster/models/RackSlot.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Payment.hbm.xml"/>
     <mapping resource="com/servicemaster/models/User.hbm.xml"/>
+    <mapping resource="com/servicemaster/models/ServiceHasItemStatus.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Address.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Rack.hbm.xml"/>
     <mapping resource="com/servicemaster/models/UserPrivilage.hbm.xml"/>

@@ -409,7 +409,8 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
                     if (storage.equalsIgnoreCase(SystemData.COMBO_DEFAULT) || rack.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
                         InformationDialog.showMessageBox("Please select a valid storage and rack", "Invalid");
                     } else {
-                        RackSlot rackSlot = new RackSlot(slotCode);
+                        RackSlot rackSlot = new RackSlot();
+                        rackSlot.setRackSlotCode(slotCode);
                         rackSlot.setRackSlotName(slotName);
                         rackSlot.setRack(this.rackMap.get(rack.split("-")[0].trim()));
                         rackSlot.setRemark(remark);

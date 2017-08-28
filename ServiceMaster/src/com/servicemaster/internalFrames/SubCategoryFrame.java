@@ -424,7 +424,8 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                     if (category.equalsIgnoreCase(SystemData.COMBO_DEFAULT) || type.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
                         InformationDialog.showMessageBox("Please select a valid category and type", "Invalid");
                     } else {
-                        SubCategory subCategory = new SubCategory(subCategoryCode);
+                        SubCategory subCategory = new SubCategory();
+                        subCategory.setSubCategoryCode(subCategoryCode);
                         subCategory.setSubCategoryName(subCategoryName);
                         subCategory.setCategory(this.categoryMap.get(category.split("-")[0].trim()));
                         subCategory.setSubCategoryType(this.subCategoryTypeMap.get(type.split("-")[0].trim()));

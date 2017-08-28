@@ -8,6 +8,7 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.models.BusinessAddress;
+import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Service;
 import com.servicemaster.models.ServiceHasItem;
 import com.servicemaster.models.Vehicle;
@@ -123,8 +124,8 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
             toolbarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(toolbarPanelLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(lblNewService, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(687, Short.MAX_VALUE))
+                .addComponent(lblNewService, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(677, Short.MAX_VALUE))
         );
         toolbarPanelLayout.setVerticalGroup(
             toolbarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,7 +153,8 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
 
         jSplitPane1.setRightComponent(desktopPane);
 
-        listServices.setBackground(new java.awt.Color(153, 255, 255));
+        listServices.setBackground(new java.awt.Color(150, 255, 150));
+        listServices.setSelectionBackground(new java.awt.Color(50, 255, 50));
         listServices.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 listServicesMouseClicked(evt);
@@ -272,7 +274,7 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        Query query = session.createQuery("from Service s where s.serviceStatus.statusId = 1 or s.serviceStatus.statusId = 2 order by s.serviceCode");
+        Query query = session.createQuery("from Service s where s.serviceStatus.statusId = 1 or s.serviceStatus.statusId = 2 or s.serviceStatus.statusId = 5 order by s.serviceCode");
         List list = query.list();
 
         DefaultListModel<String> listModel = (DefaultListModel<String>) listServices.getModel();
@@ -303,6 +305,14 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
                             ServiceHasItem serviceHasItem = (ServiceHasItem) tempServiceItem;
                             Hibernate.initialize(serviceHasItem);
                             Hibernate.initialize(serviceHasItem.getItem());
+                        }
+                    }
+                    
+                    Set invoices = service.getInvoices();
+                    for (Object tempInvoice : invoices) {
+                        if (tempInvoice instanceof Invoice) {
+                            Invoice invoice = (Invoice) tempInvoice;
+                            Hibernate.initialize(invoice);
                         }
                     }
 
@@ -346,7 +356,7 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
                     Object value, int index, boolean isSelected,
                     boolean cellHasFocus) {
                 JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLUE));
+                listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(50, 255, 50)));
                 return listCellRendererComponent;
             }
         };

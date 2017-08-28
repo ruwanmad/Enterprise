@@ -6,6 +6,7 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.dialogs.InformationDialog;
+import com.servicemaster.forms.MainFrame;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.RackSlot;
 import com.servicemaster.models.SubCategory;
@@ -75,11 +76,11 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         //Setting default values 
         txtIssueMethod.setText("1");
         chkIsPhysical.setSelected(true);
-        txtCrUser.setText("1");
-        txtModifiedUser.setText("1");
+        txtCrUser.setText(String.valueOf(MainFrame.user.getUserId()));
+        txtModifiedUser.setText(String.valueOf(MainFrame.user.getUserId()));
         chkIsActive.setSelected(true);
-        txtCrTime.setText("15:00:00");
-        txtModTime.setText("15:00:00");
+        txtCrTime.setText("00:00:00");
+        //txtModTime.setText("12:00:00");
         
     }
 
@@ -370,6 +371,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
+        clearAll();
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -489,6 +491,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                 session.close();
 
                 clearAll();
+                InformationDialog.showMessageBox("New record added", "Transaction Completed");
             }catch(Exception e){
                 InformationDialog.showMessageBox("Invalid entry. Retry again", "Transaction Status");
             }
@@ -538,12 +541,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         jXDatePickerCD.setDate(null);
         jXDatePickerMD.setDate(null);
         
-        String strSubCat  =  combSubCategory.getSelectedItem().toString();
-        String strRackSlot = combRackSlot.getSelectedItem().toString();
-        String strBuyUOM =  combBUOM.getSelectedItem().toString();
-        String strSellUOM = combSUOM.getSelectedItem().toString(); 
         
-        InformationDialog.showMessageBox("New record added", "Transaction Completed");
     }
     
     public boolean verifyInputs(){

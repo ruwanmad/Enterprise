@@ -18,6 +18,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import com.servicemaster.models.User;
 import com.servicemaster.models.UserPrivilage;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -51,6 +52,11 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel1.setText("Username : ");
@@ -224,6 +230,10 @@ public class Login extends javax.swing.JFrame {
     private void lblLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLoginMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblLoginMouseExited
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        getRootPane().setBorder(BorderFactory.createLineBorder(SystemData.BORDER_COLOR, 2));
+    }//GEN-LAST:event_formWindowOpened
 
     private void login() {
         String username = txtUsername.getText().trim();
