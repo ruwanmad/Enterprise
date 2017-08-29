@@ -143,7 +143,7 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         lblUpdate.setBackground(new java.awt.Color(150, 255, 150));
         lblUpdate.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         lblUpdate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUpdate.setText("Update");
+        lblUpdate.setText("Save");
         lblUpdate.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
         lblUpdate.setOpaque(true);
         lblUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -331,12 +331,13 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(cmbVehicleType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(cmbBusinessPatner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblNewBusinessPatner)
-                        .addComponent(lblBusinessPatnerRefresh)))
+                        .addComponent(lblBusinessPatnerRefresh))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(cmbBusinessPatner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -718,7 +719,7 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblCodeSearch;
     private javax.swing.JLabel lblNewBusinessPatner;
     private javax.swing.JLabel lblNumberSearch;
-    private javax.swing.JLabel lblUpdate;
+    public javax.swing.JLabel lblUpdate;
     private javax.swing.JLabel lblView;
     private javax.swing.JTextField txtRemark;
     private javax.swing.JTextField txtVehicleCode;

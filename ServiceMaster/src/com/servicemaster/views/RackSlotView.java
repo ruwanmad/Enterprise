@@ -258,6 +258,7 @@ public class RackSlotView extends javax.swing.JInternalFrame {
         rackSlotFrame.setCmbStorage(storage.getStorageCode());
         rackSlotFrame.setCmbRack(rackSlot.getRack().getRackCode());
         rackSlotFrame.setTxtCodeEditable(false);
+        rackSlotFrame.lblUpdate.setText("Update");
         this.dispose();
     }
 

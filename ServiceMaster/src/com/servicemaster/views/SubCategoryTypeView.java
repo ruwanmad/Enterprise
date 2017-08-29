@@ -216,6 +216,7 @@ public class SubCategoryTypeView extends javax.swing.JInternalFrame {
         subCategoryTypeFrame.setTxtRemark(subCategoryType.getRemark());
         subCategoryTypeFrame.setCbxIsActive((subCategoryType.getIsActive() == 1));
         subCategoryTypeFrame.setTxtCodeEditable(false);
+        subCategoryTypeFrame.lblUpdate.setText("Update");
         this.dispose();
     }
 

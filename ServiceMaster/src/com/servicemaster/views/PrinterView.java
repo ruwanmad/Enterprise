@@ -215,6 +215,7 @@ public class PrinterView extends javax.swing.JInternalFrame {
         printerFrame.setTxtRemark(printer.getRemarks());
         printerFrame.setCbxIsActive((printer.getIsActive() == 1));
         printerFrame.setTxtCodeEditable(false);
+        printerFrame.lblUpdate.setText("Update");
         this.dispose();
     }
 

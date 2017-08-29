@@ -215,6 +215,7 @@ public class LocationView extends javax.swing.JInternalFrame {
         locationFrame.setTxtRemark(serviceBay.getRemark());
         locationFrame.setCbxIsActive((serviceBay.getIsActive() == 1));
         locationFrame.setTxtCodeEditable(false);
+        locationFrame.lblUpdate.setText("Update");
         this.dispose();
     }
 

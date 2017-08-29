@@ -215,6 +215,7 @@ public class VehicleTypeView extends javax.swing.JInternalFrame {
         vehicleTypeFrame.setTxtRemark(vehicleType.getRemark());
         vehicleTypeFrame.setCbxIsActive((vehicleType.getIsActive() == 1));
         vehicleTypeFrame.setTxtCodeEditable(false);
+        vehicleTypeFrame.lblUpdate.setText("Update");
         this.dispose();
     }
 

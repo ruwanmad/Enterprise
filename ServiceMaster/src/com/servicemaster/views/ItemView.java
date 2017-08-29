@@ -8,30 +8,37 @@ package com.servicemaster.views;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.guiFunctions.LableFunctions;
-import com.servicemaster.internalFrames.StorageFrame;
-import com.servicemaster.models.Storage;
+import com.servicemaster.internalFrames.ItemFrame;
+import com.servicemaster.models.Item;
+import com.servicemaster.models.RackSlot;
+import com.servicemaster.models.SubCategory;
+import com.servicemaster.models.Uom;
+import com.servicemaster.utils.HibernateUtil;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
  * @author RuwanM
  */
-public class StorageView extends javax.swing.JInternalFrame {
+public class ItemView extends javax.swing.JInternalFrame {
 
     private final List list;
-    private final StorageFrame storageFrame;
+    private final ItemFrame itemFrame;
 
     /**
      * Creates new form CategoryView
      *
      * @param list
-     * @param storage
+     * @param itemFrame
      */
-    public StorageView(List<Storage> list, StorageFrame storage) {
+    public ItemView(List<Item> list, ItemFrame itemFrame) {
         initComponents();
         this.list = list;
-        this.storageFrame = storage;
+        this.itemFrame = itemFrame;
     }
 
     /**
@@ -44,11 +51,11 @@ public class StorageView extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         scrollPane = new javax.swing.JScrollPane();
-        storageTable = new javax.swing.JTable();
+        subCategoryTable = new javax.swing.JTable();
         lblSelect = new javax.swing.JLabel();
         lblClose = new javax.swing.JLabel();
 
-        setTitle("Category View");
+        setTitle("Item View");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -67,19 +74,19 @@ public class StorageView extends javax.swing.JInternalFrame {
             }
         });
 
-        storageTable.setModel(new javax.swing.table.DefaultTableModel(
+        subCategoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Stro. Code", "Stro. Name", "Remark", "Is Active"
+                "Item Code", "Item Name", "Sub Cat. Code", "Selling Price", "Remark", "Is Active"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -90,12 +97,12 @@ public class StorageView extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        storageTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        subCategoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                storageTableMouseClicked(evt);
+                subCategoryTableMouseClicked(evt);
             }
         });
-        scrollPane.setViewportView(storageTable);
+        scrollPane.setViewportView(subCategoryTable);
 
         lblSelect.setBackground(new java.awt.Color(150, 255, 150));
         lblSelect.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
@@ -137,7 +144,7 @@ public class StorageView extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+            .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -157,31 +164,36 @@ public class StorageView extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        setBounds(0, 0, 500, 324);
+        setBounds(0, 0, 788, 324);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         if (!list.isEmpty()) {
-            DefaultTableModel tableModel = (DefaultTableModel) storageTable.getModel();
+            DefaultTableModel tableModel = (DefaultTableModel) subCategoryTable.getModel();
             tableModel.setRowCount(0);
             for (Object object : list) {
-                if (object instanceof Storage) {
-                    Storage storage = (Storage) object;
-                    tableModel.addRow(new Object[]{storage.getStorageCode(), storage.getStorageName(), storage.getRemark(), (storage.getIsActive() == 1)});
+                if (object instanceof Item) {
+                    Item item = (Item) object;
+                    tableModel.addRow(new Object[]{item.getItemCode(),
+                        item.getItemName(),
+                        item.getSubCategory().getSubCategoryCode(),
+                        item.getSellingPrice(),
+                        item.getRemark(),
+                        item.getIsActive() == 1});
                 }
             }
         }
     }//GEN-LAST:event_formInternalFrameOpened
 
-    private void storageTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_storageTableMouseClicked
+    private void subCategoryTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subCategoryTableMouseClicked
         int clickCount = evt.getClickCount();
         if (clickCount == 2) {
-            this.selectStorage();
+            this.selectItem();
         }
-    }//GEN-LAST:event_storageTableMouseClicked
+    }//GEN-LAST:event_subCategoryTableMouseClicked
 
     private void lblSelectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseClicked
-        this.selectStorage();
+        this.selectItem();
     }//GEN-LAST:event_lblSelectMouseClicked
 
     private void lblSelectMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseEntered
@@ -207,15 +219,50 @@ public class StorageView extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCloseMouseExited
 
-    private void selectStorage() {
-        int selectedRow = storageTable.getSelectedRow();
-        Storage storage = (Storage) list.get(selectedRow);
-        storageFrame.setTxtStorageCode(storage.getStorageCode());
-        storageFrame.setTxtStorageName(storage.getStorageName());
-        storageFrame.setTxtRemark(storage.getRemark());
-        storageFrame.setCbxIsActive((storage.getIsActive() == 1));
-        storageFrame.setTxtCodeEditable(false);
-        storageFrame.lblUpdate.setText("Update");
+    private void selectItem() {
+        int selectedRow = subCategoryTable.getSelectedRow();
+        Item item = (Item) list.get(selectedRow);
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+
+        SubCategory subCategory = (SubCategory) session
+                .createCriteria(SubCategory.class)
+                .add(Restrictions.eq("subCategoryCode", item.getSubCategory().getSubCategoryCode()))
+                .uniqueResult();
+
+        RackSlot rackSlot = (RackSlot) session
+                .createCriteria(RackSlot.class)
+                .add(Restrictions.eq("rackSlotCode", item.getRackSlot().getRackSlotCode()))
+                .uniqueResult();
+
+        Uom buyingUOM = (Uom) session
+                .createCriteria(Uom.class)
+                .add(Restrictions.eq("uomCode", item.getUomByBuyingUom().getUomCode()))
+                .uniqueResult();
+
+        Uom sellingUOM = (Uom) session
+                .createCriteria(Uom.class)
+                .add(Restrictions.eq("uomCode", item.getUomByBuyingUom().getUomCode()))
+                .uniqueResult();
+
+        transaction.commit();
+        session.close();
+
+        itemFrame.setTxtItemCode(item.getItemCode());
+        itemFrame.setTxtItemName(item.getItemName());
+        itemFrame.setTxtSellingPrice(item.getSellingPrice().toString());
+        itemFrame.setTxtIssueMethod(item.getIssueMethod());
+        itemFrame.setTxtReorderQty(item.getReorderQuantity().toString());
+        itemFrame.setIsPhysicle(item.getIsPhysical() == 1);
+        itemFrame.setIsActive(item.getIsActive() == 1);
+        itemFrame.setTxtRemark(item.getRemark());
+        itemFrame.setCmbSubCategory(subCategory.getSubCategoryName());
+        itemFrame.setCmbRackSlot(rackSlot.getRackSlotName());
+        itemFrame.setCmbBuyingUOM(buyingUOM.getUomName());
+        itemFrame.setCmbSellingUOM(sellingUOM.getUomName());
+        itemFrame.setTxtItemCodeEditable(false);
+        itemFrame.setLblSaveText("Update");
         this.dispose();
     }
 
@@ -223,6 +270,6 @@ public class StorageView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblSelect;
     private javax.swing.JScrollPane scrollPane;
-    private javax.swing.JTable storageTable;
+    private javax.swing.JTable subCategoryTable;
     // End of variables declaration//GEN-END:variables
 }

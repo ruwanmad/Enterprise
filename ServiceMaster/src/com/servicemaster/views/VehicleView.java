@@ -219,6 +219,7 @@ public class VehicleView extends javax.swing.JInternalFrame {
         vehicleFrame.setTxtRemark(vehicle.getRemark());
         vehicleFrame.setCbxIsActive((vehicle.getIsActive() == 1));
         vehicleFrame.setTxtCodeEditable(false);
+        vehicleFrame.lblUpdate.setText("Update");
         this.dispose();
     }
 

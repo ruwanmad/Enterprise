@@ -17,7 +17,6 @@ import com.servicemaster.models.TelephoneNumber;
 import java.util.List;
 import java.util.Set;
 import javax.swing.table.DefaultTableModel;
-import org.hibernate.Hibernate;
 
 /**
  *
@@ -253,6 +252,7 @@ public class BusinessPatnerView extends javax.swing.JInternalFrame {
         }
         businessPartnerFrame.setCodeEditable(false);
         businessPartnerFrame.setNicEditable(false);
+        businessPartnerFrame.lblUpdate.setText("Update");
         this.dispose();
     }
 

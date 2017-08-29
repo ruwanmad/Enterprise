@@ -92,7 +92,7 @@ public class AddressFrame extends javax.swing.JInternalFrame {
         lblUpdate.setBackground(new java.awt.Color(150, 255, 150));
         lblUpdate.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         lblUpdate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUpdate.setText("Update");
+        lblUpdate.setText("Save");
         lblUpdate.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
         lblUpdate.setOpaque(true);
         lblUpdate.addMouseListener(new java.awt.event.MouseAdapter() {

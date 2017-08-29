@@ -220,6 +220,7 @@ public class RacksView extends javax.swing.JInternalFrame {
         rackFrame.setCbxIsActive((rack.getIsActive() == 1));
         rackFrame.setCmbCategory(rack.getStorage().getStorageCode());
         rackFrame.setTxtCodeEditable(false);
+        rackFrame.lblUpdate.setText("Update");
         this.dispose();
     }
 

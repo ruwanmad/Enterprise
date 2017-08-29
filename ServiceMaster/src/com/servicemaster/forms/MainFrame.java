@@ -13,7 +13,6 @@ import com.servicemaster.internalFrames.BusinessPartnerFrame;
 import com.servicemaster.internalFrames.CategoryFrame;
 import com.servicemaster.internalFrames.ItemFrame;
 import com.servicemaster.internalFrames.LocationFrame;
-import com.servicemaster.internalFrames.PrinterFrame;
 import com.servicemaster.internalFrames.RackSlotFrame;
 import com.servicemaster.internalFrames.RacksFrame;
 import com.servicemaster.internalFrames.ServicesFrame;
@@ -593,7 +592,7 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }
             case "12": {
-                internalFrame = new PrinterFrame();
+//                internalFrame = new PrinterFrame();
                 break;
             }
             case "13": {

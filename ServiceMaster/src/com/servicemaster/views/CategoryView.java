@@ -215,6 +215,7 @@ public class CategoryView extends javax.swing.JInternalFrame {
         categoryFrame.setTxtRemark(category.getRemarks());
         categoryFrame.setCbxIsActive((category.getIsActive() == 1));
         categoryFrame.setTxtCodeEditable(false);
+        categoryFrame.lblUpdate.setText("Update");
         this.dispose();
     }
 

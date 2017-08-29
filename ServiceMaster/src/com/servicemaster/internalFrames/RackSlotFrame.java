@@ -170,7 +170,7 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
         lblUpdate.setBackground(new java.awt.Color(150, 255, 150));
         lblUpdate.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         lblUpdate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUpdate.setText("Update");
+        lblUpdate.setText("Save");
         lblUpdate.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
         lblUpdate.setOpaque(true);
         lblUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -655,7 +655,7 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCodeSearch;
     private javax.swing.JLabel lblNameSearch;
-    private javax.swing.JLabel lblUpdate;
+    public javax.swing.JLabel lblUpdate;
     private javax.swing.JLabel lblView;
     private javax.swing.JTextField txtRemark;
     private javax.swing.JTextField txtSlotCode;
