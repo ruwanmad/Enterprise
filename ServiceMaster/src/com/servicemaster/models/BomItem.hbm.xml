@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 26, 2017 10:09:22 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 2, 2017 1:38:15 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.BomItem" table="bom_item" catalog="enterprisedb" optimistic-lock="version">
         <id name="bomItemCode" type="string">
@@ -13,6 +13,9 @@
         </many-to-one>
         <many-to-one name="item" class="com.servicemaster.models.Item" fetch="select">
             <column name="item_item_code" length="15" not-null="true" />
+        </many-to-one>
+        <many-to-one name="uom" class="com.servicemaster.models.Uom" fetch="select">
+            <column name="uom_uom_code" length="15" not-null="true" />
         </many-to-one>
         <property name="bomItemQuantity" type="java.lang.Float">
             <column name="bom_item_quantity" precision="12" scale="0" />

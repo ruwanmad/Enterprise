@@ -1,13 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 26, 2017 10:09:22 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 2, 2017 1:38:15 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Item" table="item" catalog="enterprisedb" optimistic-lock="version">
         <id name="itemCode" type="string">
             <column name="item_code" length="15" />
             <generator class="assigned" />
         </id>
+        <many-to-one name="manufacturer" class="com.servicemaster.models.Manufacturer" fetch="select">
+            <column name="manufacturer_manufacturer_code" length="15" />
+        </many-to-one>
         <many-to-one name="rackSlot" class="com.servicemaster.models.RackSlot" fetch="select">
             <column name="rack_slot_rack_slot_code" length="15" not-null="true" />
         </many-to-one>
@@ -70,14 +73,6 @@
                 <column name="item_item_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.Bom" />
-        </set>
-        <set name="manufacturers" table="item_has_manufacturer" inverse="false" lazy="true" fetch="select">
-            <key>
-                <column name="item_item_code" length="15" not-null="true" />
-            </key>
-            <many-to-many entity-name="com.servicemaster.models.Manufacturer">
-                <column name="manufacturer_manufacturer_code" length="15" not-null="true" />
-            </many-to-many>
         </set>
         <set name="serviceHasItems" table="service_has_item" inverse="true" lazy="true" fetch="select">
             <key>

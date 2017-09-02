@@ -210,12 +210,12 @@ public class StorageView extends javax.swing.JInternalFrame {
     private void selectStorage() {
         int selectedRow = storageTable.getSelectedRow();
         Storage storage = (Storage) list.get(selectedRow);
-        storageFrame.setTxtStorageCode(storage.getStorageCode());
-        storageFrame.setTxtStorageName(storage.getStorageName());
-        storageFrame.setTxtRemark(storage.getRemark());
-        storageFrame.setCbxIsActive((storage.getIsActive() == 1));
-        storageFrame.setTxtCodeEditable(false);
-        storageFrame.lblUpdate.setText("Update");
+        storageFrame.setStorageCode(storage.getStorageCode());
+        storageFrame.setStorageName(storage.getStorageName());
+        storageFrame.setRemark(storage.getRemark());
+        storageFrame.setIsActive((storage.getIsActive() == 1));
+        storageFrame.setStorageCodeEditable(false);
+        storageFrame.setLblSaveText("Update");
         this.dispose();
     }
 

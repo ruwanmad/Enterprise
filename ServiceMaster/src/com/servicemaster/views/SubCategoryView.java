@@ -215,15 +215,15 @@ public class SubCategoryView extends javax.swing.JInternalFrame {
     private void selectSubCategory() {
         int selectedRow = subCategoryTable.getSelectedRow();
         SubCategory subCategory = (SubCategory) list.get(selectedRow);
-        subCategoryFrame.setTxtSubcategoryCode(subCategory.getSubCategoryCode());
-        subCategoryFrame.setTxtSubcategoryName(subCategory.getSubCategoryName());
-        subCategoryFrame.setTxtRemark(subCategory.getRemarks());
-        subCategoryFrame.setCbxIsActive((subCategory.getIsActive() == 1));
-        subCategoryFrame.setCmbCategory(subCategory.getCategory().getCategoryCode());
-        subCategoryFrame.setCmbSubCategoryType(subCategory.getSubCategoryType().getSubCategoryTypeCode());
-        subCategoryFrame.setCmbPrinter(subCategory.getPrinter().getPrinterCode());
-        subCategoryFrame.setTxtCodeEditable(false);
-        subCategoryFrame.lblUpdate.setText("Update");
+        subCategoryFrame.setSubcategoryCode(subCategory.getSubCategoryCode());
+        subCategoryFrame.setSubcategoryName(subCategory.getSubCategoryName());
+        subCategoryFrame.setRemark(subCategory.getRemarks());
+        subCategoryFrame.setIsActive((subCategory.getIsActive() == 1));
+        subCategoryFrame.setCategory(subCategory.getCategory().getCategoryCode());
+        subCategoryFrame.setSubCategoryType(subCategory.getSubCategoryType().getSubCategoryTypeCode());
+        subCategoryFrame.setPrinter(subCategory.getPrinter().getPrinterCode());
+        subCategoryFrame.setSubCategoryCodeEditable(false);
+        subCategoryFrame.setLblSaveText("Update");
         this.dispose();
     }
 

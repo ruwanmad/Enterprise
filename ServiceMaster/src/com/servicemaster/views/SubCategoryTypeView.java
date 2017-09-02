@@ -211,12 +211,12 @@ public class SubCategoryTypeView extends javax.swing.JInternalFrame {
     private void selectCategory() {
         int selectedRow = subCategoryTypeTable.getSelectedRow();
         SubCategoryType subCategoryType = (SubCategoryType) list.get(selectedRow);
-        subCategoryTypeFrame.setTxtSubCategoryTypeCode(subCategoryType.getSubCategoryTypeCode());
-        subCategoryTypeFrame.setTxtSubCategoryTypeName(subCategoryType.getSubCategoryTypeName());
-        subCategoryTypeFrame.setTxtRemark(subCategoryType.getRemark());
-        subCategoryTypeFrame.setCbxIsActive((subCategoryType.getIsActive() == 1));
-        subCategoryTypeFrame.setTxtCodeEditable(false);
-        subCategoryTypeFrame.lblUpdate.setText("Update");
+        subCategoryTypeFrame.setSubCategoryTypeCode(subCategoryType.getSubCategoryTypeCode());
+        subCategoryTypeFrame.setSubCategoryTypeName(subCategoryType.getSubCategoryTypeName());
+        subCategoryTypeFrame.setRemark(subCategoryType.getRemark());
+        subCategoryTypeFrame.setIsActive((subCategoryType.getIsActive() == 1));
+        subCategoryTypeFrame.setSubCategoryTypeCodeEditable(false);
+        subCategoryTypeFrame.setLblSaveText("Update");
         this.dispose();
     }
 

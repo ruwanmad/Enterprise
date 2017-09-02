@@ -6,11 +6,13 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
+import com.servicemaster.forms.MainFrame;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.models.BusinessAddress;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Service;
 import com.servicemaster.models.ServiceHasItem;
+import com.servicemaster.models.ServiceStatus;
 import com.servicemaster.models.Vehicle;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.Color;
@@ -29,9 +31,10 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
-import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -273,9 +276,12 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
     public void loadServices() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
+        Criteria serviceCriteria = session.createCriteria(Service.class);
+        serviceCriteria.add(Restrictions.ne("serviceStatus", session.load(ServiceStatus.class, new ServiceStatus(5).getStatusId())));
+        serviceCriteria.add(Restrictions.ne("serviceStatus", session.load(ServiceStatus.class, new ServiceStatus(6).getStatusId())));
 
-        Query query = session.createQuery("from Service s where s.serviceStatus.statusId = 1 or s.serviceStatus.statusId = 2 or s.serviceStatus.statusId = 5 order by s.serviceCode");
-        List list = query.list();
+        List list = serviceCriteria.list();
 
         DefaultListModel<String> listModel = (DefaultListModel<String>) listServices.getModel();
         listModel.clear();

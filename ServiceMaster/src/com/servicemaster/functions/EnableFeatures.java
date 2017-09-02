@@ -125,9 +125,11 @@ public class EnableFeatures {
                     break;
                 }
                 case "41": {
+                    mainFrame.miSalesReports.setEnabled(true);
                     break;
                 }
                 case "42": {
+                    mainFrame.miStockReports.setEnabled(true);
                     break;
                 }
                 case "43": {
@@ -207,7 +209,7 @@ public class EnableFeatures {
                     break;
                 }
                 case "118": {
-                    mainFrame.miBusinessPartner.setEnabled(true);
+                    mainFrame.miBom.setEnabled(true);
                     break;
                 }
                 case "119": {
@@ -215,14 +217,15 @@ public class EnableFeatures {
                     break;
                 }
                 case "1110": {
-                    mainFrame.miVehileType.setEnabled(true);
+                    mainFrame.miBusinessPartner.setEnabled(true);
                     break;
                 }
                 case "1111": {
-                    mainFrame.miVehicles.setEnabled(true);
+                    mainFrame.miVehileType.setEnabled(true);
                     break;
                 }
                 case "1112": {
+                    mainFrame.miVehicles.setEnabled(true);
                     break;
                 }
                 case "1113": {
@@ -232,6 +235,9 @@ public class EnableFeatures {
                     break;
                 }
                 case "1115": {
+                    break;
+                }
+                case "1116": {
                     break;
                 }
             }

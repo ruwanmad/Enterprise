@@ -9,6 +9,7 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
+import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.models.Address;
 import com.servicemaster.models.BusinessAddress;
@@ -16,7 +17,6 @@ import com.servicemaster.models.BusinessAddressId;
 import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.models.BusinessTelephone;
 import com.servicemaster.models.BusinessTelephoneId;
-import com.servicemaster.models.KeyTable;
 import com.servicemaster.models.TelephoneNumber;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.AddressView;
@@ -28,6 +28,7 @@ import java.util.Set;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -79,7 +80,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         txtAddressLine2 = new javax.swing.JTextField();
         txtAddressLine3 = new javax.swing.JTextField();
         lblClose = new javax.swing.JLabel();
-        lblUpdate = new javax.swing.JLabel();
+        lblSave = new javax.swing.JLabel();
         lblView = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         cbxIsActive = new javax.swing.JCheckBox();
@@ -247,21 +248,21 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        lblUpdate.setBackground(new java.awt.Color(150, 255, 150));
-        lblUpdate.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblUpdate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUpdate.setText("Save");
-        lblUpdate.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblUpdate.setOpaque(true);
-        lblUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblSave.setBackground(new java.awt.Color(150, 255, 150));
+        lblSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSave.setText("Save");
+        lblSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblSave.setOpaque(true);
+        lblSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseClicked(evt);
+                lblSaveMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseEntered(evt);
+                lblSaveMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseExited(evt);
+                lblSaveMouseExited(evt);
             }
         });
 
@@ -337,7 +338,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -390,7 +391,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtAddressLine1, txtBussinesPatnerCode, txtFirstName, txtLastName, txtNic, txtTelephoneNumber});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblSave, lblView});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -456,14 +457,14 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                 .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {calBirthDay, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, lblAddressSearch, lblCodeSearch, lblFirstNameSearch, lblLastNameSearch, lblNicSearch, lblTelephoneNumberSearch, txtAddressLine1, txtBussinesPatnerCode, txtFirstName, txtLastName, txtNic, txtRemark, txtTelephoneNumber});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblSave, lblView});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -598,13 +599,52 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCloseMouseExited
 
-    private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
+    private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        Date date = new Date();
-
         String businessPatnerCode = txtBussinesPatnerCode.getText().trim();
+        String nic = txtNic.getText().trim();
+
+        if (nic.isEmpty()) {
+            InformationDialog.showMessageBox("Please enter valid NIC", "Invalid");
+        } else {
+            if (businessPatnerCode.isEmpty()) {
+                List busisessPartners = getBusinessPatnerByNic(nic, false);
+                if (busisessPartners.isEmpty()) {
+                    KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                    businessPatnerCode = keyCodeFunctions.getKey("BPT", "Business partner code");
+                    this.saveOrUpdateBisnussPatner(businessPatnerCode, false);
+                } else {
+                    InformationDialog.showMessageBox("Customer already exists", "Exist");
+                }
+            } else {
+                List busisessPartners = getBusinessPatnerByCode(businessPatnerCode, false);
+                if (busisessPartners.isEmpty()) {
+                    ConfirmationDialog.showMessageBox("Business partner does not exist. Creat new?", "New");
+                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+                        KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                        businessPatnerCode = keyCodeFunctions.getKey("BPT", "Business partner code");
+                        this.saveOrUpdateBisnussPatner(businessPatnerCode, false);
+                    }
+                } else {
+                    ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
+                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+                        this.saveOrUpdateBisnussPatner(businessPatnerCode, true);
+                    }
+                }
+            }
+        }
+
+        session.getTransaction().commit();
+        session.close();
+
+        InformationDialog.showMessageBox("Updated successfully.", "Success");
+        this.resetFrame();
+    }//GEN-LAST:event_lblSaveMouseClicked
+
+    private void saveOrUpdateBisnussPatner(String businessPatnerCode, boolean update) {
+        Date date = new Date();
         String firstName = txtFirstName.getText().trim();
         String lastName = txtLastName.getText().trim();
         String nic = txtNic.getText().trim();
@@ -621,200 +661,81 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         String telephoneCode = txtTelephoneNumber.getText().split("-")[0].trim();
         String telephoneNum = txtTelephoneNumber.getText().split("-")[1].trim();
 
-        if (nic.isEmpty()) {
-            InformationDialog.showMessageBox("Please enter valid NIC", "Invalid");
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+
+        BusinessPartner businessPartner = new BusinessPartner();
+        businessPartner.setBusinessPartnerCode(businessPatnerCode);
+        businessPartner.setFirstName(firstName);
+        businessPartner.setLastName(lastName);
+        businessPartner.setNic(nic);
+        businessPartner.setBirthDay(birthDay);
+        businessPartner.setIsCustomer(isCustomer);
+        businessPartner.setIsSupplier(isSupplier);
+        businessPartner.setIsEmployee(isEmployee);
+        businessPartner.setIsActive(isActive ? 1 : 0);
+        businessPartner.setRemarks(remark);
+        if (update) {
+            businessPartner.setModifiedDate(date);
+            businessPartner.setModifiedTime(date);
+            businessPartner.setModifiedUser(MainFrame.user.getUserId());
         } else {
-            if (businessPatnerCode.isEmpty()) {
-                List busisessPartners = getBusinessPatnerByNic(nic, false);
-                if (busisessPartners.isEmpty()) {
-                    Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
-                    query.setParameter("code", "BPT");
-                    List keyList = query.list();
-                    if (keyList.size() > 0) {
-                        KeyTable keyTable = (KeyTable) keyList.get(0);
-                        Integer keyNumber = keyTable.getKeyNumber();
-                        keyTable.setKeyNumber(keyNumber + 1);
-                        keyTable.setModifiedDate(new Date());
-                        keyTable.setModifiedTime(new Date());
-                        keyTable.setModifiedUser(MainFrame.user.getUserId());
-                        session.saveOrUpdate(keyTable);
-                        businessPatnerCode = "BPT" + keyNumber;
-                    } else {
-                        KeyTable keyTable = new KeyTable();
-                        keyTable.setKeyCode("BPT");
-                        keyTable.setKeyNumber(1001);
-                        keyTable.setKeyRemark("Business patner");
-                        keyTable.setCreatedDate(new Date());
-                        keyTable.setCreatedTime(new Date());
-                        keyTable.setCreatedUser(MainFrame.user.getUserId());
-                        session.saveOrUpdate(keyTable);
-                        businessPatnerCode = "BPT1000";
-                    }
-
-                    BusinessPartner businessPartner = new BusinessPartner();
-                    businessPartner.setBusinessPartnerCode(businessPatnerCode);
-                    businessPartner.setFirstName(firstName);
-                    businessPartner.setLastName(lastName);
-                    businessPartner.setNic(nic);
-                    businessPartner.setBirthDay(birthDay);
-                    businessPartner.setIsCustomer(isCustomer);
-                    businessPartner.setIsSupplier(isSupplier);
-                    businessPartner.setIsEmployee(isEmployee);
-                    businessPartner.setIsActive(isActive ? 1 : 0);
-                    businessPartner.setRemarks(remark);
-                    businessPartner.setCreatedDate(date);
-                    businessPartner.setCreatedTime(date);
-                    businessPartner.setCreatedUser(MainFrame.user.getUserId());
-
-                    session.saveOrUpdate(businessPartner);
-
-                    Address address = new Address();
-                    address.setAddressCode(addressCode);
-                    address.setAdressLine1(addressLine1);
-                    address.setAdressLine2(addressLine2);
-                    address.setAdressLine3(addressLine3);
-
-                    BusinessAddressId businessAddressId = new BusinessAddressId(addressCode, businessPatnerCode);
-                    BusinessAddress businessAddress = new BusinessAddress(businessAddressId, address, businessPartner);
-
-                    session.saveOrUpdate(businessAddress);
-
-                    TelephoneNumber telephoneNumber = new TelephoneNumber();
-                    telephoneNumber.setTelephoneNumberCode(telephoneCode);
-                    telephoneNumber.setTelephoneNumber(telephoneNum);
-
-                    BusinessTelephoneId businessTelephoneId = new BusinessTelephoneId(telephoneCode, businessPatnerCode);
-                    BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, businessPartner, telephoneNumber);
-
-                    session.saveOrUpdate(businessTelephone);
-                } else {
-                    InformationDialog.showMessageBox("Customer already exists", "Exist");
-                }
-            } else {
-                List busisessPartners = getBusinessPatnerByNic(nic, false);
-                if (busisessPartners.isEmpty()) {
-                    ConfirmationDialog.showMessageBox("Code does not exist. Creat new?", "New");
-                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                        Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
-                        query.setParameter("code", "BPT");
-                        List keyList = query.list();
-                        if (keyList.size() > 0) {
-                            KeyTable keyTable = (KeyTable) keyList.get(0);
-                            Integer keyNumber = keyTable.getKeyNumber();
-                            keyTable.setKeyNumber(keyNumber + 1);
-                            keyTable.setModifiedDate(new Date());
-                            keyTable.setModifiedTime(new Date());
-                            keyTable.setModifiedUser(MainFrame.user.getUserId());
-                            session.saveOrUpdate(keyTable);
-                            businessPatnerCode = "BPT" + keyNumber;
-                        } else {
-                            KeyTable keyTable = new KeyTable();
-                            keyTable.setKeyCode("BPT");
-                            keyTable.setKeyNumber(1001);
-                            keyTable.setKeyRemark("Business patner");
-                            keyTable.setCreatedDate(new Date());
-                            keyTable.setCreatedTime(new Date());
-                            keyTable.setCreatedUser(MainFrame.user.getUserId());
-                            session.saveOrUpdate(keyTable);
-                            businessPatnerCode = "BPT1000";
-                        }
-
-                        BusinessPartner businessPartner = new BusinessPartner();
-                        businessPartner.setBusinessPartnerCode(businessPatnerCode);
-                        businessPartner.setFirstName(firstName);
-                        businessPartner.setLastName(lastName);
-                        businessPartner.setNic(nic);
-                        businessPartner.setBirthDay(birthDay);
-                        businessPartner.setIsCustomer(isCustomer);
-                        businessPartner.setIsSupplier(isSupplier);
-                        businessPartner.setIsEmployee(isEmployee);
-                        businessPartner.setIsActive(isActive ? 1 : 0);
-                        businessPartner.setRemarks(remark);
-                        businessPartner.setCreatedDate(date);
-                        businessPartner.setCreatedTime(date);
-                        businessPartner.setCreatedUser(MainFrame.user.getUserId());
-
-                        session.saveOrUpdate(businessPartner);
-
-                        Address address = new Address();
-                        address.setAddressCode(addressCode);
-                        address.setAdressLine1(addressLine1);
-                        address.setAdressLine2(addressLine2);
-                        address.setAdressLine3(addressLine3);
-
-                        BusinessAddressId businessAddressId = new BusinessAddressId(addressCode, businessPatnerCode);
-                        BusinessAddress businessAddress = new BusinessAddress(businessAddressId, address, businessPartner);
-
-                        session.saveOrUpdate(businessAddress);
-
-                        TelephoneNumber telephoneNumber = new TelephoneNumber();
-                        telephoneNumber.setTelephoneNumberCode(telephoneCode);
-                        telephoneNumber.setTelephoneNumber(telephoneNum);
-
-                        BusinessTelephoneId businessTelephoneId = new BusinessTelephoneId(telephoneCode, businessPatnerCode);
-                        BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, businessPartner, telephoneNumber);
-
-                        session.saveOrUpdate(businessTelephone);
-                    }
-                } else {
-                    ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
-                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                        BusinessPartner businessPartner = new BusinessPartner();
-                        businessPartner.setBusinessPartnerCode(businessPatnerCode);
-                        businessPartner.setFirstName(firstName);
-                        businessPartner.setLastName(lastName);
-                        businessPartner.setNic(nic);
-                        businessPartner.setBirthDay(birthDay);
-                        businessPartner.setIsCustomer(isCustomer);
-                        businessPartner.setIsSupplier(isSupplier);
-                        businessPartner.setIsEmployee(isEmployee);
-                        businessPartner.setIsActive(isActive ? 1 : 0);
-                        businessPartner.setRemarks(remark);
-                        businessPartner.setCreatedDate(date);
-                        businessPartner.setCreatedTime(date);
-                        businessPartner.setCreatedUser(MainFrame.user.getUserId());
-
-                        session.saveOrUpdate(businessPartner);
-
-                        Address address = new Address();
-                        address.setAddressCode(addressCode);
-                        address.setAdressLine1(addressLine1);
-                        address.setAdressLine2(addressLine2);
-                        address.setAdressLine3(addressLine3);
-
-                        BusinessAddressId businessAddressId = new BusinessAddressId(addressCode, businessPatnerCode);
-                        BusinessAddress businessAddress = new BusinessAddress(businessAddressId, address, businessPartner);
-
-                        session.saveOrUpdate(businessAddress);
-
-                        TelephoneNumber telephoneNumber = new TelephoneNumber();
-                        telephoneNumber.setTelephoneNumberCode(telephoneCode);
-                        telephoneNumber.setTelephoneNumber(telephoneNum);
-
-                        BusinessTelephoneId businessTelephoneId = new BusinessTelephoneId(telephoneCode, businessPatnerCode);
-                        BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, businessPartner, telephoneNumber);
-
-                        session.saveOrUpdate(businessTelephone);
-                    }
-                }
-            }
+            businessPartner.setCreatedDate(date);
+            businessPartner.setCreatedTime(date);
+            businessPartner.setCreatedUser(MainFrame.user.getUserId());
         }
 
-        session.getTransaction().commit();
+        session.saveOrUpdate(businessPartner);
+
+        Address address = new Address();
+        address.setAddressCode(addressCode);
+        address.setAdressLine1(addressLine1);
+        address.setAdressLine2(addressLine2);
+        address.setAdressLine3(addressLine3);
+        if (update) {
+            address.setModifiedDate(date);
+            address.setModifiedTime(date);
+            address.setModifiedUser(MainFrame.user.getUserId());
+        } else {
+            address.setCreatedDate(date);
+            address.setCreatedTime(date);
+            address.setCreatedUser(MainFrame.user.getUserId());
+        }
+
+        BusinessAddressId businessAddressId = new BusinessAddressId(addressCode, businessPatnerCode);
+        BusinessAddress businessAddress = new BusinessAddress(businessAddressId, address, businessPartner);
+
+        session.saveOrUpdate(businessAddress);
+
+        TelephoneNumber telephoneNumber = new TelephoneNumber();
+        telephoneNumber.setTelephoneNumberCode(telephoneCode);
+        telephoneNumber.setTelephoneNumber(telephoneNum);
+        if (update) {
+            telephoneNumber.setModifiedDate(date);
+            telephoneNumber.setModifiedTime(date);
+            telephoneNumber.setModifiedUser(MainFrame.user.getUserId());
+        } else {
+            telephoneNumber.setCreatedDate(date);
+            telephoneNumber.setCreatedTime(date);
+            telephoneNumber.setCreatedUser(MainFrame.user.getUserId());
+        }
+
+        BusinessTelephoneId businessTelephoneId = new BusinessTelephoneId(telephoneCode, businessPatnerCode);
+        BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, businessPartner, telephoneNumber);
+
+        session.saveOrUpdate(businessTelephone);
+
+        transaction.commit();
         session.close();
+    }
 
-        InformationDialog.showMessageBox("Updated successfully.", "Success");
-        this.resetFrame();
-    }//GEN-LAST:event_lblUpdateMouseClicked
-
-
-    private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
+    private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblUpdateMouseEntered
+    }//GEN-LAST:event_lblSaveMouseEntered
 
-    private void lblUpdateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseExited
+    private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblUpdateMouseExited
+    }//GEN-LAST:event_lblSaveMouseExited
 
     private void lblViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseClicked
         // TODO add your handling code here:
@@ -847,15 +768,19 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblNicSearchMouseExited
 
-    public void setTxtBusinessPatnerCode(String businessPartnerCode) {
+    public void setBusinessPatnerCode(String businessPartnerCode) {
         txtBussinesPatnerCode.setText(businessPartnerCode);
     }
 
-    public void setTxtFirstName(String firstName) {
+    public void setFirstName(String firstName) {
         txtFirstName.setText(firstName);
     }
 
-    public void setTxtNic(String nic) {
+    public void setLastName(String lastName) {
+        txtLastName.setText(lastName);
+    }
+
+    public void setNic(String nic) {
         txtNic.setText(nic);
     }
 
@@ -863,44 +788,52 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         this.calBirthDay.setDate(birthDay);
     }
 
-    public void setCbxIsCustomer(boolean isCustomer) {
+    public void setIsCustomer(boolean isCustomer) {
         cbxCustomer.setSelected(isCustomer);
     }
 
-    public void setCbxIsSupplier(boolean isSupplier) {
+    public void setIsSupplier(boolean isSupplier) {
         cbxSupplier.setSelected(isSupplier);
     }
 
-    public void setCbxIsEmployee(boolean isEmployee) {
+    public void setIsEmployee(boolean isEmployee) {
         cbxEmployee.setSelected(isEmployee);
     }
 
-    public void setTxtRemark(String remark) {
+    public void setRemark(String remark) {
         txtRemark.setText(remark);
     }
 
-    public void setTxtLastName(String lastName) {
-        txtLastName.setText(lastName);
-    }
-
-    public void setCbxIsActive(boolean isActive) {
+    public void setIsActive(boolean isActive) {
         cbxIsActive.setSelected(isActive);
     }
 
-    public void setTxtAddressLine1(String addressLine1) {
+    public void setAddressLine1(String addressLine1) {
         txtAddressLine1.setText(addressLine1);
     }
 
-    public void setTxtAddressLine2(String addressLine2) {
+    public void setAddressLine2(String addressLine2) {
         txtAddressLine2.setText(addressLine2);
     }
 
-    public void setTxtAddressLine3(String addressLine3) {
+    public void setAddressLine3(String addressLine3) {
         txtAddressLine3.setText(addressLine3);
     }
 
-    public void setTxtTelephoneNumber(String telephoneNumber) {
+    public void setTelephoneNumber(String telephoneNumber) {
         txtTelephoneNumber.setText(telephoneNumber);
+    }
+
+    public void setBusinessPatnerCodeEditable(boolean editable) {
+        txtBussinesPatnerCode.setEditable(editable);
+    }
+
+    public void setNicEditable(boolean editable) {
+        txtNic.setEditable(editable);
+    }
+
+    public void setLblSaveText(String text) {
+        this.lblSave.setText(text);
     }
 
     private List getBusinessPatnerByCode(String businessPatnerCode, boolean like) {
@@ -1131,14 +1064,6 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         return list;
     }
 
-    public void setCodeEditable(boolean editable) {
-        txtBussinesPatnerCode.setEditable(editable);
-    }
-
-    public void setNicEditable(boolean editable) {
-        txtNic.setEditable(editable);
-    }
-
     public void resetFrame() {
         txtBussinesPatnerCode.setText("");
         txtFirstName.setText("");
@@ -1180,8 +1105,8 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblFirstNameSearch;
     private javax.swing.JLabel lblLastNameSearch;
     private javax.swing.JLabel lblNicSearch;
+    private javax.swing.JLabel lblSave;
     private javax.swing.JLabel lblTelephoneNumberSearch;
-    public javax.swing.JLabel lblUpdate;
     private javax.swing.JLabel lblView;
     private javax.swing.JTextField txtAddressLine1;
     private javax.swing.JTextField txtAddressLine2;

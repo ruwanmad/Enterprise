@@ -253,7 +253,7 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
     private void selectTelephoneNumber() {
         int selectedRow = telephoneNumberTable.getSelectedRow();
         TelephoneNumber telephoneNumber = (TelephoneNumber) list.get(selectedRow);
-        businessPatnerFrame.setTxtTelephoneNumber(telephoneNumber.getTelephoneNumberCode()+"-"+telephoneNumber.getTelephoneNumber());
+        businessPatnerFrame.setTelephoneNumber(telephoneNumber.getTelephoneNumberCode()+"-"+telephoneNumber.getTelephoneNumber());
         this.dispose();
     }
 

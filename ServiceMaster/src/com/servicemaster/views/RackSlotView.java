@@ -251,14 +251,14 @@ public class RackSlotView extends javax.swing.JInternalFrame {
         int selectedRow = rackSlotTable.getSelectedRow();
         Storage storage = this.storages.get(selectedRow);
         RackSlot rackSlot = (RackSlot) list.get(selectedRow);
-        rackSlotFrame.setTxtSlotCode(rackSlot.getRackSlotCode());
-        rackSlotFrame.setTxtSlotName(rackSlot.getRackSlotName());
-        rackSlotFrame.setTxtRemark(rackSlot.getRemark());
-        rackSlotFrame.setCbxIsActive((rackSlot.getIsActive() == 1));
-        rackSlotFrame.setCmbStorage(storage.getStorageCode());
-        rackSlotFrame.setCmbRack(rackSlot.getRack().getRackCode());
-        rackSlotFrame.setTxtCodeEditable(false);
-        rackSlotFrame.lblUpdate.setText("Update");
+        rackSlotFrame.setRackSlotCode(rackSlot.getRackSlotCode());
+        rackSlotFrame.setRackSlotName(rackSlot.getRackSlotName());
+        rackSlotFrame.setRemark(rackSlot.getRemark());
+        rackSlotFrame.setIsActive((rackSlot.getIsActive() == 1));
+        rackSlotFrame.setStorage(storage.getStorageCode());
+        rackSlotFrame.setRack(rackSlot.getRack().getRackCode());
+        rackSlotFrame.setRackSlotCodeEditable(false);
+        rackSlotFrame.setLblSaveText("Update");
         this.dispose();
     }
 

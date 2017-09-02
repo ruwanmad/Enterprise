@@ -235,10 +235,10 @@ public class SettlementDialog extends javax.swing.JDialog {
             Payment payment = new Payment(paymentCode, invoice, new PaymentType(cashSettlePanel.getPaymentTypeCode()));
             if (balanceAmount < 0) {
                 payment.setAmount(nowPayingAmount);
-                service.setServiceStatus(this.serviceStatusMap.get("Partially paid"));
+                service.setServiceStatus(this.serviceStatusMap.get("PARTIALLY PAID"));
             } else {
                 payment.setAmount(nowPayingAmount - balanceAmount);
-                service.setServiceStatus(this.serviceStatusMap.get("Settled"));
+                service.setServiceStatus(this.serviceStatusMap.get("SETTLED"));
             }
             payment.setCreatedDate(date);
             payment.setCreatedTime(date);

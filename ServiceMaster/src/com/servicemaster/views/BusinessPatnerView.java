@@ -217,16 +217,16 @@ public class BusinessPatnerView extends javax.swing.JInternalFrame {
         int selectedRow = businessPartnerTable.getSelectedRow();
         BusinessPartner businessPartner = (BusinessPartner) list.get(selectedRow);
 
-        businessPartnerFrame.setTxtBusinessPatnerCode(businessPartner.getBusinessPartnerCode());
-        businessPartnerFrame.setTxtFirstName(businessPartner.getFirstName());
-        businessPartnerFrame.setTxtLastName(businessPartner.getLastName());
-        businessPartnerFrame.setTxtNic(businessPartner.getNic());
+        businessPartnerFrame.setBusinessPatnerCode(businessPartner.getBusinessPartnerCode());
+        businessPartnerFrame.setFirstName(businessPartner.getFirstName());
+        businessPartnerFrame.setLastName(businessPartner.getLastName());
+        businessPartnerFrame.setNic(businessPartner.getNic());
         businessPartnerFrame.setBirthDay(businessPartner.getBirthDay());
-        businessPartnerFrame.setCbxIsCustomer(businessPartner.isIsCustomer());
-        businessPartnerFrame.setCbxIsSupplier(businessPartner.isIsSupplier());
-        businessPartnerFrame.setCbxIsEmployee(businessPartner.isIsEmployee());
-        businessPartnerFrame.setCbxIsActive((businessPartner.getIsActive() == 1));
-        businessPartnerFrame.setTxtRemark(businessPartner.getRemarks());
+        businessPartnerFrame.setIsCustomer(businessPartner.isIsCustomer());
+        businessPartnerFrame.setIsSupplier(businessPartner.isIsSupplier());
+        businessPartnerFrame.setIsEmployee(businessPartner.isIsEmployee());
+        businessPartnerFrame.setIsActive((businessPartner.getIsActive() == 1));
+        businessPartnerFrame.setRemark(businessPartner.getRemarks());
 
         Set addresses = businessPartner.getBusinessAddresses();
         if (!addresses.isEmpty()) {
@@ -234,9 +234,9 @@ public class BusinessPatnerView extends javax.swing.JInternalFrame {
                 if (object instanceof BusinessAddress) {
                     BusinessAddress businessAddress = (BusinessAddress) object;
                     Address address = businessAddress.getAddress();
-                    businessPartnerFrame.setTxtAddressLine1(address.getAddressCode() + "-" + address.getAdressLine1());
-                    businessPartnerFrame.setTxtAddressLine2(address.getAdressLine2());
-                    businessPartnerFrame.setTxtAddressLine3(address.getAdressLine3());
+                    businessPartnerFrame.setAddressLine1(address.getAddressCode() + "-" + address.getAdressLine1());
+                    businessPartnerFrame.setAddressLine2(address.getAdressLine2());
+                    businessPartnerFrame.setAddressLine3(address.getAdressLine3());
                 }
             }
         }
@@ -246,13 +246,13 @@ public class BusinessPatnerView extends javax.swing.JInternalFrame {
                 if (object instanceof BusinessTelephone) {
                     BusinessTelephone businessTelephone = (BusinessTelephone) object;
                     TelephoneNumber telephoneNumber = businessTelephone.getTelephoneNumber();
-                    businessPartnerFrame.setTxtTelephoneNumber(telephoneNumber.getTelephoneNumberCode() + "-" + telephoneNumber.getTelephoneNumber());
+                    businessPartnerFrame.setTelephoneNumber(telephoneNumber.getTelephoneNumberCode() + "-" + telephoneNumber.getTelephoneNumber());
                 }
             }
         }
-        businessPartnerFrame.setCodeEditable(false);
+        businessPartnerFrame.setBusinessPatnerCodeEditable(false);
         businessPartnerFrame.setNicEditable(false);
-        businessPartnerFrame.lblUpdate.setText("Update");
+        businessPartnerFrame.setLblSaveText("Update");
         this.dispose();
     }
 

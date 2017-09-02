@@ -10,6 +10,7 @@ import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.internalFrames.ItemFrame;
 import com.servicemaster.models.Item;
+import com.servicemaster.models.Manufacturer;
 import com.servicemaster.models.RackSlot;
 import com.servicemaster.models.SubCategory;
 import com.servicemaster.models.Uom;
@@ -225,44 +226,32 @@ public class ItemView extends javax.swing.JInternalFrame {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
+        
+        Manufacturer manufacturer = (Manufacturer) session.load(Manufacturer.class, item.getManufacturer().getManufacturerCode());
+        SubCategory subCategory = (SubCategory) session.load(SubCategory.class, item.getSubCategory().getSubCategoryCode());
+        RackSlot rackSlot =  (RackSlot) session.load(RackSlot.class, item.getRackSlot().getRackSlotCode());
+        Uom buyingUOM =  (Uom) session.load(Uom.class, item.getUomByBuyingUom().getUomCode());
+        Uom sellingUOM =  (Uom) session.load(Uom.class, item.getUomBySellingUom().getUomCode());
 
-        SubCategory subCategory = (SubCategory) session
-                .createCriteria(SubCategory.class)
-                .add(Restrictions.eq("subCategoryCode", item.getSubCategory().getSubCategoryCode()))
-                .uniqueResult();
-
-        RackSlot rackSlot = (RackSlot) session
-                .createCriteria(RackSlot.class)
-                .add(Restrictions.eq("rackSlotCode", item.getRackSlot().getRackSlotCode()))
-                .uniqueResult();
-
-        Uom buyingUOM = (Uom) session
-                .createCriteria(Uom.class)
-                .add(Restrictions.eq("uomCode", item.getUomByBuyingUom().getUomCode()))
-                .uniqueResult();
-
-        Uom sellingUOM = (Uom) session
-                .createCriteria(Uom.class)
-                .add(Restrictions.eq("uomCode", item.getUomByBuyingUom().getUomCode()))
-                .uniqueResult();
-
-        transaction.commit();
-        session.close();
-
-        itemFrame.setTxtItemCode(item.getItemCode());
-        itemFrame.setTxtItemName(item.getItemName());
-        itemFrame.setTxtSellingPrice(item.getSellingPrice().toString());
-        itemFrame.setTxtIssueMethod(item.getIssueMethod());
-        itemFrame.setTxtReorderQty(item.getReorderQuantity().toString());
+        itemFrame.setItemCode(item.getItemCode());
+        itemFrame.setItemName(item.getItemName());
+        itemFrame.setSellingPrice(item.getSellingPrice().toString());
+        itemFrame.setIssueMethod(item.getIssueMethod());
+        itemFrame.setReorderQty(item.getReorderQuantity().toString());
         itemFrame.setIsPhysicle(item.getIsPhysical() == 1);
         itemFrame.setIsActive(item.getIsActive() == 1);
-        itemFrame.setTxtRemark(item.getRemark());
-        itemFrame.setCmbSubCategory(subCategory.getSubCategoryName());
-        itemFrame.setCmbRackSlot(rackSlot.getRackSlotName());
-        itemFrame.setCmbBuyingUOM(buyingUOM.getUomName());
-        itemFrame.setCmbSellingUOM(sellingUOM.getUomName());
-        itemFrame.setTxtItemCodeEditable(false);
+        itemFrame.setRemark(item.getRemark());
+        itemFrame.setManufacturer(manufacturer.getManufacturerName());
+        itemFrame.setSubCategory(subCategory.getSubCategoryName());
+        itemFrame.setRackSlot(rackSlot.getRackSlotName());
+        itemFrame.setBuyingUOM(buyingUOM.getUomName());
+        itemFrame.setSellingUOM(sellingUOM.getUomName());
+        itemFrame.setItemCodeEditable(false);
         itemFrame.setLblSaveText("Update");
+        
+        transaction.commit();
+        session.close();
+        
         this.dispose();
     }
 

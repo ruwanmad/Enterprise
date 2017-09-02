@@ -58,7 +58,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         cbxIsActive = new javax.swing.JCheckBox();
         lblClose = new javax.swing.JLabel();
-        lblUpdate = new javax.swing.JLabel();
+        lblSave = new javax.swing.JLabel();
         lblView = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         cmbSubCategoryType = new javax.swing.JComboBox<>();
@@ -163,21 +163,21 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        lblUpdate.setBackground(new java.awt.Color(150, 255, 150));
-        lblUpdate.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblUpdate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUpdate.setText("Save");
-        lblUpdate.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblUpdate.setOpaque(true);
-        lblUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblSave.setBackground(new java.awt.Color(150, 255, 150));
+        lblSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSave.setText("Save");
+        lblSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblSave.setOpaque(true);
+        lblSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseClicked(evt);
+                lblSaveMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseEntered(evt);
+                lblSaveMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseExited(evt);
+                lblSaveMouseExited(evt);
             }
         });
 
@@ -235,7 +235,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -274,7 +274,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbCategory, cmbPrinter, cmbSubCategoryType, txtRemark});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblSave, lblView});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,14 +314,14 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                 .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbCategory, cmbPrinter, cmbSubCategoryType, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, lblCodeSearch, lblNameSearch, txtRemark, txtSubcategoryCode, txtSubcategoryName});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblSave, lblView});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -379,7 +379,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCloseMouseExited
 
-    private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
+    private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         String subCategoryCode = txtSubcategoryCode.getText().toUpperCase().trim();
@@ -447,15 +447,15 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                 }
             }
         }
-    }//GEN-LAST:event_lblUpdateMouseClicked
+    }//GEN-LAST:event_lblSaveMouseClicked
 
-    private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
+    private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblUpdateMouseEntered
+    }//GEN-LAST:event_lblSaveMouseEntered
 
-    private void lblUpdateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseExited
+    private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblUpdateMouseExited
+    }//GEN-LAST:event_lblSaveMouseExited
 
     private void lblViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseClicked
         // TODO add your handling code here:
@@ -519,39 +519,43 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         session.close();
     }//GEN-LAST:event_formInternalFrameOpened
 
-    public void setCbxIsActive(boolean isActive) {
-        this.cbxIsActive.setSelected(isActive);
-    }
-
-    public void setTxtRemark(String remark) {
-        this.txtRemark.setText(remark);
-    }
-
-    public void setTxtSubcategoryCode(String subCategoryCode) {
+    public void setSubcategoryCode(String subCategoryCode) {
         this.txtSubcategoryCode.setText(subCategoryCode);
     }
 
-    public void setTxtSubcategoryName(String subCategoryName) {
+    public void setSubcategoryName(String subCategoryName) {
         this.txtSubcategoryName.setText(subCategoryName);
     }
 
-    public void setCmbCategory(String category) {
+    public void setCategory(String category) {
         Category cat = this.categoryMap.get(category);
         this.cmbCategory.setSelectedItem(cat.getCategoryCode() + "-" + cat.getCategoryName());
     }
 
-    public void setCmbSubCategoryType(String subCategoryType) {
+    public void setSubCategoryType(String subCategoryType) {
         SubCategoryType categoryType = this.subCategoryTypeMap.get(subCategoryType);
         this.cmbSubCategoryType.setSelectedItem(categoryType.getSubCategoryTypeCode() + "-" + categoryType.getSubCategoryTypeName());
     }
 
-    public void setCmbPrinter(String printer) {
+    public void setPrinter(String printer) {
         Printer prin = this.printerMap.get(printer);
         this.cmbPrinter.setSelectedItem(prin.getPrinterCode() + "-" + prin.getPrinterName());
     }
+    
+    public void setIsActive(boolean isActive) {
+        this.cbxIsActive.setSelected(isActive);
+    }
 
-    public void setTxtCodeEditable(boolean editable) {
+    public void setSubCategoryCodeEditable(boolean editable) {
         txtSubcategoryCode.setEditable(editable);
+    }
+    
+    public void setRemark(String remark) {
+        this.txtRemark.setText(remark);
+    }
+
+    public void setLblSaveText(String text) {
+        this.lblSave.setText(text);
     }
 
     private List getSubCategoryByCode(String subCategoryCode, boolean like) {
@@ -663,7 +667,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCodeSearch;
     private javax.swing.JLabel lblNameSearch;
-    public javax.swing.JLabel lblUpdate;
+    private javax.swing.JLabel lblSave;
     private javax.swing.JLabel lblView;
     private javax.swing.JTextField txtRemark;
     private javax.swing.JTextField txtSubcategoryCode;

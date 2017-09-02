@@ -254,9 +254,9 @@ public class AddressView extends javax.swing.JInternalFrame {
     private void selectAddress() {
         int selectedRow = addressTable.getSelectedRow();
         Address address = (Address) list.get(selectedRow);
-        businessPatnerFrame.setTxtAddressLine1(address.getAddressCode()+"-"+address.getAdressLine1());
-        businessPatnerFrame.setTxtAddressLine2(address.getAdressLine2());
-        businessPatnerFrame.setTxtAddressLine3(address.getAdressLine3());
+        businessPatnerFrame.setAddressLine1(address.getAddressCode()+"-"+address.getAdressLine1());
+        businessPatnerFrame.setAddressLine2(address.getAdressLine2());
+        businessPatnerFrame.setAddressLine3(address.getAdressLine3());
         this.dispose();
     }
 

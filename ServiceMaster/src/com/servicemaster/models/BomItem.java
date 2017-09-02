@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Aug 26, 2017 10:09:18 PM by Hibernate Tools 4.3.1
+// Generated Sep 2, 2017 1:38:10 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,6 +13,7 @@ public class BomItem  implements java.io.Serializable {
      private String bomItemCode;
      private Bom bom;
      private Item item;
+     private Uom uom;
      private Float bomItemQuantity;
      private Date createdDate;
      private Date createdTime;
@@ -26,15 +27,17 @@ public class BomItem  implements java.io.Serializable {
     }
 
 	
-    public BomItem(String bomItemCode, Bom bom, Item item) {
+    public BomItem(String bomItemCode, Bom bom, Item item, Uom uom) {
         this.bomItemCode = bomItemCode;
         this.bom = bom;
         this.item = item;
+        this.uom = uom;
     }
-    public BomItem(String bomItemCode, Bom bom, Item item, Float bomItemQuantity, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
+    public BomItem(String bomItemCode, Bom bom, Item item, Uom uom, Float bomItemQuantity, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
        this.bomItemCode = bomItemCode;
        this.bom = bom;
        this.item = item;
+       this.uom = uom;
        this.bomItemQuantity = bomItemQuantity;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
@@ -65,6 +68,13 @@ public class BomItem  implements java.io.Serializable {
     
     public void setItem(Item item) {
         this.item = item;
+    }
+    public Uom getUom() {
+        return this.uom;
+    }
+    
+    public void setUom(Uom uom) {
+        this.uom = uom;
     }
     public Float getBomItemQuantity() {
         return this.bomItemQuantity;

@@ -21,4 +21,8 @@ public class SystemData {
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("YYYY-MM-dd");
     public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
     public static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+    public static final String NEW_RECORD_ADDED_MESSAGE = "New Record addedd";
+    public static final String NEW_RECORD_ADDED_HEADING = "Added";
+    public static final String RECORD_UPDATED_MESSAGE = "Record updated";
+    public static final String RECORD_UPDATED_HEADING = "Updated";
 }

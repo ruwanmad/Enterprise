@@ -840,7 +840,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblPrint" linkSize="12" min="-2" pref="75" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lblUpdate" linkSize="12" min="-2" pref="75" max="-2" attributes="0"/>
+                      <Component id="lblSave" linkSize="12" min="-2" pref="75" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblClose" linkSize="12" min="-2" pref="75" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -853,7 +853,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblClose" linkSize="13" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="lblUpdate" linkSize="13" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Component id="lblSave" linkSize="13" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                           <Component id="lblPrint" linkSize="13" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                           <Component id="lblSettle" linkSize="13" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                       </Group>
@@ -888,7 +888,7 @@
                 <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblCloseMouseExited"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="lblUpdate">
+            <Component class="javax.swing.JLabel" name="lblSave">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="96" green="ff" red="96" type="rgb"/>
@@ -908,9 +908,9 @@
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblUpdateMouseClicked"/>
-                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblUpdateMouseEntered"/>
-                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblUpdateMouseExited"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblSaveMouseClicked"/>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblSaveMouseEntered"/>
+                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblSaveMouseExited"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblPrint">

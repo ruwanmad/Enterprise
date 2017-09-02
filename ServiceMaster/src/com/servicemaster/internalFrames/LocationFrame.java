@@ -50,7 +50,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         cbxIsActive = new javax.swing.JCheckBox();
         lblClose = new javax.swing.JLabel();
-        lblUpdate = new javax.swing.JLabel();
+        lblSave = new javax.swing.JLabel();
         lblView = new javax.swing.JLabel();
         lblCodeSearch = new javax.swing.JLabel();
         lblNameSearch = new javax.swing.JLabel();
@@ -96,21 +96,21 @@ public class LocationFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        lblUpdate.setBackground(new java.awt.Color(150, 255, 150));
-        lblUpdate.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblUpdate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUpdate.setText("Save");
-        lblUpdate.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblUpdate.setOpaque(true);
-        lblUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblSave.setBackground(new java.awt.Color(150, 255, 150));
+        lblSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSave.setText("Save");
+        lblSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblSave.setOpaque(true);
+        lblSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseClicked(evt);
+                lblSaveMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseEntered(evt);
+                lblSaveMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseExited(evt);
+                lblSaveMouseExited(evt);
             }
         });
 
@@ -177,7 +177,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                        .addComponent(lblSave, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblClose, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -212,7 +212,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtLocationCode, txtLocationName});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblSave, lblView});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblCodeSearch, lblNameSearch});
 
@@ -242,14 +242,14 @@ public class LocationFrame extends javax.swing.JInternalFrame {
                 .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, jLabel1, jLabel2, jLabel3, jLabel4, lblCodeSearch, lblNameSearch, txtLocationCode, txtLocationName, txtRemark});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblSave, lblView});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -261,7 +261,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_lblCloseMouseClicked
 
-    private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
+    private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         String locationCode = txtLocationCode.getText().toUpperCase().trim();
@@ -307,7 +307,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
                 }
             }
         }
-    }//GEN-LAST:event_lblUpdateMouseClicked
+    }//GEN-LAST:event_lblSaveMouseClicked
 
     private void lblViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseClicked
         // TODO add your handling code here:
@@ -317,9 +317,9 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblViewMouseEntered
 
-    private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
+    private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblUpdateMouseEntered
+    }//GEN-LAST:event_lblSaveMouseEntered
 
     private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
@@ -329,9 +329,9 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblViewMouseExited
 
-    private void lblUpdateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseExited
+    private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblUpdateMouseExited
+    }//GEN-LAST:event_lblSaveMouseExited
 
     private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
@@ -462,24 +462,28 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         txtLocationCode.setEditable(true);
     }
 
-    public void setCbxIsActive(boolean IsActive) {
-        this.cbxIsActive.setSelected(IsActive);
-    }
-
-    public void setTxtLocationCode(String categoryCode) {
+    public void setLocationCode(String categoryCode) {
         this.txtLocationCode.setText(categoryCode);
     }
 
-    public void setTxtLocationName(String categoryName) {
+    public void setLocationName(String categoryName) {
         this.txtLocationName.setText(categoryName);
     }
 
-    public void setTxtRemark(String remark) {
+    public void setRemark(String remark) {
         this.txtRemark.setText(remark);
     }
 
-    public void setTxtCodeEditable(boolean editable) {
+    public void setIsActive(boolean IsActive) {
+        this.cbxIsActive.setSelected(IsActive);
+    }
+
+    public void setLocationCodeEditable(boolean editable) {
         txtLocationCode.setEditable(editable);
+    }
+
+    public void setLblSaveText(String text) {
+        this.lblSave.setText(text);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -491,7 +495,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCodeSearch;
     private javax.swing.JLabel lblNameSearch;
-    public javax.swing.JLabel lblUpdate;
+    private javax.swing.JLabel lblSave;
     private javax.swing.JLabel lblView;
     private javax.swing.JTextField txtLocationCode;
     private javax.swing.JTextField txtLocationName;

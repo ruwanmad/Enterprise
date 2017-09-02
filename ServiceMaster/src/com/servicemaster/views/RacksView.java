@@ -214,13 +214,13 @@ public class RacksView extends javax.swing.JInternalFrame {
     private void selectRack() {
         int selectedRow = subRackTable.getSelectedRow();
         Rack rack = (Rack) list.get(selectedRow);
-        rackFrame.setTxtRackCode(rack.getRackCode());
-        rackFrame.setTxtRackName(rack.getRackName());
-        rackFrame.setTxtRemark(rack.getRemark());
-        rackFrame.setCbxIsActive((rack.getIsActive() == 1));
-        rackFrame.setCmbCategory(rack.getStorage().getStorageCode());
-        rackFrame.setTxtCodeEditable(false);
-        rackFrame.lblUpdate.setText("Update");
+        rackFrame.setRackCode(rack.getRackCode());
+        rackFrame.setRackName(rack.getRackName());
+        rackFrame.setRemark(rack.getRemark());
+        rackFrame.setIsActive((rack.getIsActive() == 1));
+        rackFrame.setCategory(rack.getStorage().getStorageCode());
+        rackFrame.setRackCodeEditable(false);
+        rackFrame.setLblSaveText("Update");
         this.dispose();
     }
 

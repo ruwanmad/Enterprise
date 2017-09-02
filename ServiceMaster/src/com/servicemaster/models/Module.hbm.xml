@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 26, 2017 10:09:22 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 2, 2017 1:38:15 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Module" table="module" catalog="enterprisedb" optimistic-lock="version">
         <id name="moduleId" type="int">
@@ -14,8 +14,8 @@
         <property name="moduleName" type="string">
             <column name="module_name" length="45" />
         </property>
-        <property name="iconName" type="string">
-            <column name="icon_name" length="45" />
+        <property name="moduleIcon" type="binary">
+            <column name="module_icon" />
         </property>
         <property name="isShortcutAdded" type="java.lang.Integer">
             <column name="isShortcut_added" />

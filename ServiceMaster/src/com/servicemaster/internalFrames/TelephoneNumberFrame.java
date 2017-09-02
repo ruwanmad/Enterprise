@@ -176,7 +176,7 @@ public class TelephoneNumberFrame extends javax.swing.JInternalFrame {
 
         InformationDialog.showMessageBox("Updated successfully.", "Success");
 
-        partnerFrame.setTxtTelephoneNumber(telephoneCode + "-" + telephoneNumber);
+        partnerFrame.setTelephoneNumber(telephoneCode + "-" + telephoneNumber);
 
         this.dispose();
     }//GEN-LAST:event_lblUpdateMouseClicked

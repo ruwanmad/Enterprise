@@ -12,6 +12,7 @@ import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.models.Item;
+import com.servicemaster.models.Manufacturer;
 import com.servicemaster.models.RackSlot;
 import com.servicemaster.models.SubCategory;
 import com.servicemaster.models.Uom;
@@ -20,7 +21,6 @@ import com.servicemaster.views.ItemView;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -40,34 +40,6 @@ public class ItemFrame extends javax.swing.JInternalFrame {
      */
     public ItemFrame() {
         initComponents();
-
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-
-        Criteria crSub = session.createCriteria(SubCategory.class);
-        List<SubCategory> subList = crSub.list();
-        for (int idx = 0; idx < subList.size(); idx++) {
-            SubCategory sub = subList.get(idx);
-            cmbSubCategory.addItem(sub.getSubCategoryName());
-        }
-
-        Criteria crSlot = session.createCriteria(RackSlot.class);
-        List<RackSlot> subSlotList = crSlot.list();
-        for (int idx = 0; idx < subSlotList.size(); idx++) {
-            RackSlot subSlot = subSlotList.get(idx);
-            cmbRackSlot.addItem(subSlot.getRackSlotName());
-        }
-
-        Criteria uomCr = session.createCriteria(Uom.class);
-        List<Uom> uomList = uomCr.list();
-        for (int idx = 0; idx < uomList.size(); idx++) {
-            Uom uom = uomList.get(idx);
-            cmbBuyingUOM.addItem(uom.getUomName());
-            cmbSellingUOM.addItem(uom.getUomName());
-        }
-
-        transaction.commit();
-        session.close();
 
         //Setting default values 
         txtIssueMethod.setText("1");
@@ -113,10 +85,29 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         lblCodeSearch = new javax.swing.JLabel();
         lblNameSearch = new javax.swing.JLabel();
         lblClose = new javax.swing.JLabel();
-        lblUpdate = new javax.swing.JLabel();
+        lblSave = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        cmbManufacturer = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setTitle("Add New Item");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel1.setText("Item Code :");
@@ -218,23 +209,26 @@ public class ItemFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        lblUpdate.setBackground(new java.awt.Color(150, 255, 150));
-        lblUpdate.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblUpdate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUpdate.setText("Save");
-        lblUpdate.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblUpdate.setOpaque(true);
-        lblUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblSave.setBackground(new java.awt.Color(150, 255, 150));
+        lblSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSave.setText("Save");
+        lblSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblSave.setOpaque(true);
+        lblSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseClicked(evt);
+                lblSaveMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseEntered(evt);
+                lblSaveMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseExited(evt);
+                lblSaveMouseExited(evt);
             }
         });
+
+        jLabel19.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel19.setText("Manufacturer :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -252,11 +246,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel15)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel18))
+                            .addComponent(jLabel14))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -272,25 +262,37 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                                     .addComponent(txtReorderQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cbxIsActive)
                                     .addComponent(cbxIsPhysical)
-                                    .addComponent(cmbSellingUOM, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cmbBuyingUOM, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cmbRackSlot, 0, 111, Short.MAX_VALUE)
-                                    .addComponent(cmbSubCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtIssueMethod, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtSellingProce, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtRemarks, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel18))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmbSellingUOM, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbBuyingUOM, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbRackSlot, 0, 111, Short.MAX_VALUE)
+                            .addComponent(cmbSubCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbManufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18, jLabel19, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbBuyingUOM, cmbRackSlot, cmbSellingUOM, cmbSubCategory, txtIssueMethod, txtRemarks, txtReorderQuantity, txtSellingProce});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbBuyingUOM, cmbManufacturer, cmbRackSlot, cmbSellingUOM, cmbSubCategory, txtIssueMethod, txtRemarks, txtReorderQuantity, txtSellingProce});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -331,6 +333,10 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                     .addComponent(jLabel14)
                     .addComponent(txtRemarks, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(cmbManufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cmbSubCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15))
@@ -346,14 +352,14 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbSellingUOM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cbxIsPhysical, cmbBuyingUOM, cmbRackSlot, cmbSellingUOM, cmbSubCategory, jLabel1, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, lblCodeSearch, lblNameSearch, txtIssueMethod, txtItemCode, txtItemName, txtReorderQuantity, txtSellingProce});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cbxIsPhysical, cmbBuyingUOM, cmbManufacturer, cmbRackSlot, cmbSellingUOM, cmbSubCategory, jLabel1, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18, jLabel19, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, lblCodeSearch, lblNameSearch, txtIssueMethod, txtItemCode, txtItemName, txtReorderQuantity, txtSellingProce});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -411,7 +417,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCloseMouseExited
 
-    private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
+    private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
         if (!verifyInputs()) {
             InformationDialog.showMessageBox("Fill the required fields", "Transaction Incomplete");
         } else {
@@ -419,8 +425,8 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 session.beginTransaction();
 
-                String strItemCode = txtItemCode.getText().trim();
-                String strItemName = txtItemName.getText().trim();
+                String strItemCode = txtItemCode.getText().trim().toUpperCase();
+                String strItemName = txtItemName.getText().trim().toUpperCase();
 
                 if (strItemCode.isEmpty()) {
                     List itemByName = this.getItemByName(strItemName, false);
@@ -429,7 +435,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                     } else {
                         KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
                         strItemCode = keyCodeFunctions.getKey("ITM", "Item codes");
-                        this.createNewItemOrUpdate(strItemCode);
+                        this.createNewItemOrUpdate(strItemCode, false);
                     }
                 } else {
                     List itemByCode = this.getItemByCode(strItemCode, false);
@@ -438,15 +444,15 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
                             session.getTransaction().commit();
                             session.close();
-                            
+
                             KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
                             strItemCode = keyCodeFunctions.getKey("ITM", "Item codes");
-                            this.createNewItemOrUpdate(strItemCode);
+                            this.createNewItemOrUpdate(strItemCode, false);
                         }
                     } else {
                         ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
                         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                            this.createNewItemOrUpdate(strItemCode);
+                            this.createNewItemOrUpdate(strItemCode, true);
                         }
                     }
                 }
@@ -454,27 +460,66 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                 InformationDialog.showMessageBox("Invalid entry. Retry again", "Transaction Status");
             }
         }
-    }//GEN-LAST:event_lblUpdateMouseClicked
+    }//GEN-LAST:event_lblSaveMouseClicked
 
-    private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
+    private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblUpdateMouseEntered
+    }//GEN-LAST:event_lblSaveMouseEntered
 
-    private void lblUpdateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseExited
+    private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblUpdateMouseExited
+    }//GEN-LAST:event_lblSaveMouseExited
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        Criteria manufactrerCriteria = session.createCriteria(Manufacturer.class);
+        List<Manufacturer> manufacturers = manufactrerCriteria.list();
+        for (Manufacturer manufacturer : manufacturers) {
+            cmbManufacturer.addItem(manufacturer.getManufacturerName());
+        }
+
+        Criteria subCategoryCriteria = session.createCriteria(SubCategory.class);
+        List<SubCategory> subCategorys = subCategoryCriteria.list();
+        for (SubCategory subCategory : subCategorys) {
+            cmbSubCategory.addItem(subCategory.getSubCategoryName());
+        }
+
+        Criteria rackSlotCriteria = session.createCriteria(RackSlot.class);
+        List<RackSlot> rackSlots = rackSlotCriteria.list();
+        for (RackSlot rackSlot : rackSlots) {
+            cmbRackSlot.addItem(rackSlot.getRackSlotName());
+        }
+
+        Criteria uomCriteria = session.createCriteria(Uom.class);
+        List<Uom> uoms = uomCriteria.list();
+        for (Uom uom : uoms) {
+            cmbBuyingUOM.addItem(uom.getUomName());
+            cmbSellingUOM.addItem(uom.getUomName());
+        }
+
+        transaction.commit();
+        session.close();
+    }//GEN-LAST:event_formInternalFrameOpened
 
     public void clearAll() {
+        this.setItemCodeEditable(true);
         txtItemCode.setText("");
         txtItemName.setText("");
         txtSellingProce.setText("");
         txtReorderQuantity.setText("");
         txtRemarks.setText("");
+
+        cmbManufacturer.setSelectedIndex(0);
+        cmbSubCategory.setSelectedIndex(0);
+        cmbRackSlot.setSelectedIndex(0);
+        cmbBuyingUOM.setSelectedIndex(0);
+        cmbSellingUOM.setSelectedIndex(0);
     }
 
     public boolean verifyInputs() {
-        return !((txtItemCode.getText().isEmpty())
-                || (txtItemName.getText().isEmpty())
+        return !((txtItemName.getText().isEmpty())
                 || (txtSellingProce.getText().isEmpty())
                 || (txtReorderQuantity.getText().isEmpty()));
     }
@@ -491,7 +536,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
             query.setParameter("code", itemCode);
         }
         List list = query.list();
-        
+
         session.getTransaction().commit();
         session.close();
         return list;
@@ -514,14 +559,15 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         return list;
     }
 
-    private void createNewItemOrUpdate(String strItemCode) {
-        String strItemName = txtItemName.getText().trim();
+    private void createNewItemOrUpdate(String strItemCode, boolean update) {
+        String strItemName = txtItemName.getText().trim().toUpperCase();
         String strSellingPrice = txtSellingProce.getText().trim();
         String strIssueMethod = txtIssueMethod.getText().trim();
         String strReOrderQty = txtReorderQuantity.getText().trim();
         Boolean bIsPhy = cbxIsPhysical.isSelected();
         Boolean bIsActive = cbxIsActive.isSelected();
-        String strRemarks = txtRemarks.getText().trim();
+        String strRemarks = txtRemarks.getText().trim().toUpperCase();
+        String strManufacturer = cmbManufacturer.getSelectedItem().toString();
         String strSubCat = cmbSubCategory.getSelectedItem().toString();
         String strRackSlot = cmbRackSlot.getSelectedItem().toString();
         String strBuyUOM = cmbBuyingUOM.getSelectedItem().toString();
@@ -532,25 +578,30 @@ public class ItemFrame extends javax.swing.JInternalFrame {
 
         Date date = new Date();
 
-        SubCategory catID = (SubCategory) session
+        Manufacturer manufacturer = (Manufacturer) session
+                .createCriteria(Manufacturer.class)
+                .add(Restrictions.eq("manufacturerName", strManufacturer))
+                .uniqueResult();
+
+        SubCategory subCategory = (SubCategory) session
                 .createCriteria(SubCategory.class)
                 .add(Restrictions.eq("subCategoryName", strSubCat))
                 .uniqueResult();
         //txtItemCode.setText(catID.getSubCategoryCode());
 
-        RackSlot rack = (RackSlot) session
+        RackSlot rackSlot = (RackSlot) session
                 .createCriteria(RackSlot.class)
                 .add(Restrictions.eq("rackSlotName", strRackSlot))
                 .uniqueResult();
         //txtItemName.setText(rack.getRackSlotCode());
 
-        Uom buom = (Uom) session
+        Uom buyingUom = (Uom) session
                 .createCriteria(Uom.class)
                 .add(Restrictions.eq("uomName", strBuyUOM))
                 .uniqueResult();
         //txtSellingProce.setText(buom.getUomCode());
 
-        Uom suom = (Uom) session
+        Uom sellingUom = (Uom) session
                 .createCriteria(Uom.class)
                 .add(Restrictions.eq("uomName", strSellUOM))
                 .uniqueResult();
@@ -558,7 +609,12 @@ public class ItemFrame extends javax.swing.JInternalFrame {
 
         Item item = new Item();
         item.setItemCode(strItemCode);
-        item.setItemName(strItemName);
+        if (manufacturer.getManufacturerName().equalsIgnoreCase("NONE")) {
+            item.setItemName(strItemName);
+        } else {
+            item.setItemName(strItemName);
+        }
+
         item.setSellingPrice(Float.parseFloat(strSellingPrice));
         item.setIssueMethod(strIssueMethod);
         item.setReorderQuantity(Float.parseFloat(strReOrderQty));
@@ -579,36 +635,41 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         item.setCreatedTime(date);
         item.setCreatedUser(MainFrame.user.getUserId());
         item.setRemark(strRemarks);
-        item.setSubCategory((SubCategory) session.load(SubCategory.class, catID.getSubCategoryCode()));
-        item.setRackSlot((RackSlot) session.load(RackSlot.class, rack.getRackSlotCode()));
-        item.setUomByBuyingUom((Uom) session.load(Uom.class, buom.getUomCode()));
-        item.setUomBySellingUom((Uom) session.load(Uom.class, suom.getUomCode()));
+        item.setManufacturer((Manufacturer) session.load(Manufacturer.class, manufacturer.getManufacturerCode()));
+        item.setSubCategory((SubCategory) session.load(SubCategory.class, subCategory.getSubCategoryCode()));
+        item.setRackSlot((RackSlot) session.load(RackSlot.class, rackSlot.getRackSlotCode()));
+        item.setUomByBuyingUom((Uom) session.load(Uom.class, buyingUom.getUomCode()));
+        item.setUomBySellingUom((Uom) session.load(Uom.class, sellingUom.getUomCode()));
 
         session.saveOrUpdate(item);
         transaction.commit();
         session.close();
 
         clearAll();
-        InformationDialog.showMessageBox("New record added", "Transaction Completed");
+        if (update) {
+            InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING);
+        } else {
+            InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING);
+        }
     }
 
-    public void setTxtItemCode(String itemCode) {
+    public void setItemCode(String itemCode) {
         this.txtItemCode.setText(itemCode);
     }
 
-    public void setTxtItemName(String itemName) {
+    public void setItemName(String itemName) {
         this.txtItemName.setText(itemName);
     }
 
-    public void setTxtSellingPrice(String sellingPrice) {
+    public void setSellingPrice(String sellingPrice) {
         this.txtSellingProce.setText(sellingPrice);
     }
 
-    public void setTxtIssueMethod(String issueMethod) {
+    public void setIssueMethod(String issueMethod) {
         this.txtIssueMethod.setText(issueMethod);
     }
 
-    public void setTxtReorderQty(String reorderQty) {
+    public void setReorderQty(String reorderQty) {
         this.txtReorderQuantity.setText(reorderQty);
     }
 
@@ -620,38 +681,43 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         this.cbxIsActive.setSelected(isActive);
     }
 
-    public void setTxtRemark(String remark) {
+    public void setRemark(String remark) {
         this.txtRemarks.setText(remark);
     }
-    
-    public void setCmbSubCategory(String subCategory){
+
+    public void setManufacturer(String manufacturer) {
+        this.cmbManufacturer.setSelectedItem(manufacturer);
+    }
+
+    public void setSubCategory(String subCategory) {
         cmbSubCategory.setSelectedItem(subCategory);
     }
-    
-    public void setCmbRackSlot(String rackSlot){
+
+    public void setRackSlot(String rackSlot) {
         cmbRackSlot.setSelectedItem(rackSlot);
     }
-    
-    public void setCmbBuyingUOM(String buyingUOM){
+
+    public void setBuyingUOM(String buyingUOM) {
         cmbBuyingUOM.setSelectedItem(buyingUOM);
     }
-    
-    public void setCmbSellingUOM(String sellingUOM){
+
+    public void setSellingUOM(String sellingUOM) {
         cmbSellingUOM.setSelectedItem(sellingUOM);
     }
 
-    public void setTxtItemCodeEditable(boolean editable) {
+    public void setItemCodeEditable(boolean editable) {
         this.txtItemCode.setEditable(editable);
     }
 
     public void setLblSaveText(String text) {
-        this.lblUpdate.setText(text);
+        this.lblSave.setText(text);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbxIsActive;
     private javax.swing.JCheckBox cbxIsPhysical;
     private javax.swing.JComboBox<String> cmbBuyingUOM;
+    private javax.swing.JComboBox<String> cmbManufacturer;
     private javax.swing.JComboBox<String> cmbRackSlot;
     private javax.swing.JComboBox<String> cmbSellingUOM;
     private javax.swing.JComboBox<String> cmbSubCategory;
@@ -661,6 +727,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -670,7 +737,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCodeSearch;
     private javax.swing.JLabel lblNameSearch;
-    public javax.swing.JLabel lblUpdate;
+    public javax.swing.JLabel lblSave;
     private javax.swing.JTextField txtIssueMethod;
     private javax.swing.JTextField txtItemCode;
     private javax.swing.JTextField txtItemName;

@@ -210,12 +210,12 @@ public class CategoryView extends javax.swing.JInternalFrame {
     private void selectCategory() {
         int selectedRow = categoryTable.getSelectedRow();
         Category category = (Category) list.get(selectedRow);
-        categoryFrame.setTxtCategoryCode(category.getCategoryCode());
-        categoryFrame.setTxtCategoryName(category.getCategoryName());
-        categoryFrame.setTxtRemark(category.getRemarks());
-        categoryFrame.setCbxIsActive((category.getIsActive() == 1));
-        categoryFrame.setTxtCodeEditable(false);
-        categoryFrame.lblUpdate.setText("Update");
+        categoryFrame.setCategoryCode(category.getCategoryCode());
+        categoryFrame.setCategoryName(category.getCategoryName());
+        categoryFrame.setRemark(category.getRemarks());
+        categoryFrame.setIsActive((category.getIsActive() == 1));
+        categoryFrame.setCategoryCodeEditable(false);
+        categoryFrame.setLblSaveText("Update");
         this.dispose();
     }
 

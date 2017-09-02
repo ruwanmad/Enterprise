@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Aug 26, 2017 10:09:18 PM by Hibernate Tools 4.3.1
+// Generated Sep 2, 2017 1:38:10 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,7 +13,7 @@ public class Module  implements java.io.Serializable {
      private int moduleId;
      private String moduleCode;
      private String moduleName;
-     private String iconName;
+     private byte[] moduleIcon;
      private Integer isShortcutAdded;
      private Integer isActive;
      private Integer isMaximized;
@@ -33,11 +33,11 @@ public class Module  implements java.io.Serializable {
         this.moduleId = moduleId;
         this.moduleCode = moduleCode;
     }
-    public Module(int moduleId, String moduleCode, String moduleName, String iconName, Integer isShortcutAdded, Integer isActive, Integer isMaximized, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks) {
+    public Module(int moduleId, String moduleCode, String moduleName, byte[] moduleIcon, Integer isShortcutAdded, Integer isActive, Integer isMaximized, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks) {
        this.moduleId = moduleId;
        this.moduleCode = moduleCode;
        this.moduleName = moduleName;
-       this.iconName = iconName;
+       this.moduleIcon = moduleIcon;
        this.isShortcutAdded = isShortcutAdded;
        this.isActive = isActive;
        this.isMaximized = isMaximized;
@@ -71,12 +71,12 @@ public class Module  implements java.io.Serializable {
     public void setModuleName(String moduleName) {
         this.moduleName = moduleName;
     }
-    public String getIconName() {
-        return this.iconName;
+    public byte[] getModuleIcon() {
+        return this.moduleIcon;
     }
     
-    public void setIconName(String iconName) {
-        this.iconName = iconName;
+    public void setModuleIcon(byte[] moduleIcon) {
+        this.moduleIcon = moduleIcon;
     }
     public Integer getIsShortcutAdded() {
         return this.isShortcutAdded;

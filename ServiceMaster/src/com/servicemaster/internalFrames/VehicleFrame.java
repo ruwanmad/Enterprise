@@ -55,7 +55,7 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         cbxIsActive = new javax.swing.JCheckBox();
         lblClose = new javax.swing.JLabel();
-        lblUpdate = new javax.swing.JLabel();
+        lblSave = new javax.swing.JLabel();
         lblView = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtRemark = new javax.swing.JTextField();
@@ -140,21 +140,21 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        lblUpdate.setBackground(new java.awt.Color(150, 255, 150));
-        lblUpdate.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblUpdate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUpdate.setText("Save");
-        lblUpdate.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblUpdate.setOpaque(true);
-        lblUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblSave.setBackground(new java.awt.Color(150, 255, 150));
+        lblSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSave.setText("Save");
+        lblSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblSave.setOpaque(true);
+        lblSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseClicked(evt);
+                lblSaveMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseEntered(evt);
+                lblSaveMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseExited(evt);
+                lblSaveMouseExited(evt);
             }
         });
 
@@ -256,7 +256,7 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -305,7 +305,7 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblSave, lblView});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,14 +349,14 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
                 .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbBusinessPatner, cmbVehicleType, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, lblBusinessPatnerRefresh, lblCodeSearch, lblNewBusinessPatner, lblNumberSearch, txtRemark, txtVehicleCode, txtVehicleNumber, yManufactureYear});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblUpdate, lblView});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblSave, lblView});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -395,7 +395,7 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCloseMouseExited
 
-    private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
+    private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         String vehicleCode = txtVehicleCode.getText().toUpperCase().trim();
@@ -462,15 +462,15 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
                 }
             }
         }
-    }//GEN-LAST:event_lblUpdateMouseClicked
+    }//GEN-LAST:event_lblSaveMouseClicked
 
-    private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
+    private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblUpdateMouseEntered
+    }//GEN-LAST:event_lblSaveMouseEntered
 
-    private void lblUpdateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseExited
+    private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblUpdateMouseExited
+    }//GEN-LAST:event_lblSaveMouseExited
 
     private void lblViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseClicked
         // TODO add your handling code here:
@@ -490,7 +490,7 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
 
         this.loadVehicleType(session);
         this.loadBusinessPartner(session);
-        
+
         session.getTransaction().commit();
         session.close();
     }//GEN-LAST:event_formInternalFrameOpened
@@ -577,19 +577,11 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         return list;
     }
 
-    public void setCbxIsActive(boolean isActive) {
-        this.cbxIsActive.setSelected(isActive);
-    }
-
-    public void setTxtRemark(String remark) {
-        this.txtRemark.setText(remark);
-    }
-
-    public void setTxtVehicleCode(String vehicleCode) {
+    public void setVehicleCode(String vehicleCode) {
         this.txtVehicleCode.setText(vehicleCode);
     }
 
-    public void setTxtVehicleNumber(String vehicleNumber) {
+    public void setVehicleNumber(String vehicleNumber) {
         this.txtVehicleNumber.setText(vehicleNumber);
     }
 
@@ -597,18 +589,30 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         this.yManufactureYear.setYear(Integer.parseInt(manufactureYear));
     }
 
-    public void setCmbVehicleType(String vehicleType) {
+    public void setVehicleType(String vehicleType) {
         VehicleType vType = this.vehicleTypeMap.get(vehicleType);
         this.cmbVehicleType.setSelectedItem(vType.getVehicleTypeCode() + "-" + vType.getVehicleTypeName());
     }
 
-    public void setCmbBusinessPatner(String businessPatner) {
+    public void setBusinessPatner(String businessPatner) {
         BusinessPartner bPatner = this.businessPatnerMap.get(businessPatner);
         this.cmbBusinessPatner.setSelectedItem(bPatner.getBusinessPartnerCode() + "-" + bPatner.getFirstName() + " " + bPatner.getLastName());
     }
 
-    public void setTxtCodeEditable(boolean editable) {
+    public void setRemark(String remark) {
+        this.txtRemark.setText(remark);
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.cbxIsActive.setSelected(isActive);
+    }
+
+    public void setVehicleodeEditable(boolean editable) {
         txtVehicleNumber.setEditable(editable);
+    }
+
+    public void setLblSaveText(String text) {
+        this.lblSave.setText(text);
     }
 
     private void resetFrame() {
@@ -675,6 +679,7 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         Query query = session.createQuery("from BusinessPartner b order by b.businessPartnerCode");
         List list = query.list();
         if (!list.isEmpty()) {
+            cmbBusinessPatner.removeAllItems();
             for (Object object : list) {
                 if (object instanceof BusinessPartner) {
                     BusinessPartner businessPartner = (BusinessPartner) object;
@@ -719,7 +724,7 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblCodeSearch;
     private javax.swing.JLabel lblNewBusinessPatner;
     private javax.swing.JLabel lblNumberSearch;
-    public javax.swing.JLabel lblUpdate;
+    private javax.swing.JLabel lblSave;
     private javax.swing.JLabel lblView;
     private javax.swing.JTextField txtRemark;
     private javax.swing.JTextField txtVehicleCode;

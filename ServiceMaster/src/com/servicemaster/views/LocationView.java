@@ -210,12 +210,12 @@ public class LocationView extends javax.swing.JInternalFrame {
     private void selectServiceBay() {
         int selectedRow = locationTable.getSelectedRow();
         ServiceBay serviceBay = (ServiceBay) list.get(selectedRow);
-        locationFrame.setTxtLocationCode(serviceBay.getServiceBayCode());
-        locationFrame.setTxtLocationName(serviceBay.getServiceBayName());
-        locationFrame.setTxtRemark(serviceBay.getRemark());
-        locationFrame.setCbxIsActive((serviceBay.getIsActive() == 1));
-        locationFrame.setTxtCodeEditable(false);
-        locationFrame.lblUpdate.setText("Update");
+        locationFrame.setLocationCode(serviceBay.getServiceBayCode());
+        locationFrame.setLocationName(serviceBay.getServiceBayName());
+        locationFrame.setRemark(serviceBay.getRemark());
+        locationFrame.setIsActive((serviceBay.getIsActive() == 1));
+        locationFrame.setLocationCodeEditable(false);
+        locationFrame.setLblSaveText("Update");
         this.dispose();
     }
 

@@ -210,12 +210,12 @@ public class VehicleTypeView extends javax.swing.JInternalFrame {
     private void selectVehicleType() {
         int selectedRow = vehicleTypeTable.getSelectedRow();
         VehicleType vehicleType = (VehicleType) list.get(selectedRow);
-        vehicleTypeFrame.setTxtVehicleTypeCode(vehicleType.getVehicleTypeCode());
-        vehicleTypeFrame.setTxtVehicleTypeName(vehicleType.getVehicleTypeName());
-        vehicleTypeFrame.setTxtRemark(vehicleType.getRemark());
-        vehicleTypeFrame.setCbxIsActive((vehicleType.getIsActive() == 1));
-        vehicleTypeFrame.setTxtCodeEditable(false);
-        vehicleTypeFrame.lblUpdate.setText("Update");
+        vehicleTypeFrame.setVehicleTypeCode(vehicleType.getVehicleTypeCode());
+        vehicleTypeFrame.setVehicleTypeName(vehicleType.getVehicleTypeName());
+        vehicleTypeFrame.setRemark(vehicleType.getRemark());
+        vehicleTypeFrame.setIsActive((vehicleType.getIsActive() == 1));
+        vehicleTypeFrame.setVehicleTypeCodeEditable(false);
+        vehicleTypeFrame.setLblSaveText("Update");
         this.dispose();
     }
 

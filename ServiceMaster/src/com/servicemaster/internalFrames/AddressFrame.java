@@ -9,13 +9,11 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
+import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.models.Address;
-import com.servicemaster.models.KeyTable;
 import com.servicemaster.utils.HibernateUtil;
 import java.util.Date;
-import java.util.List;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -186,56 +184,10 @@ public class AddressFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblCloseMouseExited
 
     private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
+        KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+        String addressCode = keyCodeFunctions.getKey("ADD", "Address code");
 
-        String addressLine1 = txtAddressLine1.getText().trim();
-        String addressLine2 = txtAddressLine2.getText().trim();
-        String addressLine3 = txtAddressLine3.getText().trim();
-
-        String addressCode;
-
-        Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
-        query.setParameter("code", "ADD");
-        List keyList = query.list();
-        if (keyList.size() > 0) {
-            KeyTable keyTable = (KeyTable) keyList.get(0);
-            Integer keyNumber = keyTable.getKeyNumber();
-            keyTable.setKeyNumber(keyNumber + 1);
-            keyTable.setModifiedDate(new Date());
-            keyTable.setModifiedTime(new Date());
-            keyTable.setModifiedUser(MainFrame.user.getUserId());
-            session.saveOrUpdate(keyTable);
-            addressCode = "ADD" + keyNumber;
-        } else {
-            KeyTable keyTable = new KeyTable();
-            keyTable.setKeyCode("ADD");
-            keyTable.setKeyNumber(1001);
-            keyTable.setKeyRemark("Address");
-            keyTable.setCreatedDate(new Date());
-            keyTable.setCreatedTime(new Date());
-            keyTable.setCreatedUser(MainFrame.user.getUserId());
-            session.saveOrUpdate(keyTable);
-            addressCode = "ADD1000";
-        }
-
-        Address address = new Address();
-        address.setAddressCode(addressCode);
-        address.setAdressLine1(addressLine1);
-        address.setAdressLine2(addressLine2);
-        address.setAdressLine3(addressLine3);
-        session.saveOrUpdate(address);
-
-        session.getTransaction().commit();
-        session.close();
-
-        InformationDialog.showMessageBox("Updated successfully.", "Success");
-
-        partnerFrame.setTxtAddressLine1(addressCode + "-" + addressLine1);
-        partnerFrame.setTxtAddressLine2(addressLine2);
-        partnerFrame.setTxtAddressLine3(addressLine3);
-
-        this.dispose();
+        this.saveOrUpdateAddress(addressCode);
     }//GEN-LAST:event_lblUpdateMouseClicked
 
     private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
@@ -246,6 +198,37 @@ public class AddressFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblUpdateMouseExited
 
+    private void saveOrUpdateAddress(String addressCode) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        String addressLine1 = txtAddressLine1.getText().trim();
+        String addressLine2 = txtAddressLine2.getText().trim();
+        String addressLine3 = txtAddressLine3.getText().trim();
+
+        Date date = new Date();
+        
+        Address address = new Address();
+        address.setAddressCode(addressCode);
+        address.setAdressLine1(addressLine1);
+        address.setAdressLine2(addressLine2);
+        address.setAdressLine3(addressLine3);
+        address.setCreatedDate(date);
+        address.setCreatedTime(date);
+        address.setCreatedUser(MainFrame.user.getUserId());
+        session.saveOrUpdate(address);
+
+        session.getTransaction().commit();
+        session.close();
+
+        InformationDialog.showMessageBox("Updated successfully.", "Success");
+
+        partnerFrame.setAddressLine1(addressCode + "-" + addressLine1);
+        partnerFrame.setAddressLine2(addressLine2);
+        partnerFrame.setAddressLine3(addressLine3);
+
+        this.dispose();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

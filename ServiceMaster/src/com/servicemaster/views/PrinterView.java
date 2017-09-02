@@ -210,12 +210,12 @@ public class PrinterView extends javax.swing.JInternalFrame {
     private void selectPrinter() {
         int selectedRow = categoryTable.getSelectedRow();
         Printer printer = (Printer) list.get(selectedRow);
-        printerFrame.setTxtPrinterCode(printer.getPrinterCode());
-        printerFrame.setTxtPrinterName(printer.getPrinterName());
-        printerFrame.setTxtRemark(printer.getRemarks());
-        printerFrame.setCbxIsActive((printer.getIsActive() == 1));
-        printerFrame.setTxtCodeEditable(false);
-        printerFrame.lblUpdate.setText("Update");
+        printerFrame.setPrinterCode(printer.getPrinterCode());
+        printerFrame.setPrinterName(printer.getPrinterName());
+        printerFrame.setRemark(printer.getRemarks());
+        printerFrame.setIsActive((printer.getIsActive() == 1));
+        printerFrame.setPrinterCodeEditable(false);
+        printerFrame.setLblSaveText("Update");
         this.dispose();
     }
 

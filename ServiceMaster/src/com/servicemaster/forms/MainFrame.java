@@ -9,10 +9,12 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.internalFrames.BomFrame;
 import com.servicemaster.internalFrames.BusinessPartnerFrame;
 import com.servicemaster.internalFrames.CategoryFrame;
 import com.servicemaster.internalFrames.ItemFrame;
 import com.servicemaster.internalFrames.LocationFrame;
+import com.servicemaster.internalFrames.PrinterFrame;
 import com.servicemaster.internalFrames.RackSlotFrame;
 import com.servicemaster.internalFrames.RacksFrame;
 import com.servicemaster.internalFrames.ServicesFrame;
@@ -111,6 +113,7 @@ public class MainFrame extends javax.swing.JFrame {
         miSubCategoryType = new javax.swing.JMenuItem();
         miSubCategory = new javax.swing.JMenuItem();
         miItems = new javax.swing.JMenuItem();
+        miBom = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         miBusinessPartner = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
@@ -124,6 +127,8 @@ public class MainFrame extends javax.swing.JFrame {
         mTransactions = new javax.swing.JMenu();
         miService = new javax.swing.JMenuItem();
         mReports = new javax.swing.JMenu();
+        miSalesReports = new javax.swing.JMenuItem();
+        miStockReports = new javax.swing.JMenuItem();
         mOptions = new javax.swing.JMenu();
         miAddShortcuts = new javax.swing.JMenuItem();
         miChangeBackground = new javax.swing.JMenuItem();
@@ -264,6 +269,16 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         mMasterFiles.add(miItems);
+
+        miBom.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        miBom.setText("BOM");
+        miBom.setEnabled(false);
+        miBom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miBomActionPerformed(evt);
+            }
+        });
+        mMasterFiles.add(miBom);
         mMasterFiles.add(jSeparator3);
 
         miBusinessPartner.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
@@ -325,7 +340,7 @@ public class MainFrame extends javax.swing.JFrame {
         mTransactions.setText("Transactions");
         mTransactions.setEnabled(false);
 
-        miService.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        miService.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
         miService.setText("Service");
         miService.setEnabled(false);
         miService.addActionListener(new java.awt.event.ActionListener() {
@@ -339,6 +354,27 @@ public class MainFrame extends javax.swing.JFrame {
 
         mReports.setText("Reports");
         mReports.setEnabled(false);
+
+        miSalesReports.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        miSalesReports.setText("Sales Reports");
+        miSalesReports.setEnabled(false);
+        miSalesReports.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSalesReportsActionPerformed(evt);
+            }
+        });
+        mReports.add(miSalesReports);
+
+        miStockReports.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_K, java.awt.event.InputEvent.CTRL_MASK));
+        miStockReports.setText("Stock Reports");
+        miStockReports.setEnabled(false);
+        miStockReports.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miStockReportsActionPerformed(evt);
+            }
+        });
+        mReports.add(miStockReports);
+
         menuBar.add(mReports);
 
         mOptions.setText("Options");
@@ -531,6 +567,18 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miServiceActionPerformed
 
+    private void miBomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miBomActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miBomActionPerformed
+
+    private void miStockReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miStockReportsActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miStockReportsActionPerformed
+
+    private void miSalesReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalesReportsActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miSalesReportsActionPerformed
+
     private void exitApllication() {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -592,7 +640,7 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }
             case "12": {
-//                internalFrame = new PrinterFrame();
+                internalFrame = new PrinterFrame();
                 break;
             }
             case "13": {
@@ -608,6 +656,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
             case "16": {
                 internalFrame = new ServicesFrame();
+                break;
+            }
+            case "17": {
+                internalFrame = new BomFrame();
                 break;
             }
             default: {
@@ -671,6 +723,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenu mTransactions;
     private javax.swing.JMenuBar menuBar;
     public javax.swing.JMenuItem miAddShortcuts;
+    public javax.swing.JMenuItem miBom;
     public javax.swing.JMenuItem miBusinessPartner;
     public javax.swing.JMenuItem miCategory;
     private javax.swing.JMenuItem miChangeBackground;
@@ -679,7 +732,9 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenuItem miLocations;
     public javax.swing.JMenuItem miPrinters;
     private javax.swing.JMenuItem miRackSlots;
+    public javax.swing.JMenuItem miSalesReports;
     public javax.swing.JMenuItem miService;
+    public javax.swing.JMenuItem miStockReports;
     private javax.swing.JMenuItem miStorage;
     private javax.swing.JMenuItem miStorageRacks;
     public javax.swing.JMenuItem miSubCategory;

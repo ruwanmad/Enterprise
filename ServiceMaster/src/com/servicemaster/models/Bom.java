@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Aug 26, 2017 10:09:18 PM by Hibernate Tools 4.3.1
+// Generated Sep 2, 2017 1:38:10 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -22,6 +22,7 @@ public class Bom  implements java.io.Serializable {
      private Date modifiedTime;
      private Integer modifiedUser;
      private String remark;
+     private Integer isActive;
      private Set bomItems = new HashSet(0);
 
     public Bom() {
@@ -32,7 +33,7 @@ public class Bom  implements java.io.Serializable {
         this.bomCode = bomCode;
         this.item = item;
     }
-    public Bom(String bomCode, Item item, String bomName, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set bomItems) {
+    public Bom(String bomCode, Item item, String bomName, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Integer isActive, Set bomItems) {
        this.bomCode = bomCode;
        this.item = item;
        this.bomName = bomName;
@@ -43,6 +44,7 @@ public class Bom  implements java.io.Serializable {
        this.modifiedTime = modifiedTime;
        this.modifiedUser = modifiedUser;
        this.remark = remark;
+       this.isActive = isActive;
        this.bomItems = bomItems;
     }
    
@@ -115,6 +117,13 @@ public class Bom  implements java.io.Serializable {
     
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Set getBomItems() {
         return this.bomItems;

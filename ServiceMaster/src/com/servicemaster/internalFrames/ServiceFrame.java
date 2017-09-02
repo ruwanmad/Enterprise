@@ -133,7 +133,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         tblItems = new javax.swing.JTable();
         buttonPanel = new javax.swing.JPanel();
         lblClose = new javax.swing.JLabel();
-        lblUpdate = new javax.swing.JLabel();
+        lblSave = new javax.swing.JLabel();
         lblPrint = new javax.swing.JLabel();
         lblSettle = new javax.swing.JLabel();
 
@@ -632,21 +632,21 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        lblUpdate.setBackground(new java.awt.Color(150, 255, 150));
-        lblUpdate.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblUpdate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUpdate.setText("Update");
-        lblUpdate.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblUpdate.setOpaque(true);
-        lblUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblSave.setBackground(new java.awt.Color(150, 255, 150));
+        lblSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSave.setText("Update");
+        lblSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblSave.setOpaque(true);
+        lblSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseClicked(evt);
+                lblSaveMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseEntered(evt);
+                lblSaveMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblUpdateMouseExited(evt);
+                lblSaveMouseExited(evt);
             }
         });
 
@@ -697,13 +697,13 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblPrint, lblSettle, lblUpdate});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblPrint, lblSave, lblSettle});
 
         buttonPanelLayout.setVerticalGroup(
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -711,13 +711,13 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblPrint, lblSettle, lblUpdate});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblPrint, lblSave, lblSettle});
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -776,7 +776,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblCloseMouseExited
 
-    private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
+    private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
         if (service != null) {
             Date date = dateServiceDate.getDate();
 
@@ -794,7 +794,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             service.setModifiedUser(MainFrame.user.getUserId());
             service.setServiceBay(serviceBayMap.get(((String) cmbServiceBay.getSelectedItem()).trim()));
             service.setVehicle(vehicleMap.get(((String) cmbVehicle.getSelectedItem()).trim()));
-            service.setServiceStatus(serviceStatusMap.get("Open"));
+            service.setServiceStatus(serviceStatusMap.get("OPEN"));
 
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
@@ -846,7 +846,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             service.setCreatedUser(MainFrame.user.getUserId());
             service.setServiceBay(serviceBayMap.get(((String) cmbServiceBay.getSelectedItem()).trim()));
             service.setVehicle(vehicleMap.get(((String) cmbVehicle.getSelectedItem()).trim()));
-            service.setServiceStatus(serviceStatusMap.get("Open"));
+            service.setServiceStatus(serviceStatusMap.get("OPEN"));
 
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
@@ -885,15 +885,15 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
         InformationDialog.showMessageBox("Updated successfully", "Success");
         this.servicesFrame.loadServices();
-    }//GEN-LAST:event_lblUpdateMouseClicked
+    }//GEN-LAST:event_lblSaveMouseClicked
 
-    private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
+    private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblUpdateMouseEntered
+    }//GEN-LAST:event_lblSaveMouseEntered
 
-    private void lblUpdateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseExited
+    private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblUpdateMouseExited
+    }//GEN-LAST:event_lblSaveMouseExited
 
     private void rbtPercentageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rbtPercentageKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_RIGHT || evt.getKeyCode() == KeyEvent.VK_KP_RIGHT) {
@@ -925,7 +925,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         session.close();
 
         if (service == null) {
-            this.lblUpdate.setText("Save");
+            this.lblSave.setText("Save");
             cmbVehicle.requestFocus();
             txtServiceStatus.setText("New");
         } else {
@@ -949,7 +949,9 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
             cmbServiceBay.setSelectedItem(service.getServiceBay().getServiceBayName());
             txtServiceStatus.setText(service.getServiceStatus().getStatusDescription());
-            if (service.getServiceStatus().getStatusId() == 6) {
+            if (service.getServiceStatus().getStatusId() != 1 
+                    && service.getServiceStatus().getStatusId() != 2
+                    && service.getServiceStatus().getStatusId() != 6) {
                 lblSettle.setEnabled(true);
             }
             dateServiceDate.setDate(service.getCreatedDate());
@@ -992,7 +994,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             txtGrandDiscount.setText("" + grandDiscount);
             txtGrandTotal.setText("" + grandTotal);
 
-            this.lblUpdate.setText("Update");
+            this.lblSave.setText("Update");
 
             session.close();
 
@@ -1111,7 +1113,9 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             invoices.add(invoice);
 
             service.setInvoices(invoices);
-            service.setServiceStatus(this.serviceStatusMap.get("Invoiced"));
+            service.setServiceStatus(this.serviceStatusMap.get("INVOICED"));
+            
+            session.saveOrUpdate(service);
             
             transaction.commit();
             session.close();
@@ -1480,8 +1484,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblNew;
     private javax.swing.JLabel lblPrint;
     private javax.swing.JLabel lblRefresh;
+    private javax.swing.JLabel lblSave;
     private javax.swing.JLabel lblSettle;
-    private javax.swing.JLabel lblUpdate;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JRadioButton rbtNumber;
     private javax.swing.JRadioButton rbtPercentage;
