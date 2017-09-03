@@ -16,12 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Dumping data for table `service_has_item_status`
+-- Dumping data for table `stock`
 --
 
-LOCK TABLES `service_has_item_status` WRITE;
-/*!40000 ALTER TABLE `service_has_item_status` DISABLE KEYS */;
-/*!40000 ALTER TABLE `service_has_item_status` ENABLE KEYS */;
+LOCK TABLES `stock` WRITE;
+/*!40000 ALTER TABLE `stock` DISABLE KEYS */;
+/*!40000 ALTER TABLE `stock` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -33,4 +33,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-03 14:15:42
+-- Dump completed on 2017-09-03 14:15:49
