@@ -41,6 +41,7 @@ FROM
      `license` license
 WHERE
      service.`service_code` = $P{serviceCode}
+ AND service_has_item.`service_has_item_status_item_status_id` = 1
 ORDER BY
      service_has_item.`id` ASC]]>
 	</queryString>
