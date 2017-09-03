@@ -15,6 +15,8 @@ import com.servicemaster.functions.JdbcConnection;
 import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.models.Address;
+import com.servicemaster.models.Bom;
+import com.servicemaster.models.BomItem;
 import com.servicemaster.models.BusinessAddress;
 import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.models.BusinessTelephone;
@@ -53,6 +55,8 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -949,7 +953,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
             cmbServiceBay.setSelectedItem(service.getServiceBay().getServiceBayName());
             txtServiceStatus.setText(service.getServiceStatus().getStatusDescription());
-            if (service.getServiceStatus().getStatusId() != 1 
+            if (service.getServiceStatus().getStatusId() != 1
                     && service.getServiceStatus().getStatusId() != 2
                     && service.getServiceStatus().getStatusId() != 6) {
                 lblSettle.setEnabled(true);
@@ -1107,16 +1111,15 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             invoice.setCreatedUser(MainFrame.user.getUserId());
 
             session.saveOrUpdate(invoice);
-            
 
             Set invoices = new HashSet();
             invoices.add(invoice);
 
             service.setInvoices(invoices);
             service.setServiceStatus(this.serviceStatusMap.get("INVOICED"));
-            
+
             session.saveOrUpdate(service);
-            
+
             transaction.commit();
             session.close();
         }
@@ -1137,7 +1140,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
             jbConnection.closeConnection();
         }
-        
+
         lblSettle.setEnabled(true);
     }//GEN-LAST:event_lblPrintMouseClicked
 
@@ -1186,38 +1189,91 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 String itemName = (String) cmbItems.getSelectedItem();
                 Item item = itemMap.get(itemName);
 
-                String itemCode = item.getItemCode();
-                float unitPrice = item.getSellingPrice();
-                float subTotal = quantity * unitPrice;
-                float discount = Float.parseFloat(txtDiscount.getText().trim());
-                float total = 0.0f;
-                if (discount != 0.0) {
-                    if (rbtPercentage.isSelected()) {
-                        discount = (subTotal * discount) / 100;
-                        total = subTotal - discount;
-                    } else if (rbtNumber.isSelected()) {
-                        total = subTotal - discount;
+                Session session = HibernateUtil.getSessionFactory().openSession();
+
+                Bom bom = (Bom) session.createCriteria(Bom.class)
+                        .add(Restrictions.eq("item", item))
+                        .uniqueResult();
+
+                if (bom == null) {
+                    String itemCode = item.getItemCode();
+                    float unitPrice = item.getSellingPrice();
+                    float subTotal = quantity * unitPrice;
+                    float discount = Float.parseFloat(txtDiscount.getText().trim());
+                    float total = 0.0f;
+                    if (discount != 0.0) {
+                        if (rbtPercentage.isSelected()) {
+                            discount = (subTotal * discount) / 100;
+                            total = subTotal - discount;
+                        } else if (rbtNumber.isSelected()) {
+                            total = subTotal - discount;
+                        }
+                    } else {
+                        total = subTotal;
                     }
+
+                    DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                    tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
+
+                    cmbItems.setSelectedIndex(0);
+                    cmbItems.requestFocus();
+                    txtQuantity.setText("0.0");
+                    txtDiscount.setText("0.0");
+                    rbtPercentage.setSelected(true);
+
+                    grandSubTotal += subTotal;
+                    grandDiscount += discount;
+                    grandTotal += total;
+
+                    txtGrandSubTotal.setText("" + grandSubTotal);
+                    txtGrandDiscount.setText("" + grandDiscount);
+                    txtGrandTotal.setText("" + grandTotal);
                 } else {
-                    total = subTotal;
+                    List<BomItem> bomItems = session.createCriteria(BomItem.class)
+                            .add(Restrictions.eq("bom", bom))
+                            .addOrder(Order.asc("item.itemCode"))
+                            .list();
+                    for (BomItem bomItem : bomItems) {
+                        Item releventItem = (Item) session.createCriteria(Item.class)
+                                .add(Restrictions.eq("itemCode", bomItem.getItem().getItemCode()))
+                                .uniqueResult();
+
+                        String itemCode = releventItem.getItemCode();
+                        float unitPrice = releventItem.getSellingPrice();
+                        float subTotal = quantity * unitPrice;
+                        float discount = Float.parseFloat(txtDiscount.getText().trim());
+                        float total = 0.0f;
+                        if (discount != 0.0) {
+                            if (rbtPercentage.isSelected()) {
+                                discount = (subTotal * discount) / 100;
+                                total = subTotal - discount;
+                            } else if (rbtNumber.isSelected()) {
+                                total = subTotal - discount;
+                            }
+                        } else {
+                            total = subTotal;
+                        }
+
+                        DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                        tableModel.addRow(new Object[]{itemCode, releventItem.getItemName(), quantity, unitPrice, subTotal, discount, total});
+
+                        cmbItems.setSelectedIndex(0);
+                        cmbItems.requestFocus();
+                        txtQuantity.setText("0.0");
+                        txtDiscount.setText("0.0");
+                        rbtPercentage.setSelected(true);
+
+                        grandSubTotal += subTotal;
+                        grandDiscount += discount;
+                        grandTotal += total;
+
+                        txtGrandSubTotal.setText("" + grandSubTotal);
+                        txtGrandDiscount.setText("" + grandDiscount);
+                        txtGrandTotal.setText("" + grandTotal);
+                    }
                 }
 
-                DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-                tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
-
-                cmbItems.setSelectedIndex(0);
-                cmbItems.requestFocus();
-                txtQuantity.setText("0.0");
-                txtDiscount.setText("0.0");
-                rbtPercentage.setSelected(true);
-
-                grandSubTotal += subTotal;
-                grandDiscount += discount;
-                grandTotal += total;
-
-                txtGrandSubTotal.setText("" + grandSubTotal);
-                txtGrandDiscount.setText("" + grandDiscount);
-                txtGrandTotal.setText("" + grandTotal);
+                session.close();
             } else {
                 JOptionPane.showMessageDialog(this, "Please enter valid quantity.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
                 txtQuantity.requestFocus();
