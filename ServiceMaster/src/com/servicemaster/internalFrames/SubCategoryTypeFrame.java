@@ -9,8 +9,8 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
+import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.LableFunctions;
-import com.servicemaster.models.KeyTable;
 import com.servicemaster.models.SubCategoryType;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.SubCategoryTypeView;
@@ -51,7 +51,7 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
         cbxIsActive = new javax.swing.JCheckBox();
         lblClose = new javax.swing.JLabel();
         lblSave = new javax.swing.JLabel();
-        lblView = new javax.swing.JLabel();
+        lblReset = new javax.swing.JLabel();
         lblCodeSearch = new javax.swing.JLabel();
         lblNameSearch = new javax.swing.JLabel();
 
@@ -114,21 +114,21 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        lblView.setBackground(new java.awt.Color(150, 255, 150));
-        lblView.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblView.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblView.setText("View");
-        lblView.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblView.setOpaque(true);
-        lblView.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblReset.setBackground(new java.awt.Color(150, 255, 150));
+        lblReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblReset.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblReset.setText("Reset");
+        lblReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblReset.setOpaque(true);
+        lblReset.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblViewMouseClicked(evt);
+                lblResetMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblViewMouseEntered(evt);
+                lblResetMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblViewMouseExited(evt);
+                lblResetMouseExited(evt);
             }
         });
 
@@ -179,7 +179,7 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
                         .addComponent(txtRemark))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblSave, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -212,7 +212,7 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtSubCategoryTypeCode, txtSubCategoryTypeName});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblSave, lblView});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblCodeSearch, lblNameSearch});
 
@@ -243,13 +243,13 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, jLabel1, jLabel2, jLabel3, jLabel4, lblCodeSearch, lblNameSearch, txtRemark, txtSubCategoryTypeCode, txtSubCategoryTypeName});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblSave, lblView});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -262,60 +262,34 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblCloseMouseClicked
 
     private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        String subCategoryTypeCode = txtSubCategoryTypeCode.getText().toUpperCase().trim();
-        String subCategoryTypeName = txtSubCategoryTypeName.getText().toUpperCase().trim();
-        String remark = txtRemark.getText().toUpperCase().trim();
-        boolean isActivated = cbxIsActive.isSelected();
-
-        if (subCategoryTypeCode.isEmpty()) {
-            List categoryByName = this.getSubCategoryTypeByName(subCategoryTypeName, false);
+        if (txtSubCategoryTypeCode.getText().toUpperCase().trim().isEmpty()) {
+            List categoryByName = this.getSubCategoryTypeByName(txtSubCategoryTypeName.getText().toUpperCase().trim(), false);
             if (categoryByName.size() > 0) {
                 InformationDialog.showMessageBox("Item name already exists.", "Exist");
             } else {
-                session.getTransaction().commit();
-                session.close();
-                this.createNewSubCategoryType(subCategoryTypeName, remark, isActivated);
+                KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                this.saveOrUpdateSubCategoryType(keyCodeFunctions.getKey("SCT", "Sub category type"), false);
             }
         } else {
-            List categoryByCode = this.getSubCategoryTypeByCode(subCategoryTypeCode, false);
+            List categoryByCode = this.getSubCategoryTypeByCode(txtSubCategoryTypeCode.getText().toUpperCase().trim(), false);
             if (categoryByCode.isEmpty()) {
-                ConfirmationDialog.showMessageBox("Code does not exist. Create new?", "New");
-                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    session.getTransaction().commit();
-                    session.close();
-                    this.createNewSubCategoryType(subCategoryTypeName, remark, isActivated);
-                }
+                InformationDialog.showMessageBox("Invalid sub category type code. Please try again", "Invalid");
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    SubCategoryType subCategoryType = new SubCategoryType(subCategoryTypeCode);
-                    subCategoryType.setSubCategoryTypeName(subCategoryTypeName);
-                    subCategoryType.setRemark(remark);
-                    subCategoryType.setIsActive(isActivated ? 1 : 0);
-                    subCategoryType.setModifiedDate(new Date());
-                    subCategoryType.setModifiedTime(new Date());
-                    subCategoryType.setModifiedUser(MainFrame.user.getUserId());
-                    session.saveOrUpdate(subCategoryType);
-
-                    session.getTransaction().commit();
-                    session.close();
-
-                    InformationDialog.showMessageBox("Updated successfully.", "Success");
-                    this.resetFrame();
+                    this.saveOrUpdateSubCategoryType(txtSubCategoryTypeCode.getText().toUpperCase().trim(), true);
                 }
             }
         }
     }//GEN-LAST:event_lblSaveMouseClicked
 
-    private void lblViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblViewMouseClicked
+    private void lblResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseClicked
+        this.clearAll();
+    }//GEN-LAST:event_lblResetMouseClicked
 
-    private void lblViewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseEntered
+    private void lblResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblViewMouseEntered
+    }//GEN-LAST:event_lblResetMouseEntered
 
     private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
@@ -325,9 +299,9 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblCloseMouseEntered
 
-    private void lblViewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseExited
+    private void lblResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblViewMouseExited
+    }//GEN-LAST:event_lblResetMouseExited
 
     private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
@@ -375,49 +349,35 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblNameSearchMouseExited
 
-    private void createNewSubCategoryType(String subCategoryTypeName, String remark, boolean isActivated) {
+    private void saveOrUpdateSubCategoryType(String strSubCategoryTypeCode, boolean bUpdate) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        String subCategetyTypeCode;
-        Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
-        query.setParameter("code", "SCT");
-        List keyList = query.list();
-        if (keyList.size() > 0) {
-            KeyTable keyTable = (KeyTable) keyList.get(0);
-            Integer keyNumber = keyTable.getKeyNumber();
-            keyTable.setKeyNumber(keyNumber + 1);
-            keyTable.setModifiedDate(new Date());
-            keyTable.setModifiedTime(new Date());
-            keyTable.setModifiedUser(MainFrame.user.getUserId());
-            session.saveOrUpdate(keyTable);
-            subCategetyTypeCode = "SCT" + keyNumber;
-        } else {
-            KeyTable keyTable = new KeyTable();
-            keyTable.setKeyCode("SCT");
-            keyTable.setKeyNumber(1001);
-            keyTable.setKeyRemark("Sub category type");
-            keyTable.setCreatedDate(new Date());
-            keyTable.setCreatedTime(new Date());
-            keyTable.setCreatedUser(MainFrame.user.getUserId());
-            session.saveOrUpdate(keyTable);
-            subCategetyTypeCode = "SCT1000";
-        }
 
         SubCategoryType subCategoryType = new SubCategoryType();
-        subCategoryType.setSubCategoryTypeCode(subCategetyTypeCode);
-        subCategoryType.setSubCategoryTypeName(subCategoryTypeName);
-        subCategoryType.setRemark(remark);
-        subCategoryType.setIsActive(isActivated ? 1 : 0);
-        subCategoryType.setCreatedDate(new Date());
-        subCategoryType.setCreatedTime(new Date());
-        subCategoryType.setCreatedUser(MainFrame.user.getUserId());
+        subCategoryType.setSubCategoryTypeCode(strSubCategoryTypeCode);
+        subCategoryType.setSubCategoryTypeName(txtSubCategoryTypeName.getText().toUpperCase().trim());
+        subCategoryType.setRemark(txtRemark.getText().toUpperCase().trim());
+        subCategoryType.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
+        if (bUpdate) {
+            subCategoryType.setModifiedDate(new Date());
+            subCategoryType.setModifiedTime(new Date());
+            subCategoryType.setModifiedUser(MainFrame.user.getUserId());
+        } else {
+            subCategoryType.setCreatedDate(new Date());
+            subCategoryType.setCreatedTime(new Date());
+            subCategoryType.setCreatedUser(MainFrame.user.getUserId());
+        }
         session.saveOrUpdate(subCategoryType);
 
         session.getTransaction().commit();
         session.close();
 
-        InformationDialog.showMessageBox("Updated successfully.", "Success");
-        this.resetFrame();
+        if (bUpdate) {
+            InformationDialog.showMessageBox("Successfully updated", "Success");
+        } else {
+            InformationDialog.showMessageBox("New entry created successfully", "Success");
+        }
+        this.clearAll();
     }
 
     private List getSubCategoryTypeByCode(String categoryCode, boolean like) {
@@ -454,7 +414,7 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
         return list;
     }
 
-    private void resetFrame() {
+    private void clearAll() {
         txtSubCategoryTypeCode.setText("");
         txtSubCategoryTypeName.setText("");
         txtRemark.setText("");
@@ -473,7 +433,7 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
     public void setRemark(String remark) {
         this.txtRemark.setText(remark);
     }
-    
+
     public void setIsActive(boolean IsActive) {
         this.cbxIsActive.setSelected(IsActive);
     }
@@ -481,7 +441,7 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
     public void setSubCategoryTypeCodeEditable(boolean editable) {
         txtSubCategoryTypeCode.setEditable(editable);
     }
-    
+
     public void setLblSaveText(String text) {
         this.lblSave.setText(text);
     }
@@ -495,8 +455,8 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCodeSearch;
     private javax.swing.JLabel lblNameSearch;
+    private javax.swing.JLabel lblReset;
     private javax.swing.JLabel lblSave;
-    private javax.swing.JLabel lblView;
     private javax.swing.JTextField txtRemark;
     private javax.swing.JTextField txtSubCategoryTypeCode;
     private javax.swing.JTextField txtSubCategoryTypeName;

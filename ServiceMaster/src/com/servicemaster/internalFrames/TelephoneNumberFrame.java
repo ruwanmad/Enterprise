@@ -9,6 +9,7 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
+import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.models.KeyTable;
 import com.servicemaster.models.TelephoneNumber;
@@ -132,40 +133,19 @@ public class TelephoneNumberFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
+        KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+        this.saveOrUpdateTelephoneNumber(keyCodeFunctions.getKey("TEL", "Telephone"));
+    }//GEN-LAST:event_lblUpdateMouseClicked
+
+    private void saveOrUpdateTelephoneNumber(String strTelephoneNumberCode){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-
-        String telephoneNumber = txtTelephoneNumber.getText().trim();
+        
         Date date = new Date();
-
-        String telephoneCode;
-        Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
-        query.setParameter("code", "TEL");
-        List keyList = query.list();
-        if (keyList.size() > 0) {
-            KeyTable keyTable = (KeyTable) keyList.get(0);
-            Integer keyNumber = keyTable.getKeyNumber();
-            keyTable.setKeyNumber(keyNumber + 1);
-            keyTable.setModifiedDate(new Date());
-            keyTable.setModifiedTime(new Date());
-            keyTable.setModifiedUser(MainFrame.user.getUserId());
-            session.saveOrUpdate(keyTable);
-            telephoneCode = "TEL" + keyNumber;
-        } else {
-            KeyTable keyTable = new KeyTable();
-            keyTable.setKeyCode("TEL");
-            keyTable.setKeyNumber(1001);
-            keyTable.setKeyRemark("Telephone numer");
-            keyTable.setCreatedDate(new Date());
-            keyTable.setCreatedTime(new Date());
-            keyTable.setCreatedUser(MainFrame.user.getUserId());
-            session.saveOrUpdate(keyTable);
-            telephoneCode = "TEL1000";
-        }
-
+        
         TelephoneNumber telephone = new TelephoneNumber();
-        telephone.setTelephoneNumberCode(telephoneCode);
-        telephone.setTelephoneNumber(telephoneNumber);
+        telephone.setTelephoneNumberCode(strTelephoneNumberCode);
+        telephone.setTelephoneNumber(txtTelephoneNumber.getText().trim());
         telephone.setCreatedDate(date);
         telephone.setCreatedTime(date);
         telephone.setCreatedUser(MainFrame.user.getUserId());
@@ -174,13 +154,13 @@ public class TelephoneNumberFrame extends javax.swing.JInternalFrame {
         session.getTransaction().commit();
         session.close();
 
-        InformationDialog.showMessageBox("Updated successfully.", "Success");
+        InformationDialog.showMessageBox("New entry created successfully", "Success");
 
-        partnerFrame.setTelephoneNumber(telephoneCode + "-" + telephoneNumber);
+        partnerFrame.setTelephoneNumber(strTelephoneNumberCode + "-" + txtTelephoneNumber.getText().trim());
 
         this.dispose();
-    }//GEN-LAST:event_lblUpdateMouseClicked
-
+    }
+    
     private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblUpdateMouseEntered

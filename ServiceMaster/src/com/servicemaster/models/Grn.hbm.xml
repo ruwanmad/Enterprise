@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 2, 2017 1:38:15 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 3, 2017 7:12:51 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Grn" table="grn" catalog="enterprisedb" optimistic-lock="version">
         <id name="grnCode" type="string">
@@ -19,6 +19,9 @@
         </property>
         <property name="handedOverBy" type="string">
             <column name="handed_over_by" length="45" />
+        </property>
+        <property name="batch" type="string">
+            <column name="batch" length="15" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
@@ -41,11 +44,11 @@
         <property name="remark" type="string">
             <column name="remark" length="100" />
         </property>
-        <set name="grnLines" table="grn_line" inverse="true" lazy="true" fetch="select">
+        <set name="stocks" table="stock" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="grn_grn_code" length="15" not-null="true" />
             </key>
-            <one-to-many class="com.servicemaster.models.GrnLine" />
+            <one-to-many class="com.servicemaster.models.Stock" />
         </set>
     </class>
 </hibernate-mapping>

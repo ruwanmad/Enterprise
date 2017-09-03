@@ -240,6 +240,7 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
         TelephoneNumberFrame telephoneNumberFrame = new TelephoneNumberFrame(businessPatnerFrame);
         MainFrame.desktopPane.add(telephoneNumberFrame);
         telephoneNumberFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_lblAddMouseClicked
 
     private void lblAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseEntered

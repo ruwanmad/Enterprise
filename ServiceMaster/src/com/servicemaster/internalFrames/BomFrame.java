@@ -78,6 +78,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
         cbxIsActive = new javax.swing.JCheckBox();
         jLabel7 = new javax.swing.JLabel();
         txtRemark = new javax.swing.JTextField();
+        lblReset = new javax.swing.JLabel();
 
         itemDelete.setText("jMenuItem1");
         itemDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -328,6 +329,24 @@ public class BomFrame extends javax.swing.JInternalFrame {
 
         txtRemark.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
+        lblReset.setBackground(new java.awt.Color(150, 255, 150));
+        lblReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblReset.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblReset.setText("Reset");
+        lblReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblReset.setOpaque(true);
+        lblReset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblResetMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblResetMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblResetMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -346,6 +365,8 @@ public class BomFrame extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -371,6 +392,8 @@ public class BomFrame extends javax.swing.JInternalFrame {
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel6, jLabel7});
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -399,11 +422,14 @@ public class BomFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbMainItem, jLabel1, jLabel2, jLabel6, jLabel7, lblCodeSearch, txtBomCode, txtRemark});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -580,6 +606,18 @@ public class BomFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_itemDeleteActionPerformed
 
+    private void lblResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseClicked
+        this.clearAll();
+    }//GEN-LAST:event_lblResetMouseClicked
+
+    private void lblResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblResetMouseEntered
+
+    private void lblResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblResetMouseExited
+
     private void loadItems(Session session) {
         cmbMainItem.removeAllItems();
         cmbMainItem.addItem("");
@@ -668,29 +706,6 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }
 
     private List getBomByCode(String bomCode, boolean like) {
-//        Query query;
-//        if (like) {
-//            query = session.createQuery("from Bom b join fetch b.item where b.bomCode like :code");
-//            query.setParameter("code", "%" + bomCode + "%");
-//        } else {
-//            query = session.createQuery("from Bom b join fetch b.item where b.bomCode = :code");
-//            query.setParameter("code", bomCode);
-//        }
-//        List list = query.list();
-//        for (Object object : list) {
-//            if (object instanceof Bom) {
-//                Bom tempBom = (Bom) object;
-//                Hibernate.initialize(tempBom.getBomItems());
-//
-//                Set bomItems = tempBom.getBomItems();
-//                for (Object tempBomItem : bomItems) {
-//                    if (tempBomItem instanceof BomItem) {
-//                        BomItem bomItem = (BomItem) tempBomItem;
-//                        Hibernate.initialize(bomItem.getItem());
-//                    }
-//                }
-//            }
-//        }
         if (like) {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
@@ -713,34 +728,6 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }
 
     private List getBomByItem(Item item, boolean like) {
-//        Session session = HibernateUtil.getSessionFactory().openSession();
-//        session.beginTransaction();
-//        Query query;
-//        if (like) {
-//            query = session.createQuery("from Bom b join fetch b.item where b.item like :code");
-//            query.setParameter("code", "%" + item + "%");
-//        } else {
-//            query = session.createQuery("from Bom b join fetch b.item where b.item = :code");
-//            query.setParameter("code", item);
-//        }
-//        List list = query.list();
-//        for (Object object : list) {
-//            if (object instanceof Bom) {
-//                Bom tempBom = (Bom) object;
-//                Hibernate.initialize(tempBom.getBomItems());
-//
-//                Set bomItems = tempBom.getBomItems();
-//                for (Object tempBomItem : bomItems) {
-//                    if (tempBomItem instanceof BomItem) {
-//                        BomItem bomItem = (BomItem) tempBomItem;
-//                        Hibernate.initialize(bomItem.getItem());
-//                    }
-//                }
-//            }
-//        }
-//        session.getTransaction().commit();
-//        session.close();
-//        return list;
         if (like) {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
@@ -762,20 +749,20 @@ public class BomFrame extends javax.swing.JInternalFrame {
         }
     }
 
-    public void saveOrUpdateBom(String bomCode, boolean update) {
+    public void saveOrUpdateBom(String strBomCode, boolean bUpdate) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
         Date date = new Date();
 
         Bom bom = new Bom();
-        bom.setBomCode(bomCode);
+        bom.setBomCode(strBomCode);
         bom.setBomName((String) cmbMainItem.getSelectedItem());
         bom.setRemark(txtRemark.getText().toUpperCase().trim());
         bom.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
         bom.setItem(itemMap.get((String) cmbMainItem.getSelectedItem()));
 
-        if (update) {
+        if (bUpdate) {
             bom.setModifiedDate(date);
             bom.setModifiedTime(date);
             bom.setModifiedUser(MainFrame.user.getUserId());
@@ -801,7 +788,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
                 bomItem.setRemark("");
                 bomItem.setUom(uomMap.get((String) tableModel.getValueAt(i, 3)));
 
-                if (update) {
+                if (bUpdate) {
                     bomItem.setModifiedDate(date);
                     bomItem.setModifiedTime(date);
                     bomItem.setModifiedUser(MainFrame.user.getUserId());
@@ -818,11 +805,23 @@ public class BomFrame extends javax.swing.JInternalFrame {
         transaction.commit();
         session.close();
 
-        if (update) {
+        if (bUpdate) {
             InformationDialog.showMessageBox("Successfully updated", "Success");
         } else {
             InformationDialog.showMessageBox("New entry created successfully", "Success");
         }
+        this.clearAll();
+    }
+
+    public void clearAll() {
+        txtBomCode.setText("");
+        cmbMainItem.setSelectedIndex(0);
+        txtRemark.setText("");
+        cbxIsActive.setSelected(true);
+        cmbBomItem.setSelectedIndex(0);
+        txtQuantity.setText("");
+        cmbUom.setSelectedIndex(0);
+        ((DefaultTableModel) tblAddedBomItems.getModel()).setRowCount(0);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -845,6 +844,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblAdd;
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCodeSearch;
+    private javax.swing.JLabel lblReset;
     private javax.swing.JLabel lblSave;
     private javax.swing.JTable tblAddedBomItems;
     private javax.swing.JPopupMenu tblAddedItemPopup;

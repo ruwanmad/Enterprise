@@ -57,6 +57,7 @@ Contributor(s):
     <mapping resource="com/servicemaster/models/Bom.hbm.xml"/>
     <mapping resource="com/servicemaster/models/ServiceStatus.hbm.xml"/>
     <mapping resource="com/servicemaster/models/RackSlot.hbm.xml"/>
+    <mapping resource="com/servicemaster/models/StockStatus.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Payment.hbm.xml"/>
     <mapping resource="com/servicemaster/models/User.hbm.xml"/>
     <mapping resource="com/servicemaster/models/ServiceHasItemStatus.hbm.xml"/>
@@ -65,8 +66,8 @@ Contributor(s):
     <mapping resource="com/servicemaster/models/UserPrivilage.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Module.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Manufacturer.hbm.xml"/>
+    <mapping resource="com/servicemaster/models/IssueMethod.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Printer.hbm.xml"/>
-    <mapping resource="com/servicemaster/models/GrnLine.hbm.xml"/>
     <mapping resource="com/servicemaster/models/License.hbm.xml"/>
     <mapping resource="com/servicemaster/models/KeyTable.hbm.xml"/>
     <mapping resource="com/servicemaster/models/SubCategoryType.hbm.xml"/>
@@ -76,6 +77,7 @@ Contributor(s):
     <mapping resource="com/servicemaster/models/BomItem.hbm.xml"/>
     <mapping resource="com/servicemaster/models/ServiceBay.hbm.xml"/>
     <mapping resource="com/servicemaster/models/TelephoneNumber.hbm.xml"/>
+    <mapping resource="com/servicemaster/models/Stock.hbm.xml"/>
     <mapping resource="com/servicemaster/models/ServiceHasItem.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Storage.hbm.xml"/>
     <mapping resource="com/servicemaster/models/BusinessPartner.hbm.xml"/>

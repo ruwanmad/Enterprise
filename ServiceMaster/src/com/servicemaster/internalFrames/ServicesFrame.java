@@ -6,7 +6,6 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
-import com.servicemaster.forms.MainFrame;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.models.BusinessAddress;
 import com.servicemaster.models.Invoice;

@@ -21,7 +21,7 @@
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES ('ADD1000','Admin Line 1','Admin Line 2','Admin Line 3',1,'2017-01-01','12:00:00',1,NULL,NULL,NULL,'Administrator Address'),('ADD1001','279/1','Kalupahana','poruwadanda',NULL,'2017-09-02','15:42:04',1,NULL,NULL,NULL,NULL);
+INSERT INTO `address` VALUES ('ADD1000','Admin Line 1','Admin Line 2','Admin Line 3',1,'2017-01-01','12:00:00',1,NULL,NULL,NULL,'Administrator Address'),('ADD1001','279/1','Kalupahana','poruwadanda',NULL,'2017-09-02','15:42:04',1,NULL,NULL,NULL,NULL),('ADD1002','115','Raigama','Bandaragama',NULL,'2017-09-03','20:18:52',1,NULL,NULL,NULL,NULL),('ADD1003','401/2, batadombakatiya','ballapitiya','horana',NULL,'2017-09-03','20:28:03',1,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -34,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-03 14:15:46
+-- Dump completed on 2017-09-03 23:39:13

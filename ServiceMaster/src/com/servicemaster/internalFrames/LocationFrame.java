@@ -9,8 +9,8 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
+import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.LableFunctions;
-import com.servicemaster.models.KeyTable;
 import com.servicemaster.models.ServiceBay;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.LocationView;
@@ -51,7 +51,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         cbxIsActive = new javax.swing.JCheckBox();
         lblClose = new javax.swing.JLabel();
         lblSave = new javax.swing.JLabel();
-        lblView = new javax.swing.JLabel();
+        lblReset = new javax.swing.JLabel();
         lblCodeSearch = new javax.swing.JLabel();
         lblNameSearch = new javax.swing.JLabel();
 
@@ -114,21 +114,21 @@ public class LocationFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        lblView.setBackground(new java.awt.Color(150, 255, 150));
-        lblView.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblView.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblView.setText("View");
-        lblView.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblView.setOpaque(true);
-        lblView.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblReset.setBackground(new java.awt.Color(150, 255, 150));
+        lblReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblReset.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblReset.setText("Reset");
+        lblReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblReset.setOpaque(true);
+        lblReset.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblViewMouseClicked(evt);
+                lblResetMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblViewMouseEntered(evt);
+                lblResetMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblViewMouseExited(evt);
+                lblResetMouseExited(evt);
             }
         });
 
@@ -175,7 +175,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblSave, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -212,7 +212,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtLocationCode, txtLocationName});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblSave, lblView});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblCodeSearch, lblNameSearch});
 
@@ -243,13 +243,13 @@ public class LocationFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, jLabel1, jLabel2, jLabel3, jLabel4, lblCodeSearch, lblNameSearch, txtLocationCode, txtLocationName, txtRemark});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblSave, lblView});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -262,60 +262,65 @@ public class LocationFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblCloseMouseClicked
 
     private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        String locationCode = txtLocationCode.getText().toUpperCase().trim();
-        String locationName = txtLocationName.getText().toUpperCase().trim();
-        String remark = txtRemark.getText().toUpperCase().trim();
-        boolean isActivated = cbxIsActive.isSelected();
-
-        if (locationCode.isEmpty()) {
-            List locationByName = this.getLocationByName(locationName, false);
+        if (txtLocationCode.getText().toUpperCase().trim().isEmpty()) {
+            List locationByName = this.getLocationByName(txtLocationName.getText().toUpperCase().trim(), false);
             if (locationByName.size() > 0) {
                 InformationDialog.showMessageBox("Item name already exists.", "Exist");
             } else {
-                session.getTransaction().commit();
-                session.close();
-                this.createNewLocation(locationName, remark, isActivated);
+                KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                this.saveOrUpdateLocation(keyCodeFunctions.getKey("LOC", "Location"), false);
             }
         } else {
-            List locationByCode = this.getLocationByCode(locationCode, false);
+            List locationByCode = this.getLocationByCode(txtLocationCode.getText().toUpperCase().trim(), false);
             if (locationByCode.isEmpty()) {
-                ConfirmationDialog.showMessageBox("Code does not exist. Create new?", "New");
-                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    session.getTransaction().commit();
-                    session.close();
-                    this.createNewLocation(locationName, remark, isActivated);
-                }
+                InformationDialog.showMessageBox("Invalid location code. Please try again", "Invalid");
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    ServiceBay serviceBay = new ServiceBay(locationCode);
-                    serviceBay.setServiceBayName(locationName);
-                    serviceBay.setRemark(remark);
-                    serviceBay.setIsActive(isActivated ? 1 : 0);
-                    serviceBay.setModifiedDate(new Date());
-                    serviceBay.setModifiedTime(new Date());
-                    serviceBay.setModifiedUser(MainFrame.user.getUserId());
-                    session.saveOrUpdate(serviceBay);
-
-                    session.getTransaction().commit();
-                    session.close();
-
-                    InformationDialog.showMessageBox("Updated successfully.", "Success");
-                    this.resetFrame();
+                    this.saveOrUpdateLocation(txtLocationCode.getText().toUpperCase().trim(), true);
                 }
             }
         }
     }//GEN-LAST:event_lblSaveMouseClicked
 
-    private void lblViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblViewMouseClicked
+    private void saveOrUpdateLocation(String strLocationCode, boolean bUpdate) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
 
-    private void lblViewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseEntered
+        ServiceBay serviceBay = new ServiceBay();
+        serviceBay.setServiceBayCode(strLocationCode);
+        serviceBay.setServiceBayName(txtLocationName.getText().toUpperCase().trim());
+        serviceBay.setRemark(txtRemark.getText().toUpperCase().trim());
+        serviceBay.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
+        if (bUpdate) {
+            serviceBay.setModifiedDate(new Date());
+            serviceBay.setModifiedTime(new Date());
+            serviceBay.setModifiedUser(MainFrame.user.getUserId());
+        } else {
+            serviceBay.setCreatedDate(new Date());
+            serviceBay.setCreatedTime(new Date());
+            serviceBay.setCreatedUser(MainFrame.user.getUserId());
+        }
+        session.saveOrUpdate(serviceBay);
+
+        session.getTransaction().commit();
+        session.close();
+
+        if (bUpdate) {
+            InformationDialog.showMessageBox("Successfully updated", "Success");
+        } else {
+            InformationDialog.showMessageBox("New entry created successfully", "Success");
+        }
+        this.clearAll();
+    }
+
+    private void lblResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseClicked
+        this.clearAll();
+    }//GEN-LAST:event_lblResetMouseClicked
+
+    private void lblResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblViewMouseEntered
+    }//GEN-LAST:event_lblResetMouseEntered
 
     private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
@@ -325,9 +330,9 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblCloseMouseEntered
 
-    private void lblViewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseExited
+    private void lblResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblViewMouseExited
+    }//GEN-LAST:event_lblResetMouseExited
 
     private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
@@ -374,52 +379,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
     private void lblNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblNameSearchMouseExited
-
-    private void createNewLocation(String locationName, String remark, boolean isActivated) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        String locationCode;
-        Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
-        query.setParameter("code", "LOC");
-        List keyList = query.list();
-        if (keyList.size() > 0) {
-            KeyTable keyTable = (KeyTable) keyList.get(0);
-            Integer keyNumber = keyTable.getKeyNumber();
-            keyTable.setKeyNumber(keyNumber + 1);
-            keyTable.setModifiedDate(new Date());
-            keyTable.setModifiedTime(new Date());
-            keyTable.setModifiedUser(MainFrame.user.getUserId());
-            session.saveOrUpdate(keyTable);
-            locationCode = "LOC" + keyNumber;
-        } else {
-            KeyTable keyTable = new KeyTable();
-            keyTable.setKeyCode("LOC");
-            keyTable.setKeyNumber(1001);
-            keyTable.setKeyRemark("Location");
-            keyTable.setCreatedDate(new Date());
-            keyTable.setCreatedTime(new Date());
-            keyTable.setCreatedUser(MainFrame.user.getUserId());
-            session.saveOrUpdate(keyTable);
-            locationCode = "LOC1000";
-        }
-
-        ServiceBay serviceBay = new ServiceBay();
-        serviceBay.setServiceBayCode(locationCode);
-        serviceBay.setServiceBayName(locationName);
-        serviceBay.setRemark(remark);
-        serviceBay.setIsActive(isActivated ? 1 : 0);
-        serviceBay.setCreatedDate(new Date());
-        serviceBay.setCreatedTime(new Date());
-        serviceBay.setCreatedUser(MainFrame.user.getUserId());
-        session.saveOrUpdate(serviceBay);
-
-        session.getTransaction().commit();
-        session.close();
-
-        InformationDialog.showMessageBox("Updated successfully.", "Success");
-        this.resetFrame();
-    }
-
+    
     private List getLocationByCode(String locationCode, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -454,7 +414,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         return list;
     }
 
-    private void resetFrame() {
+    private void clearAll() {
         txtLocationCode.setText("");
         txtLocationName.setText("");
         txtRemark.setText("");
@@ -495,8 +455,8 @@ public class LocationFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCodeSearch;
     private javax.swing.JLabel lblNameSearch;
+    private javax.swing.JLabel lblReset;
     private javax.swing.JLabel lblSave;
-    private javax.swing.JLabel lblView;
     private javax.swing.JTextField txtLocationCode;
     private javax.swing.JTextField txtLocationName;
     private javax.swing.JTextField txtRemark;

@@ -3,19 +3,16 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 3, 2017 7:12:51 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.KeyTable" table="key_table" catalog="enterprisedb" optimistic-lock="version">
-        <id name="keyId" type="java.lang.Integer">
-            <column name="key_id" />
+    <class name="com.servicemaster.models.IssueMethod" table="issue_method" catalog="enterprisedb" optimistic-lock="version">
+        <id name="issueMethodId" type="java.lang.Integer">
+            <column name="issue_method_id" />
             <generator class="identity" />
         </id>
-        <property name="keyCode" type="string">
-            <column name="key_code" length="5" />
+        <property name="issueMethodCode" type="string">
+            <column name="issue_method_code" length="10" />
         </property>
-        <property name="keyNumber" type="java.lang.Integer">
-            <column name="key_number" />
-        </property>
-        <property name="keyRemark" type="string">
-            <column name="key_remark" length="45" />
+        <property name="issueMethodDesciption" type="string">
+            <column name="issue_method_desciption" length="45" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
@@ -34,6 +31,9 @@
         </property>
         <property name="modifiedUser" type="java.lang.Integer">
             <column name="modified_user" />
+        </property>
+        <property name="remark" type="string">
+            <column name="remark" length="100" />
         </property>
     </class>
 </hibernate-mapping>

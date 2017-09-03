@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 2, 2017 1:38:10 PM by Hibernate Tools 4.3.1
+// Generated Sep 3, 2017 7:12:43 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -17,6 +17,7 @@ public class Grn  implements java.io.Serializable {
      private Date grnTime;
      private Date grnDate;
      private String handedOverBy;
+     private String batch;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -24,7 +25,7 @@ public class Grn  implements java.io.Serializable {
      private Date modifiedTime;
      private Integer modifiedUser;
      private String remark;
-     private Set grnLines = new HashSet(0);
+     private Set stocks = new HashSet(0);
 
     public Grn() {
     }
@@ -34,12 +35,13 @@ public class Grn  implements java.io.Serializable {
         this.grnCode = grnCode;
         this.grnNumber = grnNumber;
     }
-    public Grn(String grnCode, String grnNumber, Date grnTime, Date grnDate, String handedOverBy, Date createdDate, Date createdTime, Integer createdUser, Date midifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set grnLines) {
+    public Grn(String grnCode, String grnNumber, Date grnTime, Date grnDate, String handedOverBy, String batch, Date createdDate, Date createdTime, Integer createdUser, Date midifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set stocks) {
        this.grnCode = grnCode;
        this.grnNumber = grnNumber;
        this.grnTime = grnTime;
        this.grnDate = grnDate;
        this.handedOverBy = handedOverBy;
+       this.batch = batch;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -47,7 +49,7 @@ public class Grn  implements java.io.Serializable {
        this.modifiedTime = modifiedTime;
        this.modifiedUser = modifiedUser;
        this.remark = remark;
-       this.grnLines = grnLines;
+       this.stocks = stocks;
     }
    
     public String getGrnCode() {
@@ -84,6 +86,13 @@ public class Grn  implements java.io.Serializable {
     
     public void setHandedOverBy(String handedOverBy) {
         this.handedOverBy = handedOverBy;
+    }
+    public String getBatch() {
+        return this.batch;
+    }
+    
+    public void setBatch(String batch) {
+        this.batch = batch;
     }
     public Date getCreatedDate() {
         return this.createdDate;
@@ -134,12 +143,12 @@ public class Grn  implements java.io.Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-    public Set getGrnLines() {
-        return this.grnLines;
+    public Set getStocks() {
+        return this.stocks;
     }
     
-    public void setGrnLines(Set grnLines) {
-        this.grnLines = grnLines;
+    public void setStocks(Set stocks) {
+        this.stocks = stocks;
     }
 
 

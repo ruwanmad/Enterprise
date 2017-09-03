@@ -3,19 +3,13 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 3, 2017 7:12:51 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.KeyTable" table="key_table" catalog="enterprisedb" optimistic-lock="version">
-        <id name="keyId" type="java.lang.Integer">
-            <column name="key_id" />
-            <generator class="identity" />
+    <class name="com.servicemaster.models.StockStatus" table="stock_status" catalog="enterprisedb" optimistic-lock="version">
+        <id name="stockStatusCode" type="int">
+            <column name="stock_status_code" />
+            <generator class="assigned" />
         </id>
-        <property name="keyCode" type="string">
-            <column name="key_code" length="5" />
-        </property>
-        <property name="keyNumber" type="java.lang.Integer">
-            <column name="key_number" />
-        </property>
-        <property name="keyRemark" type="string">
-            <column name="key_remark" length="45" />
+        <property name="stockStatusName" type="string">
+            <column name="stock_status_name" length="45" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
@@ -35,5 +29,14 @@
         <property name="modifiedUser" type="java.lang.Integer">
             <column name="modified_user" />
         </property>
+        <property name="remark" type="string">
+            <column name="remark" length="100" />
+        </property>
+        <set name="stocks" table="stock" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="stock_status_stock_status_code" not-null="true" />
+            </key>
+            <one-to-many class="com.servicemaster.models.Stock" />
+        </set>
     </class>
 </hibernate-mapping>

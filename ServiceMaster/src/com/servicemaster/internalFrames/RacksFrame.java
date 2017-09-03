@@ -9,8 +9,8 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
+import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.LableFunctions;
-import com.servicemaster.models.KeyTable;
 import com.servicemaster.models.Rack;
 import com.servicemaster.models.Storage;
 import com.servicemaster.utils.HibernateUtil;
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.TreeMap;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -58,7 +59,7 @@ public class RacksFrame extends javax.swing.JInternalFrame {
         cbxIsActive = new javax.swing.JCheckBox();
         lblClose = new javax.swing.JLabel();
         lblSave = new javax.swing.JLabel();
-        lblView = new javax.swing.JLabel();
+        lblReset = new javax.swing.JLabel();
         lblSlots = new javax.swing.JLabel();
 
         setTitle("Rack");
@@ -177,21 +178,21 @@ public class RacksFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        lblView.setBackground(new java.awt.Color(150, 255, 150));
-        lblView.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblView.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblView.setText("View");
-        lblView.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblView.setOpaque(true);
-        lblView.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblReset.setBackground(new java.awt.Color(150, 255, 150));
+        lblReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblReset.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblReset.setText("Reset");
+        lblReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblReset.setOpaque(true);
+        lblReset.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblViewMouseClicked(evt);
+                lblResetMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblViewMouseEntered(evt);
+                lblResetMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblViewMouseExited(evt);
+                lblResetMouseExited(evt);
             }
         });
 
@@ -225,7 +226,7 @@ public class RacksFrame extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(lblSlots, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -269,7 +270,7 @@ public class RacksFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbStorage, txtRemark});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblSave, lblSlots, lblView});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblReset, lblSave, lblSlots});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -302,14 +303,14 @@ public class RacksFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSlots, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbStorage, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, lblCodeSearch, lblNameSearch, txtRackCode, txtRackName, txtRemark});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblSave, lblSlots, lblView});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblReset, lblSave, lblSlots});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -368,64 +369,29 @@ public class RacksFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblCloseMouseExited
 
     private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        String rackCode = txtRackCode.getText().toUpperCase().trim();
-        String rackName = txtRackName.getText().toUpperCase().trim();
-        String storage = ((String) cmbStorage.getSelectedItem()).trim();
-        String remark = txtRemark.getText().toUpperCase().trim();
-        boolean isActivated = cbxIsActive.isSelected();
-
-        if (rackCode.isEmpty()) {
-            List subCategories = this.getRackByName(rackName, false);
+        if (txtRackCode.getText().toUpperCase().trim().isEmpty()) {
+            List subCategories = this.getRackByName(txtRackName.getText().toUpperCase().trim(), false);
             if (subCategories.size() > 0) {
                 InformationDialog.showMessageBox("Item name already exists.", "Exist");
             } else {
-                session.getTransaction().commit();
-                session.close();
-                if (storage.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
+                if (((String) cmbStorage.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
                     InformationDialog.showMessageBox("Please select a valid storage", "Invalid");
                 } else {
-                    this.createNewRack(rackName, remark, isActivated, this.storageMap.get(storage.split("-")[0].trim()));
+                    KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                    this.saveOrUpdateRack(keyCodeFunctions.getKey("RAC", "Racks"), false);
                 }
             }
         } else {
-            List subCategories = this.getRackByCode(rackCode, false);
+            List subCategories = this.getRackByCode(txtRackCode.getText().toUpperCase().trim(), false);
             if (subCategories.isEmpty()) {
-                ConfirmationDialog.showMessageBox("Code does not exist. Create new?", "New");
-                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    session.getTransaction().commit();
-                    session.close();
-                    if (storage.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                        InformationDialog.showMessageBox("Please select a valid storage", "Invalid");
-                    } else {
-                        this.createNewRack(rackName, remark, isActivated, this.storageMap.get(storage.split("-")[0].trim()));
-                    }
-                }
+                InformationDialog.showMessageBox("Invalid rack code. Please try again", "Invalid");
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    if (storage.equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
+                    if (((String) cmbStorage.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
                         InformationDialog.showMessageBox("Please select a valid storage", "Invalid");
                     } else {
-                        Rack rack = new Rack();
-                        rack.setRackCode(rackCode);
-                        rack.setRackName(rackName);
-                        rack.setStorage(this.storageMap.get(storage.split("-")[0].trim()));
-                        rack.setRemark(remark);
-                        rack.setIsActive(isActivated ? 1 : 0);
-                        rack.setModifiedDate(new Date());
-                        rack.setModifiedTime(new Date());
-                        rack.setModifiedUser(MainFrame.user.getUserId());
-                        session.saveOrUpdate(rack);
-
-                        session.getTransaction().commit();
-                        session.close();
-
-                        InformationDialog.showMessageBox("Updated successfully.", "Success");
-                        this.resetFrame();
-
-                        this.lblSlots.setEnabled(true);
+                        this.saveOrUpdateRack(txtRackCode.getText().toUpperCase().trim(), true);
                     }
                 }
             }
@@ -440,17 +406,17 @@ public class RacksFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblSaveMouseExited
 
-    private void lblViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblViewMouseClicked
+    private void lblResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseClicked
+        this.clearAll();
+    }//GEN-LAST:event_lblResetMouseClicked
 
-    private void lblViewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseEntered
+    private void lblResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblViewMouseEntered
+    }//GEN-LAST:event_lblResetMouseEntered
 
-    private void lblViewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseExited
+    private void lblResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblViewMouseExited
+    }//GEN-LAST:event_lblResetMouseExited
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -508,10 +474,11 @@ public class RacksFrame extends javax.swing.JInternalFrame {
         Storage stor = this.storageMap.get(storage);
         this.cmbStorage.setSelectedItem(stor.getStorageCode() + "-" + stor.getStorageName());
     }
+
     public void setRemark(String remark) {
         this.txtRemark.setText(remark);
     }
-    
+
     public void setIsActive(boolean isActive) {
         this.cbxIsActive.setSelected(isActive);
     }
@@ -519,7 +486,7 @@ public class RacksFrame extends javax.swing.JInternalFrame {
     public void setRackCodeEditable(boolean editable) {
         txtRackCode.setEditable(editable);
     }
-    
+
     public void setLblSaveText(String text) {
         this.lblSave.setText(text);
     }
@@ -558,61 +525,52 @@ public class RacksFrame extends javax.swing.JInternalFrame {
         return list;
     }
 
-    private void resetFrame() {
+    private void clearAll() {
         txtRackCode.setText("");
         txtRackName.setText("");
         txtRemark.setText("");
         cbxIsActive.setSelected(false);
         txtRackCode.setEditable(true);
         cmbStorage.setSelectedIndex(0);
+        lblSlots.setEnabled(false);
     }
 
-    private void createNewRack(String subCategoryName, String remark, boolean isActivated,
-            Storage storage) {
+    private void saveOrUpdateRack(String strRackCode, boolean bUpdate) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        String catCode;
-        Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
-        query.setParameter("code", "RAC");
-        List keyList = query.list();
-        if (keyList.size() > 0) {
-            KeyTable keyTable = (KeyTable) keyList.get(0);
-            Integer keyNumber = keyTable.getKeyNumber();
-            keyTable.setKeyNumber(keyNumber + 1);
-            keyTable.setModifiedDate(new Date());
-            keyTable.setModifiedTime(new Date());
-            keyTable.setModifiedUser(MainFrame.user.getUserId());
-            session.saveOrUpdate(keyTable);
-            catCode = "RAC" + keyNumber;
-        } else {
-            KeyTable keyTable = new KeyTable();
-            keyTable.setKeyCode("RAC");
-            keyTable.setKeyNumber(1001);
-            keyTable.setKeyRemark("Rack");
-            keyTable.setCreatedDate(new Date());
-            keyTable.setCreatedTime(new Date());
-            keyTable.setCreatedUser(MainFrame.user.getUserId());
-            session.saveOrUpdate(keyTable);
-            catCode = "RAC1000";
-        }
+
+        Storage storage = (Storage) session
+                .createCriteria(Storage.class)
+                .add(Restrictions.eq("storageCode", ((String) cmbStorage.getSelectedItem()).trim().split("-")[0].trim()))
+                .uniqueResult();
 
         Rack rack = new Rack();
-        rack.setRackCode(catCode);
-        rack.setRackName(subCategoryName);
+        rack.setRackCode(strRackCode);
+        rack.setRackName(txtRackName.getText().toUpperCase().trim());
         rack.setStorage(storage);
-        rack.setRemark(remark);
-        rack.setIsActive(isActivated ? 1 : 0);
-        rack.setCreatedDate(new Date());
-        rack.setCreatedTime(new Date());
-        rack.setCreatedUser(MainFrame.user.getUserId());
+        rack.setRemark(txtRemark.getText().toUpperCase().trim());
+        rack.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
+        if (bUpdate) {
+            rack.setModifiedDate(new Date());
+            rack.setModifiedTime(new Date());
+            rack.setModifiedUser(MainFrame.user.getUserId());
+        } else {
+            rack.setCreatedDate(new Date());
+            rack.setCreatedTime(new Date());
+            rack.setCreatedUser(MainFrame.user.getUserId());
+        }
         session.saveOrUpdate(rack);
 
         session.getTransaction().commit();
         session.close();
 
-        InformationDialog.showMessageBox("Updated successfully.", "Success");
-        this.resetFrame();
-
+        if (bUpdate) {
+            InformationDialog.showMessageBox("Successfully updated", "Success");
+        } else {
+            InformationDialog.showMessageBox("New entry created successfully", "Success");
+        }
+        this.clearAll();
+        
         this.lblSlots.setEnabled(true);
     }
 
@@ -627,9 +585,9 @@ public class RacksFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCodeSearch;
     private javax.swing.JLabel lblNameSearch;
+    private javax.swing.JLabel lblReset;
     private javax.swing.JLabel lblSave;
     private javax.swing.JLabel lblSlots;
-    private javax.swing.JLabel lblView;
     private javax.swing.JTextField txtRackCode;
     private javax.swing.JTextField txtRackName;
     private javax.swing.JTextField txtRemark;

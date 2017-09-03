@@ -11,6 +11,7 @@ import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.models.IssueMethod;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.Manufacturer;
 import com.servicemaster.models.RackSlot;
@@ -23,8 +24,8 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -33,8 +34,6 @@ import org.hibernate.criterion.Restrictions;
  */
 public class ItemFrame extends javax.swing.JInternalFrame {
 
-    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-
     /**
      * Creates new form ItemFrame
      */
@@ -42,7 +41,6 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         initComponents();
 
         //Setting default values 
-        txtIssueMethod.setText("1");
         cbxIsPhysical.setSelected(true);
         cbxIsActive.setSelected(true);
         //txtModTime.setText("12:00:00");
@@ -62,14 +60,12 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         txtItemCode = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         txtItemName = new javax.swing.JTextField();
         txtSellingProce = new javax.swing.JTextField();
-        txtIssueMethod = new javax.swing.JTextField();
         txtReorderQuantity = new javax.swing.JTextField();
         cbxIsPhysical = new javax.swing.JCheckBox();
         cbxIsActive = new javax.swing.JCheckBox();
@@ -88,6 +84,9 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         lblSave = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         cmbManufacturer = new javax.swing.JComboBox<>();
+        jLabel20 = new javax.swing.JLabel();
+        cmbIssueMethod = new javax.swing.JComboBox<>();
+        lblReset = new javax.swing.JLabel();
 
         setClosable(true);
         setTitle("Add New Item");
@@ -120,14 +119,11 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel3.setText("Selling Price :");
 
-        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel4.setText("Issue Method :");
-
         jLabel5.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel5.setText("Reorder Quantity :");
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel6.setText("Is physical :");
+        jLabel6.setText("Is Physical :");
 
         jLabel7.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel7.setText("Is Active :");
@@ -139,12 +135,14 @@ public class ItemFrame extends javax.swing.JInternalFrame {
 
         txtSellingProce.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        txtIssueMethod.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-
         txtReorderQuantity.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
+        cbxIsPhysical.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        cbxIsActive.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
         jLabel15.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel15.setText("Sub category :");
+        jLabel15.setText("Sub Category :");
 
         jLabel16.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel16.setText("Rack Slot :");
@@ -155,9 +153,18 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         jLabel18.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel18.setText("Selling UOM :");
 
+        cmbSubCategory.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        cmbRackSlot.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        cmbBuyingUOM.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        cmbSellingUOM.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
         txtRemarks.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
         lblCodeSearch.setBackground(new java.awt.Color(150, 255, 150));
+        lblCodeSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         lblCodeSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCodeSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
         lblCodeSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
@@ -175,6 +182,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         });
 
         lblNameSearch.setBackground(new java.awt.Color(150, 255, 150));
+        lblNameSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         lblNameSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblNameSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
         lblNameSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
@@ -230,6 +238,31 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         jLabel19.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel19.setText("Manufacturer :");
 
+        cmbManufacturer.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        jLabel20.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel20.setText("Issue Method :");
+
+        cmbIssueMethod.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        lblReset.setBackground(new java.awt.Color(150, 255, 150));
+        lblReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblReset.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblReset.setText("Reset");
+        lblReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblReset.setOpaque(true);
+        lblReset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblResetMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblResetMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblResetMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -242,7 +275,6 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
                             .addComponent(jLabel7)
@@ -262,37 +294,47 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                                     .addComponent(txtReorderQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cbxIsActive)
                                     .addComponent(cbxIsPhysical)
-                                    .addComponent(txtIssueMethod, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtSellingProce, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtRemarks, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel15)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel18))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmbSellingUOM, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmbBuyingUOM, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmbRackSlot, 0, 111, Short.MAX_VALUE)
-                            .addComponent(cmbSubCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel19)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbManufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel17)
+                                    .addComponent(jLabel18))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cmbSellingUOM, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cmbBuyingUOM, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cmbRackSlot, 0, 111, Short.MAX_VALUE)
+                                    .addComponent(cmbSubCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel19)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbManufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel20)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbIssueMethod, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18, jLabel19, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18, jLabel19, jLabel2, jLabel20, jLabel3, jLabel5, jLabel6, jLabel7});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbBuyingUOM, cmbManufacturer, cmbRackSlot, cmbSellingUOM, cmbSubCategory, txtIssueMethod, txtRemarks, txtReorderQuantity, txtSellingProce});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbBuyingUOM, cmbManufacturer, cmbRackSlot, cmbSellingUOM, cmbSubCategory, txtRemarks, txtReorderQuantity, txtSellingProce});
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,10 +355,6 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtSellingProce, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtIssueMethod, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtReorderQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -332,6 +370,10 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(txtRemarks, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(cmbIssueMethod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
@@ -355,11 +397,14 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cbxIsPhysical, cmbBuyingUOM, cmbManufacturer, cmbRackSlot, cmbSellingUOM, cmbSubCategory, jLabel1, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18, jLabel19, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, lblCodeSearch, lblNameSearch, txtIssueMethod, txtItemCode, txtItemName, txtReorderQuantity, txtSellingProce});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cbxIsPhysical, cmbBuyingUOM, cmbIssueMethod, cmbManufacturer, cmbRackSlot, cmbSellingUOM, cmbSubCategory, jLabel1, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18, jLabel19, jLabel2, jLabel20, jLabel3, jLabel5, jLabel6, jLabel7, lblCodeSearch, lblNameSearch, txtItemCode, txtItemName, txtReorderQuantity, txtSellingProce});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -422,37 +467,22 @@ public class ItemFrame extends javax.swing.JInternalFrame {
             InformationDialog.showMessageBox("Fill the required fields", "Transaction Incomplete");
         } else {
             try {
-                Session session = HibernateUtil.getSessionFactory().openSession();
-                session.beginTransaction();
-
-                String strItemCode = txtItemCode.getText().trim().toUpperCase();
-                String strItemName = txtItemName.getText().trim().toUpperCase();
-
-                if (strItemCode.isEmpty()) {
-                    List itemByName = this.getItemByName(strItemName, false);
+                if (txtItemCode.getText().trim().toUpperCase().isEmpty()) {
+                    List itemByName = this.getItemByName(txtItemName.getText().trim().toUpperCase(), false);
                     if (!itemByName.isEmpty()) {
                         InformationDialog.showMessageBox("Item name already exists.", "Exist");
                     } else {
                         KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                        strItemCode = keyCodeFunctions.getKey("ITM", "Item codes");
-                        this.createNewItemOrUpdate(strItemCode, false);
+                        this.createNewItemOrUpdate(keyCodeFunctions.getKey("ITM", "Item codes"), false);
                     }
                 } else {
-                    List itemByCode = this.getItemByCode(strItemCode, false);
+                    List itemByCode = this.getItemByCode(txtItemCode.getText().trim().toUpperCase(), false);
                     if (itemByCode.isEmpty()) {
-                        ConfirmationDialog.showMessageBox("Item does not exist. Create new?", "New");
-                        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                            session.getTransaction().commit();
-                            session.close();
-
-                            KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                            strItemCode = keyCodeFunctions.getKey("ITM", "Item codes");
-                            this.createNewItemOrUpdate(strItemCode, false);
-                        }
+                        InformationDialog.showMessageBox("Invalid item code. Please try again", "Invalid");
                     } else {
                         ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
                         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                            this.createNewItemOrUpdate(strItemCode, true);
+                            this.createNewItemOrUpdate(txtItemCode.getText().trim().toUpperCase(), true);
                         }
                     }
                 }
@@ -471,28 +501,34 @@ public class ItemFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblSaveMouseExited
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        Session session = sessionFactory.openSession();
+        Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
-        Criteria manufactrerCriteria = session.createCriteria(Manufacturer.class);
+        Criteria issueMethodCriteria = session.createCriteria(IssueMethod.class).addOrder(Order.asc("issueMethodId"));
+        List<IssueMethod> issueMethods = issueMethodCriteria.list();
+        for (IssueMethod issueMethod : issueMethods) {
+            cmbIssueMethod.addItem(issueMethod.getIssueMethodCode());
+        }
+
+        Criteria manufactrerCriteria = session.createCriteria(Manufacturer.class).addOrder(Order.asc("manufacturerCode"));
         List<Manufacturer> manufacturers = manufactrerCriteria.list();
         for (Manufacturer manufacturer : manufacturers) {
             cmbManufacturer.addItem(manufacturer.getManufacturerName());
         }
 
-        Criteria subCategoryCriteria = session.createCriteria(SubCategory.class);
+        Criteria subCategoryCriteria = session.createCriteria(SubCategory.class).addOrder(Order.asc("subCategoryCode"));
         List<SubCategory> subCategorys = subCategoryCriteria.list();
         for (SubCategory subCategory : subCategorys) {
             cmbSubCategory.addItem(subCategory.getSubCategoryName());
         }
 
-        Criteria rackSlotCriteria = session.createCriteria(RackSlot.class);
+        Criteria rackSlotCriteria = session.createCriteria(RackSlot.class).addOrder(Order.asc("rackSlotCode"));
         List<RackSlot> rackSlots = rackSlotCriteria.list();
         for (RackSlot rackSlot : rackSlots) {
             cmbRackSlot.addItem(rackSlot.getRackSlotName());
         }
 
-        Criteria uomCriteria = session.createCriteria(Uom.class);
+        Criteria uomCriteria = session.createCriteria(Uom.class).addOrder(Order.asc("uomSymble"));
         List<Uom> uoms = uomCriteria.list();
         for (Uom uom : uoms) {
             cmbBuyingUOM.addItem(uom.getUomName());
@@ -502,6 +538,18 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         transaction.commit();
         session.close();
     }//GEN-LAST:event_formInternalFrameOpened
+
+    private void lblResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseClicked
+        this.clearAll();
+    }//GEN-LAST:event_lblResetMouseClicked
+
+    private void lblResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseEntered
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_lblResetMouseEntered
+
+    private void lblResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseExited
+        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_lblResetMouseExited
 
     public void clearAll() {
         this.setItemCodeEditable(true);
@@ -559,82 +607,64 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         return list;
     }
 
-    private void createNewItemOrUpdate(String strItemCode, boolean update) {
-        String strItemName = txtItemName.getText().trim().toUpperCase();
-        String strSellingPrice = txtSellingProce.getText().trim();
-        String strIssueMethod = txtIssueMethod.getText().trim();
-        String strReOrderQty = txtReorderQuantity.getText().trim();
-        Boolean bIsPhy = cbxIsPhysical.isSelected();
-        Boolean bIsActive = cbxIsActive.isSelected();
-        String strRemarks = txtRemarks.getText().trim().toUpperCase();
-        String strManufacturer = cmbManufacturer.getSelectedItem().toString();
-        String strSubCat = cmbSubCategory.getSelectedItem().toString();
-        String strRackSlot = cmbRackSlot.getSelectedItem().toString();
-        String strBuyUOM = cmbBuyingUOM.getSelectedItem().toString();
-        String strSellUOM = cmbSellingUOM.getSelectedItem().toString();
+    private void createNewItemOrUpdate(String strItemCode, boolean bUpdate) {
 
-        Session session = sessionFactory.openSession();
+        Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
         Date date = new Date();
 
+        IssueMethod issueMethod = (IssueMethod) session
+                .createCriteria(IssueMethod.class)
+                .add(Restrictions.eq("issueMethodCode", cmbIssueMethod.getSelectedItem().toString()))
+                .uniqueResult();
+
         Manufacturer manufacturer = (Manufacturer) session
                 .createCriteria(Manufacturer.class)
-                .add(Restrictions.eq("manufacturerName", strManufacturer))
+                .add(Restrictions.eq("manufacturerName", cmbManufacturer.getSelectedItem().toString()))
                 .uniqueResult();
 
         SubCategory subCategory = (SubCategory) session
                 .createCriteria(SubCategory.class)
-                .add(Restrictions.eq("subCategoryName", strSubCat))
+                .add(Restrictions.eq("subCategoryName", cmbSubCategory.getSelectedItem().toString()))
                 .uniqueResult();
-        //txtItemCode.setText(catID.getSubCategoryCode());
 
         RackSlot rackSlot = (RackSlot) session
                 .createCriteria(RackSlot.class)
-                .add(Restrictions.eq("rackSlotName", strRackSlot))
+                .add(Restrictions.eq("rackSlotName", cmbRackSlot.getSelectedItem().toString()))
                 .uniqueResult();
-        //txtItemName.setText(rack.getRackSlotCode());
 
         Uom buyingUom = (Uom) session
                 .createCriteria(Uom.class)
-                .add(Restrictions.eq("uomName", strBuyUOM))
+                .add(Restrictions.eq("uomName", cmbBuyingUOM.getSelectedItem().toString()))
                 .uniqueResult();
-        //txtSellingProce.setText(buom.getUomCode());
 
         Uom sellingUom = (Uom) session
                 .createCriteria(Uom.class)
-                .add(Restrictions.eq("uomName", strSellUOM))
+                .add(Restrictions.eq("uomName", cmbSellingUOM.getSelectedItem().toString()))
                 .uniqueResult();
-        //txtIssueMethod.setText(suom.getUomCode());
 
         Item item = new Item();
         item.setItemCode(strItemCode);
         if (manufacturer.getManufacturerName().equalsIgnoreCase("NONE")) {
-            item.setItemName(strItemName);
+            item.setItemName(txtItemName.getText().trim().toUpperCase());
         } else {
-            item.setItemName(strItemName);
+            if (bUpdate) {
+                item.setItemName(txtItemName.getText().trim().toUpperCase());
+            } else {
+                item.setItemName(manufacturer.getManufacturerName().toUpperCase() + " - " + txtItemName.getText().trim().toUpperCase());
+            }
         }
 
-        item.setSellingPrice(Float.parseFloat(strSellingPrice));
-        item.setIssueMethod(strIssueMethod);
-        item.setReorderQuantity(Float.parseFloat(strReOrderQty));
-
-        if (bIsPhy) {
-            item.setIsPhysical(1);
-        } else {
-            item.setIsPhysical(0);
-        }
-
-        if (bIsActive) {
-            item.setIsActive(1);
-        } else {
-            item.setIsActive(0);
-        }
-
+        item.setSellingPrice(Float.parseFloat(txtSellingProce.getText().trim()));
+        item.setReorderQuantity(Float.parseFloat(txtReorderQuantity.getText().trim()));
+        item.setIsPhysical(cbxIsPhysical.isSelected() ? 1 : 0);
+        item.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
         item.setCreadetDate(date);
         item.setCreatedTime(date);
         item.setCreatedUser(MainFrame.user.getUserId());
-        item.setRemark(strRemarks);
+        item.setRemark(txtRemarks.getText().trim().toUpperCase());
+        item.setIssueMethodIssueMethodId(issueMethod.getIssueMethodId());
         item.setManufacturer((Manufacturer) session.load(Manufacturer.class, manufacturer.getManufacturerCode()));
         item.setSubCategory((SubCategory) session.load(SubCategory.class, subCategory.getSubCategoryCode()));
         item.setRackSlot((RackSlot) session.load(RackSlot.class, rackSlot.getRackSlotCode()));
@@ -645,12 +675,12 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         transaction.commit();
         session.close();
 
-        clearAll();
-        if (update) {
+        if (bUpdate) {
             InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING);
         } else {
             InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING);
         }
+        clearAll();
     }
 
     public void setItemCode(String itemCode) {
@@ -666,7 +696,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
     }
 
     public void setIssueMethod(String issueMethod) {
-        this.txtIssueMethod.setText(issueMethod);
+        this.cmbIssueMethod.setSelectedItem(issueMethod);
     }
 
     public void setReorderQty(String reorderQty) {
@@ -717,6 +747,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox cbxIsActive;
     private javax.swing.JCheckBox cbxIsPhysical;
     private javax.swing.JComboBox<String> cmbBuyingUOM;
+    private javax.swing.JComboBox<String> cmbIssueMethod;
     private javax.swing.JComboBox<String> cmbManufacturer;
     private javax.swing.JComboBox<String> cmbRackSlot;
     private javax.swing.JComboBox<String> cmbSellingUOM;
@@ -729,16 +760,16 @@ public class ItemFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCodeSearch;
     private javax.swing.JLabel lblNameSearch;
+    public javax.swing.JLabel lblReset;
     public javax.swing.JLabel lblSave;
-    private javax.swing.JTextField txtIssueMethod;
     private javax.swing.JTextField txtItemCode;
     private javax.swing.JTextField txtItemName;
     private javax.swing.JTextField txtRemarks;

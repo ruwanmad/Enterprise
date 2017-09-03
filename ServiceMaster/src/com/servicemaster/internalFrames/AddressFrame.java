@@ -185,9 +185,7 @@ public class AddressFrame extends javax.swing.JInternalFrame {
 
     private void lblUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseClicked
         KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-        String addressCode = keyCodeFunctions.getKey("ADD", "Address code");
-
-        this.saveOrUpdateAddress(addressCode);
+        this.saveOrUpdateAddress(keyCodeFunctions.getKey("ADD", "Address code"));
     }//GEN-LAST:event_lblUpdateMouseClicked
 
     private void lblUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpdateMouseEntered
@@ -198,21 +196,17 @@ public class AddressFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblUpdateMouseExited
 
-    private void saveOrUpdateAddress(String addressCode) {
+    private void saveOrUpdateAddress(String strAddressCode) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-
-        String addressLine1 = txtAddressLine1.getText().trim();
-        String addressLine2 = txtAddressLine2.getText().trim();
-        String addressLine3 = txtAddressLine3.getText().trim();
 
         Date date = new Date();
         
         Address address = new Address();
-        address.setAddressCode(addressCode);
-        address.setAdressLine1(addressLine1);
-        address.setAdressLine2(addressLine2);
-        address.setAdressLine3(addressLine3);
+        address.setAddressCode(strAddressCode);
+        address.setAdressLine1(txtAddressLine1.getText().trim());
+        address.setAdressLine2(txtAddressLine2.getText().trim());
+        address.setAdressLine3(txtAddressLine3.getText().trim());
         address.setCreatedDate(date);
         address.setCreatedTime(date);
         address.setCreatedUser(MainFrame.user.getUserId());
@@ -221,11 +215,11 @@ public class AddressFrame extends javax.swing.JInternalFrame {
         session.getTransaction().commit();
         session.close();
 
-        InformationDialog.showMessageBox("Updated successfully.", "Success");
+        InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING);
 
-        partnerFrame.setAddressLine1(addressCode + "-" + addressLine1);
-        partnerFrame.setAddressLine2(addressLine2);
-        partnerFrame.setAddressLine3(addressLine3);
+        partnerFrame.setAddressLine1(strAddressCode + "-" + txtAddressLine1.getText().trim());
+        partnerFrame.setAddressLine2(txtAddressLine2.getText().trim());
+        partnerFrame.setAddressLine3(txtAddressLine3.getText().trim());
 
         this.dispose();
     }

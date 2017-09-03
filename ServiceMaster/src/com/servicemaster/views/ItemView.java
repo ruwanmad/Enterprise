@@ -9,6 +9,7 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.internalFrames.ItemFrame;
+import com.servicemaster.models.IssueMethod;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.Manufacturer;
 import com.servicemaster.models.RackSlot;
@@ -19,7 +20,6 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -226,17 +226,18 @@ public class ItemView extends javax.swing.JInternalFrame {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        
+
+        IssueMethod issueMethod = (IssueMethod) session.load(IssueMethod.class, item.getIssueMethodIssueMethodId());
         Manufacturer manufacturer = (Manufacturer) session.load(Manufacturer.class, item.getManufacturer().getManufacturerCode());
         SubCategory subCategory = (SubCategory) session.load(SubCategory.class, item.getSubCategory().getSubCategoryCode());
-        RackSlot rackSlot =  (RackSlot) session.load(RackSlot.class, item.getRackSlot().getRackSlotCode());
-        Uom buyingUOM =  (Uom) session.load(Uom.class, item.getUomByBuyingUom().getUomCode());
-        Uom sellingUOM =  (Uom) session.load(Uom.class, item.getUomBySellingUom().getUomCode());
+        RackSlot rackSlot = (RackSlot) session.load(RackSlot.class, item.getRackSlot().getRackSlotCode());
+        Uom buyingUOM = (Uom) session.load(Uom.class, item.getUomByBuyingUom().getUomCode());
+        Uom sellingUOM = (Uom) session.load(Uom.class, item.getUomBySellingUom().getUomCode());
 
         itemFrame.setItemCode(item.getItemCode());
         itemFrame.setItemName(item.getItemName());
         itemFrame.setSellingPrice(item.getSellingPrice().toString());
-        itemFrame.setIssueMethod(item.getIssueMethod());
+        itemFrame.setIssueMethod(issueMethod.getIssueMethodCode());
         itemFrame.setReorderQty(item.getReorderQuantity().toString());
         itemFrame.setIsPhysicle(item.getIsPhysical() == 1);
         itemFrame.setIsActive(item.getIsActive() == 1);
@@ -248,10 +249,10 @@ public class ItemView extends javax.swing.JInternalFrame {
         itemFrame.setSellingUOM(sellingUOM.getUomName());
         itemFrame.setItemCodeEditable(false);
         itemFrame.setLblSaveText("Update");
-        
+
         transaction.commit();
         session.close();
-        
+
         this.dispose();
     }
 

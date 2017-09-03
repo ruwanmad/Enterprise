@@ -9,6 +9,7 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
+import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.LableFunctions;
 import com.servicemaster.models.KeyTable;
 import com.servicemaster.models.VehicleType;
@@ -51,7 +52,7 @@ public class VehicleTypeFrame extends javax.swing.JInternalFrame {
         cbxIsActive = new javax.swing.JCheckBox();
         lblClose = new javax.swing.JLabel();
         lblSave = new javax.swing.JLabel();
-        lblView = new javax.swing.JLabel();
+        lblReset = new javax.swing.JLabel();
         lblCodeSearch = new javax.swing.JLabel();
         lblNameSearch = new javax.swing.JLabel();
 
@@ -114,21 +115,21 @@ public class VehicleTypeFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        lblView.setBackground(new java.awt.Color(150, 255, 150));
-        lblView.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblView.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblView.setText("View");
-        lblView.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblView.setOpaque(true);
-        lblView.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblReset.setBackground(new java.awt.Color(150, 255, 150));
+        lblReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblReset.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblReset.setText("Reset");
+        lblReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblReset.setOpaque(true);
+        lblReset.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblViewMouseClicked(evt);
+                lblResetMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblViewMouseEntered(evt);
+                lblResetMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblViewMouseExited(evt);
+                lblResetMouseExited(evt);
             }
         });
 
@@ -179,7 +180,7 @@ public class VehicleTypeFrame extends javax.swing.JInternalFrame {
                         .addComponent(txtRemark))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblSave, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -212,7 +213,7 @@ public class VehicleTypeFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtVehicleTypeCode, txtVehicleTypeName});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblSave, lblView});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblCodeSearch, lblNameSearch});
 
@@ -243,13 +244,13 @@ public class VehicleTypeFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, jLabel1, jLabel2, jLabel3, jLabel4, lblCodeSearch, lblNameSearch, txtRemark, txtVehicleTypeCode, txtVehicleTypeName});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblSave, lblView});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -262,60 +263,34 @@ public class VehicleTypeFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblCloseMouseClicked
 
     private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        String vehicleTypeCode = txtVehicleTypeCode.getText().toUpperCase().trim();
-        String vehicleTypeName = txtVehicleTypeName.getText().toUpperCase().trim();
-        String remark = txtRemark.getText().toUpperCase().trim();
-        boolean isActivated = cbxIsActive.isSelected();
-
-        if (vehicleTypeCode.isEmpty()) {
-            List vehicleTypeByName = this.getvehicleTypeByName(vehicleTypeName, false);
+        if (txtVehicleTypeCode.getText().toUpperCase().trim().isEmpty()) {
+            List vehicleTypeByName = this.getvehicleTypeByName(txtVehicleTypeName.getText().toUpperCase().trim(), false);
             if (vehicleTypeByName.size() > 0) {
                 InformationDialog.showMessageBox("Item name already exists.", "Exist");
             } else {
-                session.getTransaction().commit();
-                session.close();
-                this.createNewVehicleType(vehicleTypeName, remark, isActivated);
+                KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                this.saveOrUpdateVehicleType(keyCodeFunctions.getKey("VHT", "Vehicle type"), false);
             }
         } else {
-            List vehicleTypeByCode = this.getVehivleTypeByCode(vehicleTypeCode, false);
+            List vehicleTypeByCode = this.getVehivleTypeByCode(txtVehicleTypeCode.getText().toUpperCase().trim(), false);
             if (vehicleTypeByCode.isEmpty()) {
-                ConfirmationDialog.showMessageBox("Code does not exist. Create new?", "New");
-                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    session.getTransaction().commit();
-                    session.close();
-                    this.createNewVehicleType(vehicleTypeName, remark, isActivated);
-                }
+                InformationDialog.showMessageBox("Invalid vehicle type code. Please try again", "Invalid");
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    VehicleType vehicleType = new VehicleType(vehicleTypeCode);
-                    vehicleType.setVehicleTypeName(vehicleTypeName);
-                    vehicleType.setRemark(remark);
-                    vehicleType.setIsActive(isActivated ? 1 : 0);
-                    vehicleType.setModifiedDate(new Date());
-                    vehicleType.setModifiedTime(new Date());
-                    vehicleType.setModifiedUser(MainFrame.user.getUserId());
-                    session.saveOrUpdate(vehicleType);
-
-                    session.getTransaction().commit();
-                    session.close();
-
-                    InformationDialog.showMessageBox("Updated successfully.", "Success");
-                    this.resetFrame();
+                    this.saveOrUpdateVehicleType(txtVehicleTypeCode.getText().toUpperCase().trim(), true);
                 }
             }
         }
     }//GEN-LAST:event_lblSaveMouseClicked
 
-    private void lblViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblViewMouseClicked
+    private void lblResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseClicked
+        this.clearAll();
+    }//GEN-LAST:event_lblResetMouseClicked
 
-    private void lblViewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseEntered
+    private void lblResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblViewMouseEntered
+    }//GEN-LAST:event_lblResetMouseEntered
 
     private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
@@ -325,9 +300,9 @@ public class VehicleTypeFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_lblCloseMouseEntered
 
-    private void lblViewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseExited
+    private void lblResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblViewMouseExited
+    }//GEN-LAST:event_lblResetMouseExited
 
     private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
@@ -375,49 +350,35 @@ public class VehicleTypeFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblNameSearchMouseExited
 
-    private void createNewVehicleType(String vehicleTypeName, String remark, boolean isActivated) {
+    private void saveOrUpdateVehicleType(String strVehicleTypeCode, boolean bUpdate) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        String vehicleTypeCode;
-        Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
-        query.setParameter("code", "VHT");
-        List keyList = query.list();
-        if (keyList.size() > 0) {
-            KeyTable keyTable = (KeyTable) keyList.get(0);
-            Integer keyNumber = keyTable.getKeyNumber();
-            keyTable.setKeyNumber(keyNumber + 1);
-            keyTable.setModifiedDate(new Date());
-            keyTable.setModifiedTime(new Date());
-            keyTable.setModifiedUser(MainFrame.user.getUserId());
-            session.saveOrUpdate(keyTable);
-            vehicleTypeCode = "VHT" + keyNumber;
-        } else {
-            KeyTable keyTable = new KeyTable();
-            keyTable.setKeyCode("VHT");
-            keyTable.setKeyNumber(1001);
-            keyTable.setKeyRemark("Vehicle type");
-            keyTable.setCreatedDate(new Date());
-            keyTable.setCreatedTime(new Date());
-            keyTable.setCreatedUser(MainFrame.user.getUserId());
-            session.saveOrUpdate(keyTable);
-            vehicleTypeCode = "VHT1000";
-        }
 
         VehicleType vehicleType = new VehicleType();
-        vehicleType.setVehicleTypeCode(vehicleTypeCode);
-        vehicleType.setVehicleTypeName(vehicleTypeName);
-        vehicleType.setRemark(remark);
-        vehicleType.setIsActive(isActivated ? 1 : 0);
-        vehicleType.setCreatedDate(new Date());
-        vehicleType.setCreatedTime(new Date());
-        vehicleType.setCreatedUser(MainFrame.user.getUserId());
+        vehicleType.setVehicleTypeCode(strVehicleTypeCode);
+        vehicleType.setVehicleTypeName(txtVehicleTypeName.getText().toUpperCase().trim());
+        vehicleType.setRemark(txtRemark.getText().toUpperCase().trim());
+        vehicleType.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
+        if (bUpdate) {
+            vehicleType.setModifiedDate(new Date());
+            vehicleType.setModifiedTime(new Date());
+            vehicleType.setModifiedUser(MainFrame.user.getUserId());
+        } else {
+            vehicleType.setCreatedDate(new Date());
+            vehicleType.setCreatedTime(new Date());
+            vehicleType.setCreatedUser(MainFrame.user.getUserId());
+        }
         session.saveOrUpdate(vehicleType);
 
         session.getTransaction().commit();
         session.close();
 
-        InformationDialog.showMessageBox("Updated successfully.", "Success");
-        this.resetFrame();
+        if (bUpdate) {
+            InformationDialog.showMessageBox("Successfully updated", "Success");
+        } else {
+            InformationDialog.showMessageBox("New entry created successfully", "Success");
+        }
+        this.clearAll();
     }
 
     private List getVehivleTypeByCode(String vehicleTypeCode, boolean like) {
@@ -454,7 +415,7 @@ public class VehicleTypeFrame extends javax.swing.JInternalFrame {
         return list;
     }
 
-    private void resetFrame() {
+    private void clearAll() {
         txtVehicleTypeCode.setText("");
         txtVehicleTypeName.setText("");
         txtRemark.setText("");
@@ -495,8 +456,8 @@ public class VehicleTypeFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCodeSearch;
     private javax.swing.JLabel lblNameSearch;
+    private javax.swing.JLabel lblReset;
     private javax.swing.JLabel lblSave;
-    private javax.swing.JLabel lblView;
     private javax.swing.JTextField txtRemark;
     private javax.swing.JTextField txtVehicleTypeCode;
     private javax.swing.JTextField txtVehicleTypeName;

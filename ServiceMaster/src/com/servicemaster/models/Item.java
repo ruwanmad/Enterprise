@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 2, 2017 1:38:10 PM by Hibernate Tools 4.3.1
+// Generated Sep 3, 2017 7:12:43 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -20,7 +20,6 @@ public class Item  implements java.io.Serializable {
      private Uom uomBySellingUom;
      private String itemName;
      private Float sellingPrice;
-     private String issueMethod;
      private Float reorderQuantity;
      private Integer isPhysical;
      private Integer isActive;
@@ -31,7 +30,8 @@ public class Item  implements java.io.Serializable {
      private Date modifiedTime;
      private Integer modifiedUser;
      private String remark;
-     private Set grnLines = new HashSet(0);
+     private int issueMethodIssueMethodId;
+     private Set stocks = new HashSet(0);
      private Set boms = new HashSet(0);
      private Set serviceHasItems = new HashSet(0);
      private Set bomItems = new HashSet(0);
@@ -40,15 +40,16 @@ public class Item  implements java.io.Serializable {
     }
 
 	
-    public Item(String itemCode, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName) {
+    public Item(String itemCode, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, int issueMethodIssueMethodId) {
         this.itemCode = itemCode;
         this.rackSlot = rackSlot;
         this.subCategory = subCategory;
         this.uomByBuyingUom = uomByBuyingUom;
         this.uomBySellingUom = uomBySellingUom;
         this.itemName = itemName;
+        this.issueMethodIssueMethodId = issueMethodIssueMethodId;
     }
-    public Item(String itemCode, Manufacturer manufacturer, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, Float sellingPrice, String issueMethod, Float reorderQuantity, Integer isPhysical, Integer isActive, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set grnLines, Set boms, Set serviceHasItems, Set bomItems) {
+    public Item(String itemCode, Manufacturer manufacturer, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, Float sellingPrice, Float reorderQuantity, Integer isPhysical, Integer isActive, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, int issueMethodIssueMethodId, Set stocks, Set boms, Set serviceHasItems, Set bomItems) {
        this.itemCode = itemCode;
        this.manufacturer = manufacturer;
        this.rackSlot = rackSlot;
@@ -57,7 +58,6 @@ public class Item  implements java.io.Serializable {
        this.uomBySellingUom = uomBySellingUom;
        this.itemName = itemName;
        this.sellingPrice = sellingPrice;
-       this.issueMethod = issueMethod;
        this.reorderQuantity = reorderQuantity;
        this.isPhysical = isPhysical;
        this.isActive = isActive;
@@ -68,7 +68,8 @@ public class Item  implements java.io.Serializable {
        this.modifiedTime = modifiedTime;
        this.modifiedUser = modifiedUser;
        this.remark = remark;
-       this.grnLines = grnLines;
+       this.issueMethodIssueMethodId = issueMethodIssueMethodId;
+       this.stocks = stocks;
        this.boms = boms;
        this.serviceHasItems = serviceHasItems;
        this.bomItems = bomItems;
@@ -129,13 +130,6 @@ public class Item  implements java.io.Serializable {
     
     public void setSellingPrice(Float sellingPrice) {
         this.sellingPrice = sellingPrice;
-    }
-    public String getIssueMethod() {
-        return this.issueMethod;
-    }
-    
-    public void setIssueMethod(String issueMethod) {
-        this.issueMethod = issueMethod;
     }
     public Float getReorderQuantity() {
         return this.reorderQuantity;
@@ -207,12 +201,19 @@ public class Item  implements java.io.Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-    public Set getGrnLines() {
-        return this.grnLines;
+    public int getIssueMethodIssueMethodId() {
+        return this.issueMethodIssueMethodId;
     }
     
-    public void setGrnLines(Set grnLines) {
-        this.grnLines = grnLines;
+    public void setIssueMethodIssueMethodId(int issueMethodIssueMethodId) {
+        this.issueMethodIssueMethodId = issueMethodIssueMethodId;
+    }
+    public Set getStocks() {
+        return this.stocks;
+    }
+    
+    public void setStocks(Set stocks) {
+        this.stocks = stocks;
     }
     public Set getBoms() {
         return this.boms;

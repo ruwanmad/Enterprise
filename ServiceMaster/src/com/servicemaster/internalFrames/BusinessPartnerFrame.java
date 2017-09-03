@@ -81,7 +81,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         txtAddressLine3 = new javax.swing.JTextField();
         lblClose = new javax.swing.JLabel();
         lblSave = new javax.swing.JLabel();
-        lblView = new javax.swing.JLabel();
+        lblReset = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         cbxIsActive = new javax.swing.JCheckBox();
         lblNicSearch = new javax.swing.JLabel();
@@ -266,21 +266,21 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        lblView.setBackground(new java.awt.Color(150, 255, 150));
-        lblView.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblView.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblView.setText("View");
-        lblView.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblView.setOpaque(true);
-        lblView.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblReset.setBackground(new java.awt.Color(150, 255, 150));
+        lblReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblReset.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblReset.setText("Reset");
+        lblReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        lblReset.setOpaque(true);
+        lblReset.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblViewMouseClicked(evt);
+                lblResetMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblViewMouseEntered(evt);
+                lblResetMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblViewMouseExited(evt);
+                lblResetMouseExited(evt);
             }
         });
 
@@ -336,7 +336,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                             .addComponent(txtAddressLine2)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -391,7 +391,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtAddressLine1, txtBussinesPatnerCode, txtFirstName, txtLastName, txtNic, txtTelephoneNumber});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblSave, lblView});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -458,13 +458,13 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblView, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {calBirthDay, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, lblAddressSearch, lblCodeSearch, lblFirstNameSearch, lblLastNameSearch, lblNicSearch, lblTelephoneNumberSearch, txtAddressLine1, txtBussinesPatnerCode, txtFirstName, txtLastName, txtNic, txtRemark, txtTelephoneNumber});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblSave, lblView});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -603,34 +603,25 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        String businessPatnerCode = txtBussinesPatnerCode.getText().trim();
-        String nic = txtNic.getText().trim();
-
-        if (nic.isEmpty()) {
+        if (txtNic.getText().trim().isEmpty()) {
             InformationDialog.showMessageBox("Please enter valid NIC", "Invalid");
         } else {
-            if (businessPatnerCode.isEmpty()) {
-                List busisessPartners = getBusinessPatnerByNic(nic, false);
+            if (txtBussinesPatnerCode.getText().trim().isEmpty()) {
+                List busisessPartners = getBusinessPatnerByNic(txtNic.getText().trim(), false);
                 if (busisessPartners.isEmpty()) {
                     KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                    businessPatnerCode = keyCodeFunctions.getKey("BPT", "Business partner code");
-                    this.saveOrUpdateBisnussPatner(businessPatnerCode, false);
+                    this.saveOrUpdateBisnussPatner(keyCodeFunctions.getKey("BPT", "Business partner code"), false);
                 } else {
                     InformationDialog.showMessageBox("Customer already exists", "Exist");
                 }
             } else {
-                List busisessPartners = getBusinessPatnerByCode(businessPatnerCode, false);
+                List busisessPartners = getBusinessPatnerByCode(txtBussinesPatnerCode.getText().trim(), false);
                 if (busisessPartners.isEmpty()) {
-                    ConfirmationDialog.showMessageBox("Business partner does not exist. Creat new?", "New");
-                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                        KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                        businessPatnerCode = keyCodeFunctions.getKey("BPT", "Business partner code");
-                        this.saveOrUpdateBisnussPatner(businessPatnerCode, false);
-                    }
+                    InformationDialog.showMessageBox("Invalid Business Patner code. Please try again", "Invalid");
                 } else {
                     ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
                     if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                        this.saveOrUpdateBisnussPatner(businessPatnerCode, true);
+                        this.saveOrUpdateBisnussPatner(txtBussinesPatnerCode.getText().trim(), true);
                     }
                 }
             }
@@ -639,43 +630,27 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         session.getTransaction().commit();
         session.close();
 
-        InformationDialog.showMessageBox("Updated successfully.", "Success");
-        this.resetFrame();
+        this.clearAll();
     }//GEN-LAST:event_lblSaveMouseClicked
 
-    private void saveOrUpdateBisnussPatner(String businessPatnerCode, boolean update) {
+    private void saveOrUpdateBisnussPatner(String strBusinessPatnerCode, boolean bUpdate) {
         Date date = new Date();
-        String firstName = txtFirstName.getText().trim();
-        String lastName = txtLastName.getText().trim();
-        String nic = txtNic.getText().trim();
-        Date birthDay = calBirthDay.getDate();
-        boolean isCustomer = cbxCustomer.isSelected();
-        boolean isSupplier = cbxSupplier.isSelected();
-        boolean isEmployee = cbxEmployee.isSelected();
-        String remark = txtRemark.getText().trim();
-        boolean isActive = cbxIsActive.isSelected();
-        String addressCode = txtAddressLine1.getText().split("-")[0].trim();
-        String addressLine1 = txtAddressLine1.getText().split("-")[1].trim();
-        String addressLine2 = txtAddressLine2.getText().trim();
-        String addressLine3 = txtAddressLine3.getText().trim();
-        String telephoneCode = txtTelephoneNumber.getText().split("-")[0].trim();
-        String telephoneNum = txtTelephoneNumber.getText().split("-")[1].trim();
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
         BusinessPartner businessPartner = new BusinessPartner();
-        businessPartner.setBusinessPartnerCode(businessPatnerCode);
-        businessPartner.setFirstName(firstName);
-        businessPartner.setLastName(lastName);
-        businessPartner.setNic(nic);
-        businessPartner.setBirthDay(birthDay);
-        businessPartner.setIsCustomer(isCustomer);
-        businessPartner.setIsSupplier(isSupplier);
-        businessPartner.setIsEmployee(isEmployee);
-        businessPartner.setIsActive(isActive ? 1 : 0);
-        businessPartner.setRemarks(remark);
-        if (update) {
+        businessPartner.setBusinessPartnerCode(strBusinessPatnerCode);
+        businessPartner.setFirstName(txtFirstName.getText().trim().toUpperCase());
+        businessPartner.setLastName(txtLastName.getText().trim().toUpperCase());
+        businessPartner.setNic(txtNic.getText().trim().toUpperCase());
+        businessPartner.setBirthDay(calBirthDay.getDate());
+        businessPartner.setIsCustomer(cbxCustomer.isSelected());
+        businessPartner.setIsSupplier(cbxSupplier.isSelected());
+        businessPartner.setIsEmployee(cbxEmployee.isSelected());
+        businessPartner.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
+        businessPartner.setRemarks(txtRemark.getText().trim());
+        if (bUpdate) {
             businessPartner.setModifiedDate(date);
             businessPartner.setModifiedTime(date);
             businessPartner.setModifiedUser(MainFrame.user.getUserId());
@@ -688,11 +663,11 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         session.saveOrUpdate(businessPartner);
 
         Address address = new Address();
-        address.setAddressCode(addressCode);
-        address.setAdressLine1(addressLine1);
-        address.setAdressLine2(addressLine2);
-        address.setAdressLine3(addressLine3);
-        if (update) {
+        address.setAddressCode(txtAddressLine1.getText().split("-")[0].trim());
+        address.setAdressLine1(txtAddressLine1.getText().split("-")[1].trim().toUpperCase());
+        address.setAdressLine2(txtAddressLine2.getText().trim().toUpperCase());
+        address.setAdressLine3(txtAddressLine3.getText().trim().toUpperCase());
+        if (bUpdate) {
             address.setModifiedDate(date);
             address.setModifiedTime(date);
             address.setModifiedUser(MainFrame.user.getUserId());
@@ -702,15 +677,15 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
             address.setCreatedUser(MainFrame.user.getUserId());
         }
 
-        BusinessAddressId businessAddressId = new BusinessAddressId(addressCode, businessPatnerCode);
+        BusinessAddressId businessAddressId = new BusinessAddressId(txtAddressLine1.getText().split("-")[0].trim(), strBusinessPatnerCode);
         BusinessAddress businessAddress = new BusinessAddress(businessAddressId, address, businessPartner);
 
         session.saveOrUpdate(businessAddress);
 
         TelephoneNumber telephoneNumber = new TelephoneNumber();
-        telephoneNumber.setTelephoneNumberCode(telephoneCode);
-        telephoneNumber.setTelephoneNumber(telephoneNum);
-        if (update) {
+        telephoneNumber.setTelephoneNumberCode(txtTelephoneNumber.getText().split("-")[0].trim());
+        telephoneNumber.setTelephoneNumber(txtTelephoneNumber.getText().split("-")[1].trim());
+        if (bUpdate) {
             telephoneNumber.setModifiedDate(date);
             telephoneNumber.setModifiedTime(date);
             telephoneNumber.setModifiedUser(MainFrame.user.getUserId());
@@ -720,13 +695,20 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
             telephoneNumber.setCreatedUser(MainFrame.user.getUserId());
         }
 
-        BusinessTelephoneId businessTelephoneId = new BusinessTelephoneId(telephoneCode, businessPatnerCode);
+        BusinessTelephoneId businessTelephoneId = new BusinessTelephoneId(txtTelephoneNumber.getText().split("-")[0].trim(), strBusinessPatnerCode);
         BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, businessPartner, telephoneNumber);
 
         session.saveOrUpdate(businessTelephone);
 
         transaction.commit();
         session.close();
+
+        if (bUpdate) {
+            InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING);
+        } else {
+            InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING);
+        }
+        this.clearAll();
     }
 
     private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
@@ -737,17 +719,17 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_lblSaveMouseExited
 
-    private void lblViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblViewMouseClicked
+    private void lblResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseClicked
+        this.clearAll();
+    }//GEN-LAST:event_lblResetMouseClicked
 
-    private void lblViewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseEntered
+    private void lblResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseEntered
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblViewMouseEntered
+    }//GEN-LAST:event_lblResetMouseEntered
 
-    private void lblViewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblViewMouseExited
+    private void lblResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseExited
         LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblViewMouseExited
+    }//GEN-LAST:event_lblResetMouseExited
 
     private void lblNicSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNicSearchMouseClicked
         String nic = txtNic.getText().trim();
@@ -1064,7 +1046,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         return list;
     }
 
-    public void resetFrame() {
+    public void clearAll() {
         txtBussinesPatnerCode.setText("");
         txtFirstName.setText("");
         txtLastName.setText("");
@@ -1105,9 +1087,9 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblFirstNameSearch;
     private javax.swing.JLabel lblLastNameSearch;
     private javax.swing.JLabel lblNicSearch;
+    private javax.swing.JLabel lblReset;
     private javax.swing.JLabel lblSave;
     private javax.swing.JLabel lblTelephoneNumberSearch;
-    private javax.swing.JLabel lblView;
     private javax.swing.JTextField txtAddressLine1;
     private javax.swing.JTextField txtAddressLine2;
     private javax.swing.JTextField txtAddressLine3;

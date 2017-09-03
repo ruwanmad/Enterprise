@@ -21,7 +21,7 @@
 
 LOCK TABLES `business_partner` WRITE;
 /*!40000 ALTER TABLE `business_partner` DISABLE KEYS */;
-INSERT INTO `business_partner` VALUES ('BPT1000','System','Administrator',NULL,NULL,1,1,1,1,'2017-01-01','12:00:00',1,NULL,NULL,NULL,'System Administrator'),('BPT1001','Ruwan','Madawala','84245097v','1984-09-01',1,1,0,1,'2017-09-02','15:42:26',1,NULL,NULL,NULL,'Ruwan madawala');
+INSERT INTO `business_partner` VALUES ('BPT1000','System','Administrator',NULL,NULL,1,1,1,1,'2017-01-01','12:00:00',1,NULL,NULL,NULL,'System Administrator'),('BPT1001','Ruwan','Madawala','84245097v','1984-09-01',1,1,0,1,'2017-09-02','15:42:26',1,NULL,NULL,NULL,'Ruwan madawala'),('BPT1002','charith','kumarasinghe','784569853v','1978-03-10',1,1,0,1,'2017-09-03','20:19:16',1,NULL,NULL,NULL,''),('BPT1003','HARSHA','DODANGODA','886597695V','2017-09-03',1,1,0,1,'2017-09-03','20:28:28',1,NULL,NULL,NULL,'');
 /*!40000 ALTER TABLE `business_partner` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -34,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-03 14:15:41
+-- Dump completed on 2017-09-03 23:39:05

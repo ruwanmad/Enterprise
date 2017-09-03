@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Dumping data for table `license`
+-- Dumping data for table `issue_method`
 --
 
-LOCK TABLES `license` WRITE;
-/*!40000 ALTER TABLE `license` DISABLE KEYS */;
-INSERT INTO `license` VALUES (1,'Zillion Hub Private Ltd','279/1, Ranasinghegoda Mw','Kalupahana','Poruwadanda','+94342210010','+94342210020','zillionhub@zillionhub.com','www.zillionhub.com','1111-11111111');
-/*!40000 ALTER TABLE `license` ENABLE KEYS */;
+LOCK TABLES `issue_method` WRITE;
+/*!40000 ALTER TABLE `issue_method` DISABLE KEYS */;
+INSERT INTO `issue_method` VALUES (1,'FIFO','First in first out','2017-01-01','12:00:00',1,NULL,NULL,NULL,'First in first out issue method'),(2,'LIFO','Last in first out','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Last in first out issue method'),(3,'AVG','Average weighted','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Average weighted issue method');
+/*!40000 ALTER TABLE `issue_method` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -34,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-03 23:39:15
+-- Dump completed on 2017-09-03 23:39:08
