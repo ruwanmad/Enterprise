@@ -8,8 +8,9 @@ package com.servicemaster.dialogs;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.LableFunctions;
-import com.servicemaster.listners.PaymentLableMouseListners;
+import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.listners.PaymentButtonActionListners;
+import com.servicemaster.listners.PaymentButtonMouseListners;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Payment;
 import com.servicemaster.models.PaymentType;
@@ -24,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
 import javax.swing.BorderFactory;
-import javax.swing.JLabel;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -73,8 +74,8 @@ public class SettlementDialog extends javax.swing.JDialog {
         toolBar = new javax.swing.JToolBar();
         panelToolBar = new javax.swing.JPanel();
         panelWindow = new javax.swing.JPanel();
-        lblClose = new javax.swing.JLabel();
-        lblSettle = new javax.swing.JLabel();
+        btnSettle = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -92,39 +93,43 @@ public class SettlementDialog extends javax.swing.JDialog {
 
         panelWindow.setLayout(new java.awt.BorderLayout());
 
-        lblClose.setBackground(new java.awt.Color(150, 255, 150));
-        lblClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblClose.setText("Close");
-        lblClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblClose.setOpaque(true);
-        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCloseMouseClicked(evt);
-            }
+        btnSettle.setBackground(new java.awt.Color(150, 255, 150));
+        btnSettle.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnSettle.setText("Settle");
+        btnSettle.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnSettle.setContentAreaFilled(false);
+        btnSettle.setOpaque(true);
+        btnSettle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCloseMouseEntered(evt);
+                btnSettleMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCloseMouseExited(evt);
+                btnSettleMouseExited(evt);
+            }
+        });
+        btnSettle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSettleActionPerformed(evt);
             }
         });
 
-        lblSettle.setBackground(new java.awt.Color(150, 255, 150));
-        lblSettle.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblSettle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSettle.setText("Settle");
-        lblSettle.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblSettle.setOpaque(true);
-        lblSettle.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblSettleMouseClicked(evt);
-            }
+        btnClose.setBackground(new java.awt.Color(150, 255, 150));
+        btnClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnClose.setText("Close");
+        btnClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnClose.setContentAreaFilled(false);
+        btnClose.setOpaque(true);
+        btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblSettleMouseEntered(evt);
+                btnCloseMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblSettleMouseExited(evt);
+                btnCloseMouseExited(evt);
+            }
+        });
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
             }
         });
 
@@ -133,13 +138,15 @@ public class SettlementDialog extends javax.swing.JDialog {
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addComponent(panelWindow, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(panelWindow, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,8 +156,8 @@ public class SettlementDialog extends javax.swing.JDialog {
                 .addComponent(panelWindow, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -187,19 +194,21 @@ public class SettlementDialog extends javax.swing.JDialog {
                     String text = paymentType.getPaymentTypeName();
                     String name = paymentType.getPaymentTypeCode();
 
-                    JLabel label = new JLabel(text);
-                    label.setName(name);
-                    label.setPreferredSize(new Dimension(90, 35));
-                    label.setBackground(SystemData.MOUSE_EXIT_COLOR);
-                    label.setForeground(Color.BLACK);
-                    label.setOpaque(true);
-                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                    JButton button = new JButton(text);
+                    button.setName(name);
+                    button.setPreferredSize(new Dimension(90, 35));
+                    button.setBackground(SystemData.MOUSE_EXIT_COLOR);
+                    button.setForeground(Color.BLACK);
+                    button.setHorizontalAlignment(SwingConstants.CENTER);
                     Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
-                    label.setFont(font);
-                    label.setBorder(BorderFactory.createLineBorder(SystemData.BORDER_COLOR));
-                    panelToolBar.add(label);
+                    button.setFont(font);
+                    button.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, SystemData.BORDER_COLOR));
+                    button.setContentAreaFilled(false);
+                    button.setOpaque(true);
+                    panelToolBar.add(button);
 
-                    label.addMouseListener(new PaymentLableMouseListners(this, service, invoice));
+                    button.addMouseListener(new PaymentButtonMouseListners());
+                    button.addActionListener(new PaymentButtonActionListners(this, service, invoice));
                 }
             }
             panelToolBar.revalidate();
@@ -210,19 +219,15 @@ public class SettlementDialog extends javax.swing.JDialog {
         session.close();
     }//GEN-LAST:event_formWindowOpened
 
-    private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        this.dispose();
-    }//GEN-LAST:event_lblCloseMouseClicked
+    private void btnSettleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSettleMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnSettleMouseEntered
 
-    private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCloseMouseEntered
+    private void btnSettleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSettleMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnSettleMouseExited
 
-    private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCloseMouseExited
-
-    private void lblSettleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSettleMouseClicked
+    private void btnSettleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettleActionPerformed
         if (panelFrame instanceof CashSettlePanel) {
             Date date = new Date();
             CashSettlePanel cashSettlePanel = (CashSettlePanel) panelFrame;
@@ -251,7 +256,7 @@ public class SettlementDialog extends javax.swing.JDialog {
 
             session.saveOrUpdate(service);
 
-            JOptionPane.showMessageDialog(this, "Playment done successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+            InformationDialog.showMessageBox("Playment done successfully", "Success", null);
             panelWindow.removeAll();
 
             final CashSettlePanel csettlePanel = new CashSettlePanel(service, this, "PTY1000");
@@ -289,19 +294,23 @@ public class SettlementDialog extends javax.swing.JDialog {
             transaction.commit();
             session.close();
         }
-    }//GEN-LAST:event_lblSettleMouseClicked
+    }//GEN-LAST:event_btnSettleActionPerformed
 
-    private void lblSettleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSettleMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblSettleMouseEntered
+    private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnCloseMouseEntered
 
-    private void lblSettleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSettleMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblSettleMouseExited
+    private void btnCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnCloseMouseExited
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCloseActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblClose;
-    public javax.swing.JLabel lblSettle;
+    private javax.swing.JButton btnClose;
+    public javax.swing.JButton btnSettle;
     private javax.swing.JPanel mainPanel;
     public javax.swing.JPanel panelToolBar;
     public javax.swing.JPanel panelWindow;

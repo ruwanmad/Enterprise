@@ -6,7 +6,10 @@
 package com.servicemaster.dialogs;
 
 import com.servicemaster.data.SystemData;
-import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.guiFunctions.ButtonFunctions;
+import java.awt.Dimension;
+import java.awt.Point;
+import javax.swing.JInternalFrame;
 
 /**
  *
@@ -48,8 +51,8 @@ public class ConfirmationDialog extends javax.swing.JDialog {
         lblImage = new javax.swing.JLabel();
         lblMessage = new javax.swing.JLabel();
         panelButtons = new javax.swing.JPanel();
-        lblYes = new javax.swing.JLabel();
-        lblNo = new javax.swing.JLabel();
+        btnYes = new javax.swing.JButton();
+        btnNo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -63,39 +66,43 @@ public class ConfirmationDialog extends javax.swing.JDialog {
 
         lblMessage.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        lblYes.setBackground(new java.awt.Color(150, 255, 150));
-        lblYes.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblYes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblYes.setText("Yes");
-        lblYes.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblYes.setOpaque(true);
-        lblYes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblYesMouseClicked(evt);
-            }
+        btnYes.setBackground(new java.awt.Color(150, 255, 150));
+        btnYes.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnYes.setText("Yes");
+        btnYes.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnYes.setContentAreaFilled(false);
+        btnYes.setOpaque(true);
+        btnYes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblYesMouseEntered(evt);
+                btnYesMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblYesMouseExited(evt);
+                btnYesMouseExited(evt);
+            }
+        });
+        btnYes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnYesActionPerformed(evt);
             }
         });
 
-        lblNo.setBackground(new java.awt.Color(150, 255, 150));
-        lblNo.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblNo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNo.setText("No");
-        lblNo.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblNo.setOpaque(true);
-        lblNo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblNoMouseClicked(evt);
-            }
+        btnNo.setBackground(new java.awt.Color(150, 255, 150));
+        btnNo.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnNo.setText("No");
+        btnNo.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnNo.setContentAreaFilled(false);
+        btnNo.setOpaque(true);
+        btnNo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblNoMouseEntered(evt);
+                btnNoMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblNoMouseExited(evt);
+                btnNoMouseExited(evt);
+            }
+        });
+        btnNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNoActionPerformed(evt);
             }
         });
 
@@ -104,21 +111,26 @@ public class ConfirmationDialog extends javax.swing.JDialog {
         panelButtonsLayout.setHorizontalGroup(
             panelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelButtonsLayout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(lblYes, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(75, 75, 75)
+                .addComponent(btnYes, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60))
+                .addComponent(btnNo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(75, 75, 75))
         );
+
+        panelButtonsLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnNo, btnYes});
+
         panelButtonsLayout.setVerticalGroup(
             panelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelButtonsLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(panelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblYes, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnYes, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+
+        panelButtonsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnNo, btnYes});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,46 +159,63 @@ public class ConfirmationDialog extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lblYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblYesMouseClicked
-        ConfirmationDialog.option = YES_OPTION;
-        this.dispose();
-    }//GEN-LAST:event_lblYesMouseClicked
-
-    private void lblYesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblYesMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblYesMouseEntered
-
-    private void lblYesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblYesMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblYesMouseExited
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         this.setTitle(this.title);
     }//GEN-LAST:event_formWindowOpened
 
-    private void lblNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNoMouseClicked
+    private void btnYesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnYesMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnYesMouseEntered
+
+    private void btnYesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnYesMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnYesMouseExited
+
+    private void btnYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYesActionPerformed
+        ConfirmationDialog.option = YES_OPTION;
+        this.dispose();
+    }//GEN-LAST:event_btnYesActionPerformed
+
+    private void btnNoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNoMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnNoMouseEntered
+
+    private void btnNoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNoMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnNoMouseExited
+
+    private void btnNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoActionPerformed
         ConfirmationDialog.option = NO_OPTION;
         this.dispose();
-    }//GEN-LAST:event_lblNoMouseClicked
+    }//GEN-LAST:event_btnNoActionPerformed
 
-    private void lblNoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNoMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblNoMouseEntered
-
-    private void lblNoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNoMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblNoMouseExited
-
-    public static void showMessageBox(String message, String title) {
+    public static void showMessageBox(String message, String title, JInternalFrame internalFrame) {
         ConfirmationDialog confirmationDialog = new ConfirmationDialog(null, true, message, title);
+        if (internalFrame != null) {
+            Dimension internalFrameSize = internalFrame.getSize();
+            double internalFrameHigth = internalFrameSize.getHeight();
+            double internalFrameWidth = internalFrameSize.getWidth();
+
+            Dimension thisSize = confirmationDialog.getSize();
+            double thisHigth = thisSize.getHeight();
+            double thisWidth = thisSize.getWidth();
+
+            double pointHigth = ((internalFrameHigth - thisHigth) / 2) + 50.0;
+            double pointWidth = (internalFrameWidth - thisWidth) / 2;
+
+            Point point = new Point();
+            point.setLocation(pointWidth, pointHigth);
+
+            confirmationDialog.setLocation(point);
+        }
         confirmationDialog.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnNo;
+    private javax.swing.JButton btnYes;
     private javax.swing.JLabel lblImage;
     private javax.swing.JLabel lblMessage;
-    private javax.swing.JLabel lblNo;
-    private javax.swing.JLabel lblYes;
     private javax.swing.JPanel panelButtons;
     // End of variables declaration//GEN-END:variables
 }

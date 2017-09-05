@@ -10,7 +10,7 @@ import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Address;
 import com.servicemaster.models.BusinessAddress;
 import com.servicemaster.models.BusinessAddressId;
@@ -55,15 +55,12 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         jCheckBox3 = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         txtBussinesPatnerCode = new javax.swing.JTextField();
-        lblCodeSearch = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtFirstName = new javax.swing.JTextField();
-        lblFirstNameSearch = new javax.swing.JLabel();
         txtLastName = new javax.swing.JTextField();
-        lblLastNameSearch = new javax.swing.JLabel();
         txtNic = new javax.swing.JTextField();
         calBirthDay = new com.toedter.calendar.JDateChooser();
         cbxCustomer = new javax.swing.JCheckBox();
@@ -73,18 +70,21 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         txtRemark = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtAddressLine1 = new javax.swing.JTextField();
-        lblAddressSearch = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtTelephoneNumber = new javax.swing.JTextField();
-        lblTelephoneNumberSearch = new javax.swing.JLabel();
         txtAddressLine2 = new javax.swing.JTextField();
         txtAddressLine3 = new javax.swing.JTextField();
-        lblClose = new javax.swing.JLabel();
-        lblSave = new javax.swing.JLabel();
-        lblReset = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         cbxIsActive = new javax.swing.JCheckBox();
-        lblNicSearch = new javax.swing.JLabel();
+        btnReset = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
+        btnCodeSerach = new javax.swing.JButton();
+        btnFirstNameSearch = new javax.swing.JButton();
+        btnLastNameSearch = new javax.swing.JButton();
+        btnNicSearch = new javax.swing.JButton();
+        btnAddressSearch = new javax.swing.JButton();
+        btnTelephoneNumberSearch = new javax.swing.JButton();
 
         jCheckBox3.setText("jCheckBox1");
 
@@ -94,23 +94,6 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         jLabel1.setText("Bus. patner code :");
 
         txtBussinesPatnerCode.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-
-        lblCodeSearch.setBackground(new java.awt.Color(150, 255, 150));
-        lblCodeSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblCodeSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        lblCodeSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblCodeSearch.setOpaque(true);
-        lblCodeSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseExited(evt);
-            }
-        });
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel2.setText("First name :");
@@ -126,41 +109,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
 
         txtFirstName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        lblFirstNameSearch.setBackground(new java.awt.Color(150, 255, 150));
-        lblFirstNameSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblFirstNameSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        lblFirstNameSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblFirstNameSearch.setOpaque(true);
-        lblFirstNameSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblFirstNameSearchMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblFirstNameSearchMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblFirstNameSearchMouseExited(evt);
-            }
-        });
-
         txtLastName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-
-        lblLastNameSearch.setBackground(new java.awt.Color(150, 255, 150));
-        lblLastNameSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLastNameSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        lblLastNameSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblLastNameSearch.setOpaque(true);
-        lblLastNameSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblLastNameSearchMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblLastNameSearchMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblLastNameSearchMouseExited(evt);
-            }
-        });
 
         txtNic.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
@@ -187,122 +136,197 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
 
         txtAddressLine1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        lblAddressSearch.setBackground(new java.awt.Color(150, 255, 150));
-        lblAddressSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAddressSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        lblAddressSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblAddressSearch.setOpaque(true);
-        lblAddressSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblAddressSearchMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblAddressSearchMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblAddressSearchMouseExited(evt);
-            }
-        });
-
         jLabel8.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel8.setText("Tele. Number :");
 
         txtTelephoneNumber.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        lblTelephoneNumberSearch.setBackground(new java.awt.Color(150, 255, 150));
-        lblTelephoneNumberSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTelephoneNumberSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        lblTelephoneNumberSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblTelephoneNumberSearch.setOpaque(true);
-        lblTelephoneNumberSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblTelephoneNumberSearchMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblTelephoneNumberSearchMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblTelephoneNumberSearchMouseExited(evt);
-            }
-        });
-
         txtAddressLine2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
         txtAddressLine3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-
-        lblClose.setBackground(new java.awt.Color(150, 255, 150));
-        lblClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblClose.setText("Close");
-        lblClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblClose.setOpaque(true);
-        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCloseMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCloseMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCloseMouseExited(evt);
-            }
-        });
-
-        lblSave.setBackground(new java.awt.Color(150, 255, 150));
-        lblSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSave.setText("Save");
-        lblSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblSave.setOpaque(true);
-        lblSave.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblSaveMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblSaveMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblSaveMouseExited(evt);
-            }
-        });
-
-        lblReset.setBackground(new java.awt.Color(150, 255, 150));
-        lblReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblReset.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblReset.setText("Reset");
-        lblReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblReset.setOpaque(true);
-        lblReset.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblResetMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblResetMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblResetMouseExited(evt);
-            }
-        });
 
         jLabel9.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel9.setText("Is Active :");
 
         cbxIsActive.setSelected(true);
 
-        lblNicSearch.setBackground(new java.awt.Color(150, 255, 150));
-        lblNicSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNicSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        lblNicSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblNicSearch.setOpaque(true);
-        lblNicSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblNicSearchMouseClicked(evt);
-            }
+        btnReset.setBackground(new java.awt.Color(150, 255, 150));
+        btnReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnReset.setText("Reset");
+        btnReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnReset.setContentAreaFilled(false);
+        btnReset.setOpaque(true);
+        btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblNicSearchMouseEntered(evt);
+                btnResetMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblNicSearchMouseExited(evt);
+                btnResetMouseExited(evt);
+            }
+        });
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+
+        btnSave.setBackground(new java.awt.Color(150, 255, 150));
+        btnSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnSave.setText("Save");
+        btnSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnSave.setContentAreaFilled(false);
+        btnSave.setOpaque(true);
+        btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSaveMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSaveMouseExited(evt);
+            }
+        });
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnClose.setBackground(new java.awt.Color(150, 255, 150));
+        btnClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnClose.setText("Close");
+        btnClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnClose.setContentAreaFilled(false);
+        btnClose.setOpaque(true);
+        btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCloseMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCloseMouseExited(evt);
+            }
+        });
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+
+        btnCodeSerach.setBackground(new java.awt.Color(150, 255, 150));
+        btnCodeSerach.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnCodeSerach.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        btnCodeSerach.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnCodeSerach.setContentAreaFilled(false);
+        btnCodeSerach.setOpaque(true);
+        btnCodeSerach.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCodeSerachMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCodeSerachMouseExited(evt);
+            }
+        });
+        btnCodeSerach.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCodeSerachActionPerformed(evt);
+            }
+        });
+
+        btnFirstNameSearch.setBackground(new java.awt.Color(150, 255, 150));
+        btnFirstNameSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnFirstNameSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        btnFirstNameSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnFirstNameSearch.setContentAreaFilled(false);
+        btnFirstNameSearch.setOpaque(true);
+        btnFirstNameSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnFirstNameSearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnFirstNameSearchMouseExited(evt);
+            }
+        });
+        btnFirstNameSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstNameSearchActionPerformed(evt);
+            }
+        });
+
+        btnLastNameSearch.setBackground(new java.awt.Color(150, 255, 150));
+        btnLastNameSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnLastNameSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        btnLastNameSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnLastNameSearch.setContentAreaFilled(false);
+        btnLastNameSearch.setOpaque(true);
+        btnLastNameSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnLastNameSearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnLastNameSearchMouseExited(evt);
+            }
+        });
+        btnLastNameSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastNameSearchActionPerformed(evt);
+            }
+        });
+
+        btnNicSearch.setBackground(new java.awt.Color(150, 255, 150));
+        btnNicSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnNicSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        btnNicSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnNicSearch.setContentAreaFilled(false);
+        btnNicSearch.setOpaque(true);
+        btnNicSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnNicSearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnNicSearchMouseExited(evt);
+            }
+        });
+        btnNicSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNicSearchActionPerformed(evt);
+            }
+        });
+
+        btnAddressSearch.setBackground(new java.awt.Color(150, 255, 150));
+        btnAddressSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnAddressSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        btnAddressSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnAddressSearch.setContentAreaFilled(false);
+        btnAddressSearch.setOpaque(true);
+        btnAddressSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAddressSearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAddressSearchMouseExited(evt);
+            }
+        });
+        btnAddressSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddressSearchActionPerformed(evt);
+            }
+        });
+
+        btnTelephoneNumberSearch.setBackground(new java.awt.Color(150, 255, 150));
+        btnTelephoneNumberSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnTelephoneNumberSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        btnTelephoneNumberSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnTelephoneNumberSearch.setContentAreaFilled(false);
+        btnTelephoneNumberSearch.setOpaque(true);
+        btnTelephoneNumberSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnTelephoneNumberSearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnTelephoneNumberSearchMouseExited(evt);
+            }
+        });
+        btnTelephoneNumberSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTelephoneNumberSearchActionPerformed(evt);
             }
         });
 
@@ -321,8 +345,8 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtTelephoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTelephoneNumberSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(4, 4, 4)
+                        .addComponent(btnTelephoneNumberSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -330,17 +354,9 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                             .addComponent(txtAddressLine3, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtAddressLine1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblAddressSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(4, 4, 4)
+                                .addComponent(btnAddressSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtAddressLine2)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -353,55 +369,63 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtBussinesPatnerCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(4, 4, 4)
+                                        .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(4, 4, 4)
+                                        .addComponent(btnFirstNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(cbxCustomer)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(cbxSupplier)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(cbxEmployee))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblFirstNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtBussinesPatnerCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblCodeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(calBirthDay, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                             .addComponent(txtNic, javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txtLastName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblLastNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblNicSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(4, 4, 4)
+                                                .addComponent(btnLastNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnNicSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(cbxIsActive)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblAddressSearch, lblCodeSearch, lblFirstNameSearch, lblLastNameSearch, lblNicSearch, lblTelephoneNumberSearch});
-
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {calBirthDay, txtRemark});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtAddressLine1, txtBussinesPatnerCode, txtFirstName, txtLastName, txtNic, txtTelephoneNumber});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnReset, btnSave});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblCodeSearch)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
-                        .addComponent(txtBussinesPatnerCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtBussinesPatnerCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -413,15 +437,15 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblFirstNameSearch))
+                            .addComponent(btnFirstNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblLastNameSearch))
+                            .addComponent(btnLastNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNic, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblNicSearch))))
+                            .addComponent(btnNicSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(calBirthDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -432,15 +456,16 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                     .addComponent(cbxSupplier)
                     .addComponent(cbxEmployee))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(txtRemark, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel7)
-                        .addComponent(txtAddressLine1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblAddressSearch))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(txtRemark, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(txtAddressLine1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnAddressSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtAddressLine2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -448,190 +473,26 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtTelephoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTelephoneNumberSearch)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel8)
+                    .addComponent(btnTelephoneNumberSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(cbxIsActive))
-                .addGap(70, 70, 70)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {calBirthDay, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, lblAddressSearch, lblCodeSearch, lblFirstNameSearch, lblLastNameSearch, lblNicSearch, lblTelephoneNumberSearch, txtAddressLine1, txtBussinesPatnerCode, txtFirstName, txtLastName, txtNic, txtRemark, txtTelephoneNumber});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {calBirthDay, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, txtAddressLine1, txtBussinesPatnerCode, txtFirstName, txtLastName, txtNic, txtRemark, txtTelephoneNumber});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnReset, btnSave});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void lblCodeSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseClicked
-        String businessPatnerCode = txtBussinesPatnerCode.getText().trim();
-        List businessPartners = getBusinessPatnerByCode(businessPatnerCode, true);
-
-        if (!businessPartners.isEmpty()) {
-            BusinessPatnerView businessPatnerView = new BusinessPatnerView(businessPartners, this);
-            MainFrame.desktopPane.add(businessPatnerView);
-            businessPatnerView.setVisible(true);
-        }
-    }//GEN-LAST:event_lblCodeSearchMouseClicked
-
-    private void lblCodeSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCodeSearchMouseEntered
-
-    private void lblCodeSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCodeSearchMouseExited
-
-    private void lblFirstNameSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFirstNameSearchMouseClicked
-        String firstName = txtFirstName.getText().trim();
-        List businessPartners = getBusinessPatnerByFirstName(firstName, true);
-
-        if (!businessPartners.isEmpty()) {
-            BusinessPatnerView businessPatnerView = new BusinessPatnerView(businessPartners, this);
-            MainFrame.desktopPane.add(businessPatnerView);
-            businessPatnerView.setVisible(true);
-        }
-    }//GEN-LAST:event_lblFirstNameSearchMouseClicked
-
-    private void lblFirstNameSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFirstNameSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblFirstNameSearchMouseEntered
-
-    private void lblFirstNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFirstNameSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblFirstNameSearchMouseExited
-
-    private void lblLastNameSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLastNameSearchMouseClicked
-        String lastName = txtLastName.getText().trim();
-        List businessPartners = getBusinessPatnerByLastName(lastName, true);
-
-        if (!businessPartners.isEmpty()) {
-            BusinessPatnerView businessPatnerView = new BusinessPatnerView(businessPartners, this);
-            MainFrame.desktopPane.add(businessPatnerView);
-            businessPatnerView.setVisible(true);
-        }
-    }//GEN-LAST:event_lblLastNameSearchMouseClicked
-
-    private void lblLastNameSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLastNameSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblLastNameSearchMouseEntered
-
-    private void lblLastNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLastNameSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblLastNameSearchMouseExited
-
-    private void lblAddressSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddressSearchMouseClicked
-        String addressLine1 = txtAddressLine1.getText().trim();
-        if (addressLine1.isEmpty() || addressLine1.split("-").length == 2) {
-            List addresses = getAddressByCode(addressLine1.split("-")[0].trim(), true);
-
-            if (!addresses.isEmpty()) {
-                AddressView addressView = new AddressView(addresses, this);
-                MainFrame.desktopPane.add(addressView);
-                addressView.setVisible(true);
-            }
-        } else {
-            List addresses = getAddressByLine1(addressLine1, true);
-
-            if (!addresses.isEmpty()) {
-                AddressView addressView = new AddressView(addresses, this);
-                MainFrame.desktopPane.add(addressView);
-                addressView.setVisible(true);
-            }
-        }
-    }//GEN-LAST:event_lblAddressSearchMouseClicked
-
-    private void lblAddressSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddressSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblAddressSearchMouseEntered
-
-    private void lblAddressSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddressSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblAddressSearchMouseExited
-
-    private void lblTelephoneNumberSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTelephoneNumberSearchMouseClicked
-        String telephoneNumber = txtTelephoneNumber.getText().trim();
-        if (telephoneNumber.isEmpty() || telephoneNumber.split("-").length == 2) {
-            List telephoneNumbers = getTelephoneByCode(telephoneNumber.split("-")[0].trim(), true);
-
-            if (!telephoneNumbers.isEmpty()) {
-                TelephoneNumeberView telephoneNumeberView = new TelephoneNumeberView(telephoneNumbers, this);
-                MainFrame.desktopPane.add(telephoneNumeberView);
-                telephoneNumeberView.setVisible(true);
-            }
-        } else {
-            List telephoneNumbers = getTelephoneByNumber(telephoneNumber, true);
-
-            if (!telephoneNumbers.isEmpty()) {
-                TelephoneNumeberView telephoneNumeberView = new TelephoneNumeberView(telephoneNumbers, this);
-                MainFrame.desktopPane.add(telephoneNumeberView);
-                telephoneNumeberView.setVisible(true);
-            }
-        }
-    }//GEN-LAST:event_lblTelephoneNumberSearchMouseClicked
-
-    private void lblTelephoneNumberSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTelephoneNumberSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblTelephoneNumberSearchMouseEntered
-
-    private void lblTelephoneNumberSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTelephoneNumberSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblTelephoneNumberSearchMouseExited
-
-    private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
-        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            this.dispose();
-        }
-    }//GEN-LAST:event_lblCloseMouseClicked
-
-    private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCloseMouseEntered
-
-    private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCloseMouseExited
-
-    private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-
-        if (txtNic.getText().trim().isEmpty()) {
-            InformationDialog.showMessageBox("Please enter valid NIC", "Invalid");
-        } else {
-            if (txtBussinesPatnerCode.getText().trim().isEmpty()) {
-                List busisessPartners = getBusinessPatnerByNic(txtNic.getText().trim(), false);
-                if (busisessPartners.isEmpty()) {
-                    KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                    this.saveOrUpdateBisnussPatner(keyCodeFunctions.getKey("BPT", "Business partner code"), false);
-                } else {
-                    InformationDialog.showMessageBox("Customer already exists", "Exist");
-                }
-            } else {
-                List busisessPartners = getBusinessPatnerByCode(txtBussinesPatnerCode.getText().trim(), false);
-                if (busisessPartners.isEmpty()) {
-                    InformationDialog.showMessageBox("Invalid Business Patner code. Please try again", "Invalid");
-                } else {
-                    ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
-                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                        this.saveOrUpdateBisnussPatner(txtBussinesPatnerCode.getText().trim(), true);
-                    }
-                }
-            }
-        }
-
-        session.getTransaction().commit();
-        session.close();
-
-        this.clearAll();
-    }//GEN-LAST:event_lblSaveMouseClicked
 
     private void saveOrUpdateBisnussPatner(String strBusinessPatnerCode, boolean bUpdate) {
         Date date = new Date();
@@ -704,34 +565,148 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         session.close();
 
         if (bUpdate) {
-            InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING);
+            InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING, this);
         } else {
-            InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING);
+            InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING, this);
         }
         this.clearAll();
     }
 
-    private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblSaveMouseEntered
+    private void btnResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnResetMouseEntered
 
-    private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblSaveMouseExited
+    private void btnResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnResetMouseExited
 
-    private void lblResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseClicked
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         this.clearAll();
-    }//GEN-LAST:event_lblResetMouseClicked
+    }//GEN-LAST:event_btnResetActionPerformed
 
-    private void lblResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblResetMouseEntered
+    private void btnSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnSaveMouseEntered
 
-    private void lblResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblResetMouseExited
+    private void btnSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnSaveMouseExited
 
-    private void lblNicSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNicSearchMouseClicked
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        if (txtNic.getText().trim().isEmpty()) {
+            InformationDialog.showMessageBox("Please enter valid NIC", "Invalid", null);
+        } else {
+            if (txtBussinesPatnerCode.getText().trim().isEmpty()) {
+                List busisessPartners = getBusinessPatnerByNic(txtNic.getText().trim(), false);
+                if (busisessPartners.isEmpty()) {
+                    KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                    this.saveOrUpdateBisnussPatner(keyCodeFunctions.getKey("BPT", "Business partner code"), false);
+                } else {
+                    InformationDialog.showMessageBox("Customer already exists", "Exist", null);
+                }
+            } else {
+                List busisessPartners = getBusinessPatnerByCode(txtBussinesPatnerCode.getText().trim(), false);
+                if (busisessPartners.isEmpty()) {
+                    InformationDialog.showMessageBox("Invalid Business Patner code. Please try again", "Invalid", null);
+                } else {
+                    ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
+                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+                        this.saveOrUpdateBisnussPatner(txtBussinesPatnerCode.getText().trim(), true);
+                    }
+                }
+            }
+        }
+
+        session.getTransaction().commit();
+        session.close();
+
+        this.clearAll();
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnCloseMouseEntered
+
+    private void btnCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnCloseMouseExited
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnCodeSerachMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCodeSerachMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnCodeSerachMouseEntered
+
+    private void btnCodeSerachMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCodeSerachMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnCodeSerachMouseExited
+
+    private void btnCodeSerachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCodeSerachActionPerformed
+        String businessPatnerCode = txtBussinesPatnerCode.getText().trim();
+        List businessPartners = getBusinessPatnerByCode(businessPatnerCode, true);
+
+        if (!businessPartners.isEmpty()) {
+            BusinessPatnerView businessPatnerView = new BusinessPatnerView(businessPartners, this);
+            MainFrame.desktopPane.add(businessPatnerView);
+            businessPatnerView.setVisible(true);
+        }
+    }//GEN-LAST:event_btnCodeSerachActionPerformed
+
+    private void btnFirstNameSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFirstNameSearchMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnFirstNameSearchMouseEntered
+
+    private void btnFirstNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFirstNameSearchMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnFirstNameSearchMouseExited
+
+    private void btnFirstNameSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstNameSearchActionPerformed
+        String firstName = txtFirstName.getText().trim();
+        List businessPartners = getBusinessPatnerByFirstName(firstName, true);
+
+        if (!businessPartners.isEmpty()) {
+            BusinessPatnerView businessPatnerView = new BusinessPatnerView(businessPartners, this);
+            MainFrame.desktopPane.add(businessPatnerView);
+            businessPatnerView.setVisible(true);
+        }
+    }//GEN-LAST:event_btnFirstNameSearchActionPerformed
+
+    private void btnLastNameSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLastNameSearchMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnLastNameSearchMouseEntered
+
+    private void btnLastNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLastNameSearchMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnLastNameSearchMouseExited
+
+    private void btnLastNameSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastNameSearchActionPerformed
+        String lastName = txtLastName.getText().trim();
+        List businessPartners = getBusinessPatnerByLastName(lastName, true);
+
+        if (!businessPartners.isEmpty()) {
+            BusinessPatnerView businessPatnerView = new BusinessPatnerView(businessPartners, this);
+            MainFrame.desktopPane.add(businessPatnerView);
+            businessPatnerView.setVisible(true);
+        }
+    }//GEN-LAST:event_btnLastNameSearchActionPerformed
+
+    private void btnNicSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNicSearchMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnNicSearchMouseEntered
+
+    private void btnNicSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNicSearchMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnNicSearchMouseExited
+
+    private void btnNicSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNicSearchActionPerformed
         String nic = txtNic.getText().trim();
         List businessPartners = getBusinessPatnerByNic(nic, true);
 
@@ -740,15 +715,65 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
             MainFrame.desktopPane.add(businessPatnerView);
             businessPatnerView.setVisible(true);
         }
-    }//GEN-LAST:event_lblNicSearchMouseClicked
+    }//GEN-LAST:event_btnNicSearchActionPerformed
 
-    private void lblNicSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNicSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblNicSearchMouseEntered
+    private void btnAddressSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddressSearchMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnAddressSearchMouseEntered
 
-    private void lblNicSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNicSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblNicSearchMouseExited
+    private void btnAddressSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddressSearchMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnAddressSearchMouseExited
+
+    private void btnAddressSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddressSearchActionPerformed
+        String addressLine1 = txtAddressLine1.getText().trim();
+        if (addressLine1.isEmpty() || addressLine1.split("-").length == 2) {
+            List addresses = getAddressByCode(addressLine1.split("-")[0].trim(), true);
+
+            if (!addresses.isEmpty()) {
+                AddressView addressView = new AddressView(addresses, this);
+                MainFrame.desktopPane.add(addressView);
+                addressView.setVisible(true);
+            }
+        } else {
+            List addresses = getAddressByLine1(addressLine1, true);
+
+            if (!addresses.isEmpty()) {
+                AddressView addressView = new AddressView(addresses, this);
+                MainFrame.desktopPane.add(addressView);
+                addressView.setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_btnAddressSearchActionPerformed
+
+    private void btnTelephoneNumberSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTelephoneNumberSearchMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnTelephoneNumberSearchMouseEntered
+
+    private void btnTelephoneNumberSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTelephoneNumberSearchMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnTelephoneNumberSearchMouseExited
+
+    private void btnTelephoneNumberSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTelephoneNumberSearchActionPerformed
+        String telephoneNumber = txtTelephoneNumber.getText().trim();
+        if (telephoneNumber.isEmpty() || telephoneNumber.split("-").length == 2) {
+            List telephoneNumbers = getTelephoneByCode(telephoneNumber.split("-")[0].trim(), true);
+
+            if (!telephoneNumbers.isEmpty()) {
+                TelephoneNumeberView telephoneNumeberView = new TelephoneNumeberView(telephoneNumbers, this);
+                MainFrame.desktopPane.add(telephoneNumeberView);
+                telephoneNumeberView.setVisible(true);
+            }
+        } else {
+            List telephoneNumbers = getTelephoneByNumber(telephoneNumber, true);
+
+            if (!telephoneNumbers.isEmpty()) {
+                TelephoneNumeberView telephoneNumeberView = new TelephoneNumeberView(telephoneNumbers, this);
+                MainFrame.desktopPane.add(telephoneNumeberView);
+                telephoneNumeberView.setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_btnTelephoneNumberSearchActionPerformed
 
     public void setBusinessPatnerCode(String businessPartnerCode) {
         txtBussinesPatnerCode.setText(businessPartnerCode);
@@ -814,8 +839,8 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         txtNic.setEditable(editable);
     }
 
-    public void setLblSaveText(String text) {
-        this.lblSave.setText(text);
+    public void setBtnSaveText(String text) {
+        this.btnSave.setText(text);
     }
 
     private List getBusinessPatnerByCode(String businessPatnerCode, boolean like) {
@@ -1066,6 +1091,15 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddressSearch;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnCodeSerach;
+    private javax.swing.JButton btnFirstNameSearch;
+    private javax.swing.JButton btnLastNameSearch;
+    private javax.swing.JButton btnNicSearch;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnTelephoneNumberSearch;
     private com.toedter.calendar.JDateChooser calBirthDay;
     private javax.swing.JCheckBox cbxCustomer;
     private javax.swing.JCheckBox cbxEmployee;
@@ -1081,15 +1115,6 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel lblAddressSearch;
-    private javax.swing.JLabel lblClose;
-    private javax.swing.JLabel lblCodeSearch;
-    private javax.swing.JLabel lblFirstNameSearch;
-    private javax.swing.JLabel lblLastNameSearch;
-    private javax.swing.JLabel lblNicSearch;
-    private javax.swing.JLabel lblReset;
-    private javax.swing.JLabel lblSave;
-    private javax.swing.JLabel lblTelephoneNumberSearch;
     private javax.swing.JTextField txtAddressLine1;
     private javax.swing.JTextField txtAddressLine2;
     private javax.swing.JTextField txtAddressLine3;

@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 3, 2017 7:12:51 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 5, 2017 11:15:50 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.UomConversion" table="uom_conversion" catalog="enterprisedb" optimistic-lock="version">
         <id name="uomConversionCode" type="string">
             <column name="uom_conversion_code" length="15" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="uomByUomUomCode" class="com.servicemaster.models.Uom" fetch="select">
-            <column name="uom_uom_code" length="15" not-null="true" />
+        <many-to-one name="uomByUomUomCodeFrom" class="com.servicemaster.models.Uom" fetch="select">
+            <column name="uom_uom_code_from" length="15" not-null="true" />
         </many-to-one>
         <many-to-one name="uomByUomUomCodeTo" class="com.servicemaster.models.Uom" fetch="select">
             <column name="uom_uom_code_to" length="15" not-null="true" />
@@ -19,9 +19,6 @@
         </property>
         <property name="dividedBy" type="java.lang.Float">
             <column name="divided_by" precision="12" scale="0" />
-        </property>
-        <property name="uomConversioncol" type="string">
-            <column name="uom_conversioncol" length="45" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />

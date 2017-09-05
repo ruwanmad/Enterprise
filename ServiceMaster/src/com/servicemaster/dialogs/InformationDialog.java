@@ -6,7 +6,12 @@
 package com.servicemaster.dialogs;
 
 import com.servicemaster.data.SystemData;
-import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.guiFunctions.ButtonFunctions;
+import java.awt.Dimension;
+import java.awt.Point;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JInternalFrame;
 
 /**
  *
@@ -18,6 +23,7 @@ public class InformationDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form InformationDialog
+     *
      * @param parent
      * @param modal
      * @param message
@@ -42,7 +48,7 @@ public class InformationDialog extends javax.swing.JDialog {
         lblImage = new javax.swing.JLabel();
         lblMessage = new javax.swing.JLabel();
         panelButtons = new javax.swing.JPanel();
-        lblOK = new javax.swing.JLabel();
+        btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -56,21 +62,23 @@ public class InformationDialog extends javax.swing.JDialog {
 
         lblMessage.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        lblOK.setBackground(new java.awt.Color(150, 255, 150));
-        lblOK.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblOK.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblOK.setText("OK");
-        lblOK.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblOK.setOpaque(true);
-        lblOK.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblOKMouseClicked(evt);
-            }
+        btnOK.setBackground(new java.awt.Color(150, 255, 150));
+        btnOK.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnOK.setText("OK");
+        btnOK.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnOK.setContentAreaFilled(false);
+        btnOK.setOpaque(true);
+        btnOK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblOKMouseEntered(evt);
+                btnOKMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblOKMouseExited(evt);
+                btnOKMouseExited(evt);
+            }
+        });
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
             }
         });
 
@@ -80,14 +88,14 @@ public class InformationDialog extends javax.swing.JDialog {
             panelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelButtonsLayout.createSequentialGroup()
                 .addGap(100, 100, 100)
-                .addComponent(lblOK, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(100, 100, 100))
         );
         panelButtonsLayout.setVerticalGroup(
             panelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelButtonsLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(lblOK, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -118,31 +126,48 @@ public class InformationDialog extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lblOKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOKMouseClicked
-        this.dispose();
-    }//GEN-LAST:event_lblOKMouseClicked
-
-    private void lblOKMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOKMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblOKMouseEntered
-
-    private void lblOKMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOKMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblOKMouseExited
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         this.setTitle(this.title);
     }//GEN-LAST:event_formWindowOpened
 
-    public static void showMessageBox(String message, String title){
+    private void btnOKMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOKMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnOKMouseEntered
+
+    private void btnOKMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOKMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnOKMouseExited
+
+    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnOKActionPerformed
+
+    public static void showMessageBox(String message, String title, JInternalFrame internalFrame) {
         InformationDialog informationDialog = new InformationDialog(null, true, message, title);
+        if (internalFrame != null) {
+            Dimension internalFrameSize = internalFrame.getSize();
+            double internalFrameHigth = internalFrameSize.getHeight();
+            double internalFrameWidth = internalFrameSize.getWidth();
+
+            Dimension thisSize = informationDialog.getSize();
+            double thisHigth = thisSize.getHeight();
+            double thisWidth = thisSize.getWidth();
+
+            double pointHigth = ((internalFrameHigth - thisHigth) / 2) + 50.0;
+            double pointWidth = (internalFrameWidth - thisWidth) / 2;
+
+            Point point = new Point();
+            point.setLocation(pointWidth, pointHigth);
+
+            informationDialog.setLocation(point);
+        }
         informationDialog.setVisible(true);
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnOK;
     private javax.swing.JLabel lblImage;
     private javax.swing.JLabel lblMessage;
-    private javax.swing.JLabel lblOK;
     private javax.swing.JPanel panelButtons;
     // End of variables declaration//GEN-END:variables
 }

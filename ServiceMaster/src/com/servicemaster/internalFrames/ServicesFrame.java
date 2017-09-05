@@ -6,7 +6,7 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
-import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.BusinessAddress;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Service;
@@ -64,13 +64,14 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
 
         toolbar = new javax.swing.JToolBar();
         toolbarPanel = new javax.swing.JPanel();
-        lblNewService = new javax.swing.JLabel();
-        jSplitPane1 = new javax.swing.JSplitPane();
+        btnSave = new javax.swing.JButton();
+        mainPanel = new javax.swing.JPanel();
+        splitPane = new javax.swing.JSplitPane();
         desktopPane = new javax.swing.JDesktopPane();
-        jPanel1 = new javax.swing.JPanel();
+        existServicePanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         listServices = new javax.swing.JList<>();
-        lblOpen = new javax.swing.JLabel();
+        btnOpen = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -97,26 +98,27 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         toolbar.setFloatable(false);
         toolbar.setRollover(true);
 
+        toolbarPanel.setMaximumSize(new java.awt.Dimension(32767, 35));
         toolbarPanel.setOpaque(false);
+        toolbarPanel.setPreferredSize(new java.awt.Dimension(782, 35));
 
-        lblNewService.setBackground(new java.awt.Color(150, 255, 150));
-        lblNewService.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblNewService.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNewService.setText("New Service");
-        lblNewService.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblNewService.setMaximumSize(new java.awt.Dimension(90, 35));
-        lblNewService.setMinimumSize(new java.awt.Dimension(90, 35));
-        lblNewService.setOpaque(true);
-        lblNewService.setPreferredSize(new java.awt.Dimension(90, 35));
-        lblNewService.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblNewServiceMouseClicked(evt);
-            }
+        btnSave.setBackground(new java.awt.Color(150, 255, 150));
+        btnSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnSave.setText("New Service");
+        btnSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnSave.setContentAreaFilled(false);
+        btnSave.setOpaque(true);
+        btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblNewServiceMouseEntered(evt);
+                btnSaveMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblNewServiceMouseExited(evt);
+                btnSaveMouseExited(evt);
+            }
+        });
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
             }
         });
 
@@ -126,19 +128,19 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
             toolbarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(toolbarPanelLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(lblNewService, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(677, Short.MAX_VALUE))
+                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(687, Short.MAX_VALUE))
         );
         toolbarPanelLayout.setVerticalGroup(
             toolbarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, toolbarPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblNewService, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(toolbarPanelLayout.createSequentialGroup()
+                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         toolbar.add(toolbarPanel);
 
-        jSplitPane1.setDividerLocation(100);
+        splitPane.setDividerLocation(100);
 
         desktopPane.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -150,10 +152,10 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         );
         desktopPaneLayout.setVerticalGroup(
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 440, Short.MAX_VALUE)
+            .addGap(0, 442, Short.MAX_VALUE)
         );
 
-        jSplitPane1.setRightComponent(desktopPane);
+        splitPane.setRightComponent(desktopPane);
 
         listServices.setBackground(new java.awt.Color(150, 255, 150));
         listServices.setSelectionBackground(new java.awt.Color(50, 255, 50));
@@ -164,68 +166,108 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(listServices);
 
-        lblOpen.setBackground(new java.awt.Color(150, 255, 150));
-        lblOpen.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblOpen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblOpen.setText("Open");
-        lblOpen.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblOpen.setOpaque(true);
-        lblOpen.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblOpenMouseClicked(evt);
-            }
+        btnOpen.setBackground(new java.awt.Color(150, 255, 150));
+        btnOpen.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnOpen.setText("Open");
+        btnOpen.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnOpen.setContentAreaFilled(false);
+        btnOpen.setOpaque(true);
+        btnOpen.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblOpenMouseEntered(evt);
+                btnOpenMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblOpenMouseExited(evt);
+                btnOpenMouseExited(evt);
+            }
+        });
+        btnOpen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpenActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(lblOpen, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+        javax.swing.GroupLayout existServicePanelLayout = new javax.swing.GroupLayout(existServicePanel);
+        existServicePanel.setLayout(existServicePanelLayout);
+        existServicePanelLayout.setHorizontalGroup(
+            existServicePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+            .addComponent(btnOpen, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+        existServicePanelLayout.setVerticalGroup(
+            existServicePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(existServicePanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblOpen, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnOpen, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jSplitPane1.setLeftComponent(jPanel1);
+        splitPane.setLeftComponent(existServicePanel);
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(splitPane)
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(splitPane, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(toolbar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jSplitPane1))
+                .addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(4, 4, 4))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lblNewServiceMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewServiceMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblNewServiceMouseEntered
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        this.loadServices();
+    }//GEN-LAST:event_formInternalFrameOpened
 
-    private void lblNewServiceMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewServiceMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblNewServiceMouseExited
+    private void listServicesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listServicesMouseClicked
+        if (evt.getClickCount() == 2) {
+            this.openService();
+        }
+    }//GEN-LAST:event_listServicesMouseClicked
 
-    private void lblNewServiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewServiceMouseClicked
+    private void btnOpenMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOpenMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnOpenMouseEntered
+
+    private void btnOpenMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOpenMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnOpenMouseExited
+
+    private void btnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenActionPerformed
+        if (listServices.getSelectedValue() != null) {
+            this.openService();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a valid vehicle.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnOpenActionPerformed
+
+    private void btnSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnSaveMouseEntered
+
+    private void btnSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnSaveMouseExited
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
             if (this.serviceFrame != null) {
                 JOptionPane.showMessageDialog(this, "Please save and close opened service.", "Close", JOptionPane.INFORMATION_MESSAGE);
@@ -243,39 +285,12 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         } catch (PropertyVetoException ex) {
             Logger.getLogger(ServicesFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-    }//GEN-LAST:event_lblNewServiceMouseClicked
-
-    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        this.loadServices();
-    }//GEN-LAST:event_formInternalFrameOpened
-
-    private void listServicesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listServicesMouseClicked
-        if (evt.getClickCount() == 2) {
-            this.openService();
-        }
-    }//GEN-LAST:event_listServicesMouseClicked
-
-    private void lblOpenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOpenMouseClicked
-        if (listServices.getSelectedValue() != null) {
-            this.openService();
-        } else {
-            JOptionPane.showMessageDialog(this, "Please select a valid vehicle.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_lblOpenMouseClicked
-
-    private void lblOpenMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOpenMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblOpenMouseEntered
-
-    private void lblOpenMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOpenMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblOpenMouseExited
+    }//GEN-LAST:event_btnSaveActionPerformed
 
     public void loadServices() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        
+
         Criteria serviceCriteria = session.createCriteria(Service.class);
         serviceCriteria.add(Restrictions.ne("serviceStatus", session.load(ServiceStatus.class, new ServiceStatus(5).getStatusId())));
         serviceCriteria.add(Restrictions.ne("serviceStatus", session.load(ServiceStatus.class, new ServiceStatus(6).getStatusId())));
@@ -312,7 +327,7 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
                             Hibernate.initialize(serviceHasItem.getItem());
                         }
                     }
-                    
+
                     Set invoices = service.getInvoices();
                     for (Object tempInvoice : invoices) {
                         if (tempInvoice instanceof Invoice) {
@@ -372,13 +387,14 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnOpen;
+    private javax.swing.JButton btnSave;
     private javax.swing.JDesktopPane desktopPane;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel existServicePanel;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JLabel lblNewService;
-    private javax.swing.JLabel lblOpen;
     private javax.swing.JList<String> listServices;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JSplitPane splitPane;
     private javax.swing.JToolBar toolbar;
     private javax.swing.JPanel toolbarPanel;
     // End of variables declaration//GEN-END:variables

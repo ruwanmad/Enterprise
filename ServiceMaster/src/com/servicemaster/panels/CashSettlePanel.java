@@ -210,11 +210,11 @@ public class CashSettlePanel extends javax.swing.JPanel {
                 txtBalance.setText("" + fBalanceAmount);
 
                 if (fBalanceAmount < 0) {
-                    settlementDialog.lblSettle.setText("Pay");
+                    settlementDialog.btnSettle.setText("Pay");
                 } else {
-                    settlementDialog.lblSettle.setText("Settle");
+                    settlementDialog.btnSettle.setText("Settle");
                 }
-                settlementDialog.lblSettle.requestFocus();
+                settlementDialog.btnSettle.requestFocus();
             }
         }
     }//GEN-LAST:event_txtNowPayingKeyPressed

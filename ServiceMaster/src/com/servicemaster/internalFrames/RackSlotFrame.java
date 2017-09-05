@@ -10,7 +10,7 @@ import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Rack;
 import com.servicemaster.models.Storage;
 import com.servicemaster.models.RackSlot;
@@ -49,21 +49,21 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         txtSlotCode = new javax.swing.JTextField();
-        lblCodeSearch = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         cmbStorage = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         txtSlotName = new javax.swing.JTextField();
-        lblNameSearch = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtRemark = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         cbxIsActive = new javax.swing.JCheckBox();
-        lblClose = new javax.swing.JLabel();
-        lblSave = new javax.swing.JLabel();
-        lblReset = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         cmbRack = new javax.swing.JComboBox<>();
+        btnReset = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
+        btnCodeSerach = new javax.swing.JButton();
+        btnNameSearch = new javax.swing.JButton();
 
         setTitle("Rack Slots");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -89,23 +89,6 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
 
         txtSlotCode.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        lblCodeSearch.setBackground(new java.awt.Color(150, 255, 150));
-        lblCodeSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblCodeSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        lblCodeSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblCodeSearch.setOpaque(true);
-        lblCodeSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseExited(evt);
-            }
-        });
-
         jLabel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel2.setText("Storage code :");
 
@@ -122,23 +105,6 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
 
         txtSlotName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        lblNameSearch.setBackground(new java.awt.Color(150, 255, 150));
-        lblNameSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNameSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        lblNameSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblNameSearch.setOpaque(true);
-        lblNameSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblNameSearchMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblNameSearchMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblNameSearchMouseExited(evt);
-            }
-        });
-
         jLabel4.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel4.setText("Remark :");
 
@@ -150,65 +116,111 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
         cbxIsActive.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         cbxIsActive.setSelected(true);
 
-        lblClose.setBackground(new java.awt.Color(150, 255, 150));
-        lblClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblClose.setText("Close");
-        lblClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblClose.setOpaque(true);
-        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCloseMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCloseMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCloseMouseExited(evt);
-            }
-        });
-
-        lblSave.setBackground(new java.awt.Color(150, 255, 150));
-        lblSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSave.setText("Save");
-        lblSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblSave.setOpaque(true);
-        lblSave.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblSaveMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblSaveMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblSaveMouseExited(evt);
-            }
-        });
-
-        lblReset.setBackground(new java.awt.Color(150, 255, 150));
-        lblReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblReset.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblReset.setText("Reset");
-        lblReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblReset.setOpaque(true);
-        lblReset.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblResetMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblResetMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblResetMouseExited(evt);
-            }
-        });
-
         jLabel6.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel6.setText("Rack Code :");
 
         cmbRack.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         cmbRack.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--" }));
+
+        btnReset.setBackground(new java.awt.Color(150, 255, 150));
+        btnReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnReset.setText("Reset");
+        btnReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnReset.setContentAreaFilled(false);
+        btnReset.setOpaque(true);
+        btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnResetMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnResetMouseExited(evt);
+            }
+        });
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+
+        btnSave.setBackground(new java.awt.Color(150, 255, 150));
+        btnSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnSave.setText("Save");
+        btnSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnSave.setContentAreaFilled(false);
+        btnSave.setOpaque(true);
+        btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSaveMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSaveMouseExited(evt);
+            }
+        });
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnClose.setBackground(new java.awt.Color(150, 255, 150));
+        btnClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnClose.setText("Close");
+        btnClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnClose.setContentAreaFilled(false);
+        btnClose.setOpaque(true);
+        btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCloseMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCloseMouseExited(evt);
+            }
+        });
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+
+        btnCodeSerach.setBackground(new java.awt.Color(150, 255, 150));
+        btnCodeSerach.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnCodeSerach.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        btnCodeSerach.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnCodeSerach.setContentAreaFilled(false);
+        btnCodeSerach.setOpaque(true);
+        btnCodeSerach.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCodeSerachMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCodeSerachMouseExited(evt);
+            }
+        });
+        btnCodeSerach.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCodeSerachActionPerformed(evt);
+            }
+        });
+
+        btnNameSearch.setBackground(new java.awt.Color(150, 255, 150));
+        btnNameSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnNameSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        btnNameSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnNameSearch.setContentAreaFilled(false);
+        btnNameSearch.setOpaque(true);
+        btnNameSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnNameSearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnNameSearchMouseExited(evt);
+            }
+        });
+        btnNameSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNameSearchActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -217,73 +229,75 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(txtSlotCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(4, 4, 4)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(cmbStorage, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel5))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cbxIsActive)
+                                .addComponent(txtRemark, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(cmbRack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addGap(10, 10, 10)
+                            .addComponent(txtSlotName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtSlotCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblCodeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(cmbStorage, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbxIsActive)
-                                    .addComponent(txtRemark, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cmbRack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(10, 10, 10)
-                                .addComponent(txtSlotName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblCodeSearch, lblNameSearch});
-
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtSlotCode, txtSlotName});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbRack, cmbStorage, txtRemark});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnReset, btnSave});
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCodeSerach, btnNameSearch});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblCodeSearch)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(txtSlotCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3)
-                        .addComponent(txtSlotName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblNameSearch))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtSlotCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtSlotName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -300,105 +314,22 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbxIsActive)
                     .addComponent(jLabel5))
-                .addGap(70, 70, 70)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbRack, cmbStorage, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, lblCodeSearch, lblNameSearch, txtRemark, txtSlotCode, txtSlotName});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbRack, cmbStorage, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, txtRemark, txtSlotCode, txtSlotName});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnReset, btnSave});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCodeSerach, btnNameSearch});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void lblCodeSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseClicked
-        String rackSlotCode = txtSlotCode.getText().trim();
-
-        List rackSlots = getRackSlotByCode(rackSlotCode, true);
-        if (!rackSlots.isEmpty()) {
-            RackSlotView rackSlotView = new RackSlotView(rackSlots, this);
-            MainFrame.desktopPane.add(rackSlotView);
-            rackSlotView.setVisible(true);
-        }
-    }//GEN-LAST:event_lblCodeSearchMouseClicked
-
-    private void lblCodeSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCodeSearchMouseEntered
-
-    private void lblCodeSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCodeSearchMouseExited
-
-    private void lblNameSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseClicked
-        String rackSlotName = txtSlotName.getText().trim();
-        List rackSlots = getRackSlotByName(rackSlotName, true);
-
-        if (rackSlots.size() > 0) {
-            RackSlotView rackSlotView = new RackSlotView(rackSlots, this);
-            MainFrame.desktopPane.add(rackSlotView);
-            rackSlotView.setVisible(true);
-        }
-    }//GEN-LAST:event_lblNameSearchMouseClicked
-
-    private void lblNameSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblNameSearchMouseEntered
-
-    private void lblNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblNameSearchMouseExited
-
-    private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
-        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            this.dispose();
-        }
-    }//GEN-LAST:event_lblCloseMouseClicked
-
-    private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCloseMouseEntered
-
-    private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCloseMouseExited
-
-    private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
-        if (txtSlotCode.getText().toUpperCase().trim().isEmpty()) {
-            List subCategories = this.getRackSlotByName(txtSlotName.getText().toUpperCase().trim(), false);
-            if (subCategories.size() > 0) {
-                InformationDialog.showMessageBox("Item name already exists.", "Exist");
-            } else {
-                if (((String) cmbStorage.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT) 
-                        || ((String) cmbRack.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                    InformationDialog.showMessageBox("Please select a valid storage and rack", "Invalid");
-                } else {
-                    KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                    this.saveOrUpdateRackSlot(keyCodeFunctions.getKey("SLT", "Rack slots"), false);
-                }
-            }
-        } else {
-            List subCategories = this.getRackSlotByCode(txtSlotCode.getText().toUpperCase().trim(), false);
-            if (subCategories.isEmpty()) {
-                InformationDialog.showMessageBox("Invalid rack slot code. Please try again", "Invalid");
-            } else {
-                ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
-                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    if (((String) cmbStorage.getSelectedItem()).equalsIgnoreCase(SystemData.COMBO_DEFAULT) 
-                            || ((String) cmbRack.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                        InformationDialog.showMessageBox("Please select a valid storage and rack", "Invalid");
-                    } else {
-                        this.saveOrUpdateRackSlot(txtSlotCode.getText().toUpperCase().trim(), true);
-                    }
-                }
-            }
-        }
-    }//GEN-LAST:event_lblSaveMouseClicked
 
     private void saveOrUpdateRackSlot(String strSlotCode, boolean bUpdate) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -430,32 +361,12 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
         session.close();
 
         if (bUpdate) {
-            InformationDialog.showMessageBox("Successfully updated", "Success");
+            InformationDialog.showMessageBox("Successfully updated", "Success", null);
         } else {
-            InformationDialog.showMessageBox("New entry created successfully", "Success");
+            InformationDialog.showMessageBox("New entry created successfully", "Success", null);
         }
         this.clearAll();
     }
-
-    private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblSaveMouseEntered
-
-    private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblSaveMouseExited
-
-    private void lblResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseClicked
-        this.clearAll();
-    }//GEN-LAST:event_lblResetMouseClicked
-
-    private void lblResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblResetMouseEntered
-
-    private void lblResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblResetMouseExited
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -519,6 +430,111 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_cmbStorageItemStateChanged
 
+    private void btnResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnResetMouseEntered
+
+    private void btnResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnResetMouseExited
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        this.clearAll();
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void btnSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnSaveMouseEntered
+
+    private void btnSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnSaveMouseExited
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        if (txtSlotCode.getText().toUpperCase().trim().isEmpty()) {
+            List subCategories = this.getRackSlotByName(txtSlotName.getText().toUpperCase().trim(), false);
+            if (subCategories.size() > 0) {
+                InformationDialog.showMessageBox("Item name already exists.", "Exist", null);
+            } else {
+                if (((String) cmbStorage.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT) 
+                        || ((String) cmbRack.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
+                    InformationDialog.showMessageBox("Please select a valid storage and rack", "Invalid", null);
+                } else {
+                    KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                    this.saveOrUpdateRackSlot(keyCodeFunctions.getKey("SLT", "Rack slots"), false);
+                }
+            }
+        } else {
+            List subCategories = this.getRackSlotByCode(txtSlotCode.getText().toUpperCase().trim(), false);
+            if (subCategories.isEmpty()) {
+                InformationDialog.showMessageBox("Invalid rack slot code. Please try again", "Invalid", null);
+            } else {
+                ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
+                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+                    if (((String) cmbStorage.getSelectedItem()).equalsIgnoreCase(SystemData.COMBO_DEFAULT) 
+                            || ((String) cmbRack.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
+                        InformationDialog.showMessageBox("Please select a valid storage and rack", "Invalid", null);
+                    } else {
+                        this.saveOrUpdateRackSlot(txtSlotCode.getText().toUpperCase().trim(), true);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnCloseMouseEntered
+
+    private void btnCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnCloseMouseExited
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnCodeSerachMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCodeSerachMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnCodeSerachMouseEntered
+
+    private void btnCodeSerachMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCodeSerachMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnCodeSerachMouseExited
+
+    private void btnCodeSerachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCodeSerachActionPerformed
+        String rackSlotCode = txtSlotCode.getText().trim();
+
+        List rackSlots = getRackSlotByCode(rackSlotCode, true);
+        if (!rackSlots.isEmpty()) {
+            RackSlotView rackSlotView = new RackSlotView(rackSlots, this);
+            MainFrame.desktopPane.add(rackSlotView);
+            rackSlotView.setVisible(true);
+        }
+    }//GEN-LAST:event_btnCodeSerachActionPerformed
+
+    private void btnNameSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNameSearchMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnNameSearchMouseEntered
+
+    private void btnNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNameSearchMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnNameSearchMouseExited
+
+    private void btnNameSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNameSearchActionPerformed
+        String rackSlotName = txtSlotName.getText().trim();
+        List rackSlots = getRackSlotByName(rackSlotName, true);
+
+        if (rackSlots.size() > 0) {
+            RackSlotView rackSlotView = new RackSlotView(rackSlots, this);
+            MainFrame.desktopPane.add(rackSlotView);
+            rackSlotView.setVisible(true);
+        }
+    }//GEN-LAST:event_btnNameSearchActionPerformed
+
     public void setRackSlotCode(String subCategoryCode) {
         this.txtSlotCode.setText(subCategoryCode);
     }
@@ -549,8 +565,8 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
         txtSlotCode.setEditable(editable);
     }
 
-    public void setLblSaveText(String text) {
-        this.lblSave.setText(text);
+    public void setBtnSaveText(String text) {
+        this.btnSave.setText(text);
     }
 
     private List getRackSlotByCode(String rackSlotCode, boolean like) {
@@ -607,6 +623,11 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnCodeSerach;
+    private javax.swing.JButton btnNameSearch;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSave;
     private javax.swing.JCheckBox cbxIsActive;
     private javax.swing.JComboBox<String> cmbRack;
     private javax.swing.JComboBox<String> cmbStorage;
@@ -616,11 +637,6 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel lblClose;
-    private javax.swing.JLabel lblCodeSearch;
-    private javax.swing.JLabel lblNameSearch;
-    private javax.swing.JLabel lblReset;
-    private javax.swing.JLabel lblSave;
     private javax.swing.JTextField txtRemark;
     private javax.swing.JTextField txtSlotCode;
     private javax.swing.JTextField txtSlotName;

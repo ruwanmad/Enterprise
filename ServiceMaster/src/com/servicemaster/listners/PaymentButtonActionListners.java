@@ -5,17 +5,16 @@
  */
 package com.servicemaster.listners;
 
-import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Payment;
 import com.servicemaster.models.Service;
 import com.servicemaster.panels.CashSettlePanel;
 import com.servicemaster.utils.HibernateUtil;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
-import javax.swing.JLabel;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.hibernate.Query;
@@ -26,30 +25,24 @@ import org.hibernate.Transaction;
  *
  * @author RuwanM
  */
-public class PaymentLableMouseListners implements MouseListener {
+public class PaymentButtonActionListners implements ActionListener {
 
     private final SettlementDialog settlementDialog;
     private final Service service;
     private final Invoice invoice;
 
-    /**
-     *
-     * @param settlementDialog
-     * @param service
-     * @param invoice
-     */
-    public PaymentLableMouseListners(SettlementDialog settlementDialog, Service service, Invoice invoice) {
+    public PaymentButtonActionListners(SettlementDialog settlementDialog, Service service, Invoice invoice) {
         this.settlementDialog = settlementDialog;
         this.service = service;
         this.invoice = invoice;
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        Object object = e.getSource();
-        if (object instanceof JLabel) {
-            JLabel label = (JLabel) object;
-            String name = label.getName();
+    public void actionPerformed(ActionEvent evt) {
+        Object object = evt.getSource();
+        if (object instanceof JButton) {
+            JButton button = (JButton) object;
+            String name = button.getName();
             if (name.equalsIgnoreCase("PTY1000")) {
                 if (settlementDialog.panelFrame != null) {
                     JOptionPane.showMessageDialog(settlementDialog, "Please save and close current window.", "Close", JOptionPane.INFORMATION_MESSAGE);
@@ -96,32 +89,6 @@ public class PaymentLableMouseListners implements MouseListener {
             } else if (name.equalsIgnoreCase("PTY1002")) {
             } else if (name.equalsIgnoreCase("PTY1003")) {
             }
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        Object object = e.getSource();
-        if (object instanceof JLabel) {
-            JLabel label = (JLabel) object;
-            label.setBackground(SystemData.MOUSE_ENTER_COLOR);
-        }
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        Object object = e.getSource();
-        if (object instanceof JLabel) {
-            JLabel label = (JLabel) object;
-            label.setBackground(SystemData.MOUSE_EXIT_COLOR);
         }
     }
 

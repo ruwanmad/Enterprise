@@ -8,7 +8,7 @@ package com.servicemaster.views;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.forms.MainFrame;
-import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.internalFrames.BusinessPartnerFrame;
 import com.servicemaster.internalFrames.TelephoneNumberFrame;
 import com.servicemaster.models.TelephoneNumber;
@@ -47,9 +47,9 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
 
         scrollPane = new javax.swing.JScrollPane();
         telephoneNumberTable = new javax.swing.JTable();
-        lblSelect = new javax.swing.JLabel();
-        lblClose = new javax.swing.JLabel();
-        lblAdd = new javax.swing.JLabel();
+        btnClose1 = new javax.swing.JButton();
+        btnSelect = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
 
         setTitle("Category View");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -102,57 +102,63 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
         });
         scrollPane.setViewportView(telephoneNumberTable);
 
-        lblSelect.setBackground(new java.awt.Color(150, 255, 150));
-        lblSelect.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblSelect.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSelect.setText("Select");
-        lblSelect.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblSelect.setOpaque(true);
-        lblSelect.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblSelectMouseClicked(evt);
-            }
+        btnClose1.setBackground(new java.awt.Color(150, 255, 150));
+        btnClose1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnClose1.setText("Close");
+        btnClose1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnClose1.setContentAreaFilled(false);
+        btnClose1.setOpaque(true);
+        btnClose1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblSelectMouseEntered(evt);
+                btnClose1MouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblSelectMouseExited(evt);
+                btnClose1MouseExited(evt);
+            }
+        });
+        btnClose1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClose1ActionPerformed(evt);
             }
         });
 
-        lblClose.setBackground(new java.awt.Color(150, 255, 150));
-        lblClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblClose.setText("Close");
-        lblClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblClose.setOpaque(true);
-        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCloseMouseClicked(evt);
-            }
+        btnSelect.setBackground(new java.awt.Color(150, 255, 150));
+        btnSelect.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnSelect.setText("Select");
+        btnSelect.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnSelect.setContentAreaFilled(false);
+        btnSelect.setOpaque(true);
+        btnSelect.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCloseMouseEntered(evt);
+                btnSelectMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCloseMouseExited(evt);
+                btnSelectMouseExited(evt);
+            }
+        });
+        btnSelect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectActionPerformed(evt);
             }
         });
 
-        lblAdd.setBackground(new java.awt.Color(150, 255, 150));
-        lblAdd.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblAdd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAdd.setText("Add");
-        lblAdd.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblAdd.setOpaque(true);
-        lblAdd.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblAddMouseClicked(evt);
-            }
+        btnAdd.setBackground(new java.awt.Color(150, 255, 150));
+        btnAdd.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnAdd.setText("Add");
+        btnAdd.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnAdd.setContentAreaFilled(false);
+        btnAdd.setOpaque(true);
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblAddMouseEntered(evt);
+                btnAddMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblAddMouseExited(evt);
+                btnAddMouseExited(evt);
+            }
+        });
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
             }
         });
 
@@ -161,32 +167,39 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnClose1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAdd, btnClose1, btnSelect});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setBounds(0, 0, 336, 326);
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAdd, btnClose1, btnSelect});
+
+        setBounds(0, 0, 336, 306);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
@@ -209,47 +222,47 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_telephoneNumberTableMouseClicked
 
-    private void lblSelectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseClicked
-        this.selectTelephoneNumber();
-    }//GEN-LAST:event_lblSelectMouseClicked
+    private void btnClose1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClose1MouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnClose1MouseEntered
 
-    private void lblSelectMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblSelectMouseEntered
+    private void btnClose1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClose1MouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnClose1MouseExited
 
-    private void lblSelectMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblSelectMouseExited
-
-    private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
+    private void btnClose1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClose1ActionPerformed
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             this.dispose();
         }
-    }//GEN-LAST:event_lblCloseMouseClicked
+    }//GEN-LAST:event_btnClose1ActionPerformed
 
-    private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCloseMouseEntered
+    private void btnSelectMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSelectMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnSelectMouseEntered
 
-    private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCloseMouseExited
+    private void btnSelectMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSelectMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnSelectMouseExited
 
-    private void lblAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseClicked
+    private void btnSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectActionPerformed
+        this.selectTelephoneNumber();
+    }//GEN-LAST:event_btnSelectActionPerformed
+
+    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnAddMouseEntered
+
+    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnAddMouseExited
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         TelephoneNumberFrame telephoneNumberFrame = new TelephoneNumberFrame(businessPatnerFrame);
         MainFrame.desktopPane.add(telephoneNumberFrame);
         telephoneNumberFrame.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_lblAddMouseClicked
-
-    private void lblAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblAddMouseEntered
-
-    private void lblAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblAddMouseExited
+    }//GEN-LAST:event_btnAddActionPerformed
 
     private void selectTelephoneNumber() {
         int selectedRow = telephoneNumberTable.getSelectedRow();
@@ -259,9 +272,10 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblAdd;
-    private javax.swing.JLabel lblClose;
-    private javax.swing.JLabel lblSelect;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnClose1;
+    private javax.swing.JButton btnSelect;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JTable telephoneNumberTable;
     // End of variables declaration//GEN-END:variables

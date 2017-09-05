@@ -10,7 +10,7 @@ import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Printer;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.PrinterView;
@@ -49,11 +49,11 @@ public class PrinterFrame extends javax.swing.JInternalFrame {
         txtRemark = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         cbxIsActive = new javax.swing.JCheckBox();
-        lblClose = new javax.swing.JLabel();
-        lblSave = new javax.swing.JLabel();
-        lblReset = new javax.swing.JLabel();
-        lblCodeSearch = new javax.swing.JLabel();
-        lblNameSearch = new javax.swing.JLabel();
+        btnReset = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
+        btnCodeSerach = new javax.swing.JButton();
+        btnNameSearch = new javax.swing.JButton();
 
         setTitle("Printers");
 
@@ -78,91 +78,103 @@ public class PrinterFrame extends javax.swing.JInternalFrame {
         cbxIsActive.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         cbxIsActive.setSelected(true);
 
-        lblClose.setBackground(new java.awt.Color(150, 255, 150));
-        lblClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblClose.setText("Close");
-        lblClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblClose.setOpaque(true);
-        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCloseMouseClicked(evt);
-            }
+        btnReset.setBackground(new java.awt.Color(150, 255, 150));
+        btnReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnReset.setText("Reset");
+        btnReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnReset.setContentAreaFilled(false);
+        btnReset.setOpaque(true);
+        btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCloseMouseEntered(evt);
+                btnResetMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCloseMouseExited(evt);
+                btnResetMouseExited(evt);
+            }
+        });
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
             }
         });
 
-        lblSave.setBackground(new java.awt.Color(150, 255, 150));
-        lblSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSave.setText("Save");
-        lblSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblSave.setOpaque(true);
-        lblSave.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblSaveMouseClicked(evt);
-            }
+        btnSave.setBackground(new java.awt.Color(150, 255, 150));
+        btnSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnSave.setText("Save");
+        btnSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnSave.setContentAreaFilled(false);
+        btnSave.setOpaque(true);
+        btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblSaveMouseEntered(evt);
+                btnSaveMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblSaveMouseExited(evt);
+                btnSaveMouseExited(evt);
+            }
+        });
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
             }
         });
 
-        lblReset.setBackground(new java.awt.Color(150, 255, 150));
-        lblReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblReset.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblReset.setText("Reset");
-        lblReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblReset.setOpaque(true);
-        lblReset.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblResetMouseClicked(evt);
-            }
+        btnClose.setBackground(new java.awt.Color(150, 255, 150));
+        btnClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnClose.setText("Close");
+        btnClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnClose.setContentAreaFilled(false);
+        btnClose.setOpaque(true);
+        btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblResetMouseEntered(evt);
+                btnCloseMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblResetMouseExited(evt);
+                btnCloseMouseExited(evt);
+            }
+        });
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
             }
         });
 
-        lblCodeSearch.setBackground(new java.awt.Color(150, 255, 150));
-        lblCodeSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblCodeSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        lblCodeSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblCodeSearch.setOpaque(true);
-        lblCodeSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseClicked(evt);
-            }
+        btnCodeSerach.setBackground(new java.awt.Color(150, 255, 150));
+        btnCodeSerach.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnCodeSerach.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        btnCodeSerach.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnCodeSerach.setContentAreaFilled(false);
+        btnCodeSerach.setOpaque(true);
+        btnCodeSerach.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseEntered(evt);
+                btnCodeSerachMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseExited(evt);
+                btnCodeSerachMouseExited(evt);
+            }
+        });
+        btnCodeSerach.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCodeSerachActionPerformed(evt);
             }
         });
 
-        lblNameSearch.setBackground(new java.awt.Color(150, 255, 150));
-        lblNameSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNameSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        lblNameSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblNameSearch.setOpaque(true);
-        lblNameSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblNameSearchMouseClicked(evt);
-            }
+        btnNameSearch.setBackground(new java.awt.Color(150, 255, 150));
+        btnNameSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnNameSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        btnNameSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnNameSearch.setContentAreaFilled(false);
+        btnNameSearch.setOpaque(true);
+        btnNameSearch.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblNameSearchMouseEntered(evt);
+                btnNameSearchMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblNameSearchMouseExited(evt);
+                btnNameSearchMouseExited(evt);
+            }
+        });
+        btnNameSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNameSearchActionPerformed(evt);
             }
         });
 
@@ -173,38 +185,35 @@ public class PrinterFrame extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtRemark, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbxIsActive))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblSave, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblClose, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
+                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
+                                .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtRemark))
+                                .addComponent(txtPrinterCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
+                                .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbxIsActive))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtPrinterCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtPrinterName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblCodeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(txtPrinterName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(4, 4, 4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -212,25 +221,27 @@ public class PrinterFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtPrinterCode, txtPrinterName});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnReset, btnSave});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblCodeSearch, lblNameSearch});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCodeSerach, btnNameSearch});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(txtPrinterCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblCodeSearch))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(txtPrinterName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblNameSearch))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtPrinterCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtPrinterName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -239,49 +250,22 @@ public class PrinterFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(cbxIsActive))
-                .addGap(70, 70, 70)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, jLabel1, jLabel2, jLabel3, jLabel4, lblCodeSearch, lblNameSearch, txtPrinterCode, txtPrinterName, txtRemark});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, jLabel1, jLabel2, jLabel3, jLabel4, txtPrinterCode, txtPrinterName, txtRemark});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnReset, btnSave});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCodeSerach, btnNameSearch});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
-        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            this.dispose();
-        }
-    }//GEN-LAST:event_lblCloseMouseClicked
-
-    private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
-        if (txtPrinterCode.getText().toUpperCase().trim().isEmpty()) {
-            List printerByName = this.getPrinterByName(txtPrinterName.getText().toUpperCase().trim(), false);
-            if (printerByName.size() > 0) {
-                InformationDialog.showMessageBox("Item name already exists.", "Exist");
-            } else {
-                KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                this.saveOrUpdatePrinter(keyCodeFunctions.getKey("PRN", "Printer"), false);
-            }
-        } else {
-            List printerByCode = this.getPrinterByCode(txtPrinterCode.getText().toUpperCase().trim(), false);
-            if (printerByCode.isEmpty()) {
-                InformationDialog.showMessageBox("Invalid printer code. Please try again", "Invalid");
-            } else {
-                ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
-                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    this.saveOrUpdatePrinter(txtPrinterCode.getText().toUpperCase().trim(), true);
-                }
-            }
-        }
-    }//GEN-LAST:event_lblSaveMouseClicked
 
     private void saveOrUpdatePrinter(String printerCode, boolean bUpdate) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -305,44 +289,81 @@ public class PrinterFrame extends javax.swing.JInternalFrame {
 
         session.getTransaction().commit();
         session.close();
-        
+
         if (bUpdate) {
-            InformationDialog.showMessageBox("Successfully updated", "Success");
+            InformationDialog.showMessageBox("Successfully updated", "Success", null);
         } else {
-            InformationDialog.showMessageBox("New entry created successfully", "Success");
+            InformationDialog.showMessageBox("New entry created successfully", "Success", null);
         }
         this.clearAll();
     }
 
-    private void lblResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseClicked
+    private void btnResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnResetMouseEntered
+
+    private void btnResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnResetMouseExited
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         this.clearAll();
-    }//GEN-LAST:event_lblResetMouseClicked
+    }//GEN-LAST:event_btnResetActionPerformed
 
-    private void lblResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblResetMouseEntered
+    private void btnSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnSaveMouseEntered
 
-    private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblSaveMouseEntered
+    private void btnSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnSaveMouseExited
 
-    private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCloseMouseEntered
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        if (txtPrinterCode.getText().toUpperCase().trim().isEmpty()) {
+            List printerByName = this.getPrinterByName(txtPrinterName.getText().toUpperCase().trim(), false);
+            if (printerByName.size() > 0) {
+                InformationDialog.showMessageBox("Item name already exists.", "Exist", null);
+            } else {
+                KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                this.saveOrUpdatePrinter(keyCodeFunctions.getKey("PRN", "Printer"), false);
+            }
+        } else {
+            List printerByCode = this.getPrinterByCode(txtPrinterCode.getText().toUpperCase().trim(), false);
+            if (printerByCode.isEmpty()) {
+                InformationDialog.showMessageBox("Invalid printer code. Please try again", "Invalid", null);
+            } else {
+                ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
+                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+                    this.saveOrUpdatePrinter(txtPrinterCode.getText().toUpperCase().trim(), true);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
 
-    private void lblResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblResetMouseExited
+    private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnCloseMouseEntered
 
-    private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblSaveMouseExited
+    private void btnCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnCloseMouseExited
 
-    private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCloseMouseExited
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnCloseActionPerformed
 
-    private void lblCodeSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseClicked
+    private void btnCodeSerachMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCodeSerachMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnCodeSerachMouseEntered
+
+    private void btnCodeSerachMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCodeSerachMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnCodeSerachMouseExited
+
+    private void btnCodeSerachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCodeSerachActionPerformed
         String printerCode = txtPrinterCode.getText().trim();
         List printers = getPrinterByCode(printerCode, true);
 
@@ -351,9 +372,17 @@ public class PrinterFrame extends javax.swing.JInternalFrame {
             MainFrame.desktopPane.add(printerView);
             printerView.setVisible(true);
         }
-    }//GEN-LAST:event_lblCodeSearchMouseClicked
+    }//GEN-LAST:event_btnCodeSerachActionPerformed
 
-    private void lblNameSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseClicked
+    private void btnNameSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNameSearchMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnNameSearchMouseEntered
+
+    private void btnNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNameSearchMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnNameSearchMouseExited
+
+    private void btnNameSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNameSearchActionPerformed
         String printerName = txtPrinterName.getText().trim();
         List printers = getPrinterByName(printerName, true);
 
@@ -362,23 +391,7 @@ public class PrinterFrame extends javax.swing.JInternalFrame {
             MainFrame.desktopPane.add(printerView);
             printerView.setVisible(true);
         }
-    }//GEN-LAST:event_lblNameSearchMouseClicked
-
-    private void lblCodeSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCodeSearchMouseEntered
-
-    private void lblNameSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblNameSearchMouseEntered
-
-    private void lblCodeSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCodeSearchMouseExited
-
-    private void lblNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblNameSearchMouseExited
+    }//GEN-LAST:event_btnNameSearchActionPerformed
 
     private List getPrinterByCode(String prinerCode, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -442,21 +455,21 @@ public class PrinterFrame extends javax.swing.JInternalFrame {
         txtPrinterCode.setEditable(editable);
     }
 
-    public void setLblSaveText(String text) {
-        this.lblSave.setText(text);
+    public void setBtnSaveText(String text) {
+        this.btnSave.setText(text);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnCodeSerach;
+    private javax.swing.JButton btnNameSearch;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSave;
     private javax.swing.JCheckBox cbxIsActive;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel lblClose;
-    private javax.swing.JLabel lblCodeSearch;
-    private javax.swing.JLabel lblNameSearch;
-    private javax.swing.JLabel lblReset;
-    private javax.swing.JLabel lblSave;
     private javax.swing.JTextField txtPrinterCode;
     private javax.swing.JTextField txtPrinterName;
     private javax.swing.JTextField txtRemark;

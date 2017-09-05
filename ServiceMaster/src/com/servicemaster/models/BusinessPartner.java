@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 3, 2017 7:12:43 PM by Hibernate Tools 4.3.1
+// Generated Sep 5, 2017 11:15:37 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -32,6 +32,7 @@ public class BusinessPartner  implements java.io.Serializable {
      private Set users = new HashSet(0);
      private Set businessTelephones = new HashSet(0);
      private Set vehicles = new HashSet(0);
+     private Set serviceHasBusinessPartners = new HashSet(0);
 
     public BusinessPartner() {
     }
@@ -44,7 +45,7 @@ public class BusinessPartner  implements java.io.Serializable {
         this.isSupplier = isSupplier;
         this.isEmployee = isEmployee;
     }
-    public BusinessPartner(String businessPartnerCode, String firstName, String lastName, String nic, Date birthDay, boolean isCustomer, boolean isSupplier, boolean isEmployee, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set businessAddresses, Set users, Set businessTelephones, Set vehicles) {
+    public BusinessPartner(String businessPartnerCode, String firstName, String lastName, String nic, Date birthDay, boolean isCustomer, boolean isSupplier, boolean isEmployee, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set businessAddresses, Set users, Set businessTelephones, Set vehicles, Set serviceHasBusinessPartners) {
        this.businessPartnerCode = businessPartnerCode;
        this.firstName = firstName;
        this.lastName = lastName;
@@ -65,6 +66,7 @@ public class BusinessPartner  implements java.io.Serializable {
        this.users = users;
        this.businessTelephones = businessTelephones;
        this.vehicles = vehicles;
+       this.serviceHasBusinessPartners = serviceHasBusinessPartners;
     }
    
     public String getBusinessPartnerCode() {
@@ -206,6 +208,13 @@ public class BusinessPartner  implements java.io.Serializable {
     
     public void setVehicles(Set vehicles) {
         this.vehicles = vehicles;
+    }
+    public Set getServiceHasBusinessPartners() {
+        return this.serviceHasBusinessPartners;
+    }
+    
+    public void setServiceHasBusinessPartners(Set serviceHasBusinessPartners) {
+        this.serviceHasBusinessPartners = serviceHasBusinessPartners;
     }
 
 

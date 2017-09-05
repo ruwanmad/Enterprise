@@ -10,7 +10,7 @@ import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.models.Vehicle;
 import com.servicemaster.models.VehicleType;
@@ -48,25 +48,25 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         txtVehicleNumber = new javax.swing.JTextField();
-        lblNumberSearch = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         yManufactureYear = new com.toedter.calendar.JYearChooser();
         jLabel3 = new javax.swing.JLabel();
         cmbVehicleType = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         cbxIsActive = new javax.swing.JCheckBox();
-        lblClose = new javax.swing.JLabel();
-        lblSave = new javax.swing.JLabel();
-        lblReset = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtRemark = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtVehicleCode = new javax.swing.JTextField();
-        lblCodeSearch = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         cmbBusinessPatner = new javax.swing.JComboBox<>();
-        lblNewBusinessPatner = new javax.swing.JLabel();
-        lblBusinessPatnerRefresh = new javax.swing.JLabel();
+        btnReset = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
+        btnNew = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
+        btnCodeSerach = new javax.swing.JButton();
+        btnNameSearch = new javax.swing.JButton();
 
         setTitle("Vehicle");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -92,23 +92,6 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
 
         txtVehicleNumber.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        lblNumberSearch.setBackground(new java.awt.Color(150, 255, 150));
-        lblNumberSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNumberSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        lblNumberSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblNumberSearch.setOpaque(true);
-        lblNumberSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblNumberSearchMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblNumberSearchMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblNumberSearchMouseExited(evt);
-            }
-        });
-
         jLabel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel2.setText("Manuf. year :");
 
@@ -123,60 +106,6 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
 
         cbxIsActive.setSelected(true);
 
-        lblClose.setBackground(new java.awt.Color(150, 255, 150));
-        lblClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblClose.setText("Close");
-        lblClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblClose.setOpaque(true);
-        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCloseMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCloseMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCloseMouseExited(evt);
-            }
-        });
-
-        lblSave.setBackground(new java.awt.Color(150, 255, 150));
-        lblSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSave.setText("Save");
-        lblSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblSave.setOpaque(true);
-        lblSave.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblSaveMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblSaveMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblSaveMouseExited(evt);
-            }
-        });
-
-        lblReset.setBackground(new java.awt.Color(150, 255, 150));
-        lblReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblReset.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblReset.setText("Reset");
-        lblReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblReset.setOpaque(true);
-        lblReset.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblResetMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblResetMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblResetMouseExited(evt);
-            }
-        });
-
         jLabel5.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel5.setText("Remark :");
 
@@ -187,62 +116,149 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
 
         txtVehicleCode.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        lblCodeSearch.setBackground(new java.awt.Color(150, 255, 150));
-        lblCodeSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblCodeSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        lblCodeSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblCodeSearch.setOpaque(true);
-        lblCodeSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseExited(evt);
-            }
-        });
-
         jLabel7.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel7.setText("Bus. Patner :");
 
         cmbBusinessPatner.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         cmbBusinessPatner.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--" }));
 
-        lblNewBusinessPatner.setBackground(new java.awt.Color(150, 255, 150));
-        lblNewBusinessPatner.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblNewBusinessPatner.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNewBusinessPatner.setText("New");
-        lblNewBusinessPatner.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblNewBusinessPatner.setOpaque(true);
-        lblNewBusinessPatner.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblNewBusinessPatnerMouseClicked(evt);
-            }
+        btnReset.setBackground(new java.awt.Color(150, 255, 150));
+        btnReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnReset.setText("Reset");
+        btnReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnReset.setContentAreaFilled(false);
+        btnReset.setOpaque(true);
+        btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblNewBusinessPatnerMouseEntered(evt);
+                btnResetMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblNewBusinessPatnerMouseExited(evt);
+                btnResetMouseExited(evt);
+            }
+        });
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
             }
         });
 
-        lblBusinessPatnerRefresh.setBackground(new java.awt.Color(150, 255, 150));
-        lblBusinessPatnerRefresh.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblBusinessPatnerRefresh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblBusinessPatnerRefresh.setText("Refresh");
-        lblBusinessPatnerRefresh.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblBusinessPatnerRefresh.setOpaque(true);
-        lblBusinessPatnerRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblBusinessPatnerRefreshMouseClicked(evt);
-            }
+        btnSave.setBackground(new java.awt.Color(150, 255, 150));
+        btnSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnSave.setText("Save");
+        btnSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnSave.setContentAreaFilled(false);
+        btnSave.setOpaque(true);
+        btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblBusinessPatnerRefreshMouseEntered(evt);
+                btnSaveMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblBusinessPatnerRefreshMouseExited(evt);
+                btnSaveMouseExited(evt);
+            }
+        });
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnClose.setBackground(new java.awt.Color(150, 255, 150));
+        btnClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnClose.setText("Close");
+        btnClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnClose.setContentAreaFilled(false);
+        btnClose.setOpaque(true);
+        btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCloseMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCloseMouseExited(evt);
+            }
+        });
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+
+        btnNew.setBackground(new java.awt.Color(150, 255, 150));
+        btnNew.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnNew.setText("New");
+        btnNew.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnNew.setContentAreaFilled(false);
+        btnNew.setOpaque(true);
+        btnNew.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnNewMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnNewMouseExited(evt);
+            }
+        });
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
+
+        btnRefresh.setBackground(new java.awt.Color(150, 255, 150));
+        btnRefresh.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnRefresh.setText("Refresh");
+        btnRefresh.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnRefresh.setContentAreaFilled(false);
+        btnRefresh.setOpaque(true);
+        btnRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRefreshMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRefreshMouseExited(evt);
+            }
+        });
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
+        btnCodeSerach.setBackground(new java.awt.Color(150, 255, 150));
+        btnCodeSerach.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnCodeSerach.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        btnCodeSerach.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnCodeSerach.setContentAreaFilled(false);
+        btnCodeSerach.setOpaque(true);
+        btnCodeSerach.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCodeSerachMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCodeSerachMouseExited(evt);
+            }
+        });
+        btnCodeSerach.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCodeSerachActionPerformed(evt);
+            }
+        });
+
+        btnNameSearch.setBackground(new java.awt.Color(150, 255, 150));
+        btnNameSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnNameSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        btnNameSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnNameSearch.setContentAreaFilled(false);
+        btnNameSearch.setOpaque(true);
+        btnNameSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnNameSearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnNameSearchMouseExited(evt);
+            }
+        });
+        btnNameSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNameSearchActionPerformed(evt);
             }
         });
 
@@ -254,22 +270,19 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtRemark))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtVehicleCode)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblCodeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtVehicleNumber))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtVehicleCode)))
+                        .addGap(4, 4, 4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -280,49 +293,55 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(cbxIsActive))
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                                        .addComponent(cmbBusinessPatner, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel5)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cmbVehicleType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblNewBusinessPatner, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblBusinessPatnerRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtVehicleNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblNumberSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(txtRemark))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(jLabel7)
+                                                .addGap(10, 10, 10)
+                                                .addComponent(cmbBusinessPatner, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(jLabel3)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(cmbVehicleType, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(4, 4, 4)
+                                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblCodeSearch)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6)
-                        .addComponent(txtVehicleCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNumberSearch)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(txtVehicleNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(txtVehicleCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtVehicleNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
@@ -332,13 +351,11 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(cmbVehicleType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblNewBusinessPatner)
-                        .addComponent(lblBusinessPatnerRefresh))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel7)
-                        .addComponent(cmbBusinessPatner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(cmbBusinessPatner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -347,106 +364,18 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(cbxIsActive))
-                .addGap(70, 70, 70)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbBusinessPatner, cmbVehicleType, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, lblBusinessPatnerRefresh, lblCodeSearch, lblNewBusinessPatner, lblNumberSearch, txtRemark, txtVehicleCode, txtVehicleNumber, yManufactureYear});
-
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbBusinessPatner, cmbVehicleType, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, txtRemark, txtVehicleCode, txtVehicleNumber, yManufactureYear});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void lblNumberSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNumberSearchMouseClicked
-        String vehicleNumber = txtVehicleNumber.getText().trim();
-
-        List vehicles = this.getVehicleByNumber(vehicleNumber, true);
-        if (!vehicles.isEmpty()) {
-            VehicleView vehicleView = new VehicleView(vehicles, this);
-            MainFrame.desktopPane.add(vehicleView);
-            vehicleView.setVisible(true);
-        }
-    }//GEN-LAST:event_lblNumberSearchMouseClicked
-
-    private void lblNumberSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNumberSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblNumberSearchMouseEntered
-
-    private void lblNumberSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNumberSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblNumberSearchMouseExited
-
-    private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
-        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            this.dispose();
-        }
-    }//GEN-LAST:event_lblCloseMouseClicked
-
-    private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCloseMouseEntered
-
-    private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCloseMouseExited
-
-    private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
-        if (txtVehicleCode.getText().toUpperCase().trim().isEmpty()) {
-            List vehicles = this.getVehicleByNumber(txtVehicleNumber.getText().toUpperCase().trim(), false);
-            if (!vehicles.isEmpty()) {
-                InformationDialog.showMessageBox("Vehicle number already exists.", "Exist");
-            } else {
-                if (((String) cmbVehicleType.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)
-                        || ((String) cmbBusinessPatner.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                    InformationDialog.showMessageBox("Please select a valid vehicle type and business patner", "Invalid");
-                } else {
-                    KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                    this.saveOrUpdateVehicle(keyCodeFunctions.getKey("VEH", "Vehivle"), false);
-                }
-            }
-        } else {
-            List vehicles = this.getVehicleByCode(txtVehicleCode.getText().toUpperCase().trim(), false);
-            if (vehicles.isEmpty()) {
-                InformationDialog.showMessageBox("Invalid vehicle code. Please try again", "Invalid");
-            } else {
-                ConfirmationDialog.showMessageBox("Do you want to update?", "Update");
-                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    if (((String) cmbVehicleType.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)
-                            || ((String) cmbBusinessPatner.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                        InformationDialog.showMessageBox("Please select a valid vehicle type and business patner", "Invalid");
-                    } else {
-                        this.saveOrUpdateVehicle(txtVehicleCode.getText().toUpperCase().trim(), true);
-                    }
-                }
-            }
-        }
-    }//GEN-LAST:event_lblSaveMouseClicked
-
-    private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblSaveMouseEntered
-
-    private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblSaveMouseExited
-
-    private void lblResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseClicked
-        this.clearAll();
-    }//GEN-LAST:event_lblResetMouseClicked
-
-    private void lblResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblResetMouseEntered
-
-    private void lblResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblResetMouseExited
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -459,7 +388,111 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         session.close();
     }//GEN-LAST:event_formInternalFrameOpened
 
-    private void lblCodeSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseClicked
+    private void btnResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnResetMouseEntered
+
+    private void btnResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnResetMouseExited
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        this.clearAll();
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void btnSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnSaveMouseEntered
+
+    private void btnSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnSaveMouseExited
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        if (txtVehicleCode.getText().toUpperCase().trim().isEmpty()) {
+            List vehicles = this.getVehicleByNumber(txtVehicleNumber.getText().toUpperCase().trim(), false);
+            if (!vehicles.isEmpty()) {
+                InformationDialog.showMessageBox("Vehicle number already exists.", "Exist", null);
+            } else {
+                if (((String) cmbVehicleType.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)
+                        || ((String) cmbBusinessPatner.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
+                    InformationDialog.showMessageBox("Please select a valid vehicle type and business patner", "Invalid", null);
+                } else {
+                    KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                    this.saveOrUpdateVehicle(keyCodeFunctions.getKey("VEH", "Vehivle"), false);
+                }
+            }
+        } else {
+            List vehicles = this.getVehicleByCode(txtVehicleCode.getText().toUpperCase().trim(), false);
+            if (vehicles.isEmpty()) {
+                InformationDialog.showMessageBox("Invalid vehicle code. Please try again", "Invalid", null);
+            } else {
+                ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
+                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+                    if (((String) cmbVehicleType.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)
+                            || ((String) cmbBusinessPatner.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
+                        InformationDialog.showMessageBox("Please select a valid vehicle type and business patner", "Invalid", null);
+                    } else {
+                        this.saveOrUpdateVehicle(txtVehicleCode.getText().toUpperCase().trim(), true);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnCloseMouseEntered
+
+    private void btnCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnCloseMouseExited
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnNewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnNewMouseEntered
+
+    private void btnNewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnNewMouseExited
+
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        BusinessPartnerFrame partnerFrame = new BusinessPartnerFrame();
+        MainFrame.desktopPane.add(partnerFrame);
+        partnerFrame.setVisible(true);
+    }//GEN-LAST:event_btnNewActionPerformed
+
+    private void btnRefreshMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnRefreshMouseEntered
+
+    private void btnRefreshMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnRefreshMouseExited
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        this.loadBusinessPartner(session);
+        session.close();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnCodeSerachMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCodeSerachMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnCodeSerachMouseEntered
+
+    private void btnCodeSerachMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCodeSerachMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnCodeSerachMouseExited
+
+    private void btnCodeSerachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCodeSerachActionPerformed
         String vehicleCode = txtVehicleCode.getText().trim();
 
         List vehicles = this.getVehicleByCode(vehicleCode, true);
@@ -468,44 +501,26 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
             MainFrame.desktopPane.add(vehicleView);
             vehicleView.setVisible(true);
         }
-    }//GEN-LAST:event_lblCodeSearchMouseClicked
+    }//GEN-LAST:event_btnCodeSerachActionPerformed
 
-    private void lblCodeSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCodeSearchMouseEntered
+    private void btnNameSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNameSearchMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnNameSearchMouseEntered
 
-    private void lblCodeSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCodeSearchMouseExited
+    private void btnNameSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNameSearchMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnNameSearchMouseExited
 
-    private void lblNewBusinessPatnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewBusinessPatnerMouseClicked
-        BusinessPartnerFrame partnerFrame = new BusinessPartnerFrame();
-        MainFrame.desktopPane.add(partnerFrame);
-        partnerFrame.setVisible(true);
-    }//GEN-LAST:event_lblNewBusinessPatnerMouseClicked
+    private void btnNameSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNameSearchActionPerformed
+        String vehicleNumber = txtVehicleNumber.getText().trim();
 
-    private void lblNewBusinessPatnerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewBusinessPatnerMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblNewBusinessPatnerMouseEntered
-
-    private void lblNewBusinessPatnerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewBusinessPatnerMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblNewBusinessPatnerMouseExited
-
-    private void lblBusinessPatnerRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBusinessPatnerRefreshMouseClicked
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        this.loadBusinessPartner(session);
-        session.close();
-    }//GEN-LAST:event_lblBusinessPatnerRefreshMouseClicked
-
-    private void lblBusinessPatnerRefreshMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBusinessPatnerRefreshMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblBusinessPatnerRefreshMouseEntered
-
-    private void lblBusinessPatnerRefreshMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBusinessPatnerRefreshMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblBusinessPatnerRefreshMouseExited
+        List vehicles = this.getVehicleByNumber(vehicleNumber, true);
+        if (!vehicles.isEmpty()) {
+            VehicleView vehicleView = new VehicleView(vehicles, this);
+            MainFrame.desktopPane.add(vehicleView);
+            vehicleView.setVisible(true);
+        }
+    }//GEN-LAST:event_btnNameSearchActionPerformed
 
     private List getVehicleByCode(String vehicleCode, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -575,8 +590,8 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         txtVehicleNumber.setEditable(editable);
     }
 
-    public void setLblSaveText(String text) {
-        this.lblSave.setText(text);
+    public void setBtnSaveText(String text) {
+        this.btnSave.setText(text);
     }
 
     private void clearAll() {
@@ -595,10 +610,10 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         session.beginTransaction();
 
         VehicleType vehicleType = (VehicleType) session.createCriteria(VehicleType.class)
-                .add(Restrictions.eq("vehicleTypeName", ((String) cmbVehicleType.getSelectedItem()).trim()))
+                .add(Restrictions.eq("vehicleTypeCode", ((String) cmbVehicleType.getSelectedItem()).split("-")[0].trim()))
                 .uniqueResult();
 
-        BusinessPartner businessPartner = (BusinessPartner) session.createCriteria(VehicleType.class)
+        BusinessPartner businessPartner = (BusinessPartner) session.createCriteria(BusinessPartner.class)
                 .add(Restrictions.eq("businessPartnerCode", ((String) cmbBusinessPatner.getSelectedItem()).split("-")[0].trim()))
                 .uniqueResult();
 
@@ -625,9 +640,9 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         session.close();
 
         if (bUpdate) {
-            InformationDialog.showMessageBox("Successfully updated", "Success");
+            InformationDialog.showMessageBox("Successfully updated", "Success", null);
         } else {
-            InformationDialog.showMessageBox("New entry created successfully", "Success");
+            InformationDialog.showMessageBox("New entry created successfully", "Success", null);
         }
         this.clearAll();
     }
@@ -666,6 +681,13 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnCodeSerach;
+    private javax.swing.JButton btnNameSearch;
+    private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSave;
     private javax.swing.JCheckBox cbxIsActive;
     private javax.swing.JComboBox<String> cmbBusinessPatner;
     private javax.swing.JComboBox<String> cmbVehicleType;
@@ -676,13 +698,6 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel lblBusinessPatnerRefresh;
-    private javax.swing.JLabel lblClose;
-    private javax.swing.JLabel lblCodeSearch;
-    private javax.swing.JLabel lblNewBusinessPatner;
-    private javax.swing.JLabel lblNumberSearch;
-    private javax.swing.JLabel lblReset;
-    private javax.swing.JLabel lblSave;
     private javax.swing.JTextField txtRemark;
     private javax.swing.JTextField txtVehicleCode;
     private javax.swing.JTextField txtVehicleNumber;

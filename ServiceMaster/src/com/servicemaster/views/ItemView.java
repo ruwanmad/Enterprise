@@ -7,7 +7,7 @@ package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
-import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.internalFrames.ItemFrame;
 import com.servicemaster.models.IssueMethod;
 import com.servicemaster.models.Item;
@@ -53,8 +53,8 @@ public class ItemView extends javax.swing.JInternalFrame {
 
         scrollPane = new javax.swing.JScrollPane();
         subCategoryTable = new javax.swing.JTable();
-        lblSelect = new javax.swing.JLabel();
-        lblClose = new javax.swing.JLabel();
+        btnSelect2 = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
 
         setTitle("Item View");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -105,39 +105,43 @@ public class ItemView extends javax.swing.JInternalFrame {
         });
         scrollPane.setViewportView(subCategoryTable);
 
-        lblSelect.setBackground(new java.awt.Color(150, 255, 150));
-        lblSelect.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblSelect.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSelect.setText("Select");
-        lblSelect.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblSelect.setOpaque(true);
-        lblSelect.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblSelectMouseClicked(evt);
-            }
+        btnSelect2.setBackground(new java.awt.Color(150, 255, 150));
+        btnSelect2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnSelect2.setText("Select");
+        btnSelect2.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnSelect2.setContentAreaFilled(false);
+        btnSelect2.setOpaque(true);
+        btnSelect2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblSelectMouseEntered(evt);
+                btnSelect2MouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblSelectMouseExited(evt);
+                btnSelect2MouseExited(evt);
+            }
+        });
+        btnSelect2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelect2ActionPerformed(evt);
             }
         });
 
-        lblClose.setBackground(new java.awt.Color(150, 255, 150));
-        lblClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblClose.setText("Close");
-        lblClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblClose.setOpaque(true);
-        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCloseMouseClicked(evt);
-            }
+        btnClose.setBackground(new java.awt.Color(150, 255, 150));
+        btnClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnClose.setText("Close");
+        btnClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnClose.setContentAreaFilled(false);
+        btnClose.setOpaque(true);
+        btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCloseMouseEntered(evt);
+                btnCloseMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCloseMouseExited(evt);
+                btnCloseMouseExited(evt);
+            }
+        });
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
             }
         });
 
@@ -148,22 +152,27 @@ public class ItemView extends javax.swing.JInternalFrame {
             .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSelect2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnSelect2});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSelect2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnSelect2});
 
         setBounds(0, 0, 788, 324);
     }// </editor-fold>//GEN-END:initComponents
@@ -193,32 +202,32 @@ public class ItemView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_subCategoryTableMouseClicked
 
-    private void lblSelectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseClicked
+    private void btnSelect2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSelect2MouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnSelect2MouseEntered
+
+    private void btnSelect2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSelect2MouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnSelect2MouseExited
+
+    private void btnSelect2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelect2ActionPerformed
         this.selectItem();
-    }//GEN-LAST:event_lblSelectMouseClicked
+    }//GEN-LAST:event_btnSelect2ActionPerformed
 
-    private void lblSelectMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblSelectMouseEntered
+    private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnCloseMouseEntered
 
-    private void lblSelectMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelectMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblSelectMouseExited
+    private void btnCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnCloseMouseExited
 
-    private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             this.dispose();
         }
-    }//GEN-LAST:event_lblCloseMouseClicked
-
-    private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCloseMouseEntered
-
-    private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCloseMouseExited
+    }//GEN-LAST:event_btnCloseActionPerformed
 
     private void selectItem() {
         int selectedRow = subCategoryTable.getSelectedRow();
@@ -227,7 +236,7 @@ public class ItemView extends javax.swing.JInternalFrame {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
-        IssueMethod issueMethod = (IssueMethod) session.load(IssueMethod.class, item.getIssueMethodIssueMethodId());
+        IssueMethod issueMethod = (IssueMethod) session.load(IssueMethod.class, item.getIssueMethod().getIssueMethodId());
         Manufacturer manufacturer = (Manufacturer) session.load(Manufacturer.class, item.getManufacturer().getManufacturerCode());
         SubCategory subCategory = (SubCategory) session.load(SubCategory.class, item.getSubCategory().getSubCategoryCode());
         RackSlot rackSlot = (RackSlot) session.load(RackSlot.class, item.getRackSlot().getRackSlotCode());
@@ -248,7 +257,7 @@ public class ItemView extends javax.swing.JInternalFrame {
         itemFrame.setBuyingUOM(buyingUOM.getUomName());
         itemFrame.setSellingUOM(sellingUOM.getUomName());
         itemFrame.setItemCodeEditable(false);
-        itemFrame.setLblSaveText("Update");
+        itemFrame.setBtnSaveText("Update");
 
         transaction.commit();
         session.close();
@@ -257,8 +266,8 @@ public class ItemView extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblClose;
-    private javax.swing.JLabel lblSelect;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnSelect2;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JTable subCategoryTable;
     // End of variables declaration//GEN-END:variables

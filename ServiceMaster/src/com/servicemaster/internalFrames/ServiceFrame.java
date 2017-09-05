@@ -13,7 +13,7 @@ import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.AutoCompletion;
 import com.servicemaster.functions.JdbcConnection;
 import com.servicemaster.functions.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Address;
 import com.servicemaster.models.Bom;
 import com.servicemaster.models.BomItem;
@@ -102,10 +102,10 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         txtLastServicesMilage = new javax.swing.JTextField();
         cmbVehicle = new javax.swing.JComboBox<>();
-        lblNew = new javax.swing.JLabel();
-        lblRefresh = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         dateServiceDate = new com.toedter.calendar.JDateChooser();
+        btnNew = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
         customerDetailPanel = new javax.swing.JPanel();
         lblAddress3 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -134,11 +134,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblItems = new javax.swing.JTable();
         buttonPanel = new javax.swing.JPanel();
-        lblClose = new javax.swing.JLabel();
-        lblSave = new javax.swing.JLabel();
-        lblPrint = new javax.swing.JLabel();
-        lblSettle = new javax.swing.JLabel();
-        lblReset = new javax.swing.JLabel();
+        btnInvoice = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
+        btnSettle = new javax.swing.JButton();
 
         itemDelete.setText("Delete");
         itemDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -204,48 +204,52 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        lblNew.setBackground(new java.awt.Color(150, 255, 150));
-        lblNew.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblNew.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNew.setText("New");
-        lblNew.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblNew.setOpaque(true);
-        lblNew.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblNewMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblNewMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblNewMouseExited(evt);
-            }
-        });
-
-        lblRefresh.setBackground(new java.awt.Color(150, 255, 150));
-        lblRefresh.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblRefresh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblRefresh.setText("Refresh");
-        lblRefresh.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblRefresh.setOpaque(true);
-        lblRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblRefreshMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblRefreshMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblRefreshMouseExited(evt);
-            }
-        });
-
         jLabel12.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel12.setText("Date : ");
 
         dateServiceDate.setDate(new Date());
         dateServiceDate.setDateFormatString("yyyy-MM-dd");
         dateServiceDate.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        btnNew.setBackground(new java.awt.Color(150, 255, 150));
+        btnNew.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnNew.setText("New");
+        btnNew.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnNew.setContentAreaFilled(false);
+        btnNew.setOpaque(true);
+        btnNew.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnNewMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnNewMouseExited(evt);
+            }
+        });
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
+
+        btnRefresh.setBackground(new java.awt.Color(150, 255, 150));
+        btnRefresh.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnRefresh.setText("Refresh");
+        btnRefresh.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnRefresh.setContentAreaFilled(false);
+        btnRefresh.setOpaque(true);
+        btnRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRefreshMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRefreshMouseExited(evt);
+            }
+        });
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout vehicleDetailPanelLayout = new javax.swing.GroupLayout(vehicleDetailPanel);
         vehicleDetailPanel.setLayout(vehicleDetailPanelLayout);
@@ -266,26 +270,30 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                         .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtLastServicesMilage, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
                             .addComponent(dateServiceDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNew, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addGap(4, 4, 4)
+                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
-        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2});
+        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel12, jLabel2});
 
         vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbVehicle, txtLastServicesMilage});
+
+        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnNew, btnRefresh});
 
         vehicleDetailPanelLayout.setVerticalGroup(
             vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(vehicleDetailPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cmbVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNew, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(cmbVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -297,7 +305,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
-        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbVehicle, dateServiceDate, jLabel1, jLabel12, jLabel2, lblNew, txtLastServicesMilage});
+        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnNew, btnRefresh, cmbVehicle, dateServiceDate, jLabel1, jLabel12, jLabel2, txtLastServicesMilage});
 
         detailPanel.add(vehicleDetailPanel);
 
@@ -600,95 +608,105 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             tblItems.getColumnModel().getColumn(6).setResizable(false);
         }
 
-        lblClose.setBackground(new java.awt.Color(150, 255, 150));
-        lblClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblClose.setText("Close");
-        lblClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblClose.setOpaque(true);
-        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCloseMouseClicked(evt);
-            }
+        btnInvoice.setBackground(new java.awt.Color(150, 255, 150));
+        btnInvoice.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnInvoice.setText("Invoice");
+        btnInvoice.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnInvoice.setContentAreaFilled(false);
+        btnInvoice.setEnabled(false);
+        btnInvoice.setOpaque(true);
+        btnInvoice.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCloseMouseEntered(evt);
+                btnInvoiceMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCloseMouseExited(evt);
+                btnInvoiceMouseExited(evt);
+            }
+        });
+        btnInvoice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInvoiceActionPerformed(evt);
             }
         });
 
-        lblSave.setBackground(new java.awt.Color(150, 255, 150));
-        lblSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSave.setText("Save");
-        lblSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblSave.setOpaque(true);
-        lblSave.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblSaveMouseClicked(evt);
-            }
+        btnSave.setBackground(new java.awt.Color(150, 255, 150));
+        btnSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnSave.setText("Save");
+        btnSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnSave.setContentAreaFilled(false);
+        btnSave.setOpaque(true);
+        btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblSaveMouseEntered(evt);
+                btnSaveMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblSaveMouseExited(evt);
+                btnSaveMouseExited(evt);
+            }
+        });
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
             }
         });
 
-        lblPrint.setBackground(new java.awt.Color(150, 255, 150));
-        lblPrint.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblPrint.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblPrint.setText("Invoice");
-        lblPrint.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblPrint.setEnabled(false);
-        lblPrint.setOpaque(true);
-        lblPrint.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblPrintMouseClicked(evt);
-            }
+        btnClose.setBackground(new java.awt.Color(150, 255, 150));
+        btnClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnClose.setText("Close");
+        btnClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnClose.setContentAreaFilled(false);
+        btnClose.setOpaque(true);
+        btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblPrintMouseEntered(evt);
+                btnCloseMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblPrintMouseExited(evt);
+                btnCloseMouseExited(evt);
+            }
+        });
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
             }
         });
 
-        lblSettle.setBackground(new java.awt.Color(150, 255, 150));
-        lblSettle.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblSettle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSettle.setText("Settle");
-        lblSettle.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblSettle.setEnabled(false);
-        lblSettle.setOpaque(true);
-        lblSettle.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblSettleMouseClicked(evt);
-            }
+        btnReset.setBackground(new java.awt.Color(150, 255, 150));
+        btnReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnReset.setText("Reset");
+        btnReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnReset.setContentAreaFilled(false);
+        btnReset.setOpaque(true);
+        btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblSettleMouseEntered(evt);
+                btnResetMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblSettleMouseExited(evt);
+                btnResetMouseExited(evt);
+            }
+        });
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
             }
         });
 
-        lblReset.setBackground(new java.awt.Color(150, 255, 150));
-        lblReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblReset.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblReset.setText("Reset");
-        lblReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblReset.setOpaque(true);
-        lblReset.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblResetMouseClicked(evt);
-            }
+        btnSettle.setBackground(new java.awt.Color(150, 255, 150));
+        btnSettle.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnSettle.setText("Settle");
+        btnSettle.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnSettle.setContentAreaFilled(false);
+        btnSettle.setEnabled(false);
+        btnSettle.setOpaque(true);
+        btnSettle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblResetMouseEntered(evt);
+                btnSettleMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblResetMouseExited(evt);
+                btnSettleMouseExited(evt);
+            }
+        });
+        btnSettle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSettleActionPerformed(evt);
             }
         });
 
@@ -698,34 +716,36 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblPrint, lblSave, lblSettle});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnInvoice, btnReset, btnSave, btnSettle});
 
         buttonPanelLayout.setVerticalGroup(
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblPrint, lblSave, lblSettle});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnInvoice, btnReset, btnSave, btnSettle});
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -746,7 +766,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(itemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -766,152 +786,6 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
-        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            servicesFrame.setServiceFrame(null);
-            this.servicesFrame.loadServices();
-            this.dispose();
-        }
-    }//GEN-LAST:event_lblCloseMouseClicked
-
-    private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCloseMouseEntered
-
-    private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCloseMouseExited
-
-    private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
-        if (service != null) {
-            Date date = dateServiceDate.getDate();
-            Date time = new Date();
-
-            service.setMilage(Float.parseFloat(txtLastServicesMilage.getText().trim()));
-            service.setSubTotal(grandSubTotal);
-            service.setDiscount(grandDiscount);
-            service.setGrandTotal(grandTotal);
-            if (grandDiscount > 0.0) {
-                service.setDiscounted(1);
-            } else {
-                service.setDiscounted(0);
-            }
-            service.setModifiedDate(date);
-            service.setModifiedTime(time);
-            service.setModifiedUser(MainFrame.user.getUserId());
-            service.setServiceBay(serviceBayMap.get(((String) cmbServiceBay.getSelectedItem()).trim()));
-            service.setVehicle(vehicleMap.get(((String) cmbVehicle.getSelectedItem()).trim()));
-            service.setServiceStatus(serviceStatusMap.get("OPEN"));
-
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-
-            session.saveOrUpdate(service);
-
-            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                String itemName = (String) tblItems.getValueAt(i, 1);
-                float quantity = (float) tblItems.getValueAt(i, 2);
-                float subTotal = (float) tblItems.getValueAt(i, 4);
-                float discount = (float) tblItems.getValueAt(i, 5);
-                float itemTotal = (float) tblItems.getValueAt(i, 6);
-
-                ServiceHasItem serviceHasItem = serviceHasItemMap.get(itemName);
-                if (serviceHasItem == null) {
-                    serviceHasItem = new ServiceHasItem();
-                    Item item = (Item) session.createCriteria(Item.class)
-                            .add(Restrictions.eq("itemCode", tblItems.getValueAt(i, 0).toString()))
-                            .uniqueResult();
-                    serviceHasItem.setItem(item);
-                    serviceHasItem.setService(service);
-                }
-                serviceHasItem.setQuantity(quantity);
-                serviceHasItem.setSubTotal(subTotal);
-                serviceHasItem.setDiscount(discount);
-                serviceHasItem.setTotal(itemTotal);
-                serviceHasItem.setServiceHasItemStatus(this.serviceHasItemStatusMap.get(1));
-                serviceHasItem.setModifiedDate(date);
-                serviceHasItem.setModifiedTime(time);
-                serviceHasItem.setModifiedUser(MainFrame.user.getUserId());
-                serviceHasItem.setRemark(itemName);
-
-                session.saveOrUpdate(serviceHasItem);
-            }
-
-            session.getTransaction().commit();
-            session.close();
-        } else {
-            KeyCodeFunctions codeFunctions = new KeyCodeFunctions();
-            String serviceCode = codeFunctions.getKey("SVR", "Service");
-            Date date = dateServiceDate.getDate();
-            Date time = new Date();
-
-            service = new Service();
-            service.setServiceCode(serviceCode);
-            service.setMilage(Float.parseFloat(txtLastServicesMilage.getText().trim()));
-            service.setSubTotal(grandSubTotal);
-            service.setDiscount(grandDiscount);
-            service.setGrandTotal(grandTotal);
-            if (grandDiscount > 0.0) {
-                service.setDiscounted(1);
-            } else {
-                service.setDiscounted(0);
-            }
-            service.setCreatedDate(date);
-            service.setCreatedTime(time);
-            service.setCreatedUser(MainFrame.user.getUserId());
-            service.setServiceBay(serviceBayMap.get(((String) cmbServiceBay.getSelectedItem()).trim()));
-            service.setVehicle(vehicleMap.get(((String) cmbVehicle.getSelectedItem()).trim()));
-            service.setServiceStatus(serviceStatusMap.get("OPEN"));
-
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-
-            session.saveOrUpdate(service);
-
-            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                String itemName = (String) tblItems.getValueAt(i, 1);
-                float quantity = (float) tblItems.getValueAt(i, 2);
-                float subTotal = (float) tblItems.getValueAt(i, 4);
-                float discount = (float) tblItems.getValueAt(i, 5);
-                float itemTotal = (float) tblItems.getValueAt(i, 6);
-
-                ServiceHasItem serviceHasItem = new ServiceHasItem();
-                serviceHasItem.setItem(itemMap.get(itemName));
-                serviceHasItem.setService(service);
-                serviceHasItem.setQuantity(quantity);
-                serviceHasItem.setSubTotal(subTotal);
-                serviceHasItem.setDiscount(discount);
-                serviceHasItem.setTotal(itemTotal);
-                serviceHasItem.setServiceHasItemStatus(this.serviceHasItemStatusMap.get(0));
-                serviceHasItem.setCreatedDate(date);
-                serviceHasItem.setCreatedTime(time);
-                serviceHasItem.setCreatedUser(MainFrame.user.getUserId());
-                serviceHasItem.setRemark(itemName);
-
-                serviceHasItemMap.put(itemName, serviceHasItem);
-
-                session.saveOrUpdate(serviceHasItem);
-            }
-
-            session.getTransaction().commit();
-            session.close();
-        }
-        lblPrint.setEnabled(true);
-        InformationDialog.showMessageBox("Updated successfully", "Success");
-        this.servicesFrame.loadServices();
-    }//GEN-LAST:event_lblSaveMouseClicked
-
-    private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblSaveMouseEntered
-
-    private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblSaveMouseExited
 
     private void rbtPercentageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rbtPercentageKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_RIGHT || evt.getKeyCode() == KeyEvent.VK_KP_RIGHT) {
@@ -964,10 +838,10 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             if (service.getServiceStatus().getStatusId() != 1
                     && service.getServiceStatus().getStatusId() != 2
                     && service.getServiceStatus().getStatusId() != 6) {
-                lblSettle.setEnabled(true);
-                lblPrint.setEnabled(true);
+                btnSettle.setEnabled(true);
+                btnInvoice.setEnabled(true);
             } else if (service.getServiceStatus().getStatusId() != 1) {
-                lblPrint.setEnabled(true);
+                btnInvoice.setEnabled(true);
             }
             dateServiceDate.setDate(service.getCreatedDate());
 
@@ -1011,7 +885,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             txtGrandDiscount.setText("" + grandDiscount);
             txtGrandTotal.setText("" + grandTotal);
 
-            this.lblSave.setText("Update");
+            this.btnSave.setText("Update");
 
             session.close();
 
@@ -1108,94 +982,6 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             cmbItems.requestFocus();
         }
     }//GEN-LAST:event_cmbVehicleFocusGained
-
-    private void lblPrintMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrintMouseClicked
-        if (lblPrint.isEnabled()) {
-            if (service.getInvoices().isEmpty()) {
-                KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                String invoiceCode = keyCodeFunctions.getKey("INV", "Invoices");
-                Date date = new Date();
-
-                Session session = HibernateUtil.getSessionFactory().openSession();
-                Transaction transaction = session.beginTransaction();
-
-                invoice = new Invoice(invoiceCode, service);
-                invoice.setCreatedDate(date);
-                invoice.setCreatedTime(date);
-                invoice.setCreatedUser(MainFrame.user.getUserId());
-
-                session.saveOrUpdate(invoice);
-
-                Set invoices = new HashSet();
-                invoices.add(invoice);
-
-                service.setInvoices(invoices);
-                service.setServiceStatus(this.serviceStatusMap.get("INVOICED"));
-
-                session.saveOrUpdate(service);
-
-                transaction.commit();
-                session.close();
-            }
-            JdbcConnection jbConnection = new JdbcConnection();
-            Connection connection = jbConnection.getConnection();
-
-            if (connection != null) {
-                String reportFile = "reports/invoice.jasper";
-
-                Map map = new HashMap();
-                map.put("serviceCode", this.service.getServiceCode());
-
-                try {
-                    JasperPrint jasperPrint = JasperFillManager.fillReport(reportFile, map, connection);
-                    JasperViewer.viewReport(jasperPrint, false);
-                } catch (JRException ex) {
-                    Logger.getLogger(ServiceFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                jbConnection.closeConnection();
-            }
-
-            lblSettle.setEnabled(true);
-        }
-    }//GEN-LAST:event_lblPrintMouseClicked
-
-    private void lblPrintMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrintMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblPrintMouseEntered
-
-    private void lblPrintMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrintMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblPrintMouseExited
-
-    private void lblNewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewMouseClicked
-        MainFrame.openWindow(MainFrame.allModuleMap.get("Vehicles"));
-    }//GEN-LAST:event_lblNewMouseClicked
-
-    private void lblNewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblNewMouseEntered
-
-    private void lblNewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblNewMouseExited
-
-    private void lblRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRefreshMouseClicked
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-
-        this.loadVehicles(session);
-
-        session.getTransaction().commit();
-        session.close();
-    }//GEN-LAST:event_lblRefreshMouseClicked
-
-    private void lblRefreshMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRefreshMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblRefreshMouseEntered
-
-    private void lblRefreshMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRefreshMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblRefreshMouseExited
 
     private void txtDiscountKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiscountKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -1312,7 +1098,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private void itemDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDeleteActionPerformed
         int selectedRow = (tblItems.getSelectedRow());
         if (selectedRow == -1) {
-            InformationDialog.showMessageBox("Please select a valid item", "Invalid");
+            InformationDialog.showMessageBox("Please select a valid item", "Invalid", null);
         } else {
             if (service == null) {
                 grandSubTotal = grandSubTotal - (((float) tblItems.getValueAt(tblItems.getSelectedRow(), 2))
@@ -1377,32 +1163,262 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_itemDeleteActionPerformed
 
-    private void lblSettleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSettleMouseClicked
-        if (lblSettle.isEnabled()) {
-            SettlementDialog settlementDialog = new SettlementDialog(null, true, service, invoice, this.serviceStatusMap);
-            settlementDialog.setVisible(true);
+    private void btnNewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnNewMouseEntered
+
+    private void btnNewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnNewMouseExited
+
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get("Vehicles"));
+    }//GEN-LAST:event_btnNewActionPerformed
+
+    private void btnRefreshMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnRefreshMouseEntered
+
+    private void btnRefreshMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnRefreshMouseExited
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        this.loadVehicles(session);
+
+        session.getTransaction().commit();
+        session.close();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnInvoiceMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInvoiceMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnInvoiceMouseEntered
+
+    private void btnInvoiceMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInvoiceMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnInvoiceMouseExited
+
+    private void btnInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvoiceActionPerformed
+        if (service.getInvoices().isEmpty()) {
+            KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+            String invoiceCode = keyCodeFunctions.getKey("INV", "Invoices");
+            Date date = new Date();
+
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            invoice = new Invoice(invoiceCode, service);
+            invoice.setCreatedDate(date);
+            invoice.setCreatedTime(date);
+            invoice.setCreatedUser(MainFrame.user.getUserId());
+
+            session.saveOrUpdate(invoice);
+
+            Set invoices = new HashSet();
+            invoices.add(invoice);
+
+            service.setInvoices(invoices);
+            service.setServiceStatus(this.serviceStatusMap.get("INVOICED"));
+
+            session.saveOrUpdate(service);
+
+            transaction.commit();
+            session.close();
         }
-    }//GEN-LAST:event_lblSettleMouseClicked
+        JdbcConnection jbConnection = new JdbcConnection();
+        Connection connection = jbConnection.getConnection();
 
-    private void lblSettleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSettleMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblSettleMouseEntered
+        if (connection != null) {
+            String reportFile = "reports/invoice.jasper";
 
-    private void lblSettleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSettleMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblSettleMouseExited
+            Map map = new HashMap();
+            map.put("serviceCode", this.service.getServiceCode());
 
-    private void lblResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseClicked
+            try {
+                JasperPrint jasperPrint = JasperFillManager.fillReport(reportFile, map, connection);
+                JasperViewer.viewReport(jasperPrint, false);
+            } catch (JRException ex) {
+                Logger.getLogger(ServiceFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            jbConnection.closeConnection();
+        }
+
+        btnSettle.setEnabled(true);
+    }//GEN-LAST:event_btnInvoiceActionPerformed
+
+    private void btnSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnSaveMouseEntered
+
+    private void btnSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnSaveMouseExited
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        if (service != null) {
+            Date date = dateServiceDate.getDate();
+            Date time = new Date();
+
+            service.setMilage(Float.parseFloat(txtLastServicesMilage.getText().trim()));
+            service.setSubTotal(grandSubTotal);
+            service.setDiscount(grandDiscount);
+            service.setGrandTotal(grandTotal);
+            if (grandDiscount > 0.0) {
+                service.setDiscounted(1);
+            } else {
+                service.setDiscounted(0);
+            }
+            service.setModifiedDate(date);
+            service.setModifiedTime(time);
+            service.setModifiedUser(MainFrame.user.getUserId());
+            service.setServiceBay(serviceBayMap.get(((String) cmbServiceBay.getSelectedItem()).trim()));
+            service.setVehicle(vehicleMap.get(((String) cmbVehicle.getSelectedItem()).trim()));
+            service.setServiceStatus(serviceStatusMap.get("OPEN"));
+
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+
+            session.saveOrUpdate(service);
+
+            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                String itemName = (String) tblItems.getValueAt(i, 1);
+                float quantity = (float) tblItems.getValueAt(i, 2);
+                float subTotal = (float) tblItems.getValueAt(i, 4);
+                float discount = (float) tblItems.getValueAt(i, 5);
+                float itemTotal = (float) tblItems.getValueAt(i, 6);
+
+                ServiceHasItem serviceHasItem = serviceHasItemMap.get(itemName);
+                if (serviceHasItem == null) {
+                    serviceHasItem = new ServiceHasItem();
+                    Item item = (Item) session.createCriteria(Item.class)
+                            .add(Restrictions.eq("itemCode", tblItems.getValueAt(i, 0).toString()))
+                            .uniqueResult();
+                    serviceHasItem.setItem(item);
+                    serviceHasItem.setService(service);
+                }
+                serviceHasItem.setQuantity(quantity);
+                serviceHasItem.setSubTotal(subTotal);
+                serviceHasItem.setDiscount(discount);
+                serviceHasItem.setTotal(itemTotal);
+                serviceHasItem.setServiceHasItemStatus(this.serviceHasItemStatusMap.get(1));
+                serviceHasItem.setModifiedDate(date);
+                serviceHasItem.setModifiedTime(time);
+                serviceHasItem.setModifiedUser(MainFrame.user.getUserId());
+                serviceHasItem.setRemark(itemName);
+
+                session.saveOrUpdate(serviceHasItem);
+            }
+
+            session.getTransaction().commit();
+            session.close();
+        } else {
+            KeyCodeFunctions codeFunctions = new KeyCodeFunctions();
+            String serviceCode = codeFunctions.getKey("SVR", "Service");
+            Date date = dateServiceDate.getDate();
+            Date time = new Date();
+
+            service = new Service();
+            service.setServiceCode(serviceCode);
+            service.setMilage(Float.parseFloat(txtLastServicesMilage.getText().trim()));
+            service.setSubTotal(grandSubTotal);
+            service.setDiscount(grandDiscount);
+            service.setGrandTotal(grandTotal);
+            if (grandDiscount > 0.0) {
+                service.setDiscounted(1);
+            } else {
+                service.setDiscounted(0);
+            }
+            service.setCreatedDate(date);
+            service.setCreatedTime(time);
+            service.setCreatedUser(MainFrame.user.getUserId());
+            service.setServiceBay(serviceBayMap.get(((String) cmbServiceBay.getSelectedItem()).trim()));
+            service.setVehicle(vehicleMap.get(((String) cmbVehicle.getSelectedItem()).trim()));
+            service.setServiceStatus(serviceStatusMap.get("OPEN"));
+
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+
+            session.saveOrUpdate(service);
+
+            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                String itemName = (String) tblItems.getValueAt(i, 1);
+                float quantity = (float) tblItems.getValueAt(i, 2);
+                float subTotal = (float) tblItems.getValueAt(i, 4);
+                float discount = (float) tblItems.getValueAt(i, 5);
+                float itemTotal = (float) tblItems.getValueAt(i, 6);
+
+                ServiceHasItem serviceHasItem = new ServiceHasItem();
+                serviceHasItem.setItem(itemMap.get(itemName));
+                serviceHasItem.setService(service);
+                serviceHasItem.setQuantity(quantity);
+                serviceHasItem.setSubTotal(subTotal);
+                serviceHasItem.setDiscount(discount);
+                serviceHasItem.setTotal(itemTotal);
+                serviceHasItem.setServiceHasItemStatus(this.serviceHasItemStatusMap.get(0));
+                serviceHasItem.setCreatedDate(date);
+                serviceHasItem.setCreatedTime(time);
+                serviceHasItem.setCreatedUser(MainFrame.user.getUserId());
+                serviceHasItem.setRemark(itemName);
+
+                serviceHasItemMap.put(itemName, serviceHasItem);
+
+                session.saveOrUpdate(serviceHasItem);
+            }
+
+            session.getTransaction().commit();
+            session.close();
+        }
+        btnInvoice.setEnabled(true);
+        InformationDialog.showMessageBox("Updated successfully", "Success", null);
+        this.servicesFrame.loadServices();
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnCloseMouseEntered
+
+    private void btnCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnCloseMouseExited
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+            servicesFrame.setServiceFrame(null);
+            this.servicesFrame.loadServices();
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnResetMouseEntered
+
+    private void btnResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnResetMouseExited
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         this.clearAll();
-    }//GEN-LAST:event_lblResetMouseClicked
+    }//GEN-LAST:event_btnResetActionPerformed
 
-    private void lblResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblResetMouseEntered
+    private void btnSettleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSettleMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnSettleMouseEntered
 
-    private void lblResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblResetMouseExited
+    private void btnSettleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSettleMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnSettleMouseExited
+
+    private void btnSettleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettleActionPerformed
+        SettlementDialog settlementDialog = new SettlementDialog(null, true, service, invoice, this.serviceStatusMap);
+        settlementDialog.setVisible(true);
+    }//GEN-LAST:event_btnSettleActionPerformed
 
     private void loadVehicles(Session session) {
 
@@ -1558,6 +1574,13 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ServiceDetailPanel;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnInvoice;
+    private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSettle;
     private javax.swing.JPanel buttonPanel;
     public static javax.swing.JComboBox<String> cmbItems;
     private javax.swing.JComboBox<String> cmbServiceBay;
@@ -1585,14 +1608,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblAddress1;
     private javax.swing.JLabel lblAddress2;
     private javax.swing.JLabel lblAddress3;
-    private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblCustomerName;
-    private javax.swing.JLabel lblNew;
-    private javax.swing.JLabel lblPrint;
-    private javax.swing.JLabel lblRefresh;
-    private javax.swing.JLabel lblReset;
-    private javax.swing.JLabel lblSave;
-    private javax.swing.JLabel lblSettle;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JRadioButton rbtNumber;
     private javax.swing.JRadioButton rbtPercentage;

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 3, 2017 7:12:51 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 5, 2017 11:15:50 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Service" table="service" catalog="enterprisedb" optimistic-lock="version">
         <id name="serviceCode" type="string">
@@ -58,6 +58,12 @@
                 <column name="service_service_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.Invoice" />
+        </set>
+        <set name="serviceHasBusinessPartners" table="service_has_business_partner" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="service_service_code" length="15" not-null="true" />
+            </key>
+            <one-to-many class="com.servicemaster.models.ServiceHasBusinessPartner" />
         </set>
         <set name="serviceHasItems" table="service_has_item" inverse="true" lazy="true" fetch="select">
             <key>

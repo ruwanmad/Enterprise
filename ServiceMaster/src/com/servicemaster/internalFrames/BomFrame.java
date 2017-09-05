@@ -11,7 +11,7 @@ import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.AutoCompletion;
 import com.servicemaster.functions.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Bom;
 import com.servicemaster.models.BomItem;
 import com.servicemaster.models.Item;
@@ -57,7 +57,6 @@ public class BomFrame extends javax.swing.JInternalFrame {
         itemDelete = new javax.swing.JMenuItem();
         itemEdit = new javax.swing.JMenuItem();
         txtBomCode = new javax.swing.JTextField();
-        lblCodeSearch = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         cmbMainItem = new javax.swing.JComboBox<>();
@@ -68,17 +67,18 @@ public class BomFrame extends javax.swing.JInternalFrame {
         txtQuantity = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
         cmbUom = new javax.swing.JComboBox<>();
-        lblAdd = new javax.swing.JLabel();
+        btnAdd = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAddedBomItems = new javax.swing.JTable();
-        lblClose = new javax.swing.JLabel();
-        lblSave = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         cbxIsActive = new javax.swing.JCheckBox();
         jLabel7 = new javax.swing.JLabel();
         txtRemark = new javax.swing.JTextField();
-        lblReset = new javax.swing.JLabel();
+        btnSave = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
+        btnCodeSerach = new javax.swing.JButton();
 
         itemDelete.setText("jMenuItem1");
         itemDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -117,23 +117,6 @@ public class BomFrame extends javax.swing.JInternalFrame {
         });
 
         txtBomCode.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-
-        lblCodeSearch.setBackground(new java.awt.Color(150, 255, 150));
-        lblCodeSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblCodeSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
-        lblCodeSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblCodeSearch.setOpaque(true);
-        lblCodeSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCodeSearchMouseExited(evt);
-            }
-        });
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel1.setText("BOM Code :");
@@ -174,21 +157,23 @@ public class BomFrame extends javax.swing.JInternalFrame {
         cmbUom.setEditable(true);
         cmbUom.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        lblAdd.setBackground(new java.awt.Color(150, 255, 150));
-        lblAdd.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblAdd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAdd.setText("Add");
-        lblAdd.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblAdd.setOpaque(true);
-        lblAdd.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblAddMouseClicked(evt);
-            }
+        btnAdd.setBackground(new java.awt.Color(150, 255, 150));
+        btnAdd.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnAdd.setText("Add");
+        btnAdd.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnAdd.setContentAreaFilled(false);
+        btnAdd.setOpaque(true);
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblAddMouseEntered(evt);
+                btnAddMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblAddMouseExited(evt);
+                btnAddMouseExited(evt);
+            }
+        });
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
             }
         });
 
@@ -210,8 +195,8 @@ public class BomFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmbUom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,7 +209,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
                     .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbUom, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -273,7 +258,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,42 +266,6 @@ public class BomFrame extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
-
-        lblClose.setBackground(new java.awt.Color(150, 255, 150));
-        lblClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblClose.setText("Close");
-        lblClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblClose.setOpaque(true);
-        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCloseMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCloseMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCloseMouseExited(evt);
-            }
-        });
-
-        lblSave.setBackground(new java.awt.Color(150, 255, 150));
-        lblSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSave.setText("Save");
-        lblSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblSave.setOpaque(true);
-        lblSave.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblSaveMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblSaveMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblSaveMouseExited(evt);
-            }
-        });
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel6.setText("Active :");
@@ -329,21 +278,83 @@ public class BomFrame extends javax.swing.JInternalFrame {
 
         txtRemark.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        lblReset.setBackground(new java.awt.Color(150, 255, 150));
-        lblReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblReset.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblReset.setText("Reset");
-        lblReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblReset.setOpaque(true);
-        lblReset.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblResetMouseClicked(evt);
-            }
+        btnSave.setBackground(new java.awt.Color(150, 255, 150));
+        btnSave.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnSave.setText("Save");
+        btnSave.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnSave.setContentAreaFilled(false);
+        btnSave.setOpaque(true);
+        btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblResetMouseEntered(evt);
+                btnSaveMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblResetMouseExited(evt);
+                btnSaveMouseExited(evt);
+            }
+        });
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnClose.setBackground(new java.awt.Color(150, 255, 150));
+        btnClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnClose.setText("Close");
+        btnClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnClose.setContentAreaFilled(false);
+        btnClose.setOpaque(true);
+        btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCloseMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCloseMouseExited(evt);
+            }
+        });
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+
+        btnReset.setBackground(new java.awt.Color(150, 255, 150));
+        btnReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnReset.setText("Reset");
+        btnReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnReset.setContentAreaFilled(false);
+        btnReset.setOpaque(true);
+        btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnResetMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnResetMouseExited(evt);
+            }
+        });
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+
+        btnCodeSerach.setBackground(new java.awt.Color(150, 255, 150));
+        btnCodeSerach.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnCodeSerach.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        btnCodeSerach.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnCodeSerach.setContentAreaFilled(false);
+        btnCodeSerach.setOpaque(true);
+        btnCodeSerach.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCodeSerachMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCodeSerachMouseExited(evt);
+            }
+        });
+        btnCodeSerach.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCodeSerachActionPerformed(evt);
             }
         });
 
@@ -362,47 +373,45 @@ public class BomFrame extends javax.swing.JInternalFrame {
                         .addComponent(cbxIsActive)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel2))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(txtBomCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(lblCodeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(cmbMainItem, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtRemark)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                                        .addComponent(txtBomCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(4, 4, 4)
+                                        .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cmbMainItem, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtRemark)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel6, jLabel7});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnReset, btnSave});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblCodeSearch)
                     .addComponent(txtBomCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbMainItem, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -421,128 +430,28 @@ public class BomFrame extends javax.swing.JInternalFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbMainItem, jLabel1, jLabel2, jLabel6, jLabel7, lblCodeSearch, txtBomCode, txtRemark});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbMainItem, jLabel1, jLabel2, jLabel6, jLabel7, txtBomCode, txtRemark});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblClose, lblReset, lblSave});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnReset, btnSave});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void lblCodeSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseClicked
-        String bomCode = txtBomCode.getText().trim();
-        List boms = this.getBomByCode(bomCode, true);
-
-        if (!boms.isEmpty()) {
-            BomView bomView = new BomView(boms, this);
-            MainFrame.desktopPane.add(bomView);
-            bomView.setVisible(true);
-        }
-    }//GEN-LAST:event_lblCodeSearchMouseClicked
-
-    private void lblCodeSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCodeSearchMouseEntered
-
-    private void lblCodeSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCodeSearchMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCodeSearchMouseExited
-
-    private void lblAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseClicked
-        String itemName = (String) cmbBomItem.getSelectedItem();
-        String quantity = txtQuantity.getText().trim();
-        String uom = (String) cmbUom.getSelectedItem();
-
-        if (itemName.isEmpty() || quantity.isEmpty() || uom.isEmpty()) {
-            InformationDialog.showMessageBox("Please enter valid details", "Invalid");
-        } else {
-            DefaultTableModel tableModel = (DefaultTableModel) tblAddedBomItems.getModel();
-            Item item = itemMap.get(itemName);
-            tableModel.addRow(new String[]{item.getItemCode(), itemName, quantity, uom});
-
-            cmbBomItem.setSelectedIndex(0);
-            txtQuantity.setText("");
-            cmbUom.setSelectedIndex(0);
-            cmbBomItem.requestFocus();
-        }
-    }//GEN-LAST:event_lblAddMouseClicked
-
-    private void lblAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblAddMouseEntered
-
-    private void lblAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblAddMouseExited
-
-    private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
-        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            this.dispose();
-        }
-    }//GEN-LAST:event_lblCloseMouseClicked
-
-    private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCloseMouseEntered
-
-    private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCloseMouseExited
-
-    private void lblSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseClicked
-        if (this.validateInputs()) {
-            if (txtBomCode.getText().isEmpty()) {
-                Item item = itemMap.get((String) cmbMainItem.getSelectedItem());
-                List boms = this.getBomByItem(item, false);
-                if (boms.isEmpty()) {
-                    ConfirmationDialog.showMessageBox("BOM not exist. Create new one?", "New");
-                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                        KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                        this.saveOrUpdateBom(keyCodeFunctions.getKey("BOM", "Bill of metirial codes"), false);
-                    }
-                } else {
-                    InformationDialog.showMessageBox("BOM already exists for selected itme", "Exist");
-                }
-            } else {
-                List boms = this.getBomByCode(txtBomCode.getText().trim(), false);
-                if (boms.isEmpty()) {
-                    InformationDialog.showMessageBox("Invalid BOM code. Please try again", "Invalid");
-                } else {
-                    for (Object object : boms) {
-                        if (object instanceof Bom) {
-                            this.saveOrUpdateBom(((Bom) object).getBomCode(), false);
-                        }
-                    }
-                }
-            }
-        } else {
-            InformationDialog.showMessageBox("Please enter valid details", "Invalid");
-        }
-    }//GEN-LAST:event_lblSaveMouseClicked
 
     public boolean validateInputs() {
         return !(((String) cmbMainItem.getSelectedItem()).isEmpty()
                 || tblAddedBomItems.getModel().getRowCount() == 0);
     }
 
-    private void lblSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblSaveMouseEntered
-
-    private void lblSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSaveMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblSaveMouseExited
-
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         AutoCompletion.enable(cmbMainItem, cmbBomItem);
         AutoCompletion.enable(cmbBomItem, txtQuantity);
-        AutoCompletion.enable(cmbUom, lblAdd);
+        AutoCompletion.enable(cmbUom, btnAdd);
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
@@ -572,7 +481,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
     private void itemEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEditActionPerformed
         int selectedRow = tblAddedBomItems.getSelectedRow();
         if (selectedRow == -1) {
-            InformationDialog.showMessageBox("Please select a valid item", "Invalid");
+            InformationDialog.showMessageBox("Please select a valid item", "Invalid", null);
         } else {
             String itemName = tblAddedBomItems.getValueAt(selectedRow, 1).toString();
             String quantity = tblAddedBomItems.getValueAt(selectedRow, 2).toString();
@@ -600,23 +509,123 @@ public class BomFrame extends javax.swing.JInternalFrame {
     private void itemDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDeleteActionPerformed
         int selectedRow = tblAddedBomItems.getSelectedRow();
         if (selectedRow == -1) {
-            InformationDialog.showMessageBox("Please select a valid item", "Invalid");
+            InformationDialog.showMessageBox("Please select a valid item", "Invalid", null);
         } else {
             ((DefaultTableModel) tblAddedBomItems.getModel()).removeRow(selectedRow);
         }
     }//GEN-LAST:event_itemDeleteActionPerformed
 
-    private void lblResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseClicked
+    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnAddMouseEntered
+
+    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnAddMouseExited
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        String itemName = (String) cmbBomItem.getSelectedItem();
+        String quantity = txtQuantity.getText().trim();
+        String uom = (String) cmbUom.getSelectedItem();
+
+        if (itemName.isEmpty() || quantity.isEmpty() || uom.isEmpty()) {
+            InformationDialog.showMessageBox("Please enter valid details", "Invalid", null);
+        } else {
+            DefaultTableModel tableModel = (DefaultTableModel) tblAddedBomItems.getModel();
+            Item item = itemMap.get(itemName);
+            tableModel.addRow(new String[]{item.getItemCode(), itemName, quantity, uom});
+
+            cmbBomItem.setSelectedIndex(0);
+            txtQuantity.setText("");
+            cmbUom.setSelectedIndex(0);
+            cmbBomItem.requestFocus();
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnSaveMouseEntered
+
+    private void btnSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnSaveMouseExited
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        if (this.validateInputs()) {
+            if (txtBomCode.getText().isEmpty()) {
+                Item item = itemMap.get((String) cmbMainItem.getSelectedItem());
+                List boms = this.getBomByItem(item, false);
+                if (boms.isEmpty()) {
+                    ConfirmationDialog.showMessageBox("BOM not exist. Create new one?", "New", this);
+                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+                        KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                        this.saveOrUpdateBom(keyCodeFunctions.getKey("BOM", "Bill of metirial codes"), false);
+                    }
+                } else {
+                    InformationDialog.showMessageBox("BOM already exists for selected itme", "Exist", null);
+                }
+            } else {
+                List boms = this.getBomByCode(txtBomCode.getText().trim(), false);
+                if (boms.isEmpty()) {
+                    InformationDialog.showMessageBox("Invalid BOM code. Please try again", "Invalid", null);
+                } else {
+                    for (Object object : boms) {
+                        if (object instanceof Bom) {
+                            this.saveOrUpdateBom(((Bom) object).getBomCode(), false);
+                        }
+                    }
+                }
+            }
+        } else {
+            InformationDialog.showMessageBox("Please enter valid details", "Invalid", null);
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnCloseMouseEntered
+
+    private void btnCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnCloseMouseExited
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnResetMouseEntered
+
+    private void btnResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnResetMouseExited
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         this.clearAll();
-    }//GEN-LAST:event_lblResetMouseClicked
+    }//GEN-LAST:event_btnResetActionPerformed
 
-    private void lblResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblResetMouseEntered
+    private void btnCodeSerachMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCodeSerachMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnCodeSerachMouseEntered
 
-    private void lblResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblResetMouseExited
+    private void btnCodeSerachMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCodeSerachMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnCodeSerachMouseExited
+
+    private void btnCodeSerachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCodeSerachActionPerformed
+        String bomCode = txtBomCode.getText().trim();
+        List boms = this.getBomByCode(bomCode, true);
+
+        if (!boms.isEmpty()) {
+            BomView bomView = new BomView(boms, this);
+            MainFrame.desktopPane.add(bomView);
+            bomView.setVisible(true);
+        }
+    }//GEN-LAST:event_btnCodeSerachActionPerformed
 
     private void loadItems(Session session) {
         cmbMainItem.removeAllItems();
@@ -701,8 +710,8 @@ public class BomFrame extends javax.swing.JInternalFrame {
         this.cmbMainItem.setEnabled(editable);
     }
 
-    public void setLblSaveText(String text) {
-        this.lblSave.setText(text);
+    public void setBtnSaveText(String text) {
+        this.btnSave.setText(text);
     }
 
     private List getBomByCode(String bomCode, boolean like) {
@@ -806,9 +815,9 @@ public class BomFrame extends javax.swing.JInternalFrame {
         session.close();
 
         if (bUpdate) {
-            InformationDialog.showMessageBox("Successfully updated", "Success");
+            InformationDialog.showMessageBox("Successfully updated", "Success", null);
         } else {
-            InformationDialog.showMessageBox("New entry created successfully", "Success");
+            InformationDialog.showMessageBox("New entry created successfully", "Success", null);
         }
         this.clearAll();
     }
@@ -825,6 +834,11 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnCodeSerach;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSave;
     private javax.swing.JCheckBox cbxIsActive;
     private javax.swing.JComboBox<String> cmbBomItem;
     private javax.swing.JComboBox<String> cmbMainItem;
@@ -841,11 +855,6 @@ public class BomFrame extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblAdd;
-    private javax.swing.JLabel lblClose;
-    private javax.swing.JLabel lblCodeSearch;
-    private javax.swing.JLabel lblReset;
-    private javax.swing.JLabel lblSave;
     private javax.swing.JTable tblAddedBomItems;
     private javax.swing.JPopupMenu tblAddedItemPopup;
     private javax.swing.JTextField txtBomCode;

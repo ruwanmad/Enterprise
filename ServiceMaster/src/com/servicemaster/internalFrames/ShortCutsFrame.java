@@ -8,7 +8,7 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.forms.MainFrame;
-import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Module;
 import com.servicemaster.utils.HibernateUtil;
 import java.util.Date;
@@ -52,10 +52,10 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
         panelAdded = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         listAdded = new javax.swing.JList();
-        lblAdd = new javax.swing.JLabel();
-        lblRemove = new javax.swing.JLabel();
-        lblClose = new javax.swing.JLabel();
-        lblOK = new javax.swing.JLabel();
+        btnOK = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnRemove = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -93,75 +93,83 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
 
         panelAdded.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
-        lblAdd.setBackground(new java.awt.Color(150, 255, 150));
-        lblAdd.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        lblAdd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/right_arrow.png"))); // NOI18N
-        lblAdd.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblAdd.setOpaque(true);
-        lblAdd.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblAddMouseClicked(evt);
-            }
+        btnOK.setBackground(new java.awt.Color(150, 255, 150));
+        btnOK.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnOK.setText("OK");
+        btnOK.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnOK.setContentAreaFilled(false);
+        btnOK.setOpaque(true);
+        btnOK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblAddMouseEntered(evt);
+                btnOKMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblAddMouseExited(evt);
+                btnOKMouseExited(evt);
+            }
+        });
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
             }
         });
 
-        lblRemove.setBackground(new java.awt.Color(150, 255, 150));
-        lblRemove.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        lblRemove.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left_arrow.png"))); // NOI18N
-        lblRemove.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblRemove.setOpaque(true);
-        lblRemove.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblRemoveMouseClicked(evt);
-            }
+        btnClose.setBackground(new java.awt.Color(150, 255, 150));
+        btnClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnClose.setText("Close");
+        btnClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnClose.setContentAreaFilled(false);
+        btnClose.setOpaque(true);
+        btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblRemoveMouseEntered(evt);
+                btnCloseMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblRemoveMouseExited(evt);
+                btnCloseMouseExited(evt);
+            }
+        });
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
             }
         });
 
-        lblClose.setBackground(new java.awt.Color(150, 255, 150));
-        lblClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblClose.setText("Close");
-        lblClose.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblClose.setOpaque(true);
-        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCloseMouseClicked(evt);
-            }
+        btnAdd.setBackground(new java.awt.Color(150, 255, 150));
+        btnAdd.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnAdd.setText(">>");
+        btnAdd.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnAdd.setContentAreaFilled(false);
+        btnAdd.setOpaque(true);
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCloseMouseEntered(evt);
+                btnAddMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCloseMouseExited(evt);
+                btnAddMouseExited(evt);
+            }
+        });
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
             }
         });
 
-        lblOK.setBackground(new java.awt.Color(150, 255, 150));
-        lblOK.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        lblOK.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblOK.setText("OK");
-        lblOK.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        lblOK.setOpaque(true);
-        lblOK.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblOKMouseClicked(evt);
-            }
+        btnRemove.setBackground(new java.awt.Color(150, 255, 150));
+        btnRemove.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnRemove.setText("<<");
+        btnRemove.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnRemove.setContentAreaFilled(false);
+        btnRemove.setOpaque(true);
+        btnRemove.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblOKMouseEntered(evt);
+                btnRemoveMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblOKMouseExited(evt);
+                btnRemoveMouseExited(evt);
+            }
+        });
+        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveActionPerformed(evt);
             }
         });
 
@@ -172,47 +180,49 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblOK, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(panelAvailable, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelAdded, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(panelAdded, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {panelAdded, panelAvailable});
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblAdd, lblClose, lblOK, lblRemove});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnOK});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(lblAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelAvailable, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(panelAdded, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(panelAvailable, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelAdded, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(70, 70, 70)
+                        .addComponent(btnRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(50, 50, 50)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblOK, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {panelAdded, panelAvailable});
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblAdd, lblClose, lblOK, lblRemove});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnOK});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -225,7 +235,7 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        setBounds(0, 0, 558, 358);
+        setBounds(0, 0, 558, 338);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
@@ -264,74 +274,15 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
         listAdded.setModel(addedModel);
     }//GEN-LAST:event_formInternalFrameOpened
 
-    private void lblAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseClicked
-        int[] selectedIndices = listAvailable.getSelectedIndices();
-        DefaultListModel availableModel = (DefaultListModel) listAvailable.getModel();
-        for (int i = 0; i < selectedIndices.length; i++) {
-            int index = selectedIndices[i];
+    private void btnOKMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOKMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnOKMouseEntered
 
-            String value = (String) availableModel.get(index);
+    private void btnOKMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOKMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnOKMouseExited
 
-            DefaultListModel addedModel = (DefaultListModel) listAdded.getModel();
-            addedModel.add(addedModel.getSize(), value);
-        }
-
-        for (int i = (selectedIndices.length - 1); i > -1; i--) {
-            int index = selectedIndices[i];
-            availableModel.remove(index);
-        }
-    }//GEN-LAST:event_lblAddMouseClicked
-
-    private void lblAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblAddMouseEntered
-
-    private void lblAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblAddMouseExited
-
-    private void lblRemoveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRemoveMouseClicked
-        int[] selectedIndices = listAdded.getSelectedIndices();
-        DefaultListModel addedModel = (DefaultListModel) listAdded.getModel();
-        for (int i = 0; i < selectedIndices.length; i++) {
-            int index = selectedIndices[i];
-
-            String value = (String) addedModel.get(index);
-
-            DefaultListModel availableModel = (DefaultListModel) listAvailable.getModel();
-            availableModel.add(availableModel.getSize(), value);
-        }
-
-        for (int i = (selectedIndices.length - 1); i > -1; i--) {
-            int index = selectedIndices[i];
-            addedModel.remove(index);
-        }
-    }//GEN-LAST:event_lblRemoveMouseClicked
-
-    private void lblRemoveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRemoveMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblRemoveMouseEntered
-
-    private void lblRemoveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRemoveMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblRemoveMouseExited
-
-    private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
-        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            this.dispose();
-        }
-    }//GEN-LAST:event_lblCloseMouseClicked
-
-    private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblCloseMouseEntered
-
-    private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblCloseMouseExited
-
-    private void lblOKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOKMouseClicked
+    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
@@ -342,7 +293,7 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
             for (Object value : array) {
                 if (value instanceof String) {
                     mainFrame.addShortCuts(value.toString());
-                    HashMap<String,Object> map =  MainFrame.allModuleMap.get(value.toString());
+                    HashMap<String, Object> map = MainFrame.allModuleMap.get(value.toString());
 
                     Module module = (Module) session.load(Module.class, Integer.parseInt((String) map.get("ModuleCode")));
                     module.setIsShortcutAdded(1);
@@ -365,8 +316,8 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
             Object[] array = model.toArray();
             for (Object value : array) {
                 if (value instanceof String) {
-                    HashMap<String,Object> map =  MainFrame.allModuleMap.get(value.toString());
-                    
+                    HashMap<String, Object> map = MainFrame.allModuleMap.get(value.toString());
+
                     Module module = (Module) session.load(Module.class, Integer.parseInt((String) map.get("ModuleCode")));
                     module.setIsShortcutAdded(0);
                     module.setModifiedDate(new Date());
@@ -379,25 +330,84 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
 
         session.getTransaction().commit();
         session.close();
-    }//GEN-LAST:event_lblOKMouseClicked
+    }//GEN-LAST:event_btnOKActionPerformed
 
-    private void lblOKMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOKMouseEntered
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
-    }//GEN-LAST:event_lblOKMouseEntered
+    private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnCloseMouseEntered
 
-    private void lblOKMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOKMouseExited
-        LableFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
-    }//GEN-LAST:event_lblOKMouseExited
+    private void btnCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnCloseMouseExited
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnAddMouseEntered
+
+    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnAddMouseExited
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        int[] selectedIndices = listAvailable.getSelectedIndices();
+        DefaultListModel availableModel = (DefaultListModel) listAvailable.getModel();
+        for (int i = 0; i < selectedIndices.length; i++) {
+            int index = selectedIndices[i];
+
+            String value = (String) availableModel.get(index);
+
+            DefaultListModel addedModel = (DefaultListModel) listAdded.getModel();
+            addedModel.add(addedModel.getSize(), value);
+        }
+
+        for (int i = (selectedIndices.length - 1); i > -1; i--) {
+            int index = selectedIndices[i];
+            availableModel.remove(index);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnRemoveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRemoveMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnRemoveMouseEntered
+
+    private void btnRemoveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRemoveMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnRemoveMouseExited
+
+    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
+        int[] selectedIndices = listAdded.getSelectedIndices();
+        DefaultListModel addedModel = (DefaultListModel) listAdded.getModel();
+        for (int i = 0; i < selectedIndices.length; i++) {
+            int index = selectedIndices[i];
+
+            String value = (String) addedModel.get(index);
+
+            DefaultListModel availableModel = (DefaultListModel) listAvailable.getModel();
+            availableModel.add(availableModel.getSize(), value);
+        }
+
+        for (int i = (selectedIndices.length - 1); i > -1; i--) {
+            int index = selectedIndices[i];
+            addedModel.remove(index);
+        }
+    }//GEN-LAST:event_btnRemoveActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnOK;
+    private javax.swing.JButton btnRemove;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblAdd;
-    private javax.swing.JLabel lblClose;
-    private javax.swing.JLabel lblOK;
-    private javax.swing.JLabel lblRemove;
     private javax.swing.JList listAdded;
     private javax.swing.JList listAvailable;
     private javax.swing.JPanel panelAdded;

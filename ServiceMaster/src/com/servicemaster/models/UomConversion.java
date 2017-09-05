@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 3, 2017 7:12:43 PM by Hibernate Tools 4.3.1
+// Generated Sep 5, 2017 11:15:37 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,11 +11,10 @@ public class UomConversion  implements java.io.Serializable {
 
 
      private String uomConversionCode;
-     private Uom uomByUomUomCode;
+     private Uom uomByUomUomCodeFrom;
      private Uom uomByUomUomCodeTo;
      private Float multipliedBy;
      private Float dividedBy;
-     private String uomConversioncol;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -28,18 +27,17 @@ public class UomConversion  implements java.io.Serializable {
     }
 
 	
-    public UomConversion(String uomConversionCode, Uom uomByUomUomCode, Uom uomByUomUomCodeTo) {
+    public UomConversion(String uomConversionCode, Uom uomByUomUomCodeFrom, Uom uomByUomUomCodeTo) {
         this.uomConversionCode = uomConversionCode;
-        this.uomByUomUomCode = uomByUomUomCode;
+        this.uomByUomUomCodeFrom = uomByUomUomCodeFrom;
         this.uomByUomUomCodeTo = uomByUomUomCodeTo;
     }
-    public UomConversion(String uomConversionCode, Uom uomByUomUomCode, Uom uomByUomUomCodeTo, Float multipliedBy, Float dividedBy, String uomConversioncol, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks) {
+    public UomConversion(String uomConversionCode, Uom uomByUomUomCodeFrom, Uom uomByUomUomCodeTo, Float multipliedBy, Float dividedBy, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks) {
        this.uomConversionCode = uomConversionCode;
-       this.uomByUomUomCode = uomByUomUomCode;
+       this.uomByUomUomCodeFrom = uomByUomUomCodeFrom;
        this.uomByUomUomCodeTo = uomByUomUomCodeTo;
        this.multipliedBy = multipliedBy;
        this.dividedBy = dividedBy;
-       this.uomConversioncol = uomConversioncol;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -56,12 +54,12 @@ public class UomConversion  implements java.io.Serializable {
     public void setUomConversionCode(String uomConversionCode) {
         this.uomConversionCode = uomConversionCode;
     }
-    public Uom getUomByUomUomCode() {
-        return this.uomByUomUomCode;
+    public Uom getUomByUomUomCodeFrom() {
+        return this.uomByUomUomCodeFrom;
     }
     
-    public void setUomByUomUomCode(Uom uomByUomUomCode) {
-        this.uomByUomUomCode = uomByUomUomCode;
+    public void setUomByUomUomCodeFrom(Uom uomByUomUomCodeFrom) {
+        this.uomByUomUomCodeFrom = uomByUomUomCodeFrom;
     }
     public Uom getUomByUomUomCodeTo() {
         return this.uomByUomUomCodeTo;
@@ -83,13 +81,6 @@ public class UomConversion  implements java.io.Serializable {
     
     public void setDividedBy(Float dividedBy) {
         this.dividedBy = dividedBy;
-    }
-    public String getUomConversioncol() {
-        return this.uomConversioncol;
-    }
-    
-    public void setUomConversioncol(String uomConversioncol) {
-        this.uomConversioncol = uomConversioncol;
     }
     public Date getCreatedDate() {
         return this.createdDate;

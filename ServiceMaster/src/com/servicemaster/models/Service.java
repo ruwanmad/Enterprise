@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 3, 2017 7:12:43 PM by Hibernate Tools 4.3.1
+// Generated Sep 5, 2017 11:15:37 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -29,6 +29,7 @@ public class Service  implements java.io.Serializable {
      private Integer modifiedUser;
      private String remark;
      private Set invoices = new HashSet(0);
+     private Set serviceHasBusinessPartners = new HashSet(0);
      private Set serviceHasItems = new HashSet(0);
 
     public Service() {
@@ -41,7 +42,7 @@ public class Service  implements java.io.Serializable {
         this.serviceStatus = serviceStatus;
         this.vehicle = vehicle;
     }
-    public Service(String serviceCode, ServiceBay serviceBay, ServiceStatus serviceStatus, Vehicle vehicle, Float milage, Float subTotal, Float discount, Float grandTotal, Integer discounted, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set invoices, Set serviceHasItems) {
+    public Service(String serviceCode, ServiceBay serviceBay, ServiceStatus serviceStatus, Vehicle vehicle, Float milage, Float subTotal, Float discount, Float grandTotal, Integer discounted, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set invoices, Set serviceHasBusinessPartners, Set serviceHasItems) {
        this.serviceCode = serviceCode;
        this.serviceBay = serviceBay;
        this.serviceStatus = serviceStatus;
@@ -59,6 +60,7 @@ public class Service  implements java.io.Serializable {
        this.modifiedUser = modifiedUser;
        this.remark = remark;
        this.invoices = invoices;
+       this.serviceHasBusinessPartners = serviceHasBusinessPartners;
        this.serviceHasItems = serviceHasItems;
     }
    
@@ -180,6 +182,13 @@ public class Service  implements java.io.Serializable {
     
     public void setInvoices(Set invoices) {
         this.invoices = invoices;
+    }
+    public Set getServiceHasBusinessPartners() {
+        return this.serviceHasBusinessPartners;
+    }
+    
+    public void setServiceHasBusinessPartners(Set serviceHasBusinessPartners) {
+        this.serviceHasBusinessPartners = serviceHasBusinessPartners;
     }
     public Set getServiceHasItems() {
         return this.serviceHasItems;

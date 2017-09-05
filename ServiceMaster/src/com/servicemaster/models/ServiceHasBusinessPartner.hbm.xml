@@ -3,10 +3,13 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 5, 2017 11:15:50 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.BusinessTelephone" table="business_telephone" catalog="enterprisedb" optimistic-lock="version">
-        <composite-id name="id" class="com.servicemaster.models.BusinessTelephoneId">
-            <key-property name="telephoneNumberTelephoneNumberCode" type="string">
-                <column name="telephone_number_telephone_number_code" length="15" />
+    <class name="com.servicemaster.models.ServiceHasBusinessPartner" table="service_has_business_partner" catalog="enterprisedb" optimistic-lock="version">
+        <composite-id name="id" class="com.servicemaster.models.ServiceHasBusinessPartnerId">
+            <key-property name="serviceHasBusinessPartnerId" type="int">
+                <column name="service_has_business_partner_id" />
+            </key-property>
+            <key-property name="serviceServiceCode" type="string">
+                <column name="service_service_code" length="15" />
             </key-property>
             <key-property name="businessPartnerBusinessPartnerCode" type="string">
                 <column name="business_partner_business_partner_code" length="15" />
@@ -15,8 +18,8 @@
         <many-to-one name="businessPartner" class="com.servicemaster.models.BusinessPartner" update="false" insert="false" fetch="select">
             <column name="business_partner_business_partner_code" length="15" not-null="true" />
         </many-to-one>
-        <many-to-one name="telephoneNumber" class="com.servicemaster.models.TelephoneNumber" update="false" insert="false" fetch="select">
-            <column name="telephone_number_telephone_number_code" length="15" not-null="true" />
+        <many-to-one name="service" class="com.servicemaster.models.Service" update="false" insert="false" fetch="select">
+            <column name="service_service_code" length="15" not-null="true" />
         </many-to-one>
     </class>
 </hibernate-mapping>

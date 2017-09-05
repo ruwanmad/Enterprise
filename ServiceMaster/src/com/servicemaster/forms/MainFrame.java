@@ -8,7 +8,7 @@ package com.servicemaster.forms;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.guiFunctions.LableFunctions;
+import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.internalFrames.BomFrame;
 import com.servicemaster.internalFrames.BusinessPartnerFrame;
 import com.servicemaster.internalFrames.CategoryFrame;
@@ -27,11 +27,12 @@ import com.servicemaster.internalFrames.VehicleTypeFrame;
 import com.servicemaster.models.Module;
 import com.servicemaster.models.User;
 import com.servicemaster.utils.HibernateUtil;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyVetoException;
@@ -49,9 +50,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 import org.hibernate.Query;
@@ -499,7 +500,7 @@ public class MainFrame extends javax.swing.JFrame {
                 File selectedFile = fileChooser.getSelectedFile();
                 Path path = Paths.get("images");
                 Files.copy(new FileInputStream(selectedFile), path, StandardCopyOption.REPLACE_EXISTING);
-                InformationDialog.showMessageBox("Please restart the application", "Restart");
+                InformationDialog.showMessageBox("Please restart the application", "Restart", null);
                 System.exit(0);
             } catch (IOException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -580,7 +581,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_miSalesReportsActionPerformed
 
     private void exitApllication() {
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure");
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", null);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             System.exit(0);
         }
@@ -679,32 +680,39 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public void addShortCuts(String name) {
-        JLabel label = new JLabel(name);
-        label.setName(name);
-        label.setOpaque(true);
-        label.addMouseListener(new MouseAdapter() {
+        JButton button = new JButton(name);
+        button.setName(name);
+        button.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent event) {
-                MainFrame.openWindow(MainFrame.allModuleMap.get(((JLabel) event.getSource()).getName().trim()));
+            public void mouseClicked(MouseEvent evt) {
             }
 
             @Override
-            public void mouseEntered(MouseEvent event) {
-                LableFunctions.changeBackgroundColor(event.getSource(), SystemData.MOUSE_ENTER_COLOR);
+            public void mouseEntered(MouseEvent evt) {
+                ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
             }
 
             @Override
-            public void mouseExited(MouseEvent event) {
-                LableFunctions.changeBackgroundColor(event.getSource(), SystemData.MOUSE_EXIT_COLOR);
+            public void mouseExited(MouseEvent evt) {
+                ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
             }
         });
-        label.setPreferredSize(new Dimension(150, 50));
-        label.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setVerticalAlignment(SwingConstants.CENTER);
-        label.setBackground(new Color(150, 255, 150));
-        label.setBorder(new MatteBorder(1, 1, 1, 1, new Color(50, 255, 50)));
-        this.panelShortcuts.add(label);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                MainFrame.openWindow(MainFrame.allModuleMap.get(((JButton) evt.getSource()).getName().trim()));
+            }
+        });
+
+        button.setPreferredSize(new Dimension(150, 50));
+        button.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        button.setHorizontalAlignment(SwingConstants.CENTER);
+        button.setVerticalAlignment(SwingConstants.CENTER);
+        button.setBackground(SystemData.BUTTON_BACKGROUND_COLOR);
+        button.setBorder(new MatteBorder(1, 1, 1, 1, SystemData.BORDER_COLOR));
+        button.setContentAreaFilled(false);
+        button.setOpaque(true);
+        this.panelShortcuts.add(button);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

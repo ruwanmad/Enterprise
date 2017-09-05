@@ -6,18 +6,18 @@
 package com.servicemaster.guiFunctions;
 
 import java.awt.Color;
-import javax.swing.JLabel;
+import javax.swing.JButton;
 
 /**
  *
  * @author RuwanM
  */
-public class LableFunctions {
+public class ButtonFunctions {
 
     public static void changeBackgroundColor(Object source, Color color) {
-        if (source instanceof JLabel) {
-            JLabel label = (JLabel) source;
-            label.setBackground(color);
+        if (source instanceof JButton) {
+            JButton button = (JButton) source;
+            button.setBackground(color);
         }
     }
 }

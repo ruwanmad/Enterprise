@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 3, 2017 7:12:43 PM by Hibernate Tools 4.3.1
+// Generated Sep 5, 2017 11:15:37 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,6 +13,7 @@ public class Item  implements java.io.Serializable {
 
 
      private String itemCode;
+     private IssueMethod issueMethod;
      private Manufacturer manufacturer;
      private RackSlot rackSlot;
      private SubCategory subCategory;
@@ -20,6 +21,7 @@ public class Item  implements java.io.Serializable {
      private Uom uomBySellingUom;
      private String itemName;
      private Float sellingPrice;
+     private String issueMethod_1;
      private Float reorderQuantity;
      private Integer isPhysical;
      private Integer isActive;
@@ -30,7 +32,6 @@ public class Item  implements java.io.Serializable {
      private Date modifiedTime;
      private Integer modifiedUser;
      private String remark;
-     private int issueMethodIssueMethodId;
      private Set stocks = new HashSet(0);
      private Set boms = new HashSet(0);
      private Set serviceHasItems = new HashSet(0);
@@ -40,17 +41,18 @@ public class Item  implements java.io.Serializable {
     }
 
 	
-    public Item(String itemCode, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, int issueMethodIssueMethodId) {
+    public Item(String itemCode, IssueMethod issueMethod, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName) {
         this.itemCode = itemCode;
+        this.issueMethod = issueMethod;
         this.rackSlot = rackSlot;
         this.subCategory = subCategory;
         this.uomByBuyingUom = uomByBuyingUom;
         this.uomBySellingUom = uomBySellingUom;
         this.itemName = itemName;
-        this.issueMethodIssueMethodId = issueMethodIssueMethodId;
     }
-    public Item(String itemCode, Manufacturer manufacturer, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, Float sellingPrice, Float reorderQuantity, Integer isPhysical, Integer isActive, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, int issueMethodIssueMethodId, Set stocks, Set boms, Set serviceHasItems, Set bomItems) {
+    public Item(String itemCode, IssueMethod issueMethod, Manufacturer manufacturer, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, Float sellingPrice, String issueMethod_1, Float reorderQuantity, Integer isPhysical, Integer isActive, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set stocks, Set boms, Set serviceHasItems, Set bomItems) {
        this.itemCode = itemCode;
+       this.issueMethod = issueMethod;
        this.manufacturer = manufacturer;
        this.rackSlot = rackSlot;
        this.subCategory = subCategory;
@@ -58,6 +60,7 @@ public class Item  implements java.io.Serializable {
        this.uomBySellingUom = uomBySellingUom;
        this.itemName = itemName;
        this.sellingPrice = sellingPrice;
+       this.issueMethod_1 = issueMethod_1;
        this.reorderQuantity = reorderQuantity;
        this.isPhysical = isPhysical;
        this.isActive = isActive;
@@ -68,7 +71,6 @@ public class Item  implements java.io.Serializable {
        this.modifiedTime = modifiedTime;
        this.modifiedUser = modifiedUser;
        this.remark = remark;
-       this.issueMethodIssueMethodId = issueMethodIssueMethodId;
        this.stocks = stocks;
        this.boms = boms;
        this.serviceHasItems = serviceHasItems;
@@ -81,6 +83,13 @@ public class Item  implements java.io.Serializable {
     
     public void setItemCode(String itemCode) {
         this.itemCode = itemCode;
+    }
+    public IssueMethod getIssueMethod() {
+        return this.issueMethod;
+    }
+    
+    public void setIssueMethod(IssueMethod issueMethod) {
+        this.issueMethod = issueMethod;
     }
     public Manufacturer getManufacturer() {
         return this.manufacturer;
@@ -130,6 +139,13 @@ public class Item  implements java.io.Serializable {
     
     public void setSellingPrice(Float sellingPrice) {
         this.sellingPrice = sellingPrice;
+    }
+    public String getIssueMethod_1() {
+        return this.issueMethod_1;
+    }
+    
+    public void setIssueMethod_1(String issueMethod_1) {
+        this.issueMethod_1 = issueMethod_1;
     }
     public Float getReorderQuantity() {
         return this.reorderQuantity;
@@ -200,13 +216,6 @@ public class Item  implements java.io.Serializable {
     
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-    public int getIssueMethodIssueMethodId() {
-        return this.issueMethodIssueMethodId;
-    }
-    
-    public void setIssueMethodIssueMethodId(int issueMethodIssueMethodId) {
-        this.issueMethodIssueMethodId = issueMethodIssueMethodId;
     }
     public Set getStocks() {
         return this.stocks;
