@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 5, 2017 11:15:50 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 8, 2017 12:30:39 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.StockStatus" table="stock_status" catalog="enterprisedb" optimistic-lock="version">
-        <id name="stockStatusCode" type="int">
-            <column name="stock_status_code" />
+        <id name="stockStatusId" type="int">
+            <column name="stock_status_id" />
             <generator class="assigned" />
         </id>
         <property name="stockStatusName" type="string">
@@ -34,7 +34,7 @@
         </property>
         <set name="stocks" table="stock" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="stock_status_stock_status_code" not-null="true" />
+                <column name="stock_status_stock_status_id" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.Stock" />
         </set>

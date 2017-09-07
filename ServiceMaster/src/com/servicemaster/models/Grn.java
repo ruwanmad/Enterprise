@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 5, 2017 11:15:37 PM by Hibernate Tools 4.3.1
+// Generated Sep 8, 2017 12:30:28 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,7 +13,8 @@ public class Grn  implements java.io.Serializable {
 
 
      private String grnCode;
-     private String grnNumber;
+     private BusinessPartner businessPartner;
+     private String grnReference;
      private Date grnTime;
      private Date grnDate;
      private String handedOverBy;
@@ -21,23 +22,26 @@ public class Grn  implements java.io.Serializable {
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
-     private Date midifiedDate;
+     private Date modifiedDate;
      private Date modifiedTime;
      private Integer modifiedUser;
      private String remark;
+     private Set grnLines = new HashSet(0);
      private Set stocks = new HashSet(0);
 
     public Grn() {
     }
 
 	
-    public Grn(String grnCode, String grnNumber) {
+    public Grn(String grnCode, BusinessPartner businessPartner, String grnReference) {
         this.grnCode = grnCode;
-        this.grnNumber = grnNumber;
+        this.businessPartner = businessPartner;
+        this.grnReference = grnReference;
     }
-    public Grn(String grnCode, String grnNumber, Date grnTime, Date grnDate, String handedOverBy, String batch, Date createdDate, Date createdTime, Integer createdUser, Date midifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set stocks) {
+    public Grn(String grnCode, BusinessPartner businessPartner, String grnReference, Date grnTime, Date grnDate, String handedOverBy, String batch, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set grnLines, Set stocks) {
        this.grnCode = grnCode;
-       this.grnNumber = grnNumber;
+       this.businessPartner = businessPartner;
+       this.grnReference = grnReference;
        this.grnTime = grnTime;
        this.grnDate = grnDate;
        this.handedOverBy = handedOverBy;
@@ -45,10 +49,11 @@ public class Grn  implements java.io.Serializable {
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
-       this.midifiedDate = midifiedDate;
+       this.modifiedDate = modifiedDate;
        this.modifiedTime = modifiedTime;
        this.modifiedUser = modifiedUser;
        this.remark = remark;
+       this.grnLines = grnLines;
        this.stocks = stocks;
     }
    
@@ -59,12 +64,19 @@ public class Grn  implements java.io.Serializable {
     public void setGrnCode(String grnCode) {
         this.grnCode = grnCode;
     }
-    public String getGrnNumber() {
-        return this.grnNumber;
+    public BusinessPartner getBusinessPartner() {
+        return this.businessPartner;
     }
     
-    public void setGrnNumber(String grnNumber) {
-        this.grnNumber = grnNumber;
+    public void setBusinessPartner(BusinessPartner businessPartner) {
+        this.businessPartner = businessPartner;
+    }
+    public String getGrnReference() {
+        return this.grnReference;
+    }
+    
+    public void setGrnReference(String grnReference) {
+        this.grnReference = grnReference;
     }
     public Date getGrnTime() {
         return this.grnTime;
@@ -115,12 +127,12 @@ public class Grn  implements java.io.Serializable {
     public void setCreatedUser(Integer createdUser) {
         this.createdUser = createdUser;
     }
-    public Date getMidifiedDate() {
-        return this.midifiedDate;
+    public Date getModifiedDate() {
+        return this.modifiedDate;
     }
     
-    public void setMidifiedDate(Date midifiedDate) {
-        this.midifiedDate = midifiedDate;
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
     public Date getModifiedTime() {
         return this.modifiedTime;
@@ -142,6 +154,13 @@ public class Grn  implements java.io.Serializable {
     
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+    public Set getGrnLines() {
+        return this.grnLines;
+    }
+    
+    public void setGrnLines(Set grnLines) {
+        this.grnLines = grnLines;
     }
     public Set getStocks() {
         return this.stocks;

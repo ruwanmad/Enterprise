@@ -16,13 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Dumping data for table `storage`
+-- Dumping data for table `service_has_business_partner`
 --
 
-LOCK TABLES `storage` WRITE;
-/*!40000 ALTER TABLE `storage` DISABLE KEYS */;
-INSERT INTO `storage` VALUES ('STO1000','MAIN STORAGE',1,'2017-09-06','00:03:13',1,NULL,NULL,NULL,'MAIN STORAGE');
-/*!40000 ALTER TABLE `storage` ENABLE KEYS */;
+LOCK TABLES `service_has_business_partner` WRITE;
+/*!40000 ALTER TABLE `service_has_business_partner` DISABLE KEYS */;
+/*!40000 ALTER TABLE `service_has_business_partner` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -34,4 +33,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-08  0:51:03
+-- Dump completed on 2017-09-08  0:50:59

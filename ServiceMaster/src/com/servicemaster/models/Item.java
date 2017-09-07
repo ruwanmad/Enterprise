@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 5, 2017 11:15:37 PM by Hibernate Tools 4.3.1
+// Generated Sep 8, 2017 12:30:28 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -32,9 +32,10 @@ public class Item  implements java.io.Serializable {
      private Date modifiedTime;
      private Integer modifiedUser;
      private String remark;
-     private Set stocks = new HashSet(0);
      private Set boms = new HashSet(0);
+     private Set grnLines = new HashSet(0);
      private Set serviceHasItems = new HashSet(0);
+     private Set stocks = new HashSet(0);
      private Set bomItems = new HashSet(0);
 
     public Item() {
@@ -50,7 +51,7 @@ public class Item  implements java.io.Serializable {
         this.uomBySellingUom = uomBySellingUom;
         this.itemName = itemName;
     }
-    public Item(String itemCode, IssueMethod issueMethod, Manufacturer manufacturer, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, Float sellingPrice, String issueMethod_1, Float reorderQuantity, Integer isPhysical, Integer isActive, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set stocks, Set boms, Set serviceHasItems, Set bomItems) {
+    public Item(String itemCode, IssueMethod issueMethod, Manufacturer manufacturer, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, Float sellingPrice, String issueMethod_1, Float reorderQuantity, Integer isPhysical, Integer isActive, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set boms, Set grnLines, Set serviceHasItems, Set stocks, Set bomItems) {
        this.itemCode = itemCode;
        this.issueMethod = issueMethod;
        this.manufacturer = manufacturer;
@@ -71,9 +72,10 @@ public class Item  implements java.io.Serializable {
        this.modifiedTime = modifiedTime;
        this.modifiedUser = modifiedUser;
        this.remark = remark;
-       this.stocks = stocks;
        this.boms = boms;
+       this.grnLines = grnLines;
        this.serviceHasItems = serviceHasItems;
+       this.stocks = stocks;
        this.bomItems = bomItems;
     }
    
@@ -217,13 +219,6 @@ public class Item  implements java.io.Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-    public Set getStocks() {
-        return this.stocks;
-    }
-    
-    public void setStocks(Set stocks) {
-        this.stocks = stocks;
-    }
     public Set getBoms() {
         return this.boms;
     }
@@ -231,12 +226,26 @@ public class Item  implements java.io.Serializable {
     public void setBoms(Set boms) {
         this.boms = boms;
     }
+    public Set getGrnLines() {
+        return this.grnLines;
+    }
+    
+    public void setGrnLines(Set grnLines) {
+        this.grnLines = grnLines;
+    }
     public Set getServiceHasItems() {
         return this.serviceHasItems;
     }
     
     public void setServiceHasItems(Set serviceHasItems) {
         this.serviceHasItems = serviceHasItems;
+    }
+    public Set getStocks() {
+        return this.stocks;
+    }
+    
+    public void setStocks(Set stocks) {
+        this.stocks = stocks;
     }
     public Set getBomItems() {
         return this.bomItems;

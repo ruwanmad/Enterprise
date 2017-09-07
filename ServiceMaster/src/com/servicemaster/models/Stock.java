@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 5, 2017 11:15:37 PM by Hibernate Tools 4.3.1
+// Generated Sep 8, 2017 12:30:28 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -10,13 +10,12 @@ import java.util.Date;
 public class Stock  implements java.io.Serializable {
 
 
-     private String stockCode;
+     private Integer stockId;
      private Grn grn;
      private Item item;
      private StockStatus stockStatus;
-     private Float unitPrice;
-     private Float receivedQuantity;
-     private Float totalPrice;
+     private Float costPrice;
+     private Float quantity;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -24,27 +23,22 @@ public class Stock  implements java.io.Serializable {
      private Date modifiedTime;
      private Integer modifiedUser;
      private String remark;
-     private int grnGrnId;
 
     public Stock() {
     }
 
 	
-    public Stock(String stockCode, Grn grn, Item item, StockStatus stockStatus, int grnGrnId) {
-        this.stockCode = stockCode;
+    public Stock(Grn grn, Item item, StockStatus stockStatus) {
         this.grn = grn;
         this.item = item;
         this.stockStatus = stockStatus;
-        this.grnGrnId = grnGrnId;
     }
-    public Stock(String stockCode, Grn grn, Item item, StockStatus stockStatus, Float unitPrice, Float receivedQuantity, Float totalPrice, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, int grnGrnId) {
-       this.stockCode = stockCode;
+    public Stock(Grn grn, Item item, StockStatus stockStatus, Float costPrice, Float quantity, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
        this.grn = grn;
        this.item = item;
        this.stockStatus = stockStatus;
-       this.unitPrice = unitPrice;
-       this.receivedQuantity = receivedQuantity;
-       this.totalPrice = totalPrice;
+       this.costPrice = costPrice;
+       this.quantity = quantity;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -52,15 +46,14 @@ public class Stock  implements java.io.Serializable {
        this.modifiedTime = modifiedTime;
        this.modifiedUser = modifiedUser;
        this.remark = remark;
-       this.grnGrnId = grnGrnId;
     }
    
-    public String getStockCode() {
-        return this.stockCode;
+    public Integer getStockId() {
+        return this.stockId;
     }
     
-    public void setStockCode(String stockCode) {
-        this.stockCode = stockCode;
+    public void setStockId(Integer stockId) {
+        this.stockId = stockId;
     }
     public Grn getGrn() {
         return this.grn;
@@ -83,26 +76,19 @@ public class Stock  implements java.io.Serializable {
     public void setStockStatus(StockStatus stockStatus) {
         this.stockStatus = stockStatus;
     }
-    public Float getUnitPrice() {
-        return this.unitPrice;
+    public Float getCostPrice() {
+        return this.costPrice;
     }
     
-    public void setUnitPrice(Float unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setCostPrice(Float costPrice) {
+        this.costPrice = costPrice;
     }
-    public Float getReceivedQuantity() {
-        return this.receivedQuantity;
-    }
-    
-    public void setReceivedQuantity(Float receivedQuantity) {
-        this.receivedQuantity = receivedQuantity;
-    }
-    public Float getTotalPrice() {
-        return this.totalPrice;
+    public Float getQuantity() {
+        return this.quantity;
     }
     
-    public void setTotalPrice(Float totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setQuantity(Float quantity) {
+        this.quantity = quantity;
     }
     public Date getCreatedDate() {
         return this.createdDate;
@@ -152,13 +138,6 @@ public class Stock  implements java.io.Serializable {
     
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-    public int getGrnGrnId() {
-        return this.grnGrnId;
-    }
-    
-    public void setGrnGrnId(int grnGrnId) {
-        this.grnGrnId = grnGrnId;
     }
 
 

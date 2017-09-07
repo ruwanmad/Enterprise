@@ -73,6 +73,7 @@ public class EnableFeatures {
                     break;
                 }
                 case "22": {
+                    mainFrame.miGRN.setEnabled(true);
                     break;
                 }
                 case "23": {

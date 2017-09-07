@@ -21,6 +21,7 @@
 
 LOCK TABLES `stock_status` WRITE;
 /*!40000 ALTER TABLE `stock_status` DISABLE KEYS */;
+INSERT INTO `stock_status` VALUES (1,'STOCKED','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Added to stock status'),(2,'REJECTED','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Rejected stock status'),(3,'RETURNED','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Returned stock status');
 /*!40000 ALTER TABLE `stock_status` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -33,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-05  0:04:23
+-- Dump completed on 2017-09-08  0:51:02

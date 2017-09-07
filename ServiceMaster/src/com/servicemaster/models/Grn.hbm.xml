@@ -1,15 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 5, 2017 11:15:50 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 8, 2017 12:30:39 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Grn" table="grn" catalog="enterprisedb" optimistic-lock="version">
         <id name="grnCode" type="string">
             <column name="grn_code" length="15" />
             <generator class="assigned" />
         </id>
-        <property name="grnNumber" type="string">
-            <column name="grn_number" length="15" not-null="true" />
+        <many-to-one name="businessPartner" class="com.servicemaster.models.BusinessPartner" fetch="select">
+            <column name="business_partner_business_partner_code" length="15" not-null="true" />
+        </many-to-one>
+        <property name="grnReference" type="string">
+            <column name="grn_reference" length="45" not-null="true" />
         </property>
         <property name="grnTime" type="time">
             <column name="grn_time" length="8" />
@@ -32,8 +35,8 @@
         <property name="createdUser" type="java.lang.Integer">
             <column name="created_user" />
         </property>
-        <property name="midifiedDate" type="date">
-            <column name="midified_date" length="10" />
+        <property name="modifiedDate" type="date">
+            <column name="modified_date" length="10" />
         </property>
         <property name="modifiedTime" type="time">
             <column name="modified_time" length="8" />
@@ -44,6 +47,12 @@
         <property name="remark" type="string">
             <column name="remark" length="100" />
         </property>
+        <set name="grnLines" table="grn_line" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="grn_grn_code" length="15" not-null="true" />
+            </key>
+            <one-to-many class="com.servicemaster.models.GrnLine" />
+        </set>
         <set name="stocks" table="stock" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="grn_grn_code" length="15" not-null="true" />

@@ -12,6 +12,7 @@ import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.internalFrames.BomFrame;
 import com.servicemaster.internalFrames.BusinessPartnerFrame;
 import com.servicemaster.internalFrames.CategoryFrame;
+import com.servicemaster.internalFrames.GrnFrame;
 import com.servicemaster.internalFrames.ItemFrame;
 import com.servicemaster.internalFrames.LocationFrame;
 import com.servicemaster.internalFrames.PrinterFrame;
@@ -127,6 +128,7 @@ public class MainFrame extends javax.swing.JFrame {
         miExit = new javax.swing.JMenuItem();
         mTransactions = new javax.swing.JMenu();
         miService = new javax.swing.JMenuItem();
+        miGRN = new javax.swing.JMenuItem();
         mReports = new javax.swing.JMenu();
         miSalesReports = new javax.swing.JMenuItem();
         miStockReports = new javax.swing.JMenuItem();
@@ -350,6 +352,17 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         mTransactions.add(miService);
+
+        miGRN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        miGRN.setText("Good Receive");
+        miGRN.setActionCommand("GRN");
+        miGRN.setEnabled(false);
+        miGRN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miGRNActionPerformed(evt);
+            }
+        });
+        mTransactions.add(miGRN);
 
         menuBar.add(mTransactions);
 
@@ -580,6 +593,10 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miSalesReportsActionPerformed
 
+    private void miGRNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGRNActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miGRNActionPerformed
+
     private void exitApllication() {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure", null);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -613,7 +630,7 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }
             case "5": {
-                internalFrame = new RackSlotFrame();
+//                internalFrame = new RackSlotFrame();
                 break;
             }
             case "6": {
@@ -661,6 +678,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
             case "17": {
                 internalFrame = new BomFrame();
+                break;
+            }
+            case "18": {
+                internalFrame = new GrnFrame();
                 break;
             }
             default: {
@@ -736,6 +757,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenuItem miCategory;
     private javax.swing.JMenuItem miChangeBackground;
     private javax.swing.JMenuItem miExit;
+    public javax.swing.JMenuItem miGRN;
     public javax.swing.JMenuItem miItems;
     public javax.swing.JMenuItem miLocations;
     public javax.swing.JMenuItem miPrinters;

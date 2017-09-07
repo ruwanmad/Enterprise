@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 5, 2017 11:15:50 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 8, 2017 12:30:39 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Stock" table="stock" catalog="enterprisedb" optimistic-lock="version">
-        <id name="stockCode" type="string">
-            <column name="stock_code" length="15" />
-            <generator class="assigned" />
+        <id name="stockId" type="java.lang.Integer">
+            <column name="stock_id" />
+            <generator class="identity" />
         </id>
         <many-to-one name="grn" class="com.servicemaster.models.Grn" fetch="select">
             <column name="grn_grn_code" length="15" not-null="true" />
@@ -15,16 +15,13 @@
             <column name="item_item_code" length="15" not-null="true" />
         </many-to-one>
         <many-to-one name="stockStatus" class="com.servicemaster.models.StockStatus" fetch="select">
-            <column name="stock_status_stock_status_code" not-null="true" />
+            <column name="stock_status_stock_status_id" not-null="true" />
         </many-to-one>
-        <property name="unitPrice" type="java.lang.Float">
-            <column name="unit_price" precision="12" scale="0" />
+        <property name="costPrice" type="java.lang.Float">
+            <column name="cost_price" precision="12" scale="0" />
         </property>
-        <property name="receivedQuantity" type="java.lang.Float">
-            <column name="received_quantity" precision="12" scale="0" />
-        </property>
-        <property name="totalPrice" type="java.lang.Float">
-            <column name="total_price" precision="12" scale="0" />
+        <property name="quantity" type="java.lang.Float">
+            <column name="quantity" precision="12" scale="0" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
@@ -46,9 +43,6 @@
         </property>
         <property name="remark" type="string">
             <column name="remark" length="100" />
-        </property>
-        <property name="grnGrnId" type="int">
-            <column name="grn_grn_id" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

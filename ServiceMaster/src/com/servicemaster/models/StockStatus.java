@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 5, 2017 11:15:37 PM by Hibernate Tools 4.3.1
+// Generated Sep 8, 2017 12:30:28 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Set;
 public class StockStatus  implements java.io.Serializable {
 
 
-     private int stockStatusCode;
+     private int stockStatusId;
      private String stockStatusName;
      private Date createdDate;
      private Date createdTime;
@@ -27,11 +27,11 @@ public class StockStatus  implements java.io.Serializable {
     }
 
 	
-    public StockStatus(int stockStatusCode) {
-        this.stockStatusCode = stockStatusCode;
+    public StockStatus(int stockStatusId) {
+        this.stockStatusId = stockStatusId;
     }
-    public StockStatus(int stockStatusCode, String stockStatusName, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set stocks) {
-       this.stockStatusCode = stockStatusCode;
+    public StockStatus(int stockStatusId, String stockStatusName, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set stocks) {
+       this.stockStatusId = stockStatusId;
        this.stockStatusName = stockStatusName;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
@@ -43,12 +43,12 @@ public class StockStatus  implements java.io.Serializable {
        this.stocks = stocks;
     }
    
-    public int getStockStatusCode() {
-        return this.stockStatusCode;
+    public int getStockStatusId() {
+        return this.stockStatusId;
     }
     
-    public void setStockStatusCode(int stockStatusCode) {
-        this.stockStatusCode = stockStatusCode;
+    public void setStockStatusId(int stockStatusId) {
+        this.stockStatusId = stockStatusId;
     }
     public String getStockStatusName() {
         return this.stockStatusName;
