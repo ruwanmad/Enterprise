@@ -55,6 +55,7 @@ Contributor(s):
     <mapping resource="com/servicemaster/models/BusinessTelephone.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Vehicle.hbm.xml"/>
     <mapping resource="com/servicemaster/models/BusinessAddress.hbm.xml"/>
+    <mapping resource="com/servicemaster/models/SellingPrice.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Bom.hbm.xml"/>
     <mapping resource="com/servicemaster/models/ServiceStatus.hbm.xml"/>
     <mapping resource="com/servicemaster/models/RackSlot.hbm.xml"/>

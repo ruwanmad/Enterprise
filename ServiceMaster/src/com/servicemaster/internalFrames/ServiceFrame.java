@@ -22,6 +22,7 @@ import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.models.BusinessTelephone;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Item;
+import com.servicemaster.models.SellingPrice;
 import com.servicemaster.models.Service;
 import com.servicemaster.models.ServiceBay;
 import com.servicemaster.models.ServiceHasItem;
@@ -131,6 +132,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         txtDiscount = new javax.swing.JFormattedTextField();
         rbtPercentage = new javax.swing.JRadioButton();
         rbtNumber = new javax.swing.JRadioButton();
+        btnAdd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblItems = new javax.swing.JTable();
         buttonPanel = new javax.swing.JPanel();
@@ -292,17 +294,17 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                         .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(cmbVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtLastServicesMilage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtLastServicesMilage, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12)
-                    .addComponent(dateServiceDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dateServiceDate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnNew, btnRefresh, cmbVehicle, dateServiceDate, jLabel1, jLabel12, jLabel2, txtLastServicesMilage});
@@ -363,16 +365,16 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             .addGroup(customerDetailPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(customerDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(customerDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblAddress1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAddress1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
-                .addComponent(lblAddress2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblAddress2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(lblAddress3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblAddress3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -445,16 +447,16 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             .addGroup(ServiceDetailPanelLayout.createSequentialGroup()
                 .addGroup(ServiceDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ServiceDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel5)
-                        .addComponent(txtGrandSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel6)
-                        .addComponent(txtGrandDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7)
-                        .addComponent(txtGrandTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtGrandSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtGrandDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtGrandTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ServiceDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel11)
-                        .addComponent(cmbServiceBay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbServiceBay, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(5, 5, 5))
         );
 
         ServiceDetailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbServiceBay, jLabel11, jLabel5, jLabel6, jLabel7, txtGrandDiscount, txtGrandSubTotal, txtGrandTotal});
@@ -523,6 +525,26 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        btnAdd.setBackground(new java.awt.Color(150, 255, 150));
+        btnAdd.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnAdd.setText("Add");
+        btnAdd.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnAdd.setContentAreaFilled(false);
+        btnAdd.setOpaque(true);
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAddMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAddMouseExited(evt);
+            }
+        });
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout itemPanelLayout = new javax.swing.GroupLayout(itemPanel);
         itemPanel.setLayout(itemPanelLayout);
         itemPanelLayout.setHorizontalGroup(
@@ -544,6 +566,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addComponent(rbtPercentage)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(rbtNumber)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -555,15 +579,16 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(itemPanelLayout.createSequentialGroup()
                 .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(cmbItems, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rbtPercentage)
-                    .addComponent(rbtNumber))
-                .addContainerGap())
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbItems, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rbtPercentage, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rbtNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5))
         );
 
         itemPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbItems, jLabel10, jLabel8, jLabel9, txtDiscount, txtQuantity});
@@ -771,8 +796,6 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        mainPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {ServiceDetailPanel, itemPanel});
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -860,7 +883,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                         String itemCode = item.getItemCode();
                         String itemName = item.getItemName();
                         float quantity = serviceItem.getQuantity();
-                        float unitPrice = item.getSellingPrice();
+                        float unitPrice = this.getItemSellingPrice(item);
                         float subTotal = serviceItem.getSubTotal();
                         float discount = serviceItem.getDiscount();
                         float total = serviceItem.getTotal();
@@ -985,100 +1008,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
     private void txtDiscountKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiscountKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            float quantity = Float.parseFloat(txtQuantity.getText().trim());
-            if (quantity != 0.0) {
-                String itemName = (String) cmbItems.getSelectedItem();
-                Item item = itemMap.get(itemName);
-
-                Session session = HibernateUtil.getSessionFactory().openSession();
-
-                Bom bom = (Bom) session.createCriteria(Bom.class)
-                        .add(Restrictions.eq("item", item))
-                        .uniqueResult();
-
-                if (bom == null) {
-                    String itemCode = item.getItemCode();
-                    float unitPrice = item.getSellingPrice();
-                    float subTotal = quantity * unitPrice;
-                    float discount = Float.parseFloat(txtDiscount.getText().trim());
-                    float total = 0.0f;
-                    if (discount != 0.0) {
-                        if (rbtPercentage.isSelected()) {
-                            discount = (subTotal * discount) / 100;
-                            total = subTotal - discount;
-                        } else if (rbtNumber.isSelected()) {
-                            total = subTotal - discount;
-                        }
-                    } else {
-                        total = subTotal;
-                    }
-
-                    DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-                    tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
-
-                    cmbItems.setSelectedIndex(0);
-                    cmbItems.requestFocus();
-                    txtQuantity.setText("0.0");
-                    txtDiscount.setText("0.0");
-                    rbtPercentage.setSelected(true);
-
-                    grandSubTotal += subTotal;
-                    grandDiscount += discount;
-                    grandTotal += total;
-
-                    txtGrandSubTotal.setText("" + grandSubTotal);
-                    txtGrandDiscount.setText("" + grandDiscount);
-                    txtGrandTotal.setText("" + grandTotal);
-                } else {
-                    List<BomItem> bomItems = session.createCriteria(BomItem.class)
-                            .add(Restrictions.eq("bom", bom))
-                            .addOrder(Order.asc("item.itemCode"))
-                            .list();
-                    for (BomItem bomItem : bomItems) {
-                        Item releventItem = (Item) session.createCriteria(Item.class)
-                                .add(Restrictions.eq("itemCode", bomItem.getItem().getItemCode()))
-                                .uniqueResult();
-
-                        String itemCode = releventItem.getItemCode();
-                        float unitPrice = releventItem.getSellingPrice();
-                        float subTotal = quantity * unitPrice;
-                        float discount = Float.parseFloat(txtDiscount.getText().trim());
-                        float total = 0.0f;
-                        if (discount != 0.0) {
-                            if (rbtPercentage.isSelected()) {
-                                discount = (subTotal * discount) / 100;
-                                total = subTotal - discount;
-                            } else if (rbtNumber.isSelected()) {
-                                total = subTotal - discount;
-                            }
-                        } else {
-                            total = subTotal;
-                        }
-
-                        DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-                        tableModel.addRow(new Object[]{itemCode, releventItem.getItemName(), quantity, unitPrice, subTotal, discount, total});
-
-                        cmbItems.setSelectedIndex(0);
-                        cmbItems.requestFocus();
-                        txtQuantity.setText("0.0");
-                        txtDiscount.setText("0.0");
-                        rbtPercentage.setSelected(true);
-
-                        grandSubTotal += subTotal;
-                        grandDiscount += discount;
-                        grandTotal += total;
-
-                        txtGrandSubTotal.setText("" + grandSubTotal);
-                        txtGrandDiscount.setText("" + grandDiscount);
-                        txtGrandTotal.setText("" + grandTotal);
-                    }
-                }
-
-                session.close();
-            } else {
-                JOptionPane.showMessageDialog(this, "Please enter valid quantity.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
-                txtQuantity.requestFocus();
-            }
+            btnAdd.requestFocus();
         }
     }//GEN-LAST:event_txtDiscountKeyPressed
 
@@ -1148,7 +1078,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                         DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
                         tableModel.removeRow(tblItems.getSelectedRow());
 
-                        grandSubTotal = grandSubTotal - (serviceHasItem.getQuantity() * itemMap.get(itemName).getSellingPrice());
+                        grandSubTotal = grandSubTotal - (serviceHasItem.getQuantity() * this.getItemSellingPrice(itemMap.get(itemName)));
                         grandDiscount = grandDiscount - serviceHasItem.getDiscount();
                         grandTotal = grandSubTotal - grandDiscount;
 
@@ -1420,6 +1350,111 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         settlementDialog.setVisible(true);
     }//GEN-LAST:event_btnSettleActionPerformed
 
+    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnAddMouseEntered
+
+    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnAddMouseExited
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        float quantity = Float.parseFloat(txtQuantity.getText().trim());
+        if (quantity != 0.0) {
+            String itemName = (String) cmbItems.getSelectedItem();
+            Item item = itemMap.get(itemName);
+
+            Session session = HibernateUtil.getSessionFactory().openSession();
+
+            Bom bom = (Bom) session.createCriteria(Bom.class)
+                    .add(Restrictions.eq("item", item))
+                    .uniqueResult();
+
+            if (bom == null) {
+                String itemCode = item.getItemCode();
+                float unitPrice = this.getItemSellingPrice(item);
+                float subTotal = quantity * unitPrice;
+                float discount = Float.parseFloat(txtDiscount.getText().trim());
+                float total = 0.0f;
+                if (discount != 0.0) {
+                    if (rbtPercentage.isSelected()) {
+                        discount = (subTotal * discount) / 100;
+                        total = subTotal - discount;
+                    } else if (rbtNumber.isSelected()) {
+                        total = subTotal - discount;
+                    }
+                } else {
+                    total = subTotal;
+                }
+
+                DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
+
+                cmbItems.setSelectedIndex(0);
+                cmbItems.requestFocus();
+                txtQuantity.setText("0.0");
+                txtDiscount.setText("0.0");
+                rbtPercentage.setSelected(true);
+
+                grandSubTotal += subTotal;
+                grandDiscount += discount;
+                grandTotal += total;
+
+                txtGrandSubTotal.setText("" + grandSubTotal);
+                txtGrandDiscount.setText("" + grandDiscount);
+                txtGrandTotal.setText("" + grandTotal);
+            } else {
+                List<BomItem> bomItems = session.createCriteria(BomItem.class)
+                        .add(Restrictions.eq("bom", bom))
+                        .addOrder(Order.asc("item.itemCode"))
+                        .list();
+                for (BomItem bomItem : bomItems) {
+                    Item releventItem = (Item) session.createCriteria(Item.class)
+                            .add(Restrictions.eq("itemCode", bomItem.getItem().getItemCode()))
+                            .uniqueResult();
+
+                    String itemCode = releventItem.getItemCode();
+                    float unitPrice = this.getItemSellingPrice(releventItem);
+                    float subTotal = quantity * unitPrice;
+                    float discount = Float.parseFloat(txtDiscount.getText().trim());
+                    float total = 0.0f;
+                    if (discount != 0.0) {
+                        if (rbtPercentage.isSelected()) {
+                            discount = (subTotal * discount) / 100;
+                            total = subTotal - discount;
+                        } else if (rbtNumber.isSelected()) {
+                            total = subTotal - discount;
+                        }
+                    } else {
+                        total = subTotal;
+                    }
+
+                    DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                    tableModel.addRow(new Object[]{itemCode, releventItem.getItemName(), quantity, unitPrice, subTotal, discount, total});
+
+                    cmbItems.setSelectedIndex(0);
+                    cmbItems.requestFocus();
+                    txtQuantity.setText("0.0");
+                    txtDiscount.setText("0.0");
+                    rbtPercentage.setSelected(true);
+
+                    grandSubTotal += subTotal;
+                    grandDiscount += discount;
+                    grandTotal += total;
+
+                    txtGrandSubTotal.setText("" + grandSubTotal);
+                    txtGrandDiscount.setText("" + grandDiscount);
+                    txtGrandTotal.setText("" + grandTotal);
+                }
+            }
+
+            session.close();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please enter valid quantity.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+            txtQuantity.requestFocus();
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
     private void loadVehicles(Session session) {
 
         Query query = session.createQuery("from Vehicle v order by v.vehicleNumber");
@@ -1542,6 +1577,38 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         tableModel.setRowCount(0);
     }
 
+    private float getItemSellingPrice(Item item) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        SellingPrice sellingPrice = (SellingPrice) session
+                .createCriteria(SellingPrice.class)
+                .add(Restrictions.eq("item", item))
+                .add(Restrictions.eq("effectiveDate", new Date()))
+                .uniqueResult();
+
+        if (sellingPrice != null) {
+            session.close();
+            return sellingPrice.getSellingPrice();
+        } else {
+            List<SellingPrice> sellingPrices = session
+                    .createCriteria(SellingPrice.class)
+                    .add(Restrictions.eq("item", item))
+                    .add(Restrictions.le("effectiveDate", new Date()))
+                    .addOrder(Order.desc("effectiveDate"))
+                    .list();
+            if (!sellingPrices.isEmpty()) {
+                for (SellingPrice sellingPri : sellingPrices) {
+                    session.close();
+                    return sellingPri.getSellingPrice();
+                }
+                return 0.0f;
+            } else {
+                session.close();
+                return 0.0f;
+            }
+        }
+    }
+
     private void ItemEdit() {
         int row = tblItems.getSelectedRow();
         if (row != -1) {
@@ -1574,6 +1641,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ServiceDetailPanel;
+    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnInvoice;
     private javax.swing.JButton btnNew;

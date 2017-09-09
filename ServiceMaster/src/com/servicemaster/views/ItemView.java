@@ -13,6 +13,7 @@ import com.servicemaster.models.IssueMethod;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.Manufacturer;
 import com.servicemaster.models.RackSlot;
+import com.servicemaster.models.SellingPrice;
 import com.servicemaster.models.SubCategory;
 import com.servicemaster.models.Uom;
 import com.servicemaster.utils.HibernateUtil;
@@ -20,13 +21,15 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
  * @author RuwanM
  */
 public class ItemView extends javax.swing.JInternalFrame {
-
+    
     private final List list;
     private final ItemFrame itemFrame;
 
@@ -80,14 +83,14 @@ public class ItemView extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Item Code", "Item Name", "Sub Cat. Code", "Selling Price", "Remark", "Is Active"
+                "Item Code", "Item Name", "Sub Cat. Code", "Remark", "Is Active"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -187,7 +190,6 @@ public class ItemView extends javax.swing.JInternalFrame {
                     tableModel.addRow(new Object[]{item.getItemCode(),
                         item.getItemName(),
                         item.getSubCategory().getSubCategoryCode(),
-                        item.getSellingPrice(),
                         item.getRemark(),
                         item.getIsActive() == 1});
                 }
@@ -228,26 +230,26 @@ public class ItemView extends javax.swing.JInternalFrame {
             this.dispose();
         }
     }//GEN-LAST:event_btnCloseActionPerformed
-
+    
     private void selectItem() {
         int selectedRow = subCategoryTable.getSelectedRow();
         Item item = (Item) list.get(selectedRow);
-
+        
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-
+        
         IssueMethod issueMethod = (IssueMethod) session.load(IssueMethod.class, item.getIssueMethod().getIssueMethodId());
         Manufacturer manufacturer = (Manufacturer) session.load(Manufacturer.class, item.getManufacturer().getManufacturerCode());
         SubCategory subCategory = (SubCategory) session.load(SubCategory.class, item.getSubCategory().getSubCategoryCode());
         RackSlot rackSlot = (RackSlot) session.load(RackSlot.class, item.getRackSlot().getRackSlotCode());
         Uom buyingUOM = (Uom) session.load(Uom.class, item.getUomByBuyingUom().getUomCode());
         Uom sellingUOM = (Uom) session.load(Uom.class, item.getUomBySellingUom().getUomCode());
-
+        
         itemFrame.setItemCode(item.getItemCode());
         itemFrame.setItemName(item.getItemName());
-        itemFrame.setSellingPrice(item.getSellingPrice().toString());
         itemFrame.setIssueMethod(issueMethod.getIssueMethodCode());
         itemFrame.setReorderQty(item.getReorderQuantity().toString());
+        itemFrame.setSellingQuantity("" + item.getItemQuantity());
         itemFrame.setIsPhysicle(item.getIsPhysical() == 1);
         itemFrame.setIsActive(item.getIsActive() == 1);
         itemFrame.setRemark(item.getRemark());
@@ -258,10 +260,18 @@ public class ItemView extends javax.swing.JInternalFrame {
         itemFrame.setSellingUOM(sellingUOM.getUomName());
         itemFrame.setItemCodeEditable(false);
         itemFrame.setBtnSaveText("Update");
-
+        
+        List<SellingPrice> sellingPrices = session
+                .createCriteria(SellingPrice.class)
+                .add(Restrictions.eq("item", item))
+                .addOrder(Order.asc("effectiveDate"))
+                .list();
+        
+        itemFrame.setSellingPrices(sellingPrices);
+        
         transaction.commit();
         session.close();
-
+        
         this.dispose();
     }
 

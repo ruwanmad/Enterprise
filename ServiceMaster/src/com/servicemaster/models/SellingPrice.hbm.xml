@@ -3,13 +3,19 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 9, 2017 3:00:19 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.Manufacturer" table="manufacturer" catalog="enterprisedb" optimistic-lock="version">
-        <id name="manufacturerCode" type="string">
-            <column name="manufacturer_code" length="15" />
-            <generator class="assigned" />
+    <class name="com.servicemaster.models.SellingPrice" table="selling_price" catalog="enterprisedb" optimistic-lock="version">
+        <id name="sellingPriceId" type="java.lang.Integer">
+            <column name="selling_price_id" />
+            <generator class="identity" />
         </id>
-        <property name="manufacturerName" type="string">
-            <column name="manufacturer_name" length="100" />
+        <many-to-one name="item" class="com.servicemaster.models.Item" fetch="select">
+            <column name="item_item_code" length="15" not-null="true" />
+        </many-to-one>
+        <property name="sellingPrice" type="java.lang.Float">
+            <column name="selling_price" precision="12" scale="0" />
+        </property>
+        <property name="effectiveDate" type="date">
+            <column name="effective_date" length="10" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
@@ -32,11 +38,5 @@
         <property name="remark" type="string">
             <column name="remark" length="100" />
         </property>
-        <set name="items" table="item" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="manufacturer_manufacturer_code" length="15" />
-            </key>
-            <one-to-many class="com.servicemaster.models.Item" />
-        </set>
     </class>
 </hibernate-mapping>

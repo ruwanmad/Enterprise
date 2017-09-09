@@ -158,6 +158,8 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         splitPane.setRightComponent(desktopPane);
 
         listServices.setBackground(new java.awt.Color(150, 255, 150));
+        listServices.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
+        listServices.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         listServices.setSelectionBackground(new java.awt.Color(50, 255, 50));
         listServices.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

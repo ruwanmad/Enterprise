@@ -18,6 +18,8 @@ import com.servicemaster.models.GrnLine;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.Stock;
 import com.servicemaster.models.StockStatus;
+import com.servicemaster.models.Uom;
+import com.servicemaster.models.UomConversion;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
@@ -81,6 +83,7 @@ public class GrnFrame extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         txtDiscount = new javax.swing.JFormattedTextField();
         btnAdd = new javax.swing.JButton();
+        lblUom = new javax.swing.JLabel();
         addedItemsPanel = new javax.swing.JPanel();
         scrollPane = new javax.swing.JScrollPane();
         tblGrnItems = new javax.swing.JTable();
@@ -361,6 +364,9 @@ public class GrnFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        lblUom.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblUom.setText("ML");
+
         javax.swing.GroupLayout grnItemDetailsPanelLayout = new javax.swing.GroupLayout(grnItemDetailsPanel);
         grnItemDetailsPanel.setLayout(grnItemDetailsPanelLayout);
         grnItemDetailsPanelLayout.setHorizontalGroup(
@@ -378,13 +384,15 @@ public class GrnFrame extends javax.swing.JInternalFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblUom, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         grnItemDetailsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtDiscount, txtQuantity, txtUnitPrice});
@@ -402,11 +410,12 @@ public class GrnFrame extends javax.swing.JInternalFrame {
                     .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUom))
                 .addContainerGap())
         );
 
-        grnItemDetailsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAdd, cmbItems, jLabel6, jLabel7, jLabel8, jLabel9, txtDiscount, txtQuantity, txtUnitPrice});
+        grnItemDetailsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAdd, cmbItems, jLabel6, jLabel7, jLabel8, jLabel9, lblUom, txtDiscount, txtQuantity, txtUnitPrice});
 
         addedItemsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 0)), "Added Items", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 153, 0))); // NOI18N
 
@@ -707,6 +716,21 @@ public class GrnFrame extends javax.swing.JInternalFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Item item = (Item) session
+                        .createCriteria(Item.class)
+                        .add(Restrictions.eq("itemName", cmbItems.getSelectedItem().toString().trim()))
+                        .uniqueResult();
+                if (item != null) {
+                    Uom uom = (Uom) session
+                            .createCriteria(Uom.class)
+                            .add(Restrictions.eq("uomCode", item.getUomByBuyingUom().getUomCode()))
+                            .uniqueResult();
+                    if (uom != null) {
+                        lblUom.setText(uom.getUomSymble());
+                    }
+                }
+                session.close();
                 txtUnitPrice.selectAll();
             }
         });
@@ -768,11 +792,11 @@ public class GrnFrame extends javax.swing.JInternalFrame {
         Grn grn = new Grn();
         grn.setGrnCode(strGrnCode);
         grn.setBusinessPartner(businessPartner);
-        grn.setGrnReference(txtGrnReference.getText().trim());
+        grn.setGrnReference(txtGrnReference.getText().trim().toUpperCase());
         grn.setGrnTime(date);
         grn.setGrnDate(dateGrnDate.getDate());
-        grn.setHandedOverBy(txtDeliveredBy.getText().trim());
-        grn.setBatch(new SimpleDateFormat("yyyyMMdd").format(dateGrnDate.getDate()) + "-" + txtGrnReference.getText().trim());
+        grn.setHandedOverBy(txtDeliveredBy.getText().trim().toUpperCase());
+        grn.setBatch(new SimpleDateFormat("yyyyMMdd").format(dateGrnDate.getDate()) + "-" + txtGrnReference.getText().trim().toUpperCase());
         if (bUpdate) {
             grn.setModifiedDate(date);
             grn.setModifiedTime(date);
@@ -782,7 +806,7 @@ public class GrnFrame extends javax.swing.JInternalFrame {
             grn.setCreatedTime(date);
             grn.setCreatedUser(MainFrame.user.getUserId());
         }
-        grn.setRemark(txtRemark.getText().trim());
+        grn.setRemark(txtRemark.getText().trim().toUpperCase());
 
         session.saveOrUpdate(grn);
 
@@ -792,6 +816,9 @@ public class GrnFrame extends javax.swing.JInternalFrame {
                     .add(Restrictions.eq("itemCode", tblGrnItems.getValueAt(i, 0).toString()))
                     .uniqueResult();
 
+            /**
+             * Updating GRN Line for GRN reference
+             */
             GrnLine grnLine = new GrnLine();
             grnLine.setUnitPrice(Float.parseFloat(tblGrnItems.getValueAt(i, 2).toString()));
             grnLine.setReceivedQuantity(Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
@@ -819,12 +846,36 @@ public class GrnFrame extends javax.swing.JInternalFrame {
 
             session.saveOrUpdate(grnLine);
 
+            /**
+             * Update stock
+             */
             Stock stock = new Stock();
             stock.setCostPrice(((Float.parseFloat(tblGrnItems.getValueAt(i, 2).toString())
                     * Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()))
                     - Float.parseFloat(tblGrnItems.getValueAt(i, 4).toString()))
                     / Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
-            stock.setQuantity(Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
+            
+            /**
+             * Convert buying uom to selling uom
+             */
+            Uom buying = item.getUomByBuyingUom();
+            Uom selling = item.getUomBySellingUom();
+            if (buying != selling) {
+                UomConversion uomConversion = (UomConversion) session
+                        .createCriteria(UomConversion.class)
+                        .add(Restrictions.eq("uomByUomUomCodeFrom", buying))
+                        .add(Restrictions.eq("uomByUomUomCodeTo", selling))
+                        .uniqueResult();
+                if (uomConversion != null) {
+                    float multipliedBY = uomConversion.getMultipliedBy();
+                    stock.setQuantity(Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()) * multipliedBY);
+                } else {
+                    stock.setQuantity(Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
+                }
+            } else {
+                stock.setQuantity(Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
+            }
+
             if (bUpdate) {
                 stock.setModifiedDate(date);
                 stock.setModifiedTime(date);
@@ -874,6 +925,7 @@ public class GrnFrame extends javax.swing.JInternalFrame {
         dateGrnDate.setDate(new Date());
         cmbSupplier.setSelectedIndex(0);
         txtDeliveredBy.setText("");
+        txtRemark.setText("");
 
         ((DefaultTableModel) tblGrnItems.getModel()).setRowCount(0);
 
@@ -906,6 +958,7 @@ public class GrnFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel lblUom;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JTable tblGrnItems;
     private javax.swing.JTextField txtDeliveredBy;

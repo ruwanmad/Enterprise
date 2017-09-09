@@ -81,7 +81,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
         txtRemark = new javax.swing.JTextField();
         cbxIsActive = new javax.swing.JCheckBox();
 
-        itemDelete.setText("jMenuItem1");
+        itemDelete.setText("Delete");
         itemDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemDeleteActionPerformed(evt);
@@ -89,7 +89,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
         });
         tblAddedItemPopup.add(itemDelete);
 
-        itemEdit.setText("jMenuItem1");
+        itemEdit.setText("Edit");
         itemEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemEditActionPerformed(evt);

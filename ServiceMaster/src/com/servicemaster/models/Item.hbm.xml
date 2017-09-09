@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 8, 2017 12:30:39 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 9, 2017 3:00:19 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Item" table="item" catalog="enterprisedb" optimistic-lock="version">
         <id name="itemCode" type="string">
@@ -29,14 +29,14 @@
         <property name="itemName" type="string">
             <column name="item_name" length="100" not-null="true" />
         </property>
-        <property name="sellingPrice" type="java.lang.Float">
-            <column name="selling_price" precision="12" scale="0" />
-        </property>
         <property name="issueMethod_1" type="string">
             <column name="issue_method" length="10" />
         </property>
         <property name="reorderQuantity" type="java.lang.Float">
             <column name="reorder_quantity" precision="12" scale="0" />
+        </property>
+        <property name="itemQuantity" type="java.lang.Float">
+            <column name="item_quantity" precision="12" scale="0" />
         </property>
         <property name="isPhysical" type="java.lang.Integer">
             <column name="isPhysical" />
@@ -76,6 +76,12 @@
                 <column name="item_item_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.GrnLine" />
+        </set>
+        <set name="sellingPrices" table="selling_price" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="item_item_code" length="15" not-null="true" />
+            </key>
+            <one-to-many class="com.servicemaster.models.SellingPrice" />
         </set>
         <set name="serviceHasItems" table="service_has_item" inverse="true" lazy="true" fetch="select">
             <key>

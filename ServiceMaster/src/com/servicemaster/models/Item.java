@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 8, 2017 12:30:28 AM by Hibernate Tools 4.3.1
+// Generated Sep 9, 2017 3:00:13 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -20,9 +20,9 @@ public class Item  implements java.io.Serializable {
      private Uom uomByBuyingUom;
      private Uom uomBySellingUom;
      private String itemName;
-     private Float sellingPrice;
      private String issueMethod_1;
      private Float reorderQuantity;
+     private Float itemQuantity;
      private Integer isPhysical;
      private Integer isActive;
      private Date creadetDate;
@@ -34,6 +34,7 @@ public class Item  implements java.io.Serializable {
      private String remark;
      private Set boms = new HashSet(0);
      private Set grnLines = new HashSet(0);
+     private Set sellingPrices = new HashSet(0);
      private Set serviceHasItems = new HashSet(0);
      private Set stocks = new HashSet(0);
      private Set bomItems = new HashSet(0);
@@ -51,7 +52,7 @@ public class Item  implements java.io.Serializable {
         this.uomBySellingUom = uomBySellingUom;
         this.itemName = itemName;
     }
-    public Item(String itemCode, IssueMethod issueMethod, Manufacturer manufacturer, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, Float sellingPrice, String issueMethod_1, Float reorderQuantity, Integer isPhysical, Integer isActive, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set boms, Set grnLines, Set serviceHasItems, Set stocks, Set bomItems) {
+    public Item(String itemCode, IssueMethod issueMethod, Manufacturer manufacturer, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, String issueMethod_1, Float reorderQuantity, Float itemQuantity, Integer isPhysical, Integer isActive, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set boms, Set grnLines, Set sellingPrices, Set serviceHasItems, Set stocks, Set bomItems) {
        this.itemCode = itemCode;
        this.issueMethod = issueMethod;
        this.manufacturer = manufacturer;
@@ -60,9 +61,9 @@ public class Item  implements java.io.Serializable {
        this.uomByBuyingUom = uomByBuyingUom;
        this.uomBySellingUom = uomBySellingUom;
        this.itemName = itemName;
-       this.sellingPrice = sellingPrice;
        this.issueMethod_1 = issueMethod_1;
        this.reorderQuantity = reorderQuantity;
+       this.itemQuantity = itemQuantity;
        this.isPhysical = isPhysical;
        this.isActive = isActive;
        this.creadetDate = creadetDate;
@@ -74,6 +75,7 @@ public class Item  implements java.io.Serializable {
        this.remark = remark;
        this.boms = boms;
        this.grnLines = grnLines;
+       this.sellingPrices = sellingPrices;
        this.serviceHasItems = serviceHasItems;
        this.stocks = stocks;
        this.bomItems = bomItems;
@@ -135,13 +137,6 @@ public class Item  implements java.io.Serializable {
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
-    public Float getSellingPrice() {
-        return this.sellingPrice;
-    }
-    
-    public void setSellingPrice(Float sellingPrice) {
-        this.sellingPrice = sellingPrice;
-    }
     public String getIssueMethod_1() {
         return this.issueMethod_1;
     }
@@ -155,6 +150,13 @@ public class Item  implements java.io.Serializable {
     
     public void setReorderQuantity(Float reorderQuantity) {
         this.reorderQuantity = reorderQuantity;
+    }
+    public Float getItemQuantity() {
+        return this.itemQuantity;
+    }
+    
+    public void setItemQuantity(Float itemQuantity) {
+        this.itemQuantity = itemQuantity;
     }
     public Integer getIsPhysical() {
         return this.isPhysical;
@@ -232,6 +234,13 @@ public class Item  implements java.io.Serializable {
     
     public void setGrnLines(Set grnLines) {
         this.grnLines = grnLines;
+    }
+    public Set getSellingPrices() {
+        return this.sellingPrices;
+    }
+    
+    public void setSellingPrices(Set sellingPrices) {
+        this.sellingPrices = sellingPrices;
     }
     public Set getServiceHasItems() {
         return this.serviceHasItems;
