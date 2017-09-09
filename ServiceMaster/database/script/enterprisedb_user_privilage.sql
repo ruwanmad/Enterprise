@@ -16,12 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Dumping data for table `bom_item`
+-- Dumping data for table `user_privilage`
 --
 
-LOCK TABLES `bom_item` WRITE;
-/*!40000 ALTER TABLE `bom_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bom_item` ENABLE KEYS */;
+LOCK TABLES `user_privilage` WRITE;
+/*!40000 ALTER TABLE `user_privilage` DISABLE KEYS */;
+INSERT INTO `user_privilage` VALUES (1,'1,2,3,4,5,11,12,13,14,15,21,22,23,24,25,31,32,33,34,35,41,42,43,44,45,51,52,53,54,55,111,112,113,114,115,116,117,118,119,1110,1111,1112,1113,1114,1115,1116','2017-05-01','08:00:00',1,'1900-01-01','12:00:00',1,'System admin role');
+/*!40000 ALTER TABLE `user_privilage` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -33,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-09 19:42:58
+-- Dump completed on 2017-09-09 19:43:00

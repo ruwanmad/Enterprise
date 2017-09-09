@@ -16,12 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Dumping data for table `bom_item`
+-- Dumping data for table `selling_price`
 --
 
-LOCK TABLES `bom_item` WRITE;
-/*!40000 ALTER TABLE `bom_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bom_item` ENABLE KEYS */;
+LOCK TABLES `selling_price` WRITE;
+/*!40000 ALTER TABLE `selling_price` DISABLE KEYS */;
+INSERT INTO `selling_price` VALUES (1,250,'2017-07-01','2017-09-09','15:19:25',1,'2017-09-09','16:06:21',1,'normal price','ITM1005'),(2,270,'2017-08-01','2017-09-09','15:19:25',1,'2017-09-09','16:06:21',1,'august rush','ITM1005'),(3,250,'2017-09-01','2017-09-09','15:19:25',1,'2017-09-09','16:06:21',1,'normal price','ITM1005'),(4,310,'2017-12-01','2017-09-09','15:19:25',1,'2017-09-09','16:06:21',1,'december rush','ITM1005'),(5,4700,'2017-09-01','2017-09-09','17:18:00',1,NULL,NULL,NULL,'','ITM1006'),(6,0,'2017-09-09','2017-09-09','19:38:15',1,NULL,NULL,NULL,'','ITM1007');
+/*!40000 ALTER TABLE `selling_price` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -33,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-09 19:42:58
+-- Dump completed on 2017-09-09 19:42:47
