@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 9, 2017 3:00:19 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 9, 2017 9:31:33 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.SubCategoryType" table="sub_category_type" catalog="enterprisedb" optimistic-lock="version">
-        <id name="subCategoryTypeCode" type="string">
-            <column name="sub_category_type_code" length="15" />
+    <class name="com.servicemaster.models.ItemType" table="item_type" catalog="enterprisedb" optimistic-lock="version">
+        <id name="itemTypeCode" type="string">
+            <column name="item_type_code" length="15" />
             <generator class="assigned" />
         </id>
-        <property name="subCategoryTypeName" type="string">
-            <column name="sub_category_type_name" length="45" />
+        <property name="itemTypeName" type="string">
+            <column name="item_type_name" length="45" />
         </property>
         <property name="isActive" type="java.lang.Integer">
             <column name="isActive" />
@@ -35,11 +35,11 @@
         <property name="modifiedUser" type="java.lang.Integer">
             <column name="modified_user" />
         </property>
-        <set name="subCategories" table="sub_category" inverse="true" lazy="true" fetch="select">
+        <set name="items" table="item" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="sub_category_type_sub_category_type_code" length="15" not-null="true" />
+                <column name="item_type_item_type_code" length="15" not-null="true" />
             </key>
-            <one-to-many class="com.servicemaster.models.SubCategory" />
+            <one-to-many class="com.servicemaster.models.Item" />
         </set>
     </class>
 </hibernate-mapping>

@@ -11,24 +11,26 @@ import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
-import com.servicemaster.models.SubCategoryType;
+import com.servicemaster.models.ItemType;
 import com.servicemaster.utils.HibernateUtil;
-import com.servicemaster.views.SubCategoryTypeView;
+import com.servicemaster.views.ItemTypeView;
 import java.util.Date;
 import java.util.List;
-import org.hibernate.Query;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
  * @author Ruwan Madawala
  */
-public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
+public class ItemTypeFrame extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Category
      */
-    public SubCategoryTypeFrame() {
+    public ItemTypeFrame() {
         initComponents();
     }
 
@@ -43,8 +45,8 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtSubCategoryTypeCode = new javax.swing.JTextField();
-        txtSubCategoryTypeName = new javax.swing.JTextField();
+        txtItemTypeCode = new javax.swing.JTextField();
+        txtItemTypeName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtRemark = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -55,17 +57,17 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
         btnCodeSerach = new javax.swing.JButton();
         btnNameSearch = new javax.swing.JButton();
 
-        setTitle("Sub Category Type");
+        setTitle("Item Type");
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel1.setText("Sub Cat. type code :");
+        jLabel1.setText("Item type code :");
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel2.setText("Sub Cat. type name :");
+        jLabel2.setText("Item type name :");
 
-        txtSubCategoryTypeCode.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtItemTypeCode.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        txtSubCategoryTypeName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtItemTypeName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel3.setText("Remark :");
@@ -189,11 +191,6 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtRemark))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbxIsActive)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -204,23 +201,30 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtSubCategoryTypeCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cbxIsActive))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtSubCategoryTypeName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtItemTypeCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtItemTypeName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(4, 4, 4)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtSubCategoryTypeCode, txtSubCategoryTypeName});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtItemTypeCode, txtItemTypeName});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCodeSerach, btnNameSearch});
 
@@ -232,11 +236,11 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(txtSubCategoryTypeCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtItemTypeCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(txtSubCategoryTypeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtItemTypeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -257,7 +261,7 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, jLabel1, jLabel2, jLabel3, jLabel4, txtRemark, txtSubCategoryTypeCode, txtSubCategoryTypeName});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, jLabel1, jLabel2, jLabel3, jLabel4, txtItemTypeCode, txtItemTypeName, txtRemark});
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCodeSerach, btnNameSearch});
 
@@ -285,22 +289,22 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSaveMouseExited
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if (txtSubCategoryTypeCode.getText().toUpperCase().trim().isEmpty()) {
-            List categoryByName = this.getSubCategoryTypeByName(txtSubCategoryTypeName.getText().toUpperCase().trim(), false);
-            if (categoryByName.size() > 0) {
+        if (txtItemTypeCode.getText().toUpperCase().trim().isEmpty()) {
+            List itemTypeByName =  this.getItemTypeByName(txtItemTypeName.getText().toUpperCase().trim(), false);
+            if (itemTypeByName.size() > 0) {
                 InformationDialog.showMessageBox("Item name already exists.", "Exist", null);
             } else {
                 KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                this.saveOrUpdateSubCategoryType(keyCodeFunctions.getKey("SCT", "Sub category type"), false);
+                this.saveOrUpdateItemType(keyCodeFunctions.getKey("ITP", "Item type"), false);
             }
         } else {
-            List categoryByCode = this.getSubCategoryTypeByCode(txtSubCategoryTypeCode.getText().toUpperCase().trim(), false);
-            if (categoryByCode.isEmpty()) {
+            List itemTypeByCode = this.getItemTypeByCode(txtItemTypeCode.getText().toUpperCase().trim(), false);
+            if (itemTypeByCode.isEmpty()) {
                 InformationDialog.showMessageBox("Invalid sub category type code. Please try again", "Invalid", null);
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    this.saveOrUpdateSubCategoryType(txtSubCategoryTypeCode.getText().toUpperCase().trim(), true);
+                    this.saveOrUpdateItemType(txtItemTypeCode.getText().toUpperCase().trim(), true);
                 }
             }
         }
@@ -330,11 +334,11 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCodeSerachMouseExited
 
     private void btnCodeSerachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCodeSerachActionPerformed
-        String subCategoryTypeCode = txtSubCategoryTypeCode.getText().trim();
-        List subCategorieTypes = getSubCategoryTypeByCode(subCategoryTypeCode, true);
+        String subCategoryTypeCode = txtItemTypeCode.getText().trim();
+        List subCategorieTypes = getItemTypeByCode(subCategoryTypeCode, true);
 
         if (!subCategorieTypes.isEmpty()) {
-            SubCategoryTypeView subCategoryTypeView = new SubCategoryTypeView(subCategorieTypes, this);
+            ItemTypeView subCategoryTypeView = new ItemTypeView(subCategorieTypes, this);
             MainFrame.desktopPane.add(subCategoryTypeView);
             subCategoryTypeView.setVisible(true);
         }
@@ -349,35 +353,35 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnNameSearchMouseExited
 
     private void btnNameSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNameSearchActionPerformed
-        String subCategoryTypeName = txtSubCategoryTypeName.getText().trim();
-        List subCategorieTypes = getSubCategoryTypeByName(subCategoryTypeName, true);
+        String itemTypeName = txtItemTypeName.getText().trim();
+        List itemTypes = getItemTypeByName(itemTypeName, true);
 
-        if (subCategorieTypes.size() > 0) {
-            SubCategoryTypeView subCategoryTypeView = new SubCategoryTypeView(subCategorieTypes, this);
-            MainFrame.desktopPane.add(subCategoryTypeView);
-            subCategoryTypeView.setVisible(true);
+        if (itemTypes.size() > 0) {
+            ItemTypeView itemTypeView = new ItemTypeView(itemTypes, this);
+            MainFrame.desktopPane.add(itemTypeView);
+            itemTypeView.setVisible(true);
         }
     }//GEN-LAST:event_btnNameSearchActionPerformed
 
-    private void saveOrUpdateSubCategoryType(String strSubCategoryTypeCode, boolean bUpdate) {
+    private void saveOrUpdateItemType(String strItemTypeCode, boolean bUpdate) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        SubCategoryType subCategoryType = new SubCategoryType();
-        subCategoryType.setSubCategoryTypeCode(strSubCategoryTypeCode);
-        subCategoryType.setSubCategoryTypeName(txtSubCategoryTypeName.getText().toUpperCase().trim());
-        subCategoryType.setRemark(txtRemark.getText().toUpperCase().trim());
-        subCategoryType.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
+        ItemType itemType = new ItemType();
+        itemType.setItemTypeCode(strItemTypeCode);
+        itemType.setItemTypeName(txtItemTypeName.getText().toUpperCase().trim());
+        itemType.setRemark(txtRemark.getText().toUpperCase().trim());
+        itemType.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
         if (bUpdate) {
-            subCategoryType.setModifiedDate(new Date());
-            subCategoryType.setModifiedTime(new Date());
-            subCategoryType.setModifiedUser(MainFrame.user.getUserId());
+            itemType.setModifiedDate(new Date());
+            itemType.setModifiedTime(new Date());
+            itemType.setModifiedUser(MainFrame.user.getUserId());
         } else {
-            subCategoryType.setCreatedDate(new Date());
-            subCategoryType.setCreatedTime(new Date());
-            subCategoryType.setCreatedUser(MainFrame.user.getUserId());
+            itemType.setCreatedDate(new Date());
+            itemType.setCreatedTime(new Date());
+            itemType.setCreatedUser(MainFrame.user.getUserId());
         }
-        session.saveOrUpdate(subCategoryType);
+        session.saveOrUpdate(itemType);
 
         session.getTransaction().commit();
         session.close();
@@ -390,54 +394,52 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
         this.clearAll();
     }
 
-    private List getSubCategoryTypeByCode(String categoryCode, boolean like) {
+    private List getItemTypeByCode(String itemTypeCode, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
+        
+        Criteria itemTypeCriteria = session.createCriteria(ItemType.class);
         if (like) {
-            query = session.createQuery("from SubCategoryType s where s.subCategoryTypeCode like :code");
-            query.setParameter("code", "%" + categoryCode + "%");
+            itemTypeCriteria.add(Restrictions.like("itemTypeName", "%" + itemTypeCode + "%"))
+                    .addOrder(Order.asc("itemTypeCode"));
         } else {
-            query = session.createQuery("from SubCategoryType s where s.subCategoryTypeCode = :code");
-            query.setParameter("code", categoryCode);
+            itemTypeCriteria.add(Restrictions.eq("itemTypeName", itemTypeCode))
+                    .addOrder(Order.asc("itemTypeCode"));
         }
-        List list = query.list();
-        session.getTransaction().commit();
+        List list = itemTypeCriteria.list();
         session.close();
         return list;
     }
 
-    private List getSubCategoryTypeByName(String categoryName, boolean like) {
+    private List getItemTypeByName(String itemTypeName, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
+                
+        Criteria itemTypeCriteria = session.createCriteria(ItemType.class);
         if (like) {
-            query = session.createQuery("from SubCategoryType s where s.subCategoryTypeName like :name");
-            query.setParameter("name", "%" + categoryName + "%");
+            itemTypeCriteria.add(Restrictions.like("itemTypeName", "%" + itemTypeName + "%"))
+                    .addOrder(Order.asc("itemTypeCode"));
         } else {
-            query = session.createQuery("from SubCategoryType s where s.subCategoryTypeName = :name");
-            query.setParameter("name", categoryName);
+            itemTypeCriteria.add(Restrictions.eq("itemTypeName", itemTypeName))
+                    .addOrder(Order.asc("itemTypeCode"));
         }
-        List list = query.list();
-        session.getTransaction().commit();
+        List list = itemTypeCriteria.list();
         session.close();
         return list;
     }
 
     private void clearAll() {
-        txtSubCategoryTypeCode.setText("");
-        txtSubCategoryTypeName.setText("");
+        txtItemTypeCode.setText("");
+        txtItemTypeName.setText("");
         txtRemark.setText("");
         cbxIsActive.setSelected(false);
-        txtSubCategoryTypeCode.setEditable(true);
+        txtItemTypeCode.setEditable(true);
     }
 
     public void setSubCategoryTypeCode(String categoryCode) {
-        this.txtSubCategoryTypeCode.setText(categoryCode);
+        this.txtItemTypeCode.setText(categoryCode);
     }
 
     public void setSubCategoryTypeName(String categoryName) {
-        this.txtSubCategoryTypeName.setText(categoryName);
+        this.txtItemTypeName.setText(categoryName);
     }
 
     public void setRemark(String remark) {
@@ -449,7 +451,7 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
     }
 
     public void setSubCategoryTypeCodeEditable(boolean editable) {
-        txtSubCategoryTypeCode.setEditable(editable);
+        txtItemTypeCode.setEditable(editable);
     }
 
     public void setBtnSaveText(String text) {
@@ -467,8 +469,8 @@ public class SubCategoryTypeFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JTextField txtItemTypeCode;
+    private javax.swing.JTextField txtItemTypeName;
     private javax.swing.JTextField txtRemark;
-    private javax.swing.JTextField txtSubCategoryTypeCode;
-    private javax.swing.JTextField txtSubCategoryTypeName;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,9 +8,9 @@ package com.servicemaster.views;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.guiFunctions.ButtonFunctions;
-import com.servicemaster.internalFrames.SubCategoryTypeFrame;
+import com.servicemaster.internalFrames.ItemTypeFrame;
 import com.servicemaster.models.Category;
-import com.servicemaster.models.SubCategoryType;
+import com.servicemaster.models.ItemType;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,10 +18,10 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author RuwanM
  */
-public class SubCategoryTypeView extends javax.swing.JInternalFrame {
+public class ItemTypeView extends javax.swing.JInternalFrame {
 
     private final List list;
-    private final SubCategoryTypeFrame subCategoryTypeFrame;
+    private final ItemTypeFrame itemTypeFrame;
 
     /**
      * Creates new form CategoryView
@@ -29,10 +29,10 @@ public class SubCategoryTypeView extends javax.swing.JInternalFrame {
      * @param list
      * @param subCategoryTypeFrame
      */
-    public SubCategoryTypeView(List<Category> list, SubCategoryTypeFrame subCategoryTypeFrame) {
+    public ItemTypeView(List<Category> list, ItemTypeFrame subCategoryTypeFrame) {
         initComponents();
         this.list = list;
-        this.subCategoryTypeFrame = subCategoryTypeFrame;
+        this.itemTypeFrame = subCategoryTypeFrame;
     }
 
     /**
@@ -73,7 +73,7 @@ public class SubCategoryTypeView extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Cat. Code", "Cat. Name", "Remark", "Is Active"
+                "Item Type Code", "Item Type Name", "Remark", "Is Active"
             }
         ) {
             Class[] types = new Class [] {
@@ -175,9 +175,9 @@ public class SubCategoryTypeView extends javax.swing.JInternalFrame {
             DefaultTableModel tableModel = (DefaultTableModel) subCategoryTypeTable.getModel();
             tableModel.setRowCount(0);
             for (Object object : list) {
-                if (object instanceof SubCategoryType) {
-                    SubCategoryType subCategoryType = (SubCategoryType) object;
-                    tableModel.addRow(new Object[]{subCategoryType.getSubCategoryTypeCode(), subCategoryType.getSubCategoryTypeName(), subCategoryType.getRemark(), (subCategoryType.getIsActive() == 1)});
+                if (object instanceof ItemType) {
+                    ItemType itemType = (ItemType) object;
+                    tableModel.addRow(new Object[]{itemType.getItemTypeCode(), itemType.getItemTypeName(), itemType.getRemark(), (itemType.getIsActive() == 1)});
                 }
             }
         }
@@ -219,13 +219,13 @@ public class SubCategoryTypeView extends javax.swing.JInternalFrame {
 
     private void selectCategory() {
         int selectedRow = subCategoryTypeTable.getSelectedRow();
-        SubCategoryType subCategoryType = (SubCategoryType) list.get(selectedRow);
-        subCategoryTypeFrame.setSubCategoryTypeCode(subCategoryType.getSubCategoryTypeCode());
-        subCategoryTypeFrame.setSubCategoryTypeName(subCategoryType.getSubCategoryTypeName());
-        subCategoryTypeFrame.setRemark(subCategoryType.getRemark());
-        subCategoryTypeFrame.setIsActive((subCategoryType.getIsActive() == 1));
-        subCategoryTypeFrame.setSubCategoryTypeCodeEditable(false);
-        subCategoryTypeFrame.setBtnSaveText("Update");
+        ItemType itemType = (ItemType) list.get(selectedRow);
+        itemTypeFrame.setSubCategoryTypeCode(itemType.getItemTypeCode());
+        itemTypeFrame.setSubCategoryTypeName(itemType.getItemTypeName());
+        itemTypeFrame.setRemark(itemType.getRemark());
+        itemTypeFrame.setIsActive((itemType.getIsActive() == 1));
+        itemTypeFrame.setSubCategoryTypeCodeEditable(false);
+        itemTypeFrame.setBtnSaveText("Update");
         this.dispose();
     }
 

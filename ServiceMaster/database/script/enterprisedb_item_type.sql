@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Dumping data for table `sub_category_type`
+-- Dumping data for table `item_type`
 --
 
-LOCK TABLES `sub_category_type` WRITE;
-/*!40000 ALTER TABLE `sub_category_type` DISABLE KEYS */;
-INSERT INTO `sub_category_type` VALUES ('SCT1000','SELL',1,'SELL','2017-09-05','22:40:18',1,NULL,NULL,NULL),('SCT1001','STORE',1,'STORE','2017-09-05','22:40:26',1,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `sub_category_type` ENABLE KEYS */;
+LOCK TABLES `item_type` WRITE;
+/*!40000 ALTER TABLE `item_type` DISABLE KEYS */;
+INSERT INTO `item_type` VALUES ('ITP1000','SELL',1,'SELL','2017-09-09','20:48:29',1,NULL,NULL,NULL),('ITP1001','STORE',1,'STORE','2017-09-09','20:48:44',1,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `item_type` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -34,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-09 19:42:52
+-- Dump completed on 2017-09-09 21:51:11

@@ -22,7 +22,7 @@ import com.servicemaster.internalFrames.ServicesFrame;
 import com.servicemaster.internalFrames.ShortCutsFrame;
 import com.servicemaster.internalFrames.StorageFrame;
 import com.servicemaster.internalFrames.SubCategoryFrame;
-import com.servicemaster.internalFrames.SubCategoryTypeFrame;
+import com.servicemaster.internalFrames.ItemTypeFrame;
 import com.servicemaster.internalFrames.VehicleFrame;
 import com.servicemaster.internalFrames.VehicleTypeFrame;
 import com.servicemaster.models.Module;
@@ -630,7 +630,7 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }
             case "5": {
-//                internalFrame = new RackSlotFrame();
+                internalFrame = new RackSlotFrame();
                 break;
             }
             case "6": {
@@ -642,7 +642,7 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }
             case "8": {
-                internalFrame = new SubCategoryTypeFrame();
+                internalFrame = new ItemTypeFrame();
                 break;
             }
             case "9": {

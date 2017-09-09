@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 9, 2017 3:00:13 PM by Hibernate Tools 4.3.1
+// Generated Sep 9, 2017 9:31:25 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -15,7 +15,6 @@ public class SubCategory  implements java.io.Serializable {
      private String subCategoryCode;
      private Category category;
      private Printer printer;
-     private SubCategoryType subCategoryType;
      private String subCategoryName;
      private Integer isActive;
      private Date createdDate;
@@ -31,17 +30,15 @@ public class SubCategory  implements java.io.Serializable {
     }
 
 	
-    public SubCategory(String subCategoryCode, Category category, Printer printer, SubCategoryType subCategoryType) {
+    public SubCategory(String subCategoryCode, Category category, Printer printer) {
         this.subCategoryCode = subCategoryCode;
         this.category = category;
         this.printer = printer;
-        this.subCategoryType = subCategoryType;
     }
-    public SubCategory(String subCategoryCode, Category category, Printer printer, SubCategoryType subCategoryType, String subCategoryName, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set items) {
+    public SubCategory(String subCategoryCode, Category category, Printer printer, String subCategoryName, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set items) {
        this.subCategoryCode = subCategoryCode;
        this.category = category;
        this.printer = printer;
-       this.subCategoryType = subCategoryType;
        this.subCategoryName = subCategoryName;
        this.isActive = isActive;
        this.createdDate = createdDate;
@@ -74,13 +71,6 @@ public class SubCategory  implements java.io.Serializable {
     
     public void setPrinter(Printer printer) {
         this.printer = printer;
-    }
-    public SubCategoryType getSubCategoryType() {
-        return this.subCategoryType;
-    }
-    
-    public void setSubCategoryType(SubCategoryType subCategoryType) {
-        this.subCategoryType = subCategoryType;
     }
     public String getSubCategoryName() {
         return this.subCategoryName;

@@ -11,6 +11,7 @@ import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.internalFrames.ItemFrame;
 import com.servicemaster.models.IssueMethod;
 import com.servicemaster.models.Item;
+import com.servicemaster.models.ItemType;
 import com.servicemaster.models.Manufacturer;
 import com.servicemaster.models.RackSlot;
 import com.servicemaster.models.SellingPrice;
@@ -244,6 +245,7 @@ public class ItemView extends javax.swing.JInternalFrame {
         RackSlot rackSlot = (RackSlot) session.load(RackSlot.class, item.getRackSlot().getRackSlotCode());
         Uom buyingUOM = (Uom) session.load(Uom.class, item.getUomByBuyingUom().getUomCode());
         Uom sellingUOM = (Uom) session.load(Uom.class, item.getUomBySellingUom().getUomCode());
+        ItemType itemType = (ItemType) session.load(ItemType.class, item.getItemType().getItemTypeCode());
         
         itemFrame.setItemCode(item.getItemCode());
         itemFrame.setItemName(item.getItemName());
@@ -258,6 +260,7 @@ public class ItemView extends javax.swing.JInternalFrame {
         itemFrame.setRackSlot(rackSlot.getRackSlotName());
         itemFrame.setBuyingUOM(buyingUOM.getUomName());
         itemFrame.setSellingUOM(sellingUOM.getUomName());
+        itemFrame.setItemType(itemType.getItemTypeName());
         itemFrame.setItemCodeEditable(false);
         itemFrame.setBtnSaveText("Update");
         

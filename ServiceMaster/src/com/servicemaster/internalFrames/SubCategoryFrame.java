@@ -14,14 +14,15 @@ import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Category;
 import com.servicemaster.models.Printer;
 import com.servicemaster.models.SubCategory;
-import com.servicemaster.models.SubCategoryType;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.SubCategoryView;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -56,8 +57,6 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         txtRemark = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         cbxIsActive = new javax.swing.JCheckBox();
-        jLabel6 = new javax.swing.JLabel();
-        cmbSubCategoryType = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         cmbPrinter = new javax.swing.JComboBox<>();
         btnReset = new javax.swing.JButton();
@@ -111,12 +110,6 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
 
         cbxIsActive.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         cbxIsActive.setSelected(true);
-
-        jLabel6.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel6.setText("Sub category type :");
-
-        cmbSubCategoryType.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        cmbSubCategoryType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--" }));
 
         jLabel7.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel7.setText("Printer :");
@@ -238,50 +231,46 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel2))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(txtSubcategoryCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(4, 4, 4)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(btnNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, Short.MAX_VALUE))))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel5))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cbxIsActive)
-                                .addComponent(txtRemark, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(cmbSubCategoryType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addGap(10, 10, 10)
-                            .addComponent(txtSubcategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(cmbPrinter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtSubcategoryCode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(4, 4, 4)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnNameSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbxIsActive)
+                                    .addComponent(txtRemark, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(10, 10, 10)
+                                .addComponent(txtSubcategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cmbPrinter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel7});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtSubcategoryCode, txtSubcategoryName});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbCategory, cmbPrinter, cmbSubCategoryType, txtRemark});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbCategory, cmbPrinter, txtRemark});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnReset, btnSave});
 
@@ -310,10 +299,6 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                     .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(cmbSubCategoryType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(cmbPrinter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -332,7 +317,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbCategory, cmbPrinter, cmbSubCategoryType, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, txtRemark, txtSubcategoryCode, txtSubcategoryName});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbCategory, cmbPrinter, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel7, txtRemark, txtSubcategoryCode, txtSubcategoryName});
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnReset, btnSave});
 
@@ -355,20 +340,6 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                     String catecoryCode = category.getCategoryCode();
                     cmbCategory.addItem(catecoryCode + "-" + categoryName);
                     this.categoryMap.put(catecoryCode, category);
-                }
-            }
-        }
-
-        query = session.createQuery("from SubCategoryType s order by s.subCategoryTypeCode");
-        list = query.list();
-        if (!list.isEmpty()) {
-            for (Object object : list) {
-                if (object instanceof SubCategoryType) {
-                    SubCategoryType categoryType = (SubCategoryType) object;
-                    String typeCode = categoryType.getSubCategoryTypeCode();
-                    String typeName = categoryType.getSubCategoryTypeName();
-                    cmbSubCategoryType.addItem(typeCode + "-" + typeName);
-                    this.subCategoryTypeMap.put(typeCode, categoryType);
                 }
             }
         }
@@ -417,8 +388,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
             if (subCategories.size() > 0) {
                 InformationDialog.showMessageBox("Item name already exists.", "Exist", null);
             } else {
-                if (((String) cmbCategory.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)
-                        || ((String) cmbSubCategoryType.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
+                if (((String) cmbCategory.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
                     InformationDialog.showMessageBox("Please select a valid category and type", "Invalid", null);
                 } else {
                     KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
@@ -432,8 +402,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    if (((String) cmbCategory.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)
-                            || ((String) cmbSubCategoryType.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
+                    if (((String) cmbCategory.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
                         InformationDialog.showMessageBox("Please select a valid category and type", "Invalid", null);
                     } else {
                         this.saveOrUpdateSubCategory(txtSubcategoryCode.getText().toUpperCase().trim(), true);
@@ -509,11 +478,6 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         this.cmbCategory.setSelectedItem(cat.getCategoryCode() + "-" + cat.getCategoryName());
     }
 
-    public void setSubCategoryType(String subCategoryType) {
-        SubCategoryType categoryType = this.subCategoryTypeMap.get(subCategoryType);
-        this.cmbSubCategoryType.setSelectedItem(categoryType.getSubCategoryTypeCode() + "-" + categoryType.getSubCategoryTypeName());
-    }
-
     public void setPrinter(String printer) {
         Printer prin = this.printerMap.get(printer);
         this.cmbPrinter.setSelectedItem(prin.getPrinterCode() + "-" + prin.getPrinterName());
@@ -537,34 +501,32 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
 
     private List getSubCategoryByCode(String subCategoryCode, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
+        
+        Criteria itemTypeCriteria = session.createCriteria(SubCategory.class);
         if (like) {
-            query = session.createQuery("from SubCategory s join fetch s.subCategoryType join fetch s.printer where s.subCategoryCode like :code");
-            query.setParameter("code", "%" + subCategoryCode + "%");
+            itemTypeCriteria.add(Restrictions.like("subCategoryCode", "%" + subCategoryCode + "%"));
+            itemTypeCriteria.addOrder(Order.asc("subCategoryCode"));
         } else {
-            query = session.createQuery("from SubCategory s join fetch s.subCategoryType join fetch s.printer where s.subCategoryCode = :code");
-            query.setParameter("code", subCategoryCode);
+            itemTypeCriteria.add(Restrictions.eq("subCategoryCode", subCategoryCode));
+            itemTypeCriteria.addOrder(Order.asc("subCategoryCode"));
         }
-        List list = query.list();
-        session.getTransaction().commit();
+        List list = itemTypeCriteria.list();
         session.close();
         return list;
     }
 
     private List getSubCategoryByName(String subCategoryName, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
+        
+        Criteria itemTypeCriteria = session.createCriteria(SubCategory.class);
         if (like) {
-            query = session.createQuery("from SubCategory s join fetch s.subCategoryType join fetch s.printer where s.subCategoryName like :name");
-            query.setParameter("name", "%" + subCategoryName + "%");
+            itemTypeCriteria.add(Restrictions.like("subCategoryName", "%" + subCategoryName + "%"));
+            itemTypeCriteria.addOrder(Order.asc("subCategoryCode"));
         } else {
-            query = session.createQuery("from SubCategory s join fetch s.subCategoryType join fetch s.printer where s.subCategoryName = :name");
-            query.setParameter("name", subCategoryName);
+            itemTypeCriteria.add(Restrictions.eq("subCategoryName", subCategoryName));
+            itemTypeCriteria.addOrder(Order.asc("subCategoryCode"));
         }
-        List list = query.list();
-        session.getTransaction().commit();
+        List list = itemTypeCriteria.list();
         session.close();
         return list;
     }
@@ -576,7 +538,6 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         cbxIsActive.setSelected(false);
         txtSubcategoryCode.setEditable(true);
         cmbCategory.setSelectedIndex(0);
-        cmbSubCategoryType.setSelectedIndex(0);
         cmbPrinter.setSelectedIndex(0);
     }
 
@@ -588,10 +549,6 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
                 .add(Restrictions.eq("categoryCode", (((String) cmbCategory.getSelectedItem())).split("-")[0].trim()))
                 .uniqueResult();
 
-        SubCategoryType subCategoryType = (SubCategoryType) session.createCriteria(SubCategoryType.class)
-                .add(Restrictions.eq("subCategoryTypeCode", (((String) cmbSubCategoryType.getSelectedItem())).split("-")[0].trim()))
-                .uniqueResult();
-
         Printer printer = (Printer) session.createCriteria(Printer.class)
                 .add(Restrictions.eq("printerCode", (((String) cmbPrinter.getSelectedItem())).split("-")[0].trim()))
                 .uniqueResult();
@@ -600,7 +557,6 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         subCategory.setSubCategoryCode(strSubCategoryCode);
         subCategory.setSubCategoryName(txtSubcategoryName.getText().toUpperCase().trim());
         subCategory.setCategory(category);
-        subCategory.setSubCategoryType(subCategoryType);
         subCategory.setPrinter(printer);
         subCategory.setRemarks(txtRemark.getText().toUpperCase().trim());
         subCategory.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
@@ -635,19 +591,16 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox cbxIsActive;
     private javax.swing.JComboBox<String> cmbCategory;
     private javax.swing.JComboBox<String> cmbPrinter;
-    private javax.swing.JComboBox<String> cmbSubCategoryType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField txtRemark;
     private javax.swing.JTextField txtSubcategoryCode;
     private javax.swing.JTextField txtSubcategoryName;
     // End of variables declaration//GEN-END:variables
     private final TreeMap<String, Category> categoryMap = new TreeMap<>();
-    private final TreeMap<String, SubCategoryType> subCategoryTypeMap = new TreeMap<>();
     private final TreeMap<String, Printer> printerMap = new TreeMap<>();
 }

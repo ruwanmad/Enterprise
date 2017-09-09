@@ -48,7 +48,7 @@ public class SubCategoryView extends javax.swing.JInternalFrame {
         btnSelect = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
 
-        setTitle("Category View");
+        setTitle("Sub Category View");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -72,14 +72,14 @@ public class SubCategoryView extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Sub Cat. Code", "Sub Cat. Name", "Cat. Code", "Sub Cat. Type", "Remark", "Is Active"
+                "Sub Cat. Code", "Sub Cat. Name", "Cat. Code", "Remark", "Is Active"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -179,7 +179,6 @@ public class SubCategoryView extends javax.swing.JInternalFrame {
                     tableModel.addRow(new Object[]{subCategory.getSubCategoryCode(),
                         subCategory.getSubCategoryName(),
                         subCategory.getCategory().getCategoryCode(),
-                        subCategory.getSubCategoryType().getSubCategoryTypeCode(),
                         subCategory.getRemarks(),
                         subCategory.getIsActive() == 1});
                 }
@@ -229,7 +228,6 @@ public class SubCategoryView extends javax.swing.JInternalFrame {
         subCategoryFrame.setRemark(subCategory.getRemarks());
         subCategoryFrame.setIsActive((subCategory.getIsActive() == 1));
         subCategoryFrame.setCategory(subCategory.getCategory().getCategoryCode());
-        subCategoryFrame.setSubCategoryType(subCategory.getSubCategoryType().getSubCategoryTypeCode());
         subCategoryFrame.setPrinter(subCategory.getPrinter().getPrinterCode());
         subCategoryFrame.setSubCategoryCodeEditable(false);
         subCategoryFrame.setBtnSaveText("Update");

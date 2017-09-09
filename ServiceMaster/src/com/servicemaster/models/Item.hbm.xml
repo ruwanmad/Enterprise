@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 9, 2017 3:00:19 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 9, 2017 9:31:33 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Item" table="item" catalog="enterprisedb" optimistic-lock="version">
         <id name="itemCode" type="string">
@@ -10,6 +10,12 @@
         </id>
         <many-to-one name="issueMethod" class="com.servicemaster.models.IssueMethod" fetch="select">
             <column name="issue_method_issue_method_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="item" class="com.servicemaster.models.Item" fetch="select">
+            <column name="base_item" length="15" not-null="true" />
+        </many-to-one>
+        <many-to-one name="itemType" class="com.servicemaster.models.ItemType" fetch="select">
+            <column name="item_type_item_type_code" length="15" not-null="true" />
         </many-to-one>
         <many-to-one name="manufacturer" class="com.servicemaster.models.Manufacturer" fetch="select">
             <column name="manufacturer_manufacturer_code" length="15" />
@@ -65,6 +71,12 @@
         <property name="remark" type="string">
             <column name="remark" length="100" />
         </property>
+        <set name="items" table="item" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="base_item" length="15" not-null="true" />
+            </key>
+            <one-to-many class="com.servicemaster.models.Item" />
+        </set>
         <set name="boms" table="bom" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="item_item_code" length="15" not-null="true" />
