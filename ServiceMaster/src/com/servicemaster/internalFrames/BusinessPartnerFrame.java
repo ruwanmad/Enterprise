@@ -597,7 +597,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         session.beginTransaction();
 
         if (txtNic.getText().trim().isEmpty()) {
-            InformationDialog.showMessageBox("Please enter valid NIC", "Invalid", null);
+            InformationDialog.showMessageBox("Please enter valid NIC", "Invalid", this);
         } else {
             if (txtBussinesPatnerCode.getText().trim().isEmpty()) {
                 List busisessPartners = getBusinessPatnerByNic(txtNic.getText().trim(), false);
@@ -605,12 +605,12 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                     KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
                     this.saveOrUpdateBisnussPatner(keyCodeFunctions.getKey("BPT", "Business partner code"), false);
                 } else {
-                    InformationDialog.showMessageBox("Customer already exists", "Exist", null);
+                    InformationDialog.showMessageBox("Customer already exists", "Exist", this);
                 }
             } else {
                 List busisessPartners = getBusinessPatnerByCode(txtBussinesPatnerCode.getText().trim(), false);
                 if (busisessPartners.isEmpty()) {
-                    InformationDialog.showMessageBox("Invalid Business Patner code. Please try again", "Invalid", null);
+                    InformationDialog.showMessageBox("Invalid Business Patner code. Please try again", "Invalid", this);
                 } else {
                     ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
                     if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {

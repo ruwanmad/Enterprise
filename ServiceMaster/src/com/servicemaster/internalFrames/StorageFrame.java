@@ -321,7 +321,7 @@ public class StorageFrame extends javax.swing.JInternalFrame {
         if (txtStorageCode.getText().toUpperCase().trim().isEmpty()) {
             List storageByName = this.getStorageByName(txtStorageName.getText().toUpperCase().trim(), false);
             if (storageByName.size() > 0) {
-                InformationDialog.showMessageBox("Item name already exists.", "Exist", null);
+                InformationDialog.showMessageBox("Item name already exists.", "Exist", this);
             } else {
                 KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
                 this.saveOrUpdateStorage(keyCodeFunctions.getKey("STO", "Storage"), false);
@@ -329,7 +329,7 @@ public class StorageFrame extends javax.swing.JInternalFrame {
         } else {
             List storageByCode = this.getStorageByCode(txtStorageCode.getText().toUpperCase().trim(), false);
             if (storageByCode.isEmpty()) {
-                InformationDialog.showMessageBox("Invalid storage code. Please try again", "Invalid", null);
+                InformationDialog.showMessageBox("Invalid storage code. Please try again", "Invalid", this);
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {

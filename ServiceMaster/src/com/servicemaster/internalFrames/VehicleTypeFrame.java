@@ -291,7 +291,7 @@ public class VehicleTypeFrame extends javax.swing.JInternalFrame {
         if (txtVehicleTypeCode.getText().toUpperCase().trim().isEmpty()) {
             List vehicleTypeByName = this.getvehicleTypeByName(txtVehicleTypeName.getText().toUpperCase().trim(), false);
             if (vehicleTypeByName.size() > 0) {
-                InformationDialog.showMessageBox("Item name already exists.", "Exist", null);
+                InformationDialog.showMessageBox("Item name already exists.", "Exist", this);
             } else {
                 KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
                 this.saveOrUpdateVehicleType(keyCodeFunctions.getKey("VHT", "Vehicle type"), false);
@@ -299,7 +299,7 @@ public class VehicleTypeFrame extends javax.swing.JInternalFrame {
         } else {
             List vehicleTypeByCode = this.getVehivleTypeByCode(txtVehicleTypeCode.getText().toUpperCase().trim(), false);
             if (vehicleTypeByCode.isEmpty()) {
-                InformationDialog.showMessageBox("Invalid vehicle type code. Please try again", "Invalid", null);
+                InformationDialog.showMessageBox("Invalid vehicle type code. Please try again", "Invalid", this);
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -386,9 +386,9 @@ public class VehicleTypeFrame extends javax.swing.JInternalFrame {
         session.close();
 
         if (bUpdate) {
-            InformationDialog.showMessageBox("Successfully updated", "Success", null);
+            InformationDialog.showMessageBox("Successfully updated", "Success", this);
         } else {
-            InformationDialog.showMessageBox("New entry created successfully", "Success", null);
+            InformationDialog.showMessageBox("New entry created successfully", "Success", this);
         }
         this.clearAll();
     }

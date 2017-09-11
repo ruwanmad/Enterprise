@@ -386,10 +386,10 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         if (txtSubcategoryCode.getText().toUpperCase().trim().isEmpty()) {
             List subCategories = this.getSubCategoryByName(txtSubcategoryName.getText().toUpperCase().trim(), false);
             if (subCategories.size() > 0) {
-                InformationDialog.showMessageBox("Item name already exists.", "Exist", null);
+                InformationDialog.showMessageBox("Item name already exists.", "Exist", this);
             } else {
                 if (((String) cmbCategory.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                    InformationDialog.showMessageBox("Please select a valid category and type", "Invalid", null);
+                    InformationDialog.showMessageBox("Please select a valid category and type", "Invalid", this);
                 } else {
                     KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
                     this.saveOrUpdateSubCategory(keyCodeFunctions.getKey("SUB", "Sub Category"), false);
@@ -398,12 +398,12 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         } else {
             List subCategories = this.getSubCategoryByCode(txtSubcategoryCode.getText().toUpperCase().trim(), false);
             if (subCategories.isEmpty()) {
-                InformationDialog.showMessageBox("Invalid sub category code. Please try again", "Invalid", null);
+                InformationDialog.showMessageBox("Invalid sub category code. Please try again", "Invalid", this);
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
                     if (((String) cmbCategory.getSelectedItem()).trim().equalsIgnoreCase(SystemData.COMBO_DEFAULT)) {
-                        InformationDialog.showMessageBox("Please select a valid category and type", "Invalid", null);
+                        InformationDialog.showMessageBox("Please select a valid category and type", "Invalid", this);
                     } else {
                         this.saveOrUpdateSubCategory(txtSubcategoryCode.getText().toUpperCase().trim(), true);
                     }
@@ -575,9 +575,9 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         session.close();
 
         if (bUpdate) {
-            InformationDialog.showMessageBox("Successfully updated", "Success", null);
+            InformationDialog.showMessageBox("Successfully updated", "Success", this);
         } else {
-            InformationDialog.showMessageBox("New entry created successfully", "Success", null);
+            InformationDialog.showMessageBox("New entry created successfully", "Success", this);
         }
         this.clearAll();
     }

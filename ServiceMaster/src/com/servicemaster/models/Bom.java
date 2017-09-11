@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 9, 2017 9:31:25 PM by Hibernate Tools 4.3.1
+// Generated Sep 11, 2017 10:23:59 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -15,6 +15,7 @@ public class Bom  implements java.io.Serializable {
      private String bomCode;
      private Item item;
      private String bomName;
+     private Float sellingPrice;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -33,10 +34,11 @@ public class Bom  implements java.io.Serializable {
         this.bomCode = bomCode;
         this.item = item;
     }
-    public Bom(String bomCode, Item item, String bomName, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Integer isActive, Set bomItems) {
+    public Bom(String bomCode, Item item, String bomName, Float sellingPrice, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Integer isActive, Set bomItems) {
        this.bomCode = bomCode;
        this.item = item;
        this.bomName = bomName;
+       this.sellingPrice = sellingPrice;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -68,6 +70,13 @@ public class Bom  implements java.io.Serializable {
     
     public void setBomName(String bomName) {
         this.bomName = bomName;
+    }
+    public Float getSellingPrice() {
+        return this.sellingPrice;
+    }
+    
+    public void setSellingPrice(Float sellingPrice) {
+        this.sellingPrice = sellingPrice;
     }
     public Date getCreatedDate() {
         return this.createdDate;

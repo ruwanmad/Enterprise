@@ -17,7 +17,9 @@ public class ButtonFunctions {
     public static void changeBackgroundColor(Object source, Color color) {
         if (source instanceof JButton) {
             JButton button = (JButton) source;
-            button.setBackground(color);
+            if (button.isEnabled()) {
+                button.setBackground(color);
+            }
         }
     }
 }

@@ -152,7 +152,7 @@ public class TelephoneNumberFrame extends javax.swing.JInternalFrame {
         session.getTransaction().commit();
         session.close();
 
-        InformationDialog.showMessageBox("New entry created successfully", "Success", null);
+        InformationDialog.showMessageBox("New entry created successfully", "Success", this);
 
         partnerFrame.setTelephoneNumber(strTelephoneNumberCode + "-" + txtTelephoneNumber.getText().trim());
 

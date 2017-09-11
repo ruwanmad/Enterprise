@@ -219,7 +219,7 @@ public class AddressFrame extends javax.swing.JInternalFrame {
         session.getTransaction().commit();
         session.close();
 
-        InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING, null);
+        InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING, this);
 
         partnerFrame.setAddressLine1(strAddressCode + "-" + txtAddressLine1.getText().trim());
         partnerFrame.setAddressLine2(txtAddressLine2.getText().trim());

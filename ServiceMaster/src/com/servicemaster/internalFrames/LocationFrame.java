@@ -295,9 +295,9 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         session.close();
 
         if (bUpdate) {
-            InformationDialog.showMessageBox("Successfully updated", "Success", null);
+            InformationDialog.showMessageBox("Successfully updated", "Success", this);
         } else {
-            InformationDialog.showMessageBox("New entry created successfully", "Success", null);
+            InformationDialog.showMessageBox("New entry created successfully", "Success", this);
         }
         this.clearAll();
     }
@@ -326,7 +326,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         if (txtLocationCode.getText().toUpperCase().trim().isEmpty()) {
             List locationByName = this.getLocationByName(txtLocationName.getText().toUpperCase().trim(), false);
             if (locationByName.size() > 0) {
-                InformationDialog.showMessageBox("Item name already exists.", "Exist", null);
+                InformationDialog.showMessageBox("Item name already exists.", "Exist", this);
             } else {
                 KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
                 this.saveOrUpdateLocation(keyCodeFunctions.getKey("LOC", "Location"), false);
@@ -334,7 +334,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         } else {
             List locationByCode = this.getLocationByCode(txtLocationCode.getText().toUpperCase().trim(), false);
             if (locationByCode.isEmpty()) {
-                InformationDialog.showMessageBox("Invalid location code. Please try again", "Invalid", null);
+                InformationDialog.showMessageBox("Invalid location code. Please try again", "Invalid", this);
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {

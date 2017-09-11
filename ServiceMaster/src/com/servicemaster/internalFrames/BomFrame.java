@@ -15,6 +15,7 @@ import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Bom;
 import com.servicemaster.models.BomItem;
 import com.servicemaster.models.Item;
+import com.servicemaster.models.SellingPrice;
 import com.servicemaster.models.Uom;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.BomView;
@@ -64,6 +65,8 @@ public class BomFrame extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         cmbUom = new javax.swing.JComboBox<>();
         btnAdd = new javax.swing.JButton();
+        txtItemUnitPrice = new javax.swing.JFormattedTextField();
+        jLabel9 = new javax.swing.JLabel();
         addedItemsPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAddedBomItems = new javax.swing.JTable();
@@ -80,6 +83,8 @@ public class BomFrame extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         txtRemark = new javax.swing.JTextField();
         cbxIsActive = new javax.swing.JCheckBox();
+        txtBomSellingPrice = new javax.swing.JFormattedTextField();
+        jLabel8 = new javax.swing.JLabel();
 
         itemDelete.setText("Delete");
         itemDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -171,6 +176,24 @@ public class BomFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        txtItemUnitPrice.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        txtItemUnitPrice.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtItemUnitPrice.setText("0.00");
+        txtItemUnitPrice.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtItemUnitPrice.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtItemUnitPriceFocusGained(evt);
+            }
+        });
+        txtItemUnitPrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtItemUnitPriceKeyPressed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel9.setText("Unit Price :");
+
         javax.swing.GroupLayout bomItemDetailsPanelLayout = new javax.swing.GroupLayout(bomItemDetailsPanel);
         bomItemDetailsPanel.setLayout(bomItemDetailsPanelLayout);
         bomItemDetailsPanelLayout.setHorizontalGroup(
@@ -188,26 +211,34 @@ public class BomFrame extends javax.swing.JInternalFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmbUom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtItemUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         bomItemDetailsPanelLayout.setVerticalGroup(
             bomItemDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bomItemDetailsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(bomItemDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbBomItem, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbUom, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(bomItemDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(bomItemDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtItemUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9))
+                    .addGroup(bomItemDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbBomItem, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbUom, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
-        bomItemDetailsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbBomItem, jLabel3, jLabel4, txtQuantity});
+        bomItemDetailsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAdd, cmbBomItem, cmbUom, jLabel3, jLabel4, jLabel5, jLabel9, txtItemUnitPrice, txtQuantity});
 
         addedItemsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 0)), "Added Items", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 153, 0))); // NOI18N
 
@@ -216,14 +247,14 @@ public class BomFrame extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Item Code", "Item Name", "Quantity", "UOM"
+                "Item Code", "Item Name", "Quantity", "UOM", "Unit Price", "Selling Price"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -246,13 +277,15 @@ public class BomFrame extends javax.swing.JInternalFrame {
             tblAddedBomItems.getColumnModel().getColumn(1).setPreferredWidth(200);
             tblAddedBomItems.getColumnModel().getColumn(2).setResizable(false);
             tblAddedBomItems.getColumnModel().getColumn(3).setResizable(false);
+            tblAddedBomItems.getColumnModel().getColumn(4).setResizable(false);
+            tblAddedBomItems.getColumnModel().getColumn(5).setResizable(false);
         }
 
         javax.swing.GroupLayout addedItemsPanelLayout = new javax.swing.GroupLayout(addedItemsPanel);
         addedItemsPanel.setLayout(addedItemsPanelLayout);
         addedItemsPanelLayout.setHorizontalGroup(
             addedItemsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         addedItemsPanelLayout.setVerticalGroup(
             addedItemsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -328,6 +361,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
         cmbMainItem.setNextFocusableComponent(txtRemark);
 
         txtBomCode.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtBomCode.setNextFocusableComponent(cmbMainItem);
 
         jLabel7.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel7.setText("Remark :");
@@ -368,6 +402,16 @@ public class BomFrame extends javax.swing.JInternalFrame {
         cbxIsActive.setSelected(true);
         cbxIsActive.setNextFocusableComponent(cmbBomItem);
 
+        txtBomSellingPrice.setEditable(false);
+        txtBomSellingPrice.setBackground(new java.awt.Color(255, 255, 255));
+        txtBomSellingPrice.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        txtBomSellingPrice.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtBomSellingPrice.setText("0.00");
+        txtBomSellingPrice.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        jLabel8.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel8.setText("Selling Price :");
+
         javax.swing.GroupLayout bomDetailsPanelLayout = new javax.swing.GroupLayout(bomDetailsPanel);
         bomDetailsPanel.setLayout(bomDetailsPanelLayout);
         bomDetailsPanelLayout.setHorizontalGroup(
@@ -395,7 +439,11 @@ public class BomFrame extends javax.swing.JInternalFrame {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtRemark, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtBomSellingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         bomDetailsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel6, jLabel7});
@@ -404,10 +452,14 @@ public class BomFrame extends javax.swing.JInternalFrame {
             bomDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bomDetailsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(bomDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtBomCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(bomDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(bomDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtBomCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)
+                        .addComponent(btnCodeSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(bomDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtBomSellingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(bomDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbMainItem, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -423,7 +475,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        bomDetailsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbMainItem, jLabel1, jLabel2, jLabel6, jLabel7, txtBomCode, txtRemark});
+        bomDetailsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxIsActive, cmbMainItem, jLabel1, jLabel2, jLabel6, jLabel7, jLabel8, txtBomCode, txtBomSellingPrice, txtRemark});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -471,9 +523,9 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        AutoCompletion.enable(cmbMainItem, cmbBomItem);
+        AutoCompletion.enable(cmbMainItem, txtRemark);
         AutoCompletion.enable(cmbBomItem, txtQuantity);
-        AutoCompletion.enable(cmbUom, btnAdd);
+        AutoCompletion.enable(cmbUom, txtItemUnitPrice);
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
@@ -503,17 +555,19 @@ public class BomFrame extends javax.swing.JInternalFrame {
     private void itemEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEditActionPerformed
         int selectedRow = tblAddedBomItems.getSelectedRow();
         if (selectedRow == -1) {
-            InformationDialog.showMessageBox("Please select a valid item", "Invalid", null);
+            InformationDialog.showMessageBox("Please select a valid item", "Invalid", this);
         } else {
             String itemName = tblAddedBomItems.getValueAt(selectedRow, 1).toString();
             String quantity = tblAddedBomItems.getValueAt(selectedRow, 2).toString();
             String uom = tblAddedBomItems.getValueAt(selectedRow, 3).toString();
+            String selingPrice = tblAddedBomItems.getValueAt(selectedRow, 4).toString();
 
             ((DefaultTableModel) tblAddedBomItems.getModel()).removeRow(selectedRow);
 
             cmbBomItem.setSelectedItem(itemName);
             txtQuantity.setText(quantity);
             cmbUom.setSelectedItem(uom);
+            txtItemUnitPrice.setText(selingPrice);
 
             txtQuantity.requestFocus();
         }
@@ -531,7 +585,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
     private void itemDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDeleteActionPerformed
         int selectedRow = tblAddedBomItems.getSelectedRow();
         if (selectedRow == -1) {
-            InformationDialog.showMessageBox("Please select a valid item", "Invalid", null);
+            InformationDialog.showMessageBox("Please select a valid item", "Invalid", this);
         } else {
             ((DefaultTableModel) tblAddedBomItems.getModel()).removeRow(selectedRow);
         }
@@ -546,20 +600,30 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddMouseExited
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        String itemName = (String) cmbBomItem.getSelectedItem();
-        String quantity = txtQuantity.getText().trim();
-        String uom = (String) cmbUom.getSelectedItem();
+        String strItemName = (String) cmbBomItem.getSelectedItem();
+        String strQuantity = txtQuantity.getText().trim();
+        String strUom = (String) cmbUom.getSelectedItem();
+        String strUnitPrice = txtItemUnitPrice.getText().trim();
 
-        if (itemName.isEmpty() || quantity.isEmpty() || uom.isEmpty()) {
-            InformationDialog.showMessageBox("Please enter valid details", "Invalid", null);
+        if (strItemName.isEmpty() || strQuantity.isEmpty() || strUom.isEmpty() || strUnitPrice.isEmpty()) {
+            InformationDialog.showMessageBox("Please enter valid details", "Invalid", this);
         } else {
+            float fQuantity = Float.parseFloat(strQuantity);
+            float fUnitPaice = Float.parseFloat(strUnitPrice);
+            
+            float fSellingPricec = fQuantity * fUnitPaice;
+            
             DefaultTableModel tableModel = (DefaultTableModel) tblAddedBomItems.getModel();
-            Item item = itemMap.get(itemName);
-            tableModel.addRow(new String[]{item.getItemCode(), itemName, quantity, uom});
+            Item item = itemMap.get(strItemName);
+            tableModel.addRow(new Object[]{item.getItemCode(), strItemName, strQuantity, strUom, fUnitPaice, fSellingPricec});
+
+            grandTotal += fSellingPricec;
+            txtBomSellingPrice.setText("" + grandTotal);
 
             cmbBomItem.setSelectedIndex(0);
             txtQuantity.setText("");
             cmbUom.setSelectedIndex(0);
+            txtItemUnitPrice.setText("0.00");
             cmbBomItem.requestFocus();
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -584,12 +648,12 @@ public class BomFrame extends javax.swing.JInternalFrame {
                         this.saveOrUpdateBom(keyCodeFunctions.getKey("BOM", "Bill of metirial codes"), false);
                     }
                 } else {
-                    InformationDialog.showMessageBox("BOM already exists for selected itme", "Exist", null);
+                    InformationDialog.showMessageBox("BOM already exists for selected itme", "Exist", this);
                 }
             } else {
                 List boms = this.getBomByCode(txtBomCode.getText().trim(), false);
                 if (boms.isEmpty()) {
-                    InformationDialog.showMessageBox("Invalid BOM code. Please try again", "Invalid", null);
+                    InformationDialog.showMessageBox("Invalid BOM code. Please try again", "Invalid", this);
                 } else {
                     for (Object object : boms) {
                         if (object instanceof Bom) {
@@ -599,7 +663,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
                 }
             }
         } else {
-            InformationDialog.showMessageBox("Please enter valid details", "Invalid", null);
+            InformationDialog.showMessageBox("Please enter valid details", "Invalid", this);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -648,6 +712,21 @@ public class BomFrame extends javax.swing.JInternalFrame {
             bomView.setVisible(true);
         }
     }//GEN-LAST:event_btnCodeSerachActionPerformed
+
+    private void txtItemUnitPriceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtItemUnitPriceFocusGained
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                txtItemUnitPrice.selectAll();
+            }
+        });
+    }//GEN-LAST:event_txtItemUnitPriceFocusGained
+
+    private void txtItemUnitPriceKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtItemUnitPriceKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnAdd.requestFocus();
+        }
+    }//GEN-LAST:event_txtItemUnitPriceKeyPressed
 
     private void loadItems(Session session) {
         cmbMainItem.removeAllItems();
@@ -718,7 +797,12 @@ public class BomFrame extends javax.swing.JInternalFrame {
                     Uom uom = (Uom) session.createCriteria(Uom.class)
                             .add(Restrictions.eq("uomCode", bomItem.getUom().getUomCode()))
                             .uniqueResult();
-                    tableModel.addRow(new Object[]{item.getItemCode(), item.getItemName(), bomItem.getBomItemQuantity(), uom.getUomSymble()});
+                    tableModel.addRow(new Object[]{item.getItemCode(), 
+                        item.getItemName(), 
+                        bomItem.getBomItemQuantity(), 
+                        uom.getUomSymble(), 
+                        bomItem.getUnitPrice(), 
+                        bomItem.getSellingPrice()});
                 }
             }
         }
@@ -789,6 +873,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
         Bom bom = new Bom();
         bom.setBomCode(strBomCode);
         bom.setBomName((String) cmbMainItem.getSelectedItem());
+        bom.setSellingPrice(Float.parseFloat(txtBomSellingPrice.getText().trim()));
         bom.setRemark(txtRemark.getText().toUpperCase().trim());
         bom.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
         bom.setItem(itemMap.get((String) cmbMainItem.getSelectedItem()));
@@ -804,6 +889,16 @@ public class BomFrame extends javax.swing.JInternalFrame {
         }
 
         session.saveOrUpdate(bom);
+        
+        SellingPrice sellingPrice = new SellingPrice();
+        sellingPrice.setItem(itemMap.get((String) cmbMainItem.getSelectedItem()));
+        sellingPrice.setEffectiveDate(date);
+        sellingPrice.setSellingPrice(Float.parseFloat(txtBomSellingPrice.getText().trim()));
+        sellingPrice.setCreatedDate(date);
+        sellingPrice.setCreatedTime(date);
+        sellingPrice.setCreatedUser(MainFrame.user.getUserId());
+        
+        session.saveOrUpdate(sellingPrice);
 
         Set bomItems = bom.getBomItems();
 
@@ -816,6 +911,8 @@ public class BomFrame extends javax.swing.JInternalFrame {
                 bomItem.setBomItemCode(keyCodeFunctions.getKey("BOI", "Bill of metirial item code"));
                 bomItem.setItem(itemMap.get((String) tableModel.getValueAt(i, 1)));
                 bomItem.setBomItemQuantity(Float.parseFloat(tableModel.getValueAt(i, 2).toString()));
+                bomItem.setUnitPrice(Float.parseFloat(tableModel.getValueAt(i, 4).toString()));
+                bomItem.setSellingPrice(Float.parseFloat(tableModel.getValueAt(i, 5).toString()));
                 bomItem.setRemark("");
                 bomItem.setUom(uomMap.get((String) tableModel.getValueAt(i, 3)));
 
@@ -837,9 +934,9 @@ public class BomFrame extends javax.swing.JInternalFrame {
         session.close();
 
         if (bUpdate) {
-            InformationDialog.showMessageBox("Successfully updated", "Success", null);
+            InformationDialog.showMessageBox("Successfully updated", "Success", this);
         } else {
-            InformationDialog.showMessageBox("New entry created successfully", "Success", null);
+            InformationDialog.showMessageBox("New entry created successfully", "Success", this);
         }
         this.clearAll();
     }
@@ -877,13 +974,18 @@ public class BomFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblAddedBomItems;
     private javax.swing.JPopupMenu tblAddedItemPopup;
     private javax.swing.JTextField txtBomCode;
+    private javax.swing.JFormattedTextField txtBomSellingPrice;
+    private javax.swing.JFormattedTextField txtItemUnitPrice;
     private javax.swing.JFormattedTextField txtQuantity;
     private javax.swing.JTextField txtRemark;
     // End of variables declaration//GEN-END:variables
     private final TreeMap<String, Item> itemMap = new TreeMap<>();
     private final TreeMap<String, Uom> uomMap = new TreeMap<>();
+    float grandTotal = 0.0f;
 }

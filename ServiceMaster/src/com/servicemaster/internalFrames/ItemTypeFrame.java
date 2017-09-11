@@ -292,7 +292,7 @@ public class ItemTypeFrame extends javax.swing.JInternalFrame {
         if (txtItemTypeCode.getText().toUpperCase().trim().isEmpty()) {
             List itemTypeByName =  this.getItemTypeByName(txtItemTypeName.getText().toUpperCase().trim(), false);
             if (itemTypeByName.size() > 0) {
-                InformationDialog.showMessageBox("Item name already exists.", "Exist", null);
+                InformationDialog.showMessageBox("Item name already exists.", "Exist", this);
             } else {
                 KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
                 this.saveOrUpdateItemType(keyCodeFunctions.getKey("ITP", "Item type"), false);
@@ -300,7 +300,7 @@ public class ItemTypeFrame extends javax.swing.JInternalFrame {
         } else {
             List itemTypeByCode = this.getItemTypeByCode(txtItemTypeCode.getText().toUpperCase().trim(), false);
             if (itemTypeByCode.isEmpty()) {
-                InformationDialog.showMessageBox("Invalid sub category type code. Please try again", "Invalid", null);
+                InformationDialog.showMessageBox("Invalid sub category type code. Please try again", "Invalid", this);
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -387,9 +387,9 @@ public class ItemTypeFrame extends javax.swing.JInternalFrame {
         session.close();
 
         if (bUpdate) {
-            InformationDialog.showMessageBox("Successfully updated", "Success", null);
+            InformationDialog.showMessageBox("Successfully updated", "Success", this);
         } else {
-            InformationDialog.showMessageBox("New entry created successfully", "Success", null);
+            InformationDialog.showMessageBox("New entry created successfully", "Success", this);
         }
         this.clearAll();
     }

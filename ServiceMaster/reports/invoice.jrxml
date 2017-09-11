@@ -14,12 +14,12 @@
      vehicle.`vehicle_number` AS vehicle_vehicle_number,
      service.`milage` AS service_milage,
      service_has_item.`service_service_code` AS service_has_item_service_service_code,
+     service_has_item.`unit_price` AS service_has_item_unit_price,
      service_has_item.`quantity` AS service_has_item_quantity,
      service_has_item.`sub_total` AS service_has_item_sub_total,
      service_has_item.`discount` AS service_has_item_discount,
      service_has_item.`total` AS service_has_item_total,
      item.`item_name` AS item_item_name,
-     item.`selling_price` AS item_selling_price,
      service.`service_code` AS service_service_code,
      service.`created_date` AS service_created_date,
      service.`created_time` AS service_created_time,
@@ -51,12 +51,12 @@ ORDER BY
 	<field name="vehicle_vehicle_number" class="java.lang.String"/>
 	<field name="service_milage" class="java.lang.Float"/>
 	<field name="service_has_item_service_service_code" class="java.lang.String"/>
+	<field name="service_has_item_unit_price" class="java.lang.Float"/>
 	<field name="service_has_item_quantity" class="java.lang.Float"/>
 	<field name="service_has_item_sub_total" class="java.lang.Float"/>
 	<field name="service_has_item_discount" class="java.lang.Float"/>
 	<field name="service_has_item_total" class="java.lang.Float"/>
 	<field name="item_item_name" class="java.lang.String"/>
-	<field name="item_selling_price" class="java.lang.Float"/>
 	<field name="service_service_code" class="java.lang.String"/>
 	<field name="service_created_date" class="java.sql.Date"/>
 	<field name="service_created_time" class="java.sql.Time"/>
@@ -236,7 +236,7 @@ ORDER BY
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{item_selling_price}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{service_has_item_unit_price}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
 				<reportElement x="403" y="0" width="70" height="15" uuid="a368fda0-10b0-497d-8700-8d3624402183"/>

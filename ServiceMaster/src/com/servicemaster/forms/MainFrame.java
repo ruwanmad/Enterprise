@@ -112,8 +112,8 @@ public class MainFrame extends javax.swing.JFrame {
         miPrinters = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         miCategory = new javax.swing.JMenuItem();
-        miSubCategoryType = new javax.swing.JMenuItem();
         miSubCategory = new javax.swing.JMenuItem();
+        miItemType = new javax.swing.JMenuItem();
         miItems = new javax.swing.JMenuItem();
         miBom = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
@@ -243,16 +243,6 @@ public class MainFrame extends javax.swing.JFrame {
         });
         mMasterFiles.add(miCategory);
 
-        miSubCategoryType.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        miSubCategoryType.setText("Sub Category Type");
-        miSubCategoryType.setEnabled(false);
-        miSubCategoryType.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miSubCategoryTypeActionPerformed(evt);
-            }
-        });
-        mMasterFiles.add(miSubCategoryType);
-
         miSubCategory.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miSubCategory.setText("Sub Category");
         miSubCategory.setEnabled(false);
@@ -262,6 +252,16 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         mMasterFiles.add(miSubCategory);
+
+        miItemType.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        miItemType.setText("Item Type");
+        miItemType.setEnabled(false);
+        miItemType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miItemTypeActionPerformed(evt);
+            }
+        });
+        mMasterFiles.add(miItemType);
 
         miItems.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miItems.setText("Items");
@@ -557,9 +557,9 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miPrintersActionPerformed
 
-    private void miSubCategoryTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSubCategoryTypeActionPerformed
+    private void miItemTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miItemTypeActionPerformed
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
-    }//GEN-LAST:event_miSubCategoryTypeActionPerformed
+    }//GEN-LAST:event_miItemTypeActionPerformed
 
     private void miBusinessPartnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miBusinessPartnerActionPerformed
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
@@ -758,6 +758,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem miChangeBackground;
     private javax.swing.JMenuItem miExit;
     public javax.swing.JMenuItem miGRN;
+    public javax.swing.JMenuItem miItemType;
     public javax.swing.JMenuItem miItems;
     public javax.swing.JMenuItem miLocations;
     public javax.swing.JMenuItem miPrinters;
@@ -768,7 +769,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem miStorage;
     private javax.swing.JMenuItem miStorageRacks;
     public javax.swing.JMenuItem miSubCategory;
-    public javax.swing.JMenuItem miSubCategoryType;
     public javax.swing.JMenuItem miUserPrivilages;
     public javax.swing.JMenuItem miUsers;
     public javax.swing.JMenuItem miVehicles;

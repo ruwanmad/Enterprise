@@ -291,9 +291,9 @@ public class PrinterFrame extends javax.swing.JInternalFrame {
         session.close();
 
         if (bUpdate) {
-            InformationDialog.showMessageBox("Successfully updated", "Success", null);
+            InformationDialog.showMessageBox("Successfully updated", "Success", this);
         } else {
-            InformationDialog.showMessageBox("New entry created successfully", "Success", null);
+            InformationDialog.showMessageBox("New entry created successfully", "Success", this);
         }
         this.clearAll();
     }
@@ -322,7 +322,7 @@ public class PrinterFrame extends javax.swing.JInternalFrame {
         if (txtPrinterCode.getText().toUpperCase().trim().isEmpty()) {
             List printerByName = this.getPrinterByName(txtPrinterName.getText().toUpperCase().trim(), false);
             if (printerByName.size() > 0) {
-                InformationDialog.showMessageBox("Item name already exists.", "Exist", null);
+                InformationDialog.showMessageBox("Item name already exists.", "Exist", this);
             } else {
                 KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
                 this.saveOrUpdatePrinter(keyCodeFunctions.getKey("PRN", "Printer"), false);
@@ -330,7 +330,7 @@ public class PrinterFrame extends javax.swing.JInternalFrame {
         } else {
             List printerByCode = this.getPrinterByCode(txtPrinterCode.getText().toUpperCase().trim(), false);
             if (printerByCode.isEmpty()) {
-                InformationDialog.showMessageBox("Invalid printer code. Please try again", "Invalid", null);
+                InformationDialog.showMessageBox("Invalid printer code. Please try again", "Invalid", this);
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {

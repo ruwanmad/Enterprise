@@ -198,7 +198,7 @@ public class EnableFeatures {
                     break;
                 }
                 case "115": {
-                    mainFrame.miSubCategoryType.setEnabled(true);
+                    mainFrame.miItemType.setEnabled(true);
                     break;
                 }
                 case "116": {

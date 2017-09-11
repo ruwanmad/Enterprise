@@ -22,6 +22,7 @@ import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.models.BusinessTelephone;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Item;
+import com.servicemaster.models.ItemType;
 import com.servicemaster.models.SellingPrice;
 import com.servicemaster.models.Service;
 import com.servicemaster.models.ServiceBay;
@@ -1217,6 +1218,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             for (int i = 0; i < tableModel.getRowCount(); i++) {
                 String itemName = (String) tblItems.getValueAt(i, 1);
                 float quantity = (float) tblItems.getValueAt(i, 2);
+                float unitPrice = (float) tblItems.getValueAt(i, 3);
                 float subTotal = (float) tblItems.getValueAt(i, 4);
                 float discount = (float) tblItems.getValueAt(i, 5);
                 float itemTotal = (float) tblItems.getValueAt(i, 6);
@@ -1230,6 +1232,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                     serviceHasItem.setItem(item);
                     serviceHasItem.setService(service);
                 }
+                serviceHasItem.setUnitPrice(unitPrice);
                 serviceHasItem.setQuantity(quantity);
                 serviceHasItem.setSubTotal(subTotal);
                 serviceHasItem.setDiscount(discount);
@@ -1278,6 +1281,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             for (int i = 0; i < tableModel.getRowCount(); i++) {
                 String itemName = (String) tblItems.getValueAt(i, 1);
                 float quantity = (float) tblItems.getValueAt(i, 2);
+                float unitPrice = (float) tblItems.getValueAt(i, 3);
                 float subTotal = (float) tblItems.getValueAt(i, 4);
                 float discount = (float) tblItems.getValueAt(i, 5);
                 float itemTotal = (float) tblItems.getValueAt(i, 6);
@@ -1285,11 +1289,12 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 ServiceHasItem serviceHasItem = new ServiceHasItem();
                 serviceHasItem.setItem(itemMap.get(itemName));
                 serviceHasItem.setService(service);
+                serviceHasItem.setUnitPrice(unitPrice);
                 serviceHasItem.setQuantity(quantity);
                 serviceHasItem.setSubTotal(subTotal);
                 serviceHasItem.setDiscount(discount);
                 serviceHasItem.setTotal(itemTotal);
-                serviceHasItem.setServiceHasItemStatus(this.serviceHasItemStatusMap.get(0));
+                serviceHasItem.setServiceHasItemStatus(this.serviceHasItemStatusMap.get(1));
                 serviceHasItem.setCreatedDate(date);
                 serviceHasItem.setCreatedTime(time);
                 serviceHasItem.setCreatedUser(MainFrame.user.getUserId());
@@ -1317,7 +1322,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCloseMouseExited
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
+        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", null);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             servicesFrame.setServiceFrame(null);
             this.servicesFrame.loadServices();
@@ -1366,11 +1371,90 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
             Session session = HibernateUtil.getSessionFactory().openSession();
 
-            Bom bom = (Bom) session.createCriteria(Bom.class)
-                    .add(Restrictions.eq("item", item))
-                    .uniqueResult();
+            if (item.getFromBom()) {
+                Bom bom = (Bom) session.createCriteria(Bom.class)
+                        .add(Restrictions.eq("item", item))
+                        .uniqueResult();
 
-            if (bom == null) {
+                if (bom == null) {
+                    String itemCode = item.getItemCode();
+                    float unitPrice = this.getItemSellingPrice(item);
+                    float subTotal = quantity * unitPrice;
+                    float discount = Float.parseFloat(txtDiscount.getText().trim());
+                    float total = 0.0f;
+                    if (discount != 0.0) {
+                        if (rbtPercentage.isSelected()) {
+                            discount = (subTotal * discount) / 100;
+                            total = subTotal - discount;
+                        } else if (rbtNumber.isSelected()) {
+                            total = subTotal - discount;
+                        }
+                    } else {
+                        total = subTotal;
+                    }
+
+                    DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                    tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
+
+                    cmbItems.setSelectedIndex(0);
+                    cmbItems.requestFocus();
+                    txtQuantity.setText("0.0");
+                    txtDiscount.setText("0.0");
+                    rbtPercentage.setSelected(true);
+
+                    grandSubTotal += subTotal;
+                    grandDiscount += discount;
+                    grandTotal += total;
+
+                    txtGrandSubTotal.setText("" + grandSubTotal);
+                    txtGrandDiscount.setText("" + grandDiscount);
+                    txtGrandTotal.setText("" + grandTotal);
+                } else {
+                    List<BomItem> bomItems = session.createCriteria(BomItem.class)
+                            .add(Restrictions.eq("bom", bom))
+                            .addOrder(Order.asc("item.itemCode"))
+                            .list();
+                    for (BomItem bomItem : bomItems) {
+                        Item releventItem = (Item) session.createCriteria(Item.class)
+                                .add(Restrictions.eq("itemCode", bomItem.getItem().getItemCode()))
+                                .uniqueResult();
+
+                        String itemCode = releventItem.getItemCode();
+                        float unitPrice = bomItem.getUnitPrice();
+                        quantity = bomItem.getBomItemQuantity();
+                        float subTotal = bomItem.getSellingPrice();
+                        float discount = Float.parseFloat(txtDiscount.getText().trim());
+                        float total = 0.0f;
+                        if (discount != 0.0) {
+                            if (rbtPercentage.isSelected()) {
+                                discount = (subTotal * discount) / 100;
+                                total = subTotal - discount;
+                            } else if (rbtNumber.isSelected()) {
+                                total = subTotal - discount;
+                            }
+                        } else {
+                            total = subTotal;
+                        }
+
+                        DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                        tableModel.addRow(new Object[]{itemCode, releventItem.getItemName(), quantity, unitPrice, subTotal, discount, total});
+
+                        cmbItems.setSelectedIndex(0);
+                        cmbItems.requestFocus();
+                        txtQuantity.setText("0.0");
+                        txtDiscount.setText("0.0");
+                        rbtPercentage.setSelected(true);
+
+                        grandSubTotal += subTotal;
+                        grandDiscount += discount;
+                        grandTotal += total;
+
+                        txtGrandSubTotal.setText("" + grandSubTotal);
+                        txtGrandDiscount.setText("" + grandDiscount);
+                        txtGrandTotal.setText("" + grandTotal);
+                    }
+                }
+            } else {
                 String itemCode = item.getItemCode();
                 float unitPrice = this.getItemSellingPrice(item);
                 float subTotal = quantity * unitPrice;
@@ -1403,49 +1487,6 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 txtGrandSubTotal.setText("" + grandSubTotal);
                 txtGrandDiscount.setText("" + grandDiscount);
                 txtGrandTotal.setText("" + grandTotal);
-            } else {
-                List<BomItem> bomItems = session.createCriteria(BomItem.class)
-                        .add(Restrictions.eq("bom", bom))
-                        .addOrder(Order.asc("item.itemCode"))
-                        .list();
-                for (BomItem bomItem : bomItems) {
-                    Item releventItem = (Item) session.createCriteria(Item.class)
-                            .add(Restrictions.eq("itemCode", bomItem.getItem().getItemCode()))
-                            .uniqueResult();
-
-                    String itemCode = releventItem.getItemCode();
-                    float unitPrice = this.getItemSellingPrice(releventItem);
-                    float subTotal = quantity * unitPrice;
-                    float discount = Float.parseFloat(txtDiscount.getText().trim());
-                    float total = 0.0f;
-                    if (discount != 0.0) {
-                        if (rbtPercentage.isSelected()) {
-                            discount = (subTotal * discount) / 100;
-                            total = subTotal - discount;
-                        } else if (rbtNumber.isSelected()) {
-                            total = subTotal - discount;
-                        }
-                    } else {
-                        total = subTotal;
-                    }
-
-                    DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-                    tableModel.addRow(new Object[]{itemCode, releventItem.getItemName(), quantity, unitPrice, subTotal, discount, total});
-
-                    cmbItems.setSelectedIndex(0);
-                    cmbItems.requestFocus();
-                    txtQuantity.setText("0.0");
-                    txtDiscount.setText("0.0");
-                    rbtPercentage.setSelected(true);
-
-                    grandSubTotal += subTotal;
-                    grandDiscount += discount;
-                    grandTotal += total;
-
-                    txtGrandSubTotal.setText("" + grandSubTotal);
-                    txtGrandDiscount.setText("" + grandDiscount);
-                    txtGrandTotal.setText("" + grandTotal);
-                }
             }
 
             session.close();
@@ -1496,16 +1537,22 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private void loadItems(Session session) {
         cmbItems.removeAllItems();
         cmbItems.addItem("");
-        Query query = session.createQuery("from Item i order by i.itemName");
-        List list = query.list();
-        if (!list.isEmpty()) {
-            for (Object object : list) {
-                if (object instanceof Item) {
-                    Item item = (Item) object;
-                    String itemName = item.getItemName();
-                    cmbItems.addItem(itemName);
-                    itemMap.put(itemName, item);
-                }
+
+        ItemType itemType = (ItemType) session
+                .createCriteria(ItemType.class)
+                .add(Restrictions.eq("itemTypeName", "SELL"))
+                .uniqueResult();
+
+        List<Item> items = session.createCriteria(Item.class)
+                .add(Restrictions.eq("itemType", itemType))
+                .addOrder(Order.asc("itemName"))
+                .list();
+
+        if (!items.isEmpty()) {
+            for (Item item : items) {
+                String itemName = item.getItemName();
+                cmbItems.addItem(itemName);
+                itemMap.put(itemName, item);
             }
         }
     }
@@ -1580,33 +1627,37 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private float getItemSellingPrice(Item item) {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
-        SellingPrice sellingPrice = (SellingPrice) session
+        List<SellingPrice> todaySellingPrices = session
                 .createCriteria(SellingPrice.class)
                 .add(Restrictions.eq("item", item))
                 .add(Restrictions.eq("effectiveDate", new Date()))
-                .uniqueResult();
+                .addOrder(Order.desc("createdTime"))
+                .list();
 
-        if (sellingPrice != null) {
-            session.close();
-            return sellingPrice.getSellingPrice();
-        } else {
+        if (todaySellingPrices.isEmpty()) {
             List<SellingPrice> sellingPrices = session
                     .createCriteria(SellingPrice.class)
                     .add(Restrictions.eq("item", item))
                     .add(Restrictions.le("effectiveDate", new Date()))
                     .addOrder(Order.desc("effectiveDate"))
+                    .addOrder(Order.desc("createdTime"))
                     .list();
-            if (!sellingPrices.isEmpty()) {
-                for (SellingPrice sellingPri : sellingPrices) {
-                    session.close();
-                    return sellingPri.getSellingPrice();
-                }
-                return 0.0f;
-            } else {
+            if (sellingPrices.isEmpty()) {
                 session.close();
                 return 0.0f;
+            } else {
+                for (SellingPrice sellingPrice : sellingPrices) {
+                    session.close();
+                    return sellingPrice.getSellingPrice();
+                }
+            }
+        } else {
+            for (SellingPrice todaySellingPrice : todaySellingPrices) {
+                session.close();
+                return todaySellingPrice.getSellingPrice();
             }
         }
+        return 0.0f;
     }
 
     private void ItemEdit() {

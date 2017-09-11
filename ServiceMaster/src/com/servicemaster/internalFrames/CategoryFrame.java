@@ -292,7 +292,7 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
         if (txtCategoryCode.getText().toUpperCase().trim().isEmpty()) {
             List categoryByName = this.getCategoryByName(txtCategoryName.getText().toUpperCase().trim(), false);
             if (categoryByName.size() > 0) {
-                InformationDialog.showMessageBox("Item name already exists.", "Exist", null);
+                InformationDialog.showMessageBox("Item name already exists.", "Exist", this);
             } else {
                 KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
                 this.saveOrUpdateCategory(keyCodeFunctions.getKey("CAT", "Category"), false);
@@ -300,7 +300,7 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
         } else {
             List categoryByCode = this.getCategoryByCode(txtCategoryCode.getText().toUpperCase().trim(), false);
             if (categoryByCode.isEmpty()) {
-                InformationDialog.showMessageBox("Invalid Category code. Please try again", "Invalid", null);
+                InformationDialog.showMessageBox("Invalid Category code. Please try again", "Invalid", this);
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -387,9 +387,9 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
         session.close();
 
         if (bUpdate) {
-            InformationDialog.showMessageBox("Successfully updated", "Success", null);
+            InformationDialog.showMessageBox("Successfully updated", "Success", this);
         } else {
-            InformationDialog.showMessageBox("New entry created successfully", "Success", null);
+            InformationDialog.showMessageBox("New entry created successfully", "Success", this);
         }
         this.clearAll();
     }

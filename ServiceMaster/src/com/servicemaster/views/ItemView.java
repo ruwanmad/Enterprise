@@ -254,6 +254,7 @@ public class ItemView extends javax.swing.JInternalFrame {
         itemFrame.setSellingQuantity("" + item.getItemQuantity());
         itemFrame.setIsPhysicle(item.getIsPhysical() == 1);
         itemFrame.setIsActive(item.getIsActive() == 1);
+        itemFrame.setFromBom(item.getFromBom());
         itemFrame.setRemark(item.getRemark());
         itemFrame.setManufacturer(manufacturer.getManufacturerName());
         itemFrame.setSubCategory(subCategory.getSubCategoryName());
