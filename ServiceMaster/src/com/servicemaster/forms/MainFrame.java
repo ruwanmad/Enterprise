@@ -12,6 +12,7 @@ import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.internalFrames.BomFrame;
 import com.servicemaster.internalFrames.BusinessPartnerFrame;
 import com.servicemaster.internalFrames.CategoryFrame;
+import com.servicemaster.internalFrames.DirectSaleFrame;
 import com.servicemaster.internalFrames.GrnFrame;
 import com.servicemaster.internalFrames.ItemFrame;
 import com.servicemaster.internalFrames.LocationFrame;
@@ -128,6 +129,7 @@ public class MainFrame extends javax.swing.JFrame {
         miExit = new javax.swing.JMenuItem();
         mTransactions = new javax.swing.JMenu();
         miService = new javax.swing.JMenuItem();
+        miSale = new javax.swing.JMenuItem();
         miGRN = new javax.swing.JMenuItem();
         mReports = new javax.swing.JMenu();
         miSalesReports = new javax.swing.JMenuItem();
@@ -352,6 +354,16 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         mTransactions.add(miService);
+
+        miSale.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        miSale.setText("Sale");
+        miSale.setEnabled(false);
+        miSale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSaleActionPerformed(evt);
+            }
+        });
+        mTransactions.add(miSale);
 
         miGRN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         miGRN.setText("Good Receive");
@@ -597,6 +609,10 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miGRNActionPerformed
 
+    private void miSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSaleActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miSaleActionPerformed
+
     private void exitApllication() {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure", null);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -684,6 +700,10 @@ public class MainFrame extends javax.swing.JFrame {
                 internalFrame = new GrnFrame();
                 break;
             }
+            case "19": {
+                internalFrame = new DirectSaleFrame();
+                break;
+            }
             default: {
                 internalFrame = null;
             }
@@ -763,6 +783,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenuItem miLocations;
     public javax.swing.JMenuItem miPrinters;
     private javax.swing.JMenuItem miRackSlots;
+    public javax.swing.JMenuItem miSale;
     public javax.swing.JMenuItem miSalesReports;
     public javax.swing.JMenuItem miService;
     public javax.swing.JMenuItem miStockReports;
