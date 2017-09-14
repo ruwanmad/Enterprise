@@ -11,6 +11,7 @@ import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.AutoCompletion;
+import com.servicemaster.functions.JdbcConnection;
 import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Bom;
@@ -27,14 +28,23 @@ import com.servicemaster.models.ServiceStatus;
 import com.servicemaster.models.Vehicle;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -50,7 +60,6 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     /**
      * Creates new form ServiceFrame
      *
-     * @param servicesFrame
      */
     public DirectSaleFrame() {
         initComponents();
@@ -879,6 +888,24 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
         transaction.commit();
         session.close();
+        
+        JdbcConnection jbConnection = new JdbcConnection();
+        Connection connection = jbConnection.getConnection();
+
+        if (connection != null) {
+            String reportFile = "reports/invoice.jasper";
+
+            Map map = new HashMap();
+            map.put("serviceCode", service.getServiceCode());
+
+            try {
+                JasperPrint jasperPrint = JasperFillManager.fillReport(reportFile, map, connection);
+                JasperViewer.viewReport(jasperPrint, false);
+            } catch (JRException ex) {
+                Logger.getLogger(ServiceFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            jbConnection.closeConnection();
+        }
         
         return invoice;
     }
