@@ -6,6 +6,7 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
+import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.BusinessAddress;
 import com.servicemaster.models.Invoice;
@@ -257,7 +258,7 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         if (listServices.getSelectedValue() != null) {
             this.openService();
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a valid vehicle.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+            InformationDialog.showMessageBox("Please select a valid vehicle.", "Invalid", null);
         }
     }//GEN-LAST:event_btnOpenActionPerformed
 

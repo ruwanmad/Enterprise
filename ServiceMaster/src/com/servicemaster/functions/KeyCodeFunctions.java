@@ -31,13 +31,13 @@ public class KeyCodeFunctions {
         if (keyList.isEmpty()) {
             KeyTable keyTable = new KeyTable();
             keyTable.setKeyCode(code);
-            keyTable.setKeyNumber(1001);
+            keyTable.setKeyNumber(1002);
             keyTable.setKeyRemark(remark);
             keyTable.setCreatedDate(new Date());
             keyTable.setCreatedTime(new Date());
             keyTable.setCreatedUser(MainFrame.user.getUserId());
             session.saveOrUpdate(keyTable);
-            keyCode = code+"1000";
+            keyCode = code+"1001";
         } else {
             KeyTable keyTable = (KeyTable) keyList.get(0);
             Integer keyNumber = keyTable.getKeyNumber();

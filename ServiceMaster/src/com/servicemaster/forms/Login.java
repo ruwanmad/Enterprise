@@ -64,7 +64,6 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setText("Password :");
 
         txtUsername.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        txtUsername.setText("admin");
         txtUsername.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtUsernameFocusGained(evt);
@@ -77,7 +76,6 @@ public class Login extends javax.swing.JFrame {
         });
 
         pwdPassword.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        pwdPassword.setText("admin@123");
         pwdPassword.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 pwdPasswordFocusGained(evt);

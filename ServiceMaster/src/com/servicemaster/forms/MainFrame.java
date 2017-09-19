@@ -14,6 +14,7 @@ import com.servicemaster.internalFrames.BusinessPartnerFrame;
 import com.servicemaster.internalFrames.CategoryFrame;
 import com.servicemaster.internalFrames.DirectSaleFrame;
 import com.servicemaster.internalFrames.GrnFrame;
+import com.servicemaster.internalFrames.ServiceHistoryFrame;
 import com.servicemaster.internalFrames.ItemFrame;
 import com.servicemaster.internalFrames.LocationFrame;
 import com.servicemaster.internalFrames.PrinterFrame;
@@ -122,16 +123,18 @@ public class MainFrame extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         miVehileType = new javax.swing.JMenuItem();
         miVehicles = new javax.swing.JMenuItem();
-        js1 = new javax.swing.JPopupMenu.Separator();
+        fileSeparator1 = new javax.swing.JPopupMenu.Separator();
         miUsers = new javax.swing.JMenuItem();
         miUserPrivilages = new javax.swing.JMenuItem();
-        js2 = new javax.swing.JPopupMenu.Separator();
+        fileSeparator2 = new javax.swing.JPopupMenu.Separator();
         miExit = new javax.swing.JMenuItem();
         mTransactions = new javax.swing.JMenu();
         miService = new javax.swing.JMenuItem();
         miSale = new javax.swing.JMenuItem();
         miGRN = new javax.swing.JMenuItem();
         mReports = new javax.swing.JMenu();
+        miServiceHistory = new javax.swing.JMenuItem();
+        reportSeparator1 = new javax.swing.JPopupMenu.Separator();
         miSalesReports = new javax.swing.JMenuItem();
         miStockReports = new javax.swing.JMenuItem();
         mOptions = new javax.swing.JMenu();
@@ -318,7 +321,7 @@ public class MainFrame extends javax.swing.JFrame {
         mMasterFiles.add(miVehicles);
 
         mFile.add(mMasterFiles);
-        mFile.add(js1);
+        mFile.add(fileSeparator1);
 
         miUsers.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miUsers.setText("Users");
@@ -329,7 +332,7 @@ public class MainFrame extends javax.swing.JFrame {
         miUserPrivilages.setText("User Privilages");
         miUserPrivilages.setEnabled(false);
         mFile.add(miUserPrivilages);
-        mFile.add(js2);
+        mFile.add(fileSeparator2);
 
         miExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         miExit.setText("Exit");
@@ -381,6 +384,17 @@ public class MainFrame extends javax.swing.JFrame {
         mReports.setText("Reports");
         mReports.setEnabled(false);
 
+        miServiceHistory.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
+        miServiceHistory.setText("Service History");
+        miServiceHistory.setEnabled(false);
+        miServiceHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miServiceHistoryActionPerformed(evt);
+            }
+        });
+        mReports.add(miServiceHistory);
+        mReports.add(reportSeparator1);
+
         miSalesReports.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
         miSalesReports.setText("Sales Reports");
         miSalesReports.setEnabled(false);
@@ -416,7 +430,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         mOptions.add(miAddShortcuts);
 
-        miChangeBackground.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        miChangeBackground.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miChangeBackground.setText("Change background");
         miChangeBackground.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -613,6 +627,10 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miSaleActionPerformed
 
+    private void miServiceHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miServiceHistoryActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miServiceHistoryActionPerformed
+
     private void exitApllication() {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure", null);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -704,6 +722,10 @@ public class MainFrame extends javax.swing.JFrame {
                 internalFrame = new DirectSaleFrame();
                 break;
             }
+            case "20": {
+                internalFrame = new ServiceHistoryFrame();
+                break;
+            }
             default: {
                 internalFrame = null;
             }
@@ -758,12 +780,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JPopupMenu.Separator fileSeparator1;
+    private javax.swing.JPopupMenu.Separator fileSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
-    private javax.swing.JPopupMenu.Separator js1;
-    private javax.swing.JPopupMenu.Separator js2;
     public javax.swing.JMenu mFile;
     public javax.swing.JMenu mMasterFiles;
     public javax.swing.JMenu mOptions;
@@ -786,6 +808,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenuItem miSale;
     public javax.swing.JMenuItem miSalesReports;
     public javax.swing.JMenuItem miService;
+    public javax.swing.JMenuItem miServiceHistory;
     public javax.swing.JMenuItem miStockReports;
     private javax.swing.JMenuItem miStorage;
     private javax.swing.JMenuItem miStorageRacks;
@@ -795,6 +818,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenuItem miVehicles;
     public javax.swing.JMenuItem miVehileType;
     public javax.swing.JPanel panelShortcuts;
+    private javax.swing.JPopupMenu.Separator reportSeparator1;
     // End of variables declaration//GEN-END:variables
     public static final LinkedHashMap<String, HashMap<String, Object>> allModuleMap = new LinkedHashMap<>();
     public static final LinkedHashMap<String, HashMap<String, Object>> availableModuleMap = new LinkedHashMap<>();

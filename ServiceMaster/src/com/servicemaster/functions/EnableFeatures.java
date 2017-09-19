@@ -99,10 +99,11 @@ public class EnableFeatures {
                     break;
                 }
                 case "31": {
-                    mainFrame.miAddShortcuts.setEnabled(true);
+                    mainFrame.miServiceHistory.setEnabled(true);
                     break;
                 }
                 case "32": {
+                    mainFrame.miAddShortcuts.setEnabled(true);
                     break;
                 }
                 case "33": {

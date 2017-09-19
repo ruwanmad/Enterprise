@@ -599,14 +599,14 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Item Code", "Item Name", "Quantity", "Unit Price", "Sub Total", "Discount", "Total"
+                "Item Code", "Item Name", "Quantity", "Unit Price", "Sub Total", "Discount", "Total", "To Bill", "Print"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
+                java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -632,6 +632,12 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             tblItems.getColumnModel().getColumn(4).setResizable(false);
             tblItems.getColumnModel().getColumn(5).setResizable(false);
             tblItems.getColumnModel().getColumn(6).setResizable(false);
+            tblItems.getColumnModel().getColumn(7).setMinWidth(0);
+            tblItems.getColumnModel().getColumn(7).setPreferredWidth(0);
+            tblItems.getColumnModel().getColumn(7).setMaxWidth(0);
+            tblItems.getColumnModel().getColumn(8).setMinWidth(0);
+            tblItems.getColumnModel().getColumn(8).setPreferredWidth(0);
+            tblItems.getColumnModel().getColumn(8).setMaxWidth(0);
         }
 
         btnInvoice.setBackground(new java.awt.Color(150, 255, 150));
