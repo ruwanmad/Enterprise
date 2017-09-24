@@ -16,6 +16,7 @@ import com.servicemaster.internalFrames.DirectSaleFrame;
 import com.servicemaster.internalFrames.GrnFrame;
 import com.servicemaster.internalFrames.ServiceHistoryFrame;
 import com.servicemaster.internalFrames.ItemFrame;
+import com.servicemaster.internalFrames.ItemReturnFrame;
 import com.servicemaster.internalFrames.LocationFrame;
 import com.servicemaster.internalFrames.PrinterFrame;
 import com.servicemaster.internalFrames.RackSlotFrame;
@@ -131,6 +132,8 @@ public class MainFrame extends javax.swing.JFrame {
         mTransactions = new javax.swing.JMenu();
         miService = new javax.swing.JMenuItem();
         miSale = new javax.swing.JMenuItem();
+        miSalesReturns = new javax.swing.JMenuItem();
+        transactionSeparator2 = new javax.swing.JPopupMenu.Separator();
         miGRN = new javax.swing.JMenuItem();
         mReports = new javax.swing.JMenu();
         miServiceHistory = new javax.swing.JMenuItem();
@@ -367,6 +370,17 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         mTransactions.add(miSale);
+
+        miSalesReturns.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        miSalesReturns.setText("Sales Returns");
+        miSalesReturns.setEnabled(false);
+        miSalesReturns.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSalesReturnsActionPerformed(evt);
+            }
+        });
+        mTransactions.add(miSalesReturns);
+        mTransactions.add(transactionSeparator2);
 
         miGRN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         miGRN.setText("Good Receive");
@@ -631,6 +645,10 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miServiceHistoryActionPerformed
 
+    private void miSalesReturnsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalesReturnsActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miSalesReturnsActionPerformed
+
     private void exitApllication() {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure", null);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -726,6 +744,10 @@ public class MainFrame extends javax.swing.JFrame {
                 internalFrame = new ServiceHistoryFrame();
                 break;
             }
+            case "21": {
+                internalFrame = new ItemReturnFrame();
+                break;
+            }
             default: {
                 internalFrame = null;
             }
@@ -807,6 +829,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem miRackSlots;
     public javax.swing.JMenuItem miSale;
     public javax.swing.JMenuItem miSalesReports;
+    public javax.swing.JMenuItem miSalesReturns;
     public javax.swing.JMenuItem miService;
     public javax.swing.JMenuItem miServiceHistory;
     public javax.swing.JMenuItem miStockReports;
@@ -819,6 +842,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenuItem miVehileType;
     public javax.swing.JPanel panelShortcuts;
     private javax.swing.JPopupMenu.Separator reportSeparator1;
+    private javax.swing.JPopupMenu.Separator transactionSeparator2;
     // End of variables declaration//GEN-END:variables
     public static final LinkedHashMap<String, HashMap<String, Object>> allModuleMap = new LinkedHashMap<>();
     public static final LinkedHashMap<String, HashMap<String, Object>> availableModuleMap = new LinkedHashMap<>();

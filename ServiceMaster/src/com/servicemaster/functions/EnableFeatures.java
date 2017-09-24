@@ -77,10 +77,11 @@ public class EnableFeatures {
                     break;
                 }
                 case "23": {
-                    mainFrame.miGRN.setEnabled(true);
+                    mainFrame.miSalesReturns.setEnabled(true);
                     break;
                 }
                 case "24": {
+                    mainFrame.miGRN.setEnabled(true);
                     break;
                 }
                 case "25": {
