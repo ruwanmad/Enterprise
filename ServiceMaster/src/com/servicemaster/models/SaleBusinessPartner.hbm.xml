@@ -1,25 +1,25 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 11, 2017 10:24:05 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 28, 2017 12:51:12 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.ServiceHasBusinessPartner" table="service_has_business_partner" catalog="enterprisedb" optimistic-lock="version">
-        <composite-id name="id" class="com.servicemaster.models.ServiceHasBusinessPartnerId">
+    <class name="com.servicemaster.models.SaleBusinessPartner" table="sale_business_partner" catalog="enterprisedb" optimistic-lock="version">
+        <composite-id name="id" class="com.servicemaster.models.SaleBusinessPartnerId">
             <key-property name="serviceHasBusinessPartnerId" type="int">
                 <column name="service_has_business_partner_id" />
             </key-property>
-            <key-property name="serviceServiceCode" type="string">
-                <column name="service_service_code" length="15" />
-            </key-property>
             <key-property name="businessPartnerBusinessPartnerCode" type="string">
                 <column name="business_partner_business_partner_code" length="15" />
+            </key-property>
+            <key-property name="saleSaleCode" type="string">
+                <column name="sale_sale_code" length="15" />
             </key-property>
         </composite-id>
         <many-to-one name="businessPartner" class="com.servicemaster.models.BusinessPartner" update="false" insert="false" fetch="select">
             <column name="business_partner_business_partner_code" length="15" not-null="true" />
         </many-to-one>
-        <many-to-one name="service" class="com.servicemaster.models.Service" update="false" insert="false" fetch="select">
-            <column name="service_service_code" length="15" not-null="true" />
+        <many-to-one name="sale" class="com.servicemaster.models.Sale" update="false" insert="false" fetch="select">
+            <column name="sale_sale_code" length="15" not-null="true" />
         </many-to-one>
     </class>
 </hibernate-mapping>

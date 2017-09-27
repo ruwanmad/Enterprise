@@ -3,25 +3,19 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 28, 2017 12:51:12 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.SellingPrice" table="selling_price" catalog="enterprisedb" optimistic-lock="version">
-        <id name="sellingPriceId" type="java.lang.Integer">
-            <column name="selling_price_id" />
+    <class name="com.servicemaster.models.SaleStatus" table="sale_status" catalog="enterprisedb" optimistic-lock="version">
+        <id name="statusId" type="java.lang.Integer">
+            <column name="status_id" />
             <generator class="identity" />
         </id>
-        <many-to-one name="item" class="com.servicemaster.models.Item" fetch="select">
-            <column name="item_item_code" length="15" not-null="true" />
-        </many-to-one>
-        <property name="sellingPrice" type="java.lang.Float">
-            <column name="selling_price" precision="12" scale="0" />
+        <property name="statusDescription" type="string">
+            <column name="status_description" length="45" />
         </property>
-        <property name="effectiveDate" type="date">
-            <column name="effective_date" length="10" />
+        <property name="createDate" type="date">
+            <column name="create_date" length="10" />
         </property>
-        <property name="createdDate" type="date">
-            <column name="created_date" length="10" />
-        </property>
-        <property name="createdTime" type="time">
-            <column name="created_time" length="8" />
+        <property name="createTime" type="time">
+            <column name="create_time" length="8" />
         </property>
         <property name="createdUser" type="java.lang.Integer">
             <column name="created_user" />
@@ -38,5 +32,11 @@
         <property name="remark" type="string">
             <column name="remark" length="100" />
         </property>
+        <set name="sales" table="sale" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="sale_status_status_id" not-null="true" />
+            </key>
+            <one-to-many class="com.servicemaster.models.Sale" />
+        </set>
     </class>
 </hibernate-mapping>

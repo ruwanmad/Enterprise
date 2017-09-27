@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 11, 2017 10:23:59 AM by Hibernate Tools 4.3.1
+// Generated Sep 28, 2017 12:51:04 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -28,6 +28,7 @@ public class Grn  implements java.io.Serializable {
      private String remark;
      private Set grnLines = new HashSet(0);
      private Set stocks = new HashSet(0);
+     private Set accountPostings = new HashSet(0);
 
     public Grn() {
     }
@@ -38,7 +39,7 @@ public class Grn  implements java.io.Serializable {
         this.businessPartner = businessPartner;
         this.grnReference = grnReference;
     }
-    public Grn(String grnCode, BusinessPartner businessPartner, String grnReference, Date grnTime, Date grnDate, String handedOverBy, String batch, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set grnLines, Set stocks) {
+    public Grn(String grnCode, BusinessPartner businessPartner, String grnReference, Date grnTime, Date grnDate, String handedOverBy, String batch, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set grnLines, Set stocks, Set accountPostings) {
        this.grnCode = grnCode;
        this.businessPartner = businessPartner;
        this.grnReference = grnReference;
@@ -55,6 +56,7 @@ public class Grn  implements java.io.Serializable {
        this.remark = remark;
        this.grnLines = grnLines;
        this.stocks = stocks;
+       this.accountPostings = accountPostings;
     }
    
     public String getGrnCode() {
@@ -168,6 +170,13 @@ public class Grn  implements java.io.Serializable {
     
     public void setStocks(Set stocks) {
         this.stocks = stocks;
+    }
+    public Set getAccountPostings() {
+        return this.accountPostings;
+    }
+    
+    public void setAccountPostings(Set accountPostings) {
+        this.accountPostings = accountPostings;
     }
 
 

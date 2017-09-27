@@ -6,7 +6,6 @@
 package com.servicemaster.panels;
 
 import com.servicemaster.dialogs.SettlementDialog;
-import com.servicemaster.models.Service;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -17,20 +16,17 @@ import javax.swing.SwingUtilities;
  */
 public class CashSettlePanel extends javax.swing.JPanel {
 
-    private final Service service;
     private final SettlementDialog settlementDialog;
     private final String paymentTypeCode;
 
     /**
      * Creates new form CashSettlePanel
      *
-     * @param service
      * @param settlementDialog
      * @param paymentTypeCode
      */
-    public CashSettlePanel(Service service, SettlementDialog settlementDialog, String paymentTypeCode) {
+    public CashSettlePanel(SettlementDialog settlementDialog, String paymentTypeCode) {
         initComponents();
-        this.service = service;
         this.settlementDialog = settlementDialog;
         this.paymentTypeCode = paymentTypeCode;
     }

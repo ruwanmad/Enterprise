@@ -12,12 +12,12 @@ import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Address;
 import com.servicemaster.models.BusinessAddress;
 import com.servicemaster.models.Item;
+import com.servicemaster.models.Sale;
+import com.servicemaster.models.SaleItem;
+import com.servicemaster.models.SaleItemStatus;
+import com.servicemaster.models.SaleStatus;
 import com.servicemaster.models.SellingPrice;
-import com.servicemaster.models.Service;
 import com.servicemaster.models.ServiceBay;
-import com.servicemaster.models.ServiceHasItem;
-import com.servicemaster.models.ServiceHasItemStatus;
-import com.servicemaster.models.ServiceStatus;
 import com.servicemaster.models.Vehicle;
 import com.servicemaster.utils.HibernateUtil;
 import java.sql.Connection;
@@ -49,11 +49,11 @@ public class ServiceHistoryView extends javax.swing.JInternalFrame {
     /**
      * Creates new form ServiceFrame
      *
-     * @param service
+     * @param sale
      */
-    public ServiceHistoryView(Service service) {
+    public ServiceHistoryView(Sale sale) {
         initComponents();
-        this.service = service;
+        this.sale = sale;
     }
 
     /**
@@ -488,19 +488,19 @@ public class ServiceHistoryView extends javax.swing.JInternalFrame {
 
         session.close();
 
-        if (service != null) {
+        if (sale != null) {
             session = HibernateUtil.getSessionFactory().openSession();
 
             Vehicle vehicle = (Vehicle) session
                     .createCriteria(Vehicle.class)
-                    .add(Restrictions.eq("vehicleCode", this.service.getVehicle().getVehicleCode()))
+                    .add(Restrictions.eq("vehicleCode", this.sale.getVehicle().getVehicleCode()))
                     .uniqueResult();
 
             txtVehicleNumber.setText(vehicle.getVehicleNumber());
-            txtLastServicesMilage.setText("" + service.getMilage());
+            txtLastServicesMilage.setText("" + sale.getMilage());
 
-            lblCustomerName.setText(service.getVehicle().getBusinessPartner().getFirstName() + " " + service.getVehicle().getBusinessPartner().getLastName());
-            Set businessAddresses = service.getVehicle().getBusinessPartner().getBusinessAddresses();
+            lblCustomerName.setText(sale.getVehicle().getBusinessPartner().getFirstName() + " " + sale.getVehicle().getBusinessPartner().getLastName());
+            Set businessAddresses = sale.getVehicle().getBusinessPartner().getBusinessAddresses();
             for (Object object : businessAddresses) {
                 if (object instanceof BusinessAddress) {
                     BusinessAddress businessAddress = (BusinessAddress) object;
@@ -511,26 +511,26 @@ public class ServiceHistoryView extends javax.swing.JInternalFrame {
                 }
             }
 
-            txtServiceDate.setText(SystemData.DATE_FORMAT.format(service.getCreatedDate()));
+            txtServiceDate.setText(SystemData.DATE_FORMAT.format(sale.getCreatedDate()));
 
             ServiceBay serviceBay = (ServiceBay) session
                     .createCriteria(ServiceBay.class)
-                    .add(Restrictions.eq("serviceBayCode", this.service.getServiceBay().getServiceBayCode()))
+                    .add(Restrictions.eq("serviceBayCode", this.sale.getServiceBay().getServiceBayCode()))
                     .uniqueResult();
 
             txtServiceBay.setText(serviceBay.getServiceBayName());
 
             DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
             tableModel.setRowCount(0);
-            Set serviceItems = service.getServiceHasItems();
+            Set saleItems = sale.getSaleItems();
 
-            for (Object object : serviceItems) {
-                if (object instanceof ServiceHasItem) {
-                    ServiceHasItem serviceItem = (ServiceHasItem) object;
-                    if (serviceItem.getServiceHasItemStatus().getItemStatusId() == 1) {
+            for (Object object : saleItems) {
+                if (object instanceof SaleItem) {
+                    SaleItem serviceItem = (SaleItem) object;
+                    if (serviceItem.getSaleItemStatus().getItemStatusId() == 1) {
                         Item item = serviceItem.getItem();
 
-                        serviceHasItemMap.put(item.getItemName(), serviceItem);
+                        saleItemMap.put(item.getItemName(), serviceItem);
 
                         String itemCode = item.getItemCode();
                         String itemName = item.getItemName();
@@ -568,7 +568,7 @@ public class ServiceHistoryView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnReprintMouseExited
 
     private void btnReprintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReprintActionPerformed
-        if (service != null) {
+        if (sale != null) {
             JdbcConnection jbConnection = new JdbcConnection();
             Connection connection = jbConnection.getConnection();
 
@@ -576,7 +576,7 @@ public class ServiceHistoryView extends javax.swing.JInternalFrame {
                 String reportFile = "reports/invoice.jasper";
 
                 Map map = new HashMap();
-                map.put("serviceCode", this.service.getServiceCode());
+                map.put("serviceCode", this.sale.getSaleCode());
 
                 try {
                     JasperPrint jasperPrint = JasperFillManager.fillReport(reportFile, map, connection);
@@ -606,10 +606,10 @@ public class ServiceHistoryView extends javax.swing.JInternalFrame {
         List list = query.list();
         if (!list.isEmpty()) {
             for (Object object : list) {
-                if (object instanceof ServiceStatus) {
-                    ServiceStatus serviceStatus = (ServiceStatus) object;
-                    String description = serviceStatus.getStatusDescription();
-                    serviceStatusMap.put(description, serviceStatus);
+                if (object instanceof SaleStatus) {
+                    SaleStatus saleStatus = (SaleStatus) object;
+                    String description = saleStatus.getStatusDescription();
+                    saleStatusMap.put(description, saleStatus);
                 }
             }
         }
@@ -620,10 +620,10 @@ public class ServiceHistoryView extends javax.swing.JInternalFrame {
         List list = query.list();
         if (!list.isEmpty()) {
             for (Object object : list) {
-                if (object instanceof ServiceHasItemStatus) {
-                    ServiceHasItemStatus serviceHasItemStatus = (ServiceHasItemStatus) object;
-                    int id = serviceHasItemStatus.getItemStatusId();
-                    serviceHasItemStatusMap.put(id, serviceHasItemStatus);
+                if (object instanceof SaleItemStatus) {
+                    SaleItemStatus saleItemStatus = (SaleItemStatus) object;
+                    int id = saleItemStatus.getItemStatusId();
+                    saleItemStatusMap.put(id, saleItemStatus);
                 }
             }
         }
@@ -697,13 +697,13 @@ public class ServiceHistoryView extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtVehicleNumber;
     private javax.swing.JPanel vehicleDetailPanel;
     // End of variables declaration//GEN-END:variables
-    private final Service service;
+    private final Sale sale;
     private final TreeMap<String, Vehicle> vehicleMap = new TreeMap<>();
     private final TreeMap<String, ServiceBay> serviceBayMap = new TreeMap<>();
     private final TreeMap<String, Item> itemMap = new TreeMap<>();
-    private final TreeMap<String, ServiceStatus> serviceStatusMap = new TreeMap<>();
-    private final TreeMap<String, ServiceHasItem> serviceHasItemMap = new TreeMap<>();
-    private final TreeMap<Integer, ServiceHasItemStatus> serviceHasItemStatusMap = new TreeMap<>();
+    private final TreeMap<String, SaleStatus> saleStatusMap = new TreeMap<>();
+    private final TreeMap<String, SaleItem> saleItemMap = new TreeMap<>();
+    private final TreeMap<Integer, SaleItemStatus> saleItemStatusMap = new TreeMap<>();
 
     private float grandSubTotal = 0.0f;
     private float grandTotal = 0.0f;

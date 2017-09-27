@@ -11,7 +11,7 @@ import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.AutoCompletion;
 import com.servicemaster.guiFunctions.ButtonFunctions;
-import com.servicemaster.models.Service;
+import com.servicemaster.models.Sale;
 import com.servicemaster.models.Vehicle;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.ServiceHistoryView;
@@ -332,22 +332,22 @@ public class ServiceHistoryFrame extends javax.swing.JInternalFrame {
                 .add(Restrictions.eq("vehicleNumber", vehicleNumber))
                 .uniqueResult();
 
-        List<Service> services = session
-                .createCriteria(Service.class)
+        List<Sale> sales = session
+                .createCriteria(Sale.class)
                 .add(Restrictions.eq("vehicle", vehicle))
                 .addOrder(Order.desc("createdDate"))
                 .addOrder(Order.desc("createdTime"))
                 .list();
 
-        if (!services.isEmpty()) {
+        if (!sales.isEmpty()) {
             DefaultTableModel tableModel = (DefaultTableModel) tblServices.getModel();
             tableModel.setRowCount(0);
-            for (Service service : services) {
+            for (Sale sale : sales) {
                 tableModel.addRow(new Object[]{
-                    service.getServiceCode(),
-                    SystemData.DATE_FORMAT.format(service.getCreatedDate()),
-                    service.getMilage(),
-                    service.getGrandTotal()
+                    sale.getSaleCode(),
+                    SystemData.DATE_FORMAT.format(sale.getCreatedDate()),
+                    sale.getMilage(),
+                    sale.getGrandTotal()
                 });
             }
         }
@@ -364,18 +364,18 @@ public class ServiceHistoryFrame extends javax.swing.JInternalFrame {
     private void loadService() {
         int selectedRow = tblServices.getSelectedRow();
         if (selectedRow != -1) {
-            String serviceId = tblServices.getValueAt(selectedRow, 0).toString();
+            String saleCode = tblServices.getValueAt(selectedRow, 0).toString();
 
             Session session = HibernateUtil.getSessionFactory().openSession();
 
-            Service service = (Service) session
-                    .createCriteria(Service.class)
-                    .add(Restrictions.eq("serviceCode", serviceId))
+            Sale sale = (Sale) session
+                    .createCriteria(Sale.class)
+                    .add(Restrictions.eq("saleCode", saleCode))
                     .uniqueResult();
 
-            if (service != null) {
+            if (sale != null) {
                 try {
-                    ServiceHistoryView historyView = new ServiceHistoryView(service);
+                    ServiceHistoryView historyView = new ServiceHistoryView(sale);
                     MainFrame.desktopPane.add(historyView);
                     historyView.setMaximum(true);
                     historyView.setVisible(true);

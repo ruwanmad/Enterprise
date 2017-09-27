@@ -3,16 +3,13 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 28, 2017 12:51:12 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.PaymentType" table="payment_type" catalog="enterprisedb" optimistic-lock="version">
-        <id name="paymentTypeCode" type="string">
-            <column name="payment_type_code" length="15" />
+    <class name="com.servicemaster.models.MainAccount" table="main_account" catalog="enterprisedb" optimistic-lock="version">
+        <id name="code" type="string">
+            <column name="code" length="15" />
             <generator class="assigned" />
         </id>
-        <property name="paymentTypeName" type="string">
-            <column name="payment_type_name" length="45" />
-        </property>
-        <property name="isActive" type="java.lang.Integer">
-            <column name="isActive" />
+        <property name="description" type="string">
+            <column name="description" length="45" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
@@ -33,13 +30,13 @@
             <column name="modified_user" />
         </property>
         <property name="remark" type="string">
-            <column name="remark" length="150" />
+            <column name="remark" length="100" />
         </property>
-        <set name="payments" table="payment" inverse="true" lazy="true" fetch="select">
+        <set name="subAccounts" table="sub_account" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="payment_type_payment_type_code" length="15" not-null="true" />
+                <column name="main_account_code" length="15" not-null="true" />
             </key>
-            <one-to-many class="com.servicemaster.models.Payment" />
+            <one-to-many class="com.servicemaster.models.SubAccount" />
         </set>
     </class>
 </hibernate-mapping>

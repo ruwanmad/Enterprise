@@ -8,7 +8,7 @@ package com.servicemaster.listners;
 import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Payment;
-import com.servicemaster.models.Service;
+import com.servicemaster.models.Sale;
 import com.servicemaster.panels.CashSettlePanel;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.event.ActionEvent;
@@ -28,12 +28,12 @@ import org.hibernate.Transaction;
 public class PaymentButtonActionListners implements ActionListener {
 
     private final SettlementDialog settlementDialog;
-    private final Service service;
+    private final Sale sale;
     private final Invoice invoice;
 
-    public PaymentButtonActionListners(SettlementDialog settlementDialog, Service service, Invoice invoice) {
+    public PaymentButtonActionListners(SettlementDialog settlementDialog, Sale sale, Invoice invoice) {
         this.settlementDialog = settlementDialog;
-        this.service = service;
+        this.sale = sale;
         this.invoice = invoice;
     }
 
@@ -47,7 +47,7 @@ public class PaymentButtonActionListners implements ActionListener {
                 if (settlementDialog.panelFrame != null) {
                     JOptionPane.showMessageDialog(settlementDialog, "Please save and close current window.", "Close", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    final CashSettlePanel cashSettlePanel = new CashSettlePanel(service, this.settlementDialog, "PTY1000");
+                    final CashSettlePanel cashSettlePanel = new CashSettlePanel(this.settlementDialog, "PTY1000");
                     settlementDialog.panelFrame = cashSettlePanel;
                     settlementDialog.panelWindow.add(settlementDialog.panelFrame);
                     settlementDialog.panelWindow.revalidate();
@@ -67,8 +67,8 @@ public class PaymentButtonActionListners implements ActionListener {
 
                     List list = query.list();
                     if (list.isEmpty()) {
-                        cashSettlePanel.txtTotalAmount.setText("" + service.getGrandTotal());
-                        cashSettlePanel.txtRemainingBalance.setText("" + service.getGrandTotal());
+                        cashSettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
+                        cashSettlePanel.txtRemainingBalance.setText("" + sale.getGrandTotal());
                     } else {
                         float paidAmount = 0.0f;
                         for (Object tempPayment : list) {
@@ -77,9 +77,9 @@ public class PaymentButtonActionListners implements ActionListener {
                                 paidAmount += payment.getAmount();
                             }
                         }
-                        cashSettlePanel.txtTotalAmount.setText("" + service.getGrandTotal());
+                        cashSettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
                         cashSettlePanel.txtPaidAmount.setText("" + paidAmount);
-                        cashSettlePanel.txtRemainingBalance.setText("" + (service.getGrandTotal() - paidAmount));
+                        cashSettlePanel.txtRemainingBalance.setText("" + (sale.getGrandTotal() - paidAmount));
                     }
 
                     transaction.commit();

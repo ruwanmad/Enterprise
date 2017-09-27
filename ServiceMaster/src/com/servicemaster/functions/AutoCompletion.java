@@ -5,8 +5,6 @@
  */
 package com.servicemaster.functions;
 
-import com.servicemaster.internalFrames.ServiceFrame;
-import com.servicemaster.models.Service;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

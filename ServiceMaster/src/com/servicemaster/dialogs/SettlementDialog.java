@@ -15,8 +15,8 @@ import com.servicemaster.listners.PaymentButtonMouseListners;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Payment;
 import com.servicemaster.models.PaymentType;
-import com.servicemaster.models.Service;
-import com.servicemaster.models.ServiceStatus;
+import com.servicemaster.models.Sale;
+import com.servicemaster.models.SaleStatus;
 import com.servicemaster.panels.CashSettlePanel;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.Color;
@@ -41,25 +41,25 @@ import org.hibernate.Transaction;
  */
 public class SettlementDialog extends javax.swing.JDialog {
 
-    private final Service service;
+    private final Sale sale;
     private final Invoice invoice;
-    private final TreeMap<String, ServiceStatus> serviceStatusMap;
+    private final TreeMap<String, SaleStatus> saleStatusMap;
 
     /**
      * Creates new form PaymentDialog
      *
      * @param parent
      * @param modal
-     * @param service
+     * @param sale
      * @param invoice
-     * @param serviceStatusMap
+     * @param saleStatusMap
      */
-    public SettlementDialog(java.awt.Frame parent, boolean modal, Service service, Invoice invoice, TreeMap<String, ServiceStatus> serviceStatusMap) {
+    public SettlementDialog(java.awt.Frame parent, boolean modal, Sale sale, Invoice invoice, TreeMap<String, SaleStatus> saleStatusMap) {
         super(parent, modal);
         initComponents();
-        this.service = service;
+        this.sale = sale;
         this.invoice = invoice;
-        this.serviceStatusMap = serviceStatusMap;
+        this.saleStatusMap = saleStatusMap;
     }
 
     /**
@@ -209,7 +209,7 @@ public class SettlementDialog extends javax.swing.JDialog {
                     panelToolBar.add(button);
 
                     button.addMouseListener(new PaymentButtonMouseListners());
-                    button.addActionListener(new PaymentButtonActionListners(this, service, invoice));
+                    button.addActionListener(new PaymentButtonActionListners(this, sale, invoice));
                 }
             }
             panelToolBar.revalidate();
@@ -241,10 +241,10 @@ public class SettlementDialog extends javax.swing.JDialog {
             Payment payment = new Payment(paymentCode, invoice, new PaymentType(cashSettlePanel.getPaymentTypeCode()));
             if (balanceAmount < 0) {
                 payment.setAmount(nowPayingAmount);
-                service.setServiceStatus(this.serviceStatusMap.get("PARTIALLY PAID"));
+                sale.setSaleStatus(this.saleStatusMap.get("PARTIALLY PAID"));
             } else {
                 payment.setAmount(nowPayingAmount - balanceAmount);
-                service.setServiceStatus(this.serviceStatusMap.get("SETTLED"));
+                sale.setSaleStatus(this.saleStatusMap.get("SETTLED"));
             }
             payment.setCreatedDate(date);
             payment.setCreatedTime(date);
@@ -255,12 +255,12 @@ public class SettlementDialog extends javax.swing.JDialog {
 
             session.saveOrUpdate(payment);
 
-            session.saveOrUpdate(service);
+            session.saveOrUpdate(sale);
 
             InformationDialog.showMessageBox("Playment done successfully", "Success", null);
             panelWindow.removeAll();
 
-            final CashSettlePanel csettlePanel = new CashSettlePanel(service, this, "PTY1000");
+            final CashSettlePanel csettlePanel = new CashSettlePanel(this, "PTY1000");
             this.panelFrame = csettlePanel;
             this.panelWindow.add(this.panelFrame);
             this.panelWindow.revalidate();
@@ -277,8 +277,8 @@ public class SettlementDialog extends javax.swing.JDialog {
 
             List list = query.list();
             if (list.isEmpty()) {
-                csettlePanel.txtTotalAmount.setText("" + service.getGrandTotal());
-                csettlePanel.txtRemainingBalance.setText("" + service.getGrandTotal());
+                csettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
+                csettlePanel.txtRemainingBalance.setText("" + sale.getGrandTotal());
             } else {
                 float paidAmount = 0.0f;
                 for (Object tempPayment : list) {
@@ -287,11 +287,11 @@ public class SettlementDialog extends javax.swing.JDialog {
                         paidAmount += tPayment.getAmount();
                     }
                 }
-                csettlePanel.txtTotalAmount.setText("" + service.getGrandTotal());
+                csettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
                 csettlePanel.txtPaidAmount.setText("" + paidAmount);
-                csettlePanel.txtRemainingBalance.setText("" + (service.getGrandTotal() - paidAmount));
+                csettlePanel.txtRemainingBalance.setText("" + (sale.getGrandTotal() - paidAmount));
                 
-                if (service.getGrandTotal() - paidAmount <= 0.0f) {
+                if (sale.getGrandTotal() - paidAmount <= 0.0f) {
                     this.btnSettle.setEnabled(false);
                 }
             }
@@ -300,7 +300,7 @@ public class SettlementDialog extends javax.swing.JDialog {
             session.close();
             
             StockFunctions stockFunctions = new StockFunctions();
-            stockFunctions.reduceSaledStoke(service.getServiceCode());
+            stockFunctions.reduceSaledStoke(sale.getSaleCode());
         }
     }//GEN-LAST:event_btnSettleActionPerformed
 

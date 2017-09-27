@@ -10,9 +10,9 @@ import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.BusinessAddress;
 import com.servicemaster.models.Invoice;
-import com.servicemaster.models.Service;
-import com.servicemaster.models.ServiceHasItem;
-import com.servicemaster.models.ServiceStatus;
+import com.servicemaster.models.Sale;
+import com.servicemaster.models.SaleItem;
+import com.servicemaster.models.SaleStatus;
 import com.servicemaster.models.Vehicle;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.Color;
@@ -294,9 +294,9 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        Criteria serviceCriteria = session.createCriteria(Service.class);
-        serviceCriteria.add(Restrictions.ne("serviceStatus", session.load(ServiceStatus.class, new ServiceStatus(5).getStatusId())));
-        serviceCriteria.add(Restrictions.ne("serviceStatus", session.load(ServiceStatus.class, new ServiceStatus(6).getStatusId())));
+        Criteria serviceCriteria = session.createCriteria(Sale.class);
+        serviceCriteria.add(Restrictions.ne("saleStatus", session.load(SaleStatus.class, new SaleStatus(5).getStatusId())));
+        serviceCriteria.add(Restrictions.ne("saleStatus", session.load(SaleStatus.class, new SaleStatus(6).getStatusId())));
 
         List list = serviceCriteria.list();
 
@@ -305,14 +305,14 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
 
         if (!list.isEmpty()) {
             for (Object object : list) {
-                if (object instanceof Service) {
-                    Service service = (Service) object;
-                    Vehicle vehicle = service.getVehicle();
+                if (object instanceof Sale) {
+                    Sale sale = (Sale) object;
+                    Vehicle vehicle = sale.getVehicle();
 
                     Hibernate.initialize(vehicle.getBusinessPartner());
-                    Hibernate.initialize(service.getServiceBay());
-                    Hibernate.initialize(service.getVehicle());
-                    Hibernate.initialize(service.getServiceStatus());
+                    Hibernate.initialize(sale.getServiceBay());
+                    Hibernate.initialize(sale.getVehicle());
+                    Hibernate.initialize(sale.getSaleStatus());
 
                     Set addresses = vehicle.getBusinessPartner().getBusinessAddresses();
                     for (Object tempAddresse : addresses) {
@@ -322,16 +322,16 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
                         }
                     }
 
-                    Set serviseItems = service.getServiceHasItems();
-                    for (Object tempServiceItem : serviseItems) {
-                        if (tempServiceItem instanceof ServiceHasItem) {
-                            ServiceHasItem serviceHasItem = (ServiceHasItem) tempServiceItem;
-                            Hibernate.initialize(serviceHasItem);
-                            Hibernate.initialize(serviceHasItem.getItem());
+                    Set saleItems = sale.getSaleItems();
+                    for (Object tempSaleItem : saleItems) {
+                        if (tempSaleItem instanceof SaleItem) {
+                            SaleItem saleItem = (SaleItem) tempSaleItem;
+                            Hibernate.initialize(saleItem);
+                            Hibernate.initialize(saleItem.getItem());
                         }
                     }
 
-                    Set invoices = service.getInvoices();
+                    Set invoices = sale.getInvoices();
                     for (Object tempInvoice : invoices) {
                         if (tempInvoice instanceof Invoice) {
                             Invoice invoice = (Invoice) tempInvoice;
@@ -340,7 +340,7 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
                     }
 
                     listModel.addElement(vehicle.getVehicleNumber());
-                    serviceMap.put(vehicle.getVehicleNumber(), service);
+                    saleMap.put(vehicle.getVehicleNumber(), sale);
                 }
             }
         }
@@ -351,12 +351,12 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
     private void openService() {
         try {
             String value = listServices.getSelectedValue();
-            Service service = serviceMap.get(value);
+            Sale sale = saleMap.get(value);
 
             if (serviceFrame != null) {
                 JOptionPane.showMessageDialog(this, "Please save and close opened service.", "Close", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                this.serviceFrame = new ServiceFrame(service, this);
+                this.serviceFrame = new ServiceFrame(sale, this);
                 desktopPane.add(serviceFrame);
                 serviceFrame.setMaximum(true);
 
@@ -401,6 +401,6 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
     private javax.swing.JToolBar toolbar;
     private javax.swing.JPanel toolbarPanel;
     // End of variables declaration//GEN-END:variables
-    private final TreeMap<String, Service> serviceMap = new TreeMap<>();
+    private final TreeMap<String, Sale> saleMap = new TreeMap<>();
     private ServiceFrame serviceFrame;
 }

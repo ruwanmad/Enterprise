@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 11, 2017 10:24:05 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 28, 2017 12:51:12 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.servicemaster.models.Manufacturer" table="manufacturer" catalog="enterprisedb" optimistic-lock="version">
-        <id name="manufacturerCode" type="string">
-            <column name="manufacturer_code" length="15" />
-            <generator class="assigned" />
+    <class name="com.servicemaster.models.SaleItemStatus" table="sale_item_status" catalog="enterprisedb" optimistic-lock="version">
+        <id name="itemStatusId" type="java.lang.Integer">
+            <column name="item_status_id" />
+            <generator class="identity" />
         </id>
-        <property name="manufacturerName" type="string">
-            <column name="manufacturer_name" length="100" />
+        <property name="itemStatusDescription" type="string">
+            <column name="item_status_description" length="45" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
@@ -32,11 +32,11 @@
         <property name="remark" type="string">
             <column name="remark" length="100" />
         </property>
-        <set name="items" table="item" inverse="true" lazy="true" fetch="select">
+        <set name="saleItems" table="sale_item" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="manufacturer_manufacturer_code" length="15" />
+                <column name="sale_item_status_item_status_id" not-null="true" />
             </key>
-            <one-to-many class="com.servicemaster.models.Item" />
+            <one-to-many class="com.servicemaster.models.SaleItem" />
         </set>
     </class>
 </hibernate-mapping>

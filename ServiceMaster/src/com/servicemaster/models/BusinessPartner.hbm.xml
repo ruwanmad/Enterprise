@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 11, 2017 10:24:05 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 28, 2017 12:51:12 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.BusinessPartner" table="business_partner" catalog="enterprisedb" optimistic-lock="version">
         <id name="businessPartnerCode" type="string">
@@ -77,17 +77,23 @@
             </key>
             <one-to-many class="com.servicemaster.models.Grn" />
         </set>
+        <set name="accounts" table="account" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="business_partner_business_partner_code" length="15" />
+            </key>
+            <one-to-many class="com.servicemaster.models.Account" />
+        </set>
         <set name="vehicles" table="vehicle" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="business_partner_business_partner_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.Vehicle" />
         </set>
-        <set name="serviceHasBusinessPartners" table="service_has_business_partner" inverse="true" lazy="true" fetch="select">
+        <set name="saleBusinessPartners" table="sale_business_partner" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="business_partner_business_partner_code" length="15" not-null="true" />
             </key>
-            <one-to-many class="com.servicemaster.models.ServiceHasBusinessPartner" />
+            <one-to-many class="com.servicemaster.models.SaleBusinessPartner" />
         </set>
     </class>
 </hibernate-mapping>

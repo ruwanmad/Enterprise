@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 11, 2017 10:23:59 AM by Hibernate Tools 4.3.1
+// Generated Sep 28, 2017 12:51:04 AM by Hibernate Tools 4.3.1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,32 +11,34 @@ import java.util.Set;
 public class Invoice implements java.io.Serializable {
 
     private String invoiceNumber;
-    private Service service;
+    private Sale sale;
     private Date createdDate;
     private Date createdTime;
     private Integer createdUser;
     private Date modifiedDate;
     private Date modifiedTime;
     private Integer modifiedUser;
+    private Set accountPostings = new HashSet(0);
     private Set payments = new HashSet(0);
 
     public Invoice() {
     }
 
-    public Invoice(String invoiceNumber, Service service) {
+    public Invoice(String invoiceNumber, Sale sale) {
         this.invoiceNumber = invoiceNumber;
-        this.service = service;
+        this.sale = sale;
     }
 
-    public Invoice(String invoiceNumber, Service service, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, Set payments) {
+    public Invoice(String invoiceNumber, Sale sale, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, Set accountPostings, Set payments) {
         this.invoiceNumber = invoiceNumber;
-        this.service = service;
+        this.sale = sale;
         this.createdDate = createdDate;
         this.createdTime = createdTime;
         this.createdUser = createdUser;
         this.modifiedDate = modifiedDate;
         this.modifiedTime = modifiedTime;
         this.modifiedUser = modifiedUser;
+        this.accountPostings = accountPostings;
         this.payments = payments;
     }
 
@@ -48,12 +50,12 @@ public class Invoice implements java.io.Serializable {
         this.invoiceNumber = invoiceNumber;
     }
 
-    public Service getService() {
-        return this.service;
+    public Sale getSale() {
+        return this.sale;
     }
 
-    public void setService(Service service) {
-        this.service = service;
+    public void setSale(Sale sale) {
+        this.sale = sale;
     }
 
     public Date getCreatedDate() {
@@ -102,6 +104,14 @@ public class Invoice implements java.io.Serializable {
 
     public void setModifiedUser(Integer modifiedUser) {
         this.modifiedUser = modifiedUser;
+    }
+
+    public Set getAccountPostings() {
+        return this.accountPostings;
+    }
+
+    public void setAccountPostings(Set accountPostings) {
+        this.accountPostings = accountPostings;
     }
 
     public Set getPayments() {

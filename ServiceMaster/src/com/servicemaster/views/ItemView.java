@@ -11,8 +11,8 @@ import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.internalFrames.ItemFrame;
 import com.servicemaster.models.IssueMethod;
 import com.servicemaster.models.Item;
+import com.servicemaster.models.ItemBrand;
 import com.servicemaster.models.ItemType;
-import com.servicemaster.models.Manufacturer;
 import com.servicemaster.models.RackSlot;
 import com.servicemaster.models.SellingPrice;
 import com.servicemaster.models.SubCategory;
@@ -240,7 +240,7 @@ public class ItemView extends javax.swing.JInternalFrame {
         Transaction transaction = session.beginTransaction();
         
         IssueMethod issueMethod = (IssueMethod) session.load(IssueMethod.class, item.getIssueMethod().getIssueMethodId());
-        Manufacturer manufacturer = (Manufacturer) session.load(Manufacturer.class, item.getManufacturer().getManufacturerCode());
+        ItemBrand itemBrand = (ItemBrand) session.load(ItemBrand.class, item.getItemBrand().getBrandCode());
         SubCategory subCategory = (SubCategory) session.load(SubCategory.class, item.getSubCategory().getSubCategoryCode());
         RackSlot rackSlot = (RackSlot) session.load(RackSlot.class, item.getRackSlot().getRackSlotCode());
         Uom buyingUOM = (Uom) session.load(Uom.class, item.getUomByBuyingUom().getUomCode());
@@ -256,7 +256,7 @@ public class ItemView extends javax.swing.JInternalFrame {
         itemFrame.setIsActive(item.getIsActive() == 1);
         itemFrame.setFromBom(item.getFromBom());
         itemFrame.setRemark(item.getRemark());
-        itemFrame.setManufacturer(manufacturer.getManufacturerName());
+        itemFrame.setManufacturer(itemBrand.getBrandName());
         itemFrame.setSubCategory(subCategory.getSubCategoryName());
         itemFrame.setRackSlot(rackSlot.getRackSlotName());
         itemFrame.setBuyingUOM(buyingUOM.getUomName());

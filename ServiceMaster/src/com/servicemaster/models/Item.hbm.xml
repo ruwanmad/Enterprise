@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 11, 2017 10:24:05 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 28, 2017 12:51:12 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Item" table="item" catalog="enterprisedb" optimistic-lock="version">
         <id name="itemCode" type="string">
@@ -14,11 +14,11 @@
         <many-to-one name="item" class="com.servicemaster.models.Item" fetch="select">
             <column name="base_item" length="15" />
         </many-to-one>
+        <many-to-one name="itemBrand" class="com.servicemaster.models.ItemBrand" fetch="select">
+            <column name="item_brand_brand_code" length="15" not-null="true" />
+        </many-to-one>
         <many-to-one name="itemType" class="com.servicemaster.models.ItemType" fetch="select">
             <column name="item_type_item_type_code" length="15" not-null="true" />
-        </many-to-one>
-        <many-to-one name="manufacturer" class="com.servicemaster.models.Manufacturer" fetch="select">
-            <column name="manufacturer_manufacturer_code" length="15" />
         </many-to-one>
         <many-to-one name="rackSlot" class="com.servicemaster.models.RackSlot" fetch="select">
             <column name="rack_slot_rack_slot_code" length="15" not-null="true" />
@@ -98,11 +98,11 @@
             </key>
             <one-to-many class="com.servicemaster.models.SellingPrice" />
         </set>
-        <set name="serviceHasItems" table="service_has_item" inverse="true" lazy="true" fetch="select">
+        <set name="saleItems" table="sale_item" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="item_item_code" length="15" not-null="true" />
             </key>
-            <one-to-many class="com.servicemaster.models.ServiceHasItem" />
+            <one-to-many class="com.servicemaster.models.SaleItem" />
         </set>
         <set name="stocks" table="stock" inverse="true" lazy="true" fetch="select">
             <key>

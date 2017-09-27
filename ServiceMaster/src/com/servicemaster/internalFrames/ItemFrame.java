@@ -14,8 +14,8 @@ import com.servicemaster.functions.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.IssueMethod;
 import com.servicemaster.models.Item;
+import com.servicemaster.models.ItemBrand;
 import com.servicemaster.models.ItemType;
-import com.servicemaster.models.Manufacturer;
 import com.servicemaster.models.RackSlot;
 import com.servicemaster.models.SellingPrice;
 import com.servicemaster.models.SubCategory;
@@ -89,7 +89,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         cmbSellingUOM = new javax.swing.JComboBox<>();
         txtRemarks = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        cmbManufacturer = new javax.swing.JComboBox<>();
+        cmbBrand = new javax.swing.JComboBox<>();
         jLabel20 = new javax.swing.JLabel();
         cmbIssueMethod = new javax.swing.JComboBox<>();
         btnReset = new javax.swing.JButton();
@@ -202,9 +202,9 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         txtRemarks.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
         jLabel19.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel19.setText("Manufacturer :");
+        jLabel19.setText("Brand :");
 
-        cmbManufacturer.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cmbBrand.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
         jLabel20.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel20.setText("Issue Method :");
@@ -483,7 +483,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel19)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbManufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cmbBrand, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -570,7 +570,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel15, jLabel16, jLabel17, jLabel18, jLabel19, jLabel2, jLabel20, jLabel24, jLabel25, jLabel3, jLabel5});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbBaseItem, cmbBuyingUOM, cmbIssueMethod, cmbManufacturer, cmbRackSlot, cmbSellingUOM, txtReorderQuantity, txtSellingQuantity});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbBaseItem, cmbBrand, cmbBuyingUOM, cmbIssueMethod, cmbRackSlot, cmbSellingUOM, txtReorderQuantity, txtSellingQuantity});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCodeSerach, btnNameSearch});
 
@@ -627,7 +627,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
-                    .addComponent(cmbManufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbBrand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbBuyingUOM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -659,7 +659,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxFromBom, cbxIsActive, cbxIsPhysical, cmbBaseItem, cmbBuyingUOM, cmbIssueMethod, cmbItemType, cmbManufacturer, cmbRackSlot, cmbSellingUOM, cmbSubCategory, jLabel1, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18, jLabel19, jLabel2, jLabel20, jLabel24, jLabel25, jLabel3, jLabel5, jLabel6, jLabel7, jLabel8, txtItemCode, txtItemName, txtReorderQuantity, txtSellingQuantity});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxFromBom, cbxIsActive, cbxIsPhysical, cmbBaseItem, cmbBrand, cmbBuyingUOM, cmbIssueMethod, cmbItemType, cmbRackSlot, cmbSellingUOM, cmbSubCategory, jLabel1, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18, jLabel19, jLabel2, jLabel20, jLabel24, jLabel25, jLabel3, jLabel5, jLabel6, jLabel7, jLabel8, txtItemCode, txtItemName, txtReorderQuantity, txtSellingQuantity});
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCodeSerach, btnNameSearch});
 
@@ -677,10 +677,10 @@ public class ItemFrame extends javax.swing.JInternalFrame {
             cmbIssueMethod.addItem(issueMethod.getIssueMethodCode());
         }
 
-        Criteria manufactrerCriteria = session.createCriteria(Manufacturer.class).addOrder(Order.asc("manufacturerCode"));
-        List<Manufacturer> manufacturers = manufactrerCriteria.list();
-        for (Manufacturer manufacturer : manufacturers) {
-            cmbManufacturer.addItem(manufacturer.getManufacturerName());
+        Criteria ItemBrandCriteria = session.createCriteria(ItemBrand.class).addOrder(Order.asc("brandCode"));
+        List<ItemBrand> itemBrands = ItemBrandCriteria.list();
+        for (ItemBrand manufacturer : itemBrands) {
+            cmbBrand.addItem(manufacturer.getBrandName());
         }
 
         Criteria subCategoryCriteria = session.createCriteria(SubCategory.class).addOrder(Order.asc("subCategoryCode"));
@@ -899,7 +899,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         cbxIsPhysical.setSelected(true);
         cbxFromBom.setSelected(false);
 
-        cmbManufacturer.setSelectedIndex(0);
+        cmbBrand.setSelectedIndex(0);
         cmbSubCategory.setSelectedIndex(0);
         cmbRackSlot.setSelectedIndex(0);
         cmbBuyingUOM.setSelectedIndex(0);
@@ -977,9 +977,9 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                 .add(Restrictions.eq("issueMethodCode", cmbIssueMethod.getSelectedItem().toString()))
                 .uniqueResult();
 
-        Manufacturer manufacturer = (Manufacturer) session
-                .createCriteria(Manufacturer.class)
-                .add(Restrictions.eq("manufacturerName", cmbManufacturer.getSelectedItem().toString()))
+        ItemBrand itemBrand = (ItemBrand) session
+                .createCriteria(ItemBrand.class)
+                .add(Restrictions.eq("brandName", cmbBrand.getSelectedItem().toString()))
                 .uniqueResult();
 
         SubCategory subCategory = (SubCategory) session
@@ -1014,13 +1014,13 @@ public class ItemFrame extends javax.swing.JInternalFrame {
 
         Item item = new Item();
         item.setItemCode(strItemCode);
-        if (manufacturer.getManufacturerName().equalsIgnoreCase("NONE")) {
+        if (itemBrand.getBrandName().equalsIgnoreCase("NONE")) {
             item.setItemName(txtItemName.getText().trim().toUpperCase());
         } else {
             if (bUpdate) {
                 item.setItemName(txtItemName.getText().trim().toUpperCase());
             } else {
-                item.setItemName(manufacturer.getManufacturerName().toUpperCase() + " - " + txtItemName.getText().trim().toUpperCase());
+                item.setItemName(itemBrand.getBrandName().toUpperCase() + " - " + txtItemName.getText().trim().toUpperCase());
             }
         }
 
@@ -1034,7 +1034,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         item.setCreatedUser(MainFrame.user.getUserId());
         item.setRemark(txtRemarks.getText().trim().toUpperCase());
         item.setIssueMethod((IssueMethod) session.load(IssueMethod.class, issueMethod.getIssueMethodId()));
-        item.setManufacturer((Manufacturer) session.load(Manufacturer.class, manufacturer.getManufacturerCode()));
+        item.setItemBrand((ItemBrand) session.load(ItemBrand.class, itemBrand.getBrandCode()));
         item.setSubCategory((SubCategory) session.load(SubCategory.class, subCategory.getSubCategoryCode()));
         item.setRackSlot((RackSlot) session.load(RackSlot.class, rackSlot.getRackSlotCode()));
         item.setUomByBuyingUom((Uom) session.load(Uom.class, buyingUom.getUomCode()));
@@ -1126,7 +1126,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
     }
 
     public void setManufacturer(String manufacturer) {
-        this.cmbManufacturer.setSelectedItem(manufacturer);
+        this.cmbBrand.setSelectedItem(manufacturer);
     }
 
     public void setSubCategory(String subCategory) {
@@ -1196,10 +1196,10 @@ public class ItemFrame extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox cbxIsActive;
     private javax.swing.JCheckBox cbxIsPhysical;
     private javax.swing.JComboBox<String> cmbBaseItem;
+    private javax.swing.JComboBox<String> cmbBrand;
     private javax.swing.JComboBox<String> cmbBuyingUOM;
     private javax.swing.JComboBox<String> cmbIssueMethod;
     private javax.swing.JComboBox<String> cmbItemType;
-    private javax.swing.JComboBox<String> cmbManufacturer;
     private javax.swing.JComboBox<String> cmbRackSlot;
     private javax.swing.JComboBox<String> cmbSellingUOM;
     private javax.swing.JComboBox<String> cmbSubCategory;

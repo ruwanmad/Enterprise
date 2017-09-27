@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 11, 2017 10:24:05 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 28, 2017 12:51:12 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.SubCategory" table="sub_category" catalog="enterprisedb" optimistic-lock="version">
         <id name="subCategoryCode" type="string">

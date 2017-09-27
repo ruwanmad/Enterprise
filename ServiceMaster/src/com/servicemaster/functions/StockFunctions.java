@@ -8,8 +8,8 @@ package com.servicemaster.functions;
 import com.servicemaster.models.Bom;
 import com.servicemaster.models.BomItem;
 import com.servicemaster.models.Item;
-import com.servicemaster.models.Service;
-import com.servicemaster.models.ServiceHasItem;
+import com.servicemaster.models.Sale;
+import com.servicemaster.models.SaleItem;
 import com.servicemaster.models.Stock;
 import com.servicemaster.models.Uom;
 import com.servicemaster.models.UomConversion;
@@ -31,20 +31,20 @@ public class StockFunctions {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
-        Service service = (Service) session
-                .createCriteria(Service.class)
+        Sale sale = (Sale) session
+                .createCriteria(Sale.class)
                 .add(Restrictions.eq("serviceCode", serviceCode))
                 .uniqueResult();
 
-        if (service != null) {
-            List<ServiceHasItem> serviceHasItems = session
-                    .createCriteria(ServiceHasItem.class)
-                    .add(Restrictions.eq("service", service))
+        if (sale != null) {
+            List<SaleItem> saleItems = session
+                    .createCriteria(SaleItem.class)
+                    .add(Restrictions.eq("service", sale))
                     .list();
 
-            if (!serviceHasItems.isEmpty()) {
-                for (ServiceHasItem serviceHasItem : serviceHasItems) {
-                    Item item = (Item) session.load(Item.class, serviceHasItem.getItem().getItemCode());
+            if (!saleItems.isEmpty()) {
+                for (SaleItem saleItem : saleItems) {
+                    Item item = (Item) session.load(Item.class, saleItem.getItem().getItemCode());
                     if (item != null) {
                         Set<Bom> boms = item.getBoms();
 
@@ -59,7 +59,7 @@ public class StockFunctions {
                                  * If item does not have a base item
                                  */
                                 if (baseItem == null) {
-                                    float serviceQuantity = serviceHasItem.getQuantity();
+                                    float serviceQuantity = saleItem.getQuantity();
                                     float itemQuantity = item.getItemQuantity();
 
                                     float soldQuantity = serviceQuantity * itemQuantity;
@@ -99,7 +99,7 @@ public class StockFunctions {
                                      * UOM equals
                                      */
                                     if (itemSellingUom == baseItemSellingUom) {
-                                        float soldQuantity = item.getItemQuantity() * serviceHasItem.getQuantity();
+                                        float soldQuantity = item.getItemQuantity() * saleItem.getQuantity();
 
                                         List<Stock> stocks = session
                                                 .createCriteria(Stock.class)
@@ -139,7 +139,7 @@ public class StockFunctions {
                                             float multipliedBy = uomConversion.getMultipliedBy();
                                             float itemQuantity = item.getItemQuantity();
 
-                                            float soldQuantity = (itemQuantity * serviceHasItem.getQuantity()) * multipliedBy;
+                                            float soldQuantity = (itemQuantity * saleItem.getQuantity()) * multipliedBy;
 
                                             List<Stock> stocks = session
                                                     .createCriteria(Stock.class)
@@ -172,7 +172,7 @@ public class StockFunctions {
                          * If item has a BOM
                          */
                         else {
-                            this.processBomItems(boms, serviceHasItem, session);
+                            this.processBomItems(boms, saleItem, session);
                         }
                     }
                 }
@@ -183,7 +183,7 @@ public class StockFunctions {
         session.close();
     }
 
-    private void processBomItems(Set<Bom> parmBoms, ServiceHasItem serviceHasItem, Session session) {
+    private void processBomItems(Set<Bom> parmBoms, SaleItem saleItem, Session session) {
         for (Bom bom : parmBoms) {
             List<BomItem> bomItems = session
                     .createCriteria(BomItem.class)
@@ -208,7 +208,7 @@ public class StockFunctions {
                                  * If item does not have a base item
                                  */
                                 if (baseItem == null) {
-                                    float serviceQuantity = serviceHasItem.getQuantity();
+                                    float serviceQuantity = saleItem.getQuantity();
                                     float itemQuantity = item.getItemQuantity();
 
                                     float soldQuantity = serviceQuantity * itemQuantity;
@@ -248,7 +248,7 @@ public class StockFunctions {
                                      * UOM equals
                                      */
                                     if (itemSellingUom == baseItemSellingUom) {
-                                        float soldQuantity = item.getItemQuantity() * serviceHasItem.getQuantity();
+                                        float soldQuantity = item.getItemQuantity() * saleItem.getQuantity();
 
                                         List<Stock> stocks = session
                                                 .createCriteria(Stock.class)
@@ -288,7 +288,7 @@ public class StockFunctions {
                                             float multipliedBy = uomConversion.getMultipliedBy();
                                             float itemQuantity = item.getItemQuantity();
 
-                                            float soldQuantity = (itemQuantity * serviceHasItem.getQuantity()) * multipliedBy;
+                                            float soldQuantity = (itemQuantity * saleItem.getQuantity()) * multipliedBy;
 
                                             List<Stock> stocks = session
                                                     .createCriteria(Stock.class)
@@ -321,7 +321,7 @@ public class StockFunctions {
                          * If item has a BOM
                          */
                         else {
-                            this.processBomItems(boms, serviceHasItem, session);
+                            this.processBomItems(boms, saleItem, session);
                         }
                     }
                 }

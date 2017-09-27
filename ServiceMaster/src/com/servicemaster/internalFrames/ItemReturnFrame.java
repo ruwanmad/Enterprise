@@ -13,9 +13,9 @@ import com.servicemaster.functions.AutoCompletion;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Item;
-import com.servicemaster.models.Service;
-import com.servicemaster.models.ServiceHasItem;
-import com.servicemaster.models.ServiceHasItemStatus;
+import com.servicemaster.models.Sale;
+import com.servicemaster.models.SaleItem;
+import com.servicemaster.models.SaleItemStatus;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -379,21 +379,21 @@ public class ItemReturnFrame extends javax.swing.JInternalFrame {
                 .uniqueResult();
 
         if (invoice != null) {
-            List<ServiceHasItem> serviceItems = session
-                    .createCriteria(ServiceHasItem.class)
+            List<SaleItem> saleItems = session
+                    .createCriteria(SaleItem.class)
                     .createAlias("item", "item")
-                    .add(Restrictions.eq("service", invoice.getService()))
+                    .add(Restrictions.eq("sale", invoice.getSale()))
                     .add(Restrictions.eq("item.isPhysical", 1))
                     .list();
 
-            if (!serviceItems.isEmpty()) {
+            if (!saleItems.isEmpty()) {
                 DefaultTableModel tableModel = (DefaultTableModel) tblServiceItems.getModel();
                 tableModel.setRowCount(0);
-                for (ServiceHasItem serviceItem : serviceItems) {
-                    String itemCode = serviceItem.getItem().getItemCode();
-                    String itemName = serviceItem.getItem().getItemName();
-                    float quantity = serviceItem.getQuantity();
-                    float totalAmount = serviceItem.getSubTotal();
+                for (SaleItem saleItem : saleItems) {
+                    String itemCode = saleItem.getItem().getItemCode();
+                    String itemName = saleItem.getItem().getItemName();
+                    float quantity = saleItem.getQuantity();
+                    float totalAmount = saleItem.getSubTotal();
 
                     tableModel.addRow(new Object[]{itemCode, itemName, quantity, totalAmount});
                 }
@@ -405,20 +405,20 @@ public class ItemReturnFrame extends javax.swing.JInternalFrame {
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Session session = HibernateUtil.getSessionFactory().openSession();
-        List<ServiceHasItem> serviceHasItems = session
-                .createCriteria(ServiceHasItem.class)
-                .createAlias("service", "service")
+        List<SaleItem> saleItems = session
+                .createCriteria(SaleItem.class)
+                .createAlias("sale", "sale")
                 .createAlias("item", "item")
                 .add(Restrictions.eq("item.isPhysical", 1))
                 .list();
 
-        if (!serviceHasItems.isEmpty()) {
+        if (!saleItems.isEmpty()) {
             cmbInvoices.removeAllItems();
             cmbInvoices.addItem("");
-            for (ServiceHasItem serviceHasItem : serviceHasItems) {
+            for (SaleItem saleItem : saleItems) {
                 Invoice invoice = (Invoice) session
                         .createCriteria(Invoice.class)
-                        .add(Restrictions.eq("service", serviceHasItem.getService()))
+                        .add(Restrictions.eq("sale", saleItem.getSale()))
                         .uniqueResult();
                 cmbInvoices.addItem(invoice.getInvoiceNumber());
             }
@@ -453,60 +453,60 @@ public class ItemReturnFrame extends javax.swing.JInternalFrame {
                     .add(Restrictions.eq("invoiceNumber", strInvoiceNumber))
                     .uniqueResult();
 
-            ServiceHasItem serviceHasItem = (ServiceHasItem) session
-                    .createCriteria(ServiceHasItem.class)
+            SaleItem saleItem = (SaleItem) session
+                    .createCriteria(SaleItem.class)
                     .createAlias("item", "item")
-                    .add(Restrictions.eq("service", invoice.getService()))
+                    .add(Restrictions.eq("sale", invoice.getSale()))
                     .add(Restrictions.eq("item.itemName", strItemName))
                     .uniqueResult();
 
-            ServiceHasItemStatus serviceHasItemStatus = (ServiceHasItemStatus) session
-                    .createCriteria(ServiceHasItemStatus.class)
+            SaleItemStatus saleItemStatus = (SaleItemStatus) session
+                    .createCriteria(SaleItemStatus.class)
                     .add(Restrictions.eq("itemStatusId", 2))
                     .uniqueResult();
 
-            float fExtQty = serviceHasItem.getQuantity();
+            float fExtQty = saleItem.getQuantity();
 
             if (fExtQty == fCanceledQty) {
-                serviceHasItem.setRemark(strReason);
-                serviceHasItem.setServiceHasItemStatus(serviceHasItemStatus);
-                serviceHasItem.setModifiedDate(date);
-                serviceHasItem.setModifiedTime(date);
-                serviceHasItem.setModifiedUser(MainFrame.user.getUserId());
+                saleItem.setRemark(strReason);
+                saleItem.setSaleItemStatus(saleItemStatus);
+                saleItem.setModifiedDate(date);
+                saleItem.setModifiedTime(date);
+                saleItem.setModifiedUser(MainFrame.user.getUserId());
 
-                session.saveOrUpdate(serviceHasItem);
+                session.saveOrUpdate(saleItem);
             } else if (fExtQty > fCanceledQty) {
                 float fRemains = fExtQty - fCanceledQty;
 
-                serviceHasItem.setQuantity(fRemains);
-                serviceHasItem.setModifiedDate(date);
-                serviceHasItem.setModifiedTime(date);
-                serviceHasItem.setModifiedUser(MainFrame.user.getUserId());
+                saleItem.setQuantity(fRemains);
+                saleItem.setModifiedDate(date);
+                saleItem.setModifiedTime(date);
+                saleItem.setModifiedUser(MainFrame.user.getUserId());
 
-                session.saveOrUpdate(serviceHasItem);
+                session.saveOrUpdate(saleItem);
 
                 Item item = (Item) session
                         .createCriteria(Item.class)
                         .add(Restrictions.eq("itemName", strItemName))
                         .uniqueResult();
 
-                Service service = (Service) session
-                        .createCriteria(Service.class)
-                        .add(Restrictions.eq("serviceCode", invoice.getService().getServiceCode()))
+                Sale sale = (Sale) session
+                        .createCriteria(Sale.class)
+                        .add(Restrictions.eq("serviceCode", invoice.getSale().getSaleCode()))
                         .uniqueResult();
 
-                ServiceHasItem canceledServiceHasItem = new ServiceHasItem();
-                canceledServiceHasItem.setItem(item);
-                canceledServiceHasItem.setService(service);
-                canceledServiceHasItem.setDiscount(0.0f);
-                canceledServiceHasItem.setQuantity(fCanceledQty);
-                canceledServiceHasItem.setRemark(strReason);
-                canceledServiceHasItem.setSubTotal(fExtQty);
-                canceledServiceHasItem.setTotal(fExtQty);
-                canceledServiceHasItem.setUnitPrice(fRemains);
-                canceledServiceHasItem.setCreatedDate(date);
-                canceledServiceHasItem.setCreatedTime(date);
-                canceledServiceHasItem.setCreatedUser(MainFrame.user.getUserId());
+                SaleItem canceledSaleItem = new SaleItem();
+                canceledSaleItem.setItem(item);
+                canceledSaleItem.setSale(sale);
+                canceledSaleItem.setDiscount(0.0f);
+                canceledSaleItem.setQuantity(fCanceledQty);
+                canceledSaleItem.setRemark(strReason);
+                canceledSaleItem.setSubTotal(fExtQty);
+                canceledSaleItem.setTotal(fExtQty);
+                canceledSaleItem.setUnitPrice(fRemains);
+                canceledSaleItem.setCreatedDate(date);
+                canceledSaleItem.setCreatedTime(date);
+                canceledSaleItem.setCreatedUser(MainFrame.user.getUserId());
             } else {
                 InformationDialog.showMessageBox("Cancel quantity must be less than or equal saled quantity", "Wrong", this);
             }
@@ -517,7 +517,7 @@ public class ItemReturnFrame extends javax.swing.JInternalFrame {
             InformationDialog.showMessageBox("Updated successfully", "Success", this);
 
             this.clearAll(false);
-            
+
             this.loadServicHasItems(strInvoiceNumber);
         } else {
             InformationDialog.showMessageBox("Please select valid item", "Invalid", this);

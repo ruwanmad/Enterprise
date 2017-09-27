@@ -19,12 +19,12 @@ import com.servicemaster.models.BomItem;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.ItemType;
+import com.servicemaster.models.Sale;
+import com.servicemaster.models.SaleItem;
+import com.servicemaster.models.SaleItemStatus;
+import com.servicemaster.models.SaleStatus;
 import com.servicemaster.models.SellingPrice;
-import com.servicemaster.models.Service;
 import com.servicemaster.models.ServiceBay;
-import com.servicemaster.models.ServiceHasItem;
-import com.servicemaster.models.ServiceHasItemStatus;
-import com.servicemaster.models.ServiceStatus;
 import com.servicemaster.models.Vehicle;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.event.KeyEvent;
@@ -631,35 +631,35 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                 .add(Restrictions.eq("vehicleCode", "VEH1000"))
                 .uniqueResult();
 
-        ServiceHasItemStatus itemStatus = (ServiceHasItemStatus) session
-                .createCriteria(ServiceHasItemStatus.class)
+        SaleItemStatus itemStatus = (SaleItemStatus) session
+                .createCriteria(SaleItemStatus.class)
                 .add(Restrictions.eq("itemStatusId", 1))
                 .uniqueResult();
 
-        ServiceStatus serviceStatus = (ServiceStatus) session
-                .createCriteria(ServiceStatus.class)
+        SaleStatus saleStatus = (SaleStatus) session
+                .createCriteria(SaleStatus.class)
                 .add(Restrictions.eq("statusId", 5))
                 .uniqueResult();
 
-        Service service = new Service();
-        service.setServiceCode(serviceCode);
-        service.setMilage(0.0f);
-        service.setSubTotal(grandSubTotal);
-        service.setDiscount(grandDiscount);
-        service.setGrandTotal(grandTotal);
+        Sale sale = new Sale();
+        sale.setSaleCode(serviceCode);
+        sale.setMilage(0.0f);
+        sale.setSubTotal(grandSubTotal);
+        sale.setDiscount(grandDiscount);
+        sale.setGrandTotal(grandTotal);
         if (grandDiscount > 0.0) {
-            service.setDiscounted(1);
+            sale.setDiscounted(1);
         } else {
-            service.setDiscounted(0);
+            sale.setDiscounted(0);
         }
-        service.setCreatedDate(date);
-        service.setCreatedTime(date);
-        service.setCreatedUser(MainFrame.user.getUserId());
-        service.setServiceBay(serviceBay);
-        service.setVehicle(vehicle);
-        service.setServiceStatus(serviceStatus);
+        sale.setCreatedDate(date);
+        sale.setCreatedTime(date);
+        sale.setCreatedUser(MainFrame.user.getUserId());
+        sale.setServiceBay(serviceBay);
+        sale.setVehicle(vehicle);
+        sale.setSaleStatus(saleStatus);
 
-        session.saveOrUpdate(service);
+        session.saveOrUpdate(sale);
 
         DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
         for (int i = 0; i < tableModel.getRowCount(); i++) {
@@ -670,29 +670,29 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             float discount = (float) tblItems.getValueAt(i, 5);
             float itemTotal = (float) tblItems.getValueAt(i, 6);
 
-            ServiceHasItem serviceHasItem = new ServiceHasItem();
-            serviceHasItem.setItem(itemMap.get(itemName));
-            serviceHasItem.setService(service);
-            serviceHasItem.setUnitPrice(unitPrice);
-            serviceHasItem.setQuantity(quantity);
-            serviceHasItem.setSubTotal(subTotal);
-            serviceHasItem.setDiscount(discount);
-            serviceHasItem.setTotal(itemTotal);
-            serviceHasItem.setServiceHasItemStatus(itemStatus);
-            serviceHasItem.setCreatedDate(date);
-            serviceHasItem.setCreatedTime(date);
-            serviceHasItem.setCreatedUser(MainFrame.user.getUserId());
-            serviceHasItem.setRemark(itemName);
+            SaleItem saleItem = new SaleItem();
+            saleItem.setItem(itemMap.get(itemName));
+            saleItem.setSale(sale);
+            saleItem.setUnitPrice(unitPrice);
+            saleItem.setQuantity(quantity);
+            saleItem.setSubTotal(subTotal);
+            saleItem.setDiscount(discount);
+            saleItem.setTotal(itemTotal);
+            saleItem.setSaleItemStatus(itemStatus);
+            saleItem.setCreatedDate(date);
+            saleItem.setCreatedTime(date);
+            saleItem.setCreatedUser(MainFrame.user.getUserId());
+            saleItem.setRemark(itemName);
 
-            session.saveOrUpdate(serviceHasItem);
+            session.saveOrUpdate(saleItem);
         }
 
         session.getTransaction().commit();
         session.close();
         
-        Invoice invoice = this.generateInvoice(service);
+        Invoice invoice = this.generateInvoice(sale);
         
-        SettlementDialog settlementDialog = new SettlementDialog(null, true, service, invoice, this.serviceStatusMap);
+        SettlementDialog settlementDialog = new SettlementDialog(null, true, sale, invoice, this.saleStatusMap);
         settlementDialog.setVisible(true);
     }//GEN-LAST:event_btnSettleActionPerformed
 
@@ -864,7 +864,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
-    private Invoice generateInvoice(Service service) {
+    private Invoice generateInvoice(Sale sale) {
         KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
         String invoiceCode = keyCodeFunctions.getKey("INV", "Invoices");
         Date date = new Date();
@@ -872,7 +872,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
-        Invoice invoice = new Invoice(invoiceCode, service);
+        Invoice invoice = new Invoice(invoiceCode, sale);
         invoice.setCreatedDate(date);
         invoice.setCreatedTime(date);
         invoice.setCreatedUser(MainFrame.user.getUserId());
@@ -882,9 +882,9 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         Set invoices = new HashSet();
         invoices.add(invoice);
 
-        service.setInvoices(invoices);
+        sale.setInvoices(invoices);
 
-        session.saveOrUpdate(service);
+        session.saveOrUpdate(sale);
 
         transaction.commit();
         session.close();
@@ -896,7 +896,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             String reportFile = "reports/invoice.jasper";
 
             Map map = new HashMap();
-            map.put("serviceCode", service.getServiceCode());
+            map.put("serviceCode", sale.getSaleCode());
 
             try {
                 JasperPrint jasperPrint = JasperFillManager.fillReport(reportFile, map, connection);
@@ -934,14 +934,14 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     }
     
     private void loadServiceStatus(Session session) {
-        Query query = session.createQuery("from ServiceStatus ss order by ss.statusId");
+        Query query = session.createQuery("from SaleStatus ss order by ss.statusId");
         List list = query.list();
         if (!list.isEmpty()) {
             for (Object object : list) {
-                if (object instanceof ServiceStatus) {
-                    ServiceStatus serviceStatus = (ServiceStatus) object;
+                if (object instanceof SaleStatus) {
+                    SaleStatus serviceStatus = (SaleStatus) object;
                     String description = serviceStatus.getStatusDescription();
-                    serviceStatusMap.put(description, serviceStatus);
+                    saleStatusMap.put(description, serviceStatus);
                 }
             }
         }
@@ -1054,7 +1054,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField txtQuantity;
     // End of variables declaration//GEN-END:variables
     private final TreeMap<String, Item> itemMap = new TreeMap<>();
-    private final TreeMap<String, ServiceStatus> serviceStatusMap = new TreeMap<>();
+    private final TreeMap<String, SaleStatus> saleStatusMap = new TreeMap<>();
 
     private float grandSubTotal = 0.0f;
     private float grandTotal = 0.0f;

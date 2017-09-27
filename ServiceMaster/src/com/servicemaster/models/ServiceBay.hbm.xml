@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 11, 2017 10:24:05 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 28, 2017 12:51:12 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.ServiceBay" table="service_bay" catalog="enterprisedb" optimistic-lock="version">
         <id name="serviceBayCode" type="string">
@@ -35,11 +35,11 @@
         <property name="remark" type="string">
             <column name="remark" length="100" />
         </property>
-        <set name="services" table="service" inverse="true" lazy="true" fetch="select">
+        <set name="sales" table="sale" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="service_bay_service_bay_code" length="15" not-null="true" />
             </key>
-            <one-to-many class="com.servicemaster.models.Service" />
+            <one-to-many class="com.servicemaster.models.Sale" />
         </set>
     </class>
 </hibernate-mapping>
