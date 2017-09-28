@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 28, 2017 12:51:04 AM by Hibernate Tools 4.3.1
+// Generated Sep 28, 2017 11:58:01 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -16,6 +16,7 @@ public class Account  implements java.io.Serializable {
      private BusinessPartner businessPartner;
      private SubAccount subAccount;
      private String description;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -33,11 +34,12 @@ public class Account  implements java.io.Serializable {
         this.accountCode = accountCode;
         this.subAccount = subAccount;
     }
-    public Account(String accountCode, BusinessPartner businessPartner, SubAccount subAccount, String description, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set accountPostings) {
+    public Account(String accountCode, BusinessPartner businessPartner, SubAccount subAccount, String description, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set accountPostings) {
        this.accountCode = accountCode;
        this.businessPartner = businessPartner;
        this.subAccount = subAccount;
        this.description = description;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -75,6 +77,13 @@ public class Account  implements java.io.Serializable {
     
     public void setDescription(String description) {
         this.description = description;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;

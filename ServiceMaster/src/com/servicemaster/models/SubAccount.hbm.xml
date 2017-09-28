@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 28, 2017 12:51:12 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Sep 28, 2017 11:58:09 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.SubAccount" table="sub_account" catalog="enterprisedb" optimistic-lock="version">
         <id name="code" type="string">
@@ -13,6 +13,9 @@
         </many-to-one>
         <property name="description" type="string">
             <column name="description" length="45" />
+        </property>
+        <property name="isActive" type="java.lang.Integer">
+            <column name="isActive" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />

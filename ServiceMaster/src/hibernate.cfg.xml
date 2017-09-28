@@ -88,8 +88,8 @@ Contributor(s):
     <mapping resource="com/servicemaster/models/Stock.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Storage.hbm.xml"/>
     <mapping resource="com/servicemaster/models/BusinessPartner.hbm.xml"/>
-    <mapping resource="com/servicemaster/models/PaymentType.hbm.xml"/>
     <mapping resource="com/servicemaster/models/SubCategory.hbm.xml"/>
+    <mapping resource="com/servicemaster/models/PaymentType.hbm.xml"/>
     <mapping resource="com/servicemaster/models/SaleItem.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Category.hbm.xml"/>
   </session-factory>
