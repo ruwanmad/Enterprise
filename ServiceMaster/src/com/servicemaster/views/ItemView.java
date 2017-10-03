@@ -240,7 +240,10 @@ public class ItemView extends javax.swing.JInternalFrame {
         Transaction transaction = session.beginTransaction();
         
         IssueMethod issueMethod = (IssueMethod) session.load(IssueMethod.class, item.getIssueMethod().getIssueMethodId());
-        ItemBrand itemBrand = (ItemBrand) session.load(ItemBrand.class, item.getItemBrand().getBrandCode());
+        if (item.getItemBrand() != null) {
+            ItemBrand itemBrand = (ItemBrand) session.load(ItemBrand.class, item.getItemBrand().getBrandCode());
+            itemFrame.setItemBrand(itemBrand.getBrandName());
+        }
         SubCategory subCategory = (SubCategory) session.load(SubCategory.class, item.getSubCategory().getSubCategoryCode());
         RackSlot rackSlot = (RackSlot) session.load(RackSlot.class, item.getRackSlot().getRackSlotCode());
         Uom buyingUOM = (Uom) session.load(Uom.class, item.getUomByBuyingUom().getUomCode());
@@ -256,7 +259,6 @@ public class ItemView extends javax.swing.JInternalFrame {
         itemFrame.setIsActive(item.getIsActive() == 1);
         itemFrame.setFromBom(item.getFromBom());
         itemFrame.setRemark(item.getRemark());
-        itemFrame.setManufacturer(itemBrand.getBrandName());
         itemFrame.setSubCategory(subCategory.getSubCategoryName());
         itemFrame.setRackSlot(rackSlot.getRackSlotName());
         itemFrame.setBuyingUOM(buyingUOM.getUomName());

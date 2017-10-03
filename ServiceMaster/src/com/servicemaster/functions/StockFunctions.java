@@ -27,19 +27,19 @@ import org.hibernate.criterion.Restrictions;
  */
 public class StockFunctions {
 
-    public void reduceSaledStoke(String serviceCode) {
+    public void reduceSaledStoke(String saleCode) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
         Sale sale = (Sale) session
                 .createCriteria(Sale.class)
-                .add(Restrictions.eq("serviceCode", serviceCode))
+                .add(Restrictions.eq("saleCode", saleCode))
                 .uniqueResult();
 
         if (sale != null) {
             List<SaleItem> saleItems = session
                     .createCriteria(SaleItem.class)
-                    .add(Restrictions.eq("service", sale))
+                    .add(Restrictions.eq("sale", sale))
                     .list();
 
             if (!saleItems.isEmpty()) {
@@ -53,12 +53,10 @@ public class StockFunctions {
                          */
                         if (boms.isEmpty()) {
                             if (item.getIsPhysical() == 1) {
-                                Item baseItem = (Item) session.load(Item.class, item.getItem().getItemCode());
-
                                 /**
                                  * If item does not have a base item
                                  */
-                                if (baseItem == null) {
+                                if (item.getItem() == null) {
                                     float serviceQuantity = saleItem.getQuantity();
                                     float itemQuantity = item.getItemQuantity();
 
@@ -91,6 +89,8 @@ public class StockFunctions {
                                  * If item has a base item
                                  */
                                 else {
+                                    Item baseItem = (Item) session.load(Item.class, item.getItem().getItemCode());
+                                    
                                     Uom itemSellingUom = (Uom) session.load(Uom.class, item.getUomBySellingUom().getUomCode());
                                     Uom baseItemSellingUom = (Uom) session.load(Uom.class, baseItem.getUomBySellingUom().getUomCode());
 
@@ -202,12 +202,10 @@ public class StockFunctions {
                          */
                         if (boms.isEmpty()) {
                             if (item.getIsPhysical() == 1) {
-                                Item baseItem = (Item) session.load(Item.class, item.getItem().getItemCode());
-
                                 /**
                                  * If item does not have a base item
                                  */
-                                if (baseItem == null) {
+                                if (item.getItem() == null) {
                                     float serviceQuantity = saleItem.getQuantity();
                                     float itemQuantity = item.getItemQuantity();
 
@@ -240,6 +238,8 @@ public class StockFunctions {
                                  * If item has a base item
                                  */
                                 else {
+                                    Item baseItem = (Item) session.load(Item.class, item.getItem().getItemCode());
+                                    
                                     Uom itemSellingUom = (Uom) session.load(Uom.class, item.getUomBySellingUom().getUomCode());
                                     Uom baseItemSellingUom = (Uom) session.load(Uom.class, baseItem.getUomBySellingUom().getUomCode());
 

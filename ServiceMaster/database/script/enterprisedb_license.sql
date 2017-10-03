@@ -16,6 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `license`
+--
+
+DROP TABLE IF EXISTS `license`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `license` (
+  `id` int(11) NOT NULL,
+  `company_name` varchar(150) DEFAULT NULL,
+  `address_line1` varchar(100) DEFAULT NULL,
+  `address_line2` varchar(100) DEFAULT NULL,
+  `address_line3` varchar(100) DEFAULT NULL,
+  `telephone` varchar(15) DEFAULT NULL,
+  `fax` varchar(15) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `web` varchar(45) DEFAULT NULL,
+  `vat_number` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `license`
 --
 
@@ -34,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-28  0:13:11
+-- Dump completed on 2017-10-04  1:24:28

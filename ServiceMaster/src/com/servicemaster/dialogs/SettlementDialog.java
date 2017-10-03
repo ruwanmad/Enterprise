@@ -5,26 +5,28 @@
  */
 package com.servicemaster.dialogs;
 
+import com.servicemaster.accounts.PostAccounts;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.forms.MainFrame;
-import com.servicemaster.functions.KeyCodeFunctions;
+import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.functions.StockFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.listners.PaymentButtonActionListners;
 import com.servicemaster.listners.PaymentButtonMouseListners;
+import com.servicemaster.models.Account;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Payment;
 import com.servicemaster.models.PaymentType;
 import com.servicemaster.models.Sale;
 import com.servicemaster.models.SaleStatus;
 import com.servicemaster.panels.CashSettlePanel;
+import com.servicemaster.panels.ChequeSettlePanel;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.Date;
 import java.util.List;
-import java.util.TreeMap;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -34,6 +36,7 @@ import javax.swing.SwingUtilities;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -43,7 +46,6 @@ public class SettlementDialog extends javax.swing.JDialog {
 
     private final Sale sale;
     private final Invoice invoice;
-    private final TreeMap<String, SaleStatus> saleStatusMap;
 
     /**
      * Creates new form PaymentDialog
@@ -52,14 +54,12 @@ public class SettlementDialog extends javax.swing.JDialog {
      * @param modal
      * @param sale
      * @param invoice
-     * @param saleStatusMap
      */
-    public SettlementDialog(java.awt.Frame parent, boolean modal, Sale sale, Invoice invoice, TreeMap<String, SaleStatus> saleStatusMap) {
+    public SettlementDialog(java.awt.Frame parent, boolean modal, Sale sale, Invoice invoice) {
         super(parent, modal);
         initComponents();
         this.sale = sale;
         this.invoice = invoice;
-        this.saleStatusMap = saleStatusMap;
     }
 
     /**
@@ -75,8 +75,8 @@ public class SettlementDialog extends javax.swing.JDialog {
         toolBar = new javax.swing.JToolBar();
         panelToolBar = new javax.swing.JPanel();
         panelWindow = new javax.swing.JPanel();
-        btnSettle = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
+        btnSettle = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -93,26 +93,6 @@ public class SettlementDialog extends javax.swing.JDialog {
         toolBar.add(panelToolBar);
 
         panelWindow.setLayout(new java.awt.BorderLayout());
-
-        btnSettle.setBackground(new java.awt.Color(150, 255, 150));
-        btnSettle.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        btnSettle.setText("Settle");
-        btnSettle.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
-        btnSettle.setContentAreaFilled(false);
-        btnSettle.setOpaque(true);
-        btnSettle.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnSettleMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnSettleMouseExited(evt);
-            }
-        });
-        btnSettle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSettleActionPerformed(evt);
-            }
-        });
 
         btnClose.setBackground(new java.awt.Color(150, 255, 150));
         btnClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
@@ -134,27 +114,45 @@ public class SettlementDialog extends javax.swing.JDialog {
             }
         });
 
+        btnSettle.setBackground(new java.awt.Color(150, 255, 150));
+        btnSettle.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnSettle.setText("Settle");
+        btnSettle.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnSettle.setContentAreaFilled(false);
+        btnSettle.setOpaque(true);
+        btnSettle.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSettleMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSettleMouseExited(evt);
+            }
+        });
+        btnSettle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSettleActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addComponent(panelWindow, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addComponent(panelWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelWindow, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelWindow, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -170,7 +168,7 @@ public class SettlementDialog extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -238,20 +236,29 @@ public class SettlementDialog extends javax.swing.JDialog {
             KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
             String paymentCode = keyCodeFunctions.getKey("PAY", "Payment");
 
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
             Payment payment = new Payment(paymentCode, invoice, new PaymentType(cashSettlePanel.getPaymentTypeCode()));
             if (balanceAmount < 0) {
                 payment.setAmount(nowPayingAmount);
-                sale.setSaleStatus(this.saleStatusMap.get("PARTIALLY PAID"));
+
+                SaleStatus saleStatus = (SaleStatus) session
+                        .createCriteria(SaleStatus.class)
+                        .add(Restrictions.eq("statusDescription", "PARTIALLY PAID"))
+                        .uniqueResult();
+                sale.setSaleStatus(saleStatus);
             } else {
                 payment.setAmount(nowPayingAmount - balanceAmount);
-                sale.setSaleStatus(this.saleStatusMap.get("SETTLED"));
+                SaleStatus saleStatus = (SaleStatus) session
+                        .createCriteria(SaleStatus.class)
+                        .add(Restrictions.eq("statusDescription", "SETTLED"))
+                        .uniqueResult();
+                sale.setSaleStatus(saleStatus);
             }
             payment.setCreatedDate(date);
             payment.setCreatedTime(date);
             payment.setCreatedUser(MainFrame.user.getUserId());
-
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
 
             session.saveOrUpdate(payment);
 
@@ -290,17 +297,135 @@ public class SettlementDialog extends javax.swing.JDialog {
                 csettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
                 csettlePanel.txtPaidAmount.setText("" + paidAmount);
                 csettlePanel.txtRemainingBalance.setText("" + (sale.getGrandTotal() - paidAmount));
-                
+
                 if (sale.getGrandTotal() - paidAmount <= 0.0f) {
                     this.btnSettle.setEnabled(false);
                 }
             }
 
+            Account debitAccount = (Account) session
+                    .createCriteria(Account.class)
+                    .add(Restrictions.eq("accountCode", "ACC1001"))
+                    .uniqueResult();
+
+            Account creditAccount = (Account) session
+                    .createCriteria(Account.class)
+                    .add(Restrictions.eq("accountCode", "ACC1006"))
+                    .uniqueResult();
+
             transaction.commit();
             session.close();
-            
+
+            PostAccounts accountPosting = new PostAccounts();
+            accountPosting.saleDebitPosting(debitAccount, invoice, "Cash settlemnt for " + sale.getSaleCode());
+            accountPosting.salesCreditPosting(creditAccount, invoice, "Cash settlemnt for " + sale.getSaleCode());
+
             StockFunctions stockFunctions = new StockFunctions();
             stockFunctions.reduceSaledStoke(sale.getSaleCode());
+        } else if (panelFrame instanceof ChequeSettlePanel) {
+            Date date = new Date();
+            ChequeSettlePanel chequeSettlePanel = (ChequeSettlePanel) panelFrame;
+            float nowPayingAmount = Float.parseFloat(chequeSettlePanel.txtNowPaying.getText());
+            float balanceAmount = Float.parseFloat(chequeSettlePanel.txtBalance.getText());
+            String chequeNumber = chequeSettlePanel.txtChequeNumber.getText().trim();
+            Date chequeDate = chequeSettlePanel.dateChequeDate.getDate();
+
+            if (chequeNumber.isEmpty()) {
+                InformationDialog.showMessageBox("Please enter valid check number", "Invalid", null);
+            } else {
+                KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                String paymentCode = keyCodeFunctions.getKey("PAY", "Payment");
+
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Transaction transaction = session.beginTransaction();
+
+                Payment payment = new Payment(paymentCode, invoice, new PaymentType(chequeSettlePanel.getPaymentTypeCode()));
+                if (balanceAmount < 0) {
+                    payment.setAmount(nowPayingAmount);
+
+                    SaleStatus saleStatus = (SaleStatus) session
+                            .createCriteria(SaleStatus.class)
+                            .add(Restrictions.eq("statusDescription", "PARTIALLY PAID"))
+                            .uniqueResult();
+                    sale.setSaleStatus(saleStatus);
+                } else {
+                    payment.setAmount(nowPayingAmount - balanceAmount);
+                    SaleStatus saleStatus = (SaleStatus) session
+                            .createCriteria(SaleStatus.class)
+                            .add(Restrictions.eq("statusDescription", "SETTLED"))
+                            .uniqueResult();
+                    sale.setSaleStatus(saleStatus);
+                }
+                payment.setCreatedDate(date);
+                payment.setCreatedTime(date);
+                payment.setCreatedUser(MainFrame.user.getUserId());
+                payment.setRemark("Cheque number " + chequeNumber + ". Date " + SystemData.DATE_FORMAT.format(chequeDate));
+
+                session.saveOrUpdate(payment);
+
+                session.saveOrUpdate(sale);
+
+                InformationDialog.showMessageBox("Playment done successfully", "Success", null);
+                panelWindow.removeAll();
+
+                final CashSettlePanel csettlePanel = new CashSettlePanel(this, "PTY1000");
+                this.panelFrame = csettlePanel;
+                this.panelWindow.add(this.panelFrame);
+                this.panelWindow.revalidate();
+                this.panelWindow.repaint();
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        csettlePanel.txtNowPaying.requestFocus();
+                    }
+                });
+
+                Query query = session.createQuery("from Payment p where p.invoice = :inv order by p.paymentCode");
+                query.setParameter("inv", this.invoice);
+
+                List list = query.list();
+                if (list.isEmpty()) {
+                    csettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
+                    csettlePanel.txtRemainingBalance.setText("" + sale.getGrandTotal());
+                } else {
+                    float paidAmount = 0.0f;
+                    for (Object tempPayment : list) {
+                        if (tempPayment instanceof Payment) {
+                            Payment tPayment = (Payment) tempPayment;
+                            paidAmount += tPayment.getAmount();
+                        }
+                    }
+                    csettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
+                    csettlePanel.txtPaidAmount.setText("" + paidAmount);
+                    csettlePanel.txtRemainingBalance.setText("" + (sale.getGrandTotal() - paidAmount));
+
+                    if (sale.getGrandTotal() - paidAmount <= 0.0f) {
+                        this.btnSettle.setEnabled(false);
+                    }
+                }
+
+                Account debitAccount = (Account) session
+                        .createCriteria(Account.class)
+                        .createAlias("businessPartner", "businessPartner")
+                        .add(Restrictions.eq("accountCode", "ACC1001"))
+                        .add(Restrictions.eq("businessPartner.businessPartnerCode", ""))
+                        .uniqueResult();
+
+                Account creditAccount = (Account) session
+                        .createCriteria(Account.class)
+                        .add(Restrictions.eq("accountCode", "ACC1006"))
+                        .uniqueResult();
+
+                transaction.commit();
+                session.close();
+
+                PostAccounts accountPosting = new PostAccounts();
+                accountPosting.saleDebitPosting(debitAccount, invoice, "Cash settlemnt for " + sale.getSaleCode());
+                accountPosting.salesCreditPosting(creditAccount, invoice, "Cash settlemnt for " + sale.getSaleCode());
+
+                StockFunctions stockFunctions = new StockFunctions();
+                stockFunctions.reduceSaledStoke(sale.getSaleCode());
+            }
         }
     }//GEN-LAST:event_btnSettleActionPerformed
 

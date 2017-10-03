@@ -16,12 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `key_table`
+--
+
+DROP TABLE IF EXISTS `key_table`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `key_table` (
+  `key_id` int(11) NOT NULL AUTO_INCREMENT,
+  `key_code` varchar(5) DEFAULT NULL,
+  `key_number` int(11) DEFAULT NULL,
+  `key_remark` varchar(45) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL,
+  `modified_time` time DEFAULT NULL,
+  `modified_user` int(11) DEFAULT NULL,
+  PRIMARY KEY (`key_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `key_table`
 --
 
 LOCK TABLES `key_table` WRITE;
 /*!40000 ALTER TABLE `key_table` DISABLE KEYS */;
-INSERT INTO `key_table` VALUES (1,'ADD',1003,'Address codes','2017-01-01','12:00:00',1,'2017-09-17','12:40:39',1),(2,'TEL',1003,'Telephone codes','2017-01-01','12:00:00',1,'2017-09-17','12:40:53',1),(3,'BPT',1003,'Business partner codes','2017-01-01','12:00:00',1,'2017-09-17','12:40:56',1),(4,'STO',1001,'Storage','2017-09-09','20:37:13',1,NULL,NULL,NULL),(5,'RAC',1001,'Racks','2017-09-09','20:37:36',1,NULL,NULL,NULL),(6,'SLT',1002,'Rack slots','2017-09-09','20:37:58',1,'2017-09-09','20:38:15',1),(7,'LOC',1003,'Location','2017-09-09','20:38:44',1,'2017-09-09','20:39:12',1),(8,'PRN',1001,'Printer','2017-09-09','20:39:31',1,NULL,NULL,NULL),(9,'CAT',1004,'Category','2017-09-09','20:40:02',1,'2017-09-10','21:02:05',1),(10,'SUB',1007,'Sub Category','2017-09-09','20:47:52',1,'2017-09-10','21:03:18',1),(11,'ITP',1002,'Item type','2017-09-09','20:48:29',1,'2017-09-09','20:48:44',1),(13,'VHT',1001,'Vehicle type','2017-09-09','22:25:22',1,NULL,NULL,NULL),(14,'VEH',1002,'Vehivle','2017-09-09','22:25:50',1,'2017-09-17','12:41:07',1),(30,'ITM',1011,'Item codes','2017-09-10','22:40:57',1,'2017-09-17','12:37:06',1),(31,'BOM',1002,'Bill of metirial codes','2017-09-10','23:03:25',1,'2017-09-11','11:27:44',1),(32,'BOI',1006,'Bill of metirial item code','2017-09-10','23:03:57',1,'2017-09-11','11:27:44',1),(33,'SVR',1013,'Service','2017-09-11','10:17:09',1,'2017-09-17','12:42:58',1),(34,'INV',1018,'Invoices','2017-09-11','10:17:23',1,'2017-09-17','12:43:34',1),(35,'PAY',1016,'Payment','2017-09-11','10:17:57',1,'2017-09-16','18:20:10',1),(36,'GRN',1001,'Good receive note','2017-09-11','12:02:33',1,NULL,NULL,NULL),(37,'DRS',1006,'Direct sale','2017-09-14','13:13:53',1,'2017-09-16','17:28:24',1);
+INSERT INTO `key_table` VALUES (1,'ADD',1004,'Address codes','2017-01-01','12:00:00',1,'2017-10-01','18:38:46',1),(2,'TEL',1004,'Telephone codes','2017-01-01','12:00:00',1,'2017-10-01','18:39:06',1),(3,'BPT',1004,'Business partner codes','2017-01-01','12:00:00',1,'2017-10-01','18:46:38',1),(4,'STO',1001,'Storage','2017-09-09','20:37:13',1,NULL,NULL,NULL),(5,'RAC',1001,'Racks','2017-09-09','20:37:36',1,NULL,NULL,NULL),(6,'SLT',1002,'Rack slots','2017-09-09','20:37:58',1,'2017-09-09','20:38:15',1),(7,'LOC',1003,'Location','2017-09-09','20:38:44',1,'2017-09-09','20:39:12',1),(8,'PRN',1001,'Printer','2017-09-09','20:39:31',1,NULL,NULL,NULL),(9,'CAT',1005,'Category','2017-09-09','20:40:02',1,'2017-09-10','21:02:05',1),(10,'SUB',1039,'Sub Category','2017-09-09','20:47:52',1,'2017-09-10','21:03:18',1),(11,'ITP',1002,'Item type','2017-09-09','20:48:29',1,'2017-09-09','20:48:44',1),(13,'VHT',1001,'Vehicle type','2017-09-09','22:25:22',1,NULL,NULL,NULL),(14,'VEH',1002,'Vehivle','2017-09-09','22:25:50',1,'2017-09-17','12:41:07',1),(30,'ITM',1570,'Item codes','2017-09-10','22:40:57',1,'2017-10-01','19:34:11',1),(31,'DRS',1002,'Direct sale','2017-10-04','00:18:49',1,NULL,NULL,NULL),(32,'INV',1002,'Invoices','2017-10-04','00:18:50',1,NULL,NULL,NULL),(33,'PAY',1002,'Payment','2017-10-04','00:19:13',1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `key_table` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -34,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-28  0:13:13
+-- Dump completed on 2017-10-04  1:24:30

@@ -16,13 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Dumping data for table `service_status`
+-- Table structure for table `sale_item_status`
 --
 
-LOCK TABLES `service_status` WRITE;
-/*!40000 ALTER TABLE `service_status` DISABLE KEYS */;
-INSERT INTO `service_status` VALUES (1,'NEW','2017-01-01','12:00:00',1,NULL,NULL,NULL,'New service'),(2,'OPEN','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Open service'),(3,'INVOICED','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Invoiced service'),(4,'PARTIALLY PAID','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Partially paid service'),(5,'SETTLED','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Settled service'),(6,'CANCELED','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Canceled service');
-/*!40000 ALTER TABLE `service_status` ENABLE KEYS */;
+DROP TABLE IF EXISTS `sale_item_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sale_item_status` (
+  `item_status_id` int(11) NOT NULL AUTO_INCREMENT,
+  `item_status_description` varchar(45) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL,
+  `modified_time` time DEFAULT NULL,
+  `modified_user` int(11) DEFAULT NULL,
+  `remark` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`item_status_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sale_item_status`
+--
+
+LOCK TABLES `sale_item_status` WRITE;
+/*!40000 ALTER TABLE `sale_item_status` DISABLE KEYS */;
+INSERT INTO `sale_item_status` VALUES (1,'ACTIVE','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Active items in service'),(2,'CANCELED','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Canceled items in service');
+/*!40000 ALTER TABLE `sale_item_status` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -34,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-28  0:13:14
+-- Dump completed on 2017-10-04  1:24:25

@@ -16,6 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `printer`
+--
+
+DROP TABLE IF EXISTS `printer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `printer` (
+  `printer_code` varchar(15) NOT NULL,
+  `printer_name` varchar(50) NOT NULL,
+  `isActive` int(11) DEFAULT '1',
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL,
+  `modified_time` time DEFAULT NULL,
+  `modified_user` int(11) DEFAULT NULL,
+  `remarks` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`printer_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `printer`
 --
 
@@ -34,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-28  0:13:08
+-- Dump completed on 2017-10-04  1:24:26

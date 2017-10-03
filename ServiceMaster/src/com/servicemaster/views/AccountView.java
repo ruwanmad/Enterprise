@@ -7,12 +7,16 @@ package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
+import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.internalFrames.AccountsFrame;
 import com.servicemaster.models.Account;
-import com.servicemaster.models.Category;
+import com.servicemaster.models.BusinessPartner;
+import com.servicemaster.models.SubAccount;
+import com.servicemaster.utils.HibernateUtil;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import org.hibernate.Session;
 
 /**
  *
@@ -175,9 +179,9 @@ public class AccountView extends javax.swing.JInternalFrame {
             DefaultTableModel tableModel = (DefaultTableModel) accountsTable.getModel();
             tableModel.setRowCount(0);
             for (Object object : list) {
-                if (object instanceof Category) {
-                    Category category = (Category) object;
-                    tableModel.addRow(new Object[]{category.getCategoryCode(), category.getCategoryName(), category.getRemarks(), (category.getIsActive() == 1)});
+                if (object instanceof Account) {
+                    Account account = (Account) object;
+                    tableModel.addRow(new Object[]{account.getAccountCode(), account.getDescription(), account.getRemark(), (account.getIsActive() == 1)});
                 }
             }
         }
@@ -186,7 +190,7 @@ public class AccountView extends javax.swing.JInternalFrame {
     private void accountsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accountsTableMouseClicked
         int clickCount = evt.getClickCount();
         if (clickCount == 2) {
-            this.selectCategory();
+            this.selectAccount();
         }
     }//GEN-LAST:event_accountsTableMouseClicked
 
@@ -199,7 +203,7 @@ public class AccountView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSelectMouseExited
 
     private void btnSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectActionPerformed
-        this.selectCategory();
+        this.selectAccount();
     }//GEN-LAST:event_btnSelectActionPerformed
 
     private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
@@ -217,16 +221,30 @@ public class AccountView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnCloseActionPerformed
 
-    private void selectCategory() {
+    private void selectAccount() {
         int selectedRow = accountsTable.getSelectedRow();
-        Account account = (Account) list.get(selectedRow);
-        accountFrame.setAccountCode(account.getAccountCode());
-        accountFrame.setAccountName(account.getDescription());
-        accountFrame.setRemark(account.getRemark());
-        accountFrame.setIsActive((account.getIsActive() == 1));
-        accountFrame.setAccountCodeEditable(false);
-//        accountFrame.setBtnSaveText("Update");
-        this.dispose();
+        if (selectedRow == -1) {
+            InformationDialog.showMessageBox("Please select a valid account", "Invalid", this);
+        } else {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            
+            Account account = (Account) list.get(selectedRow);
+            
+            SubAccount subAccount = (SubAccount) session.load(SubAccount.class, account.getSubAccount().getCode());            
+            
+            accountFrame.setAccountCode(account.getAccountCode());
+            accountFrame.setAccountName(account.getDescription());
+            accountFrame.setAccountType(subAccount.getDescription());
+            if (account.getBusinessPartner() != null) {
+                BusinessPartner businessPartner = (BusinessPartner) session.load(BusinessPartner.class, account.getBusinessPartner().getBusinessPartnerCode());
+                accountFrame.setBusinessPatner(businessPartner.getFirstName()+ " " + businessPartner.getLastName());
+            }
+            accountFrame.setRemark(account.getRemark());
+            accountFrame.setIsActive((account.getIsActive() == 1));
+            accountFrame.setAccountCodeEditable(false);
+            accountFrame.setBtnSaveText("Update");
+            this.dispose();
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

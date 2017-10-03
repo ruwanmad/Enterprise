@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Sep 28, 2017 11:58:01 PM by Hibernate Tools 4.3.1
+// Generated Oct 1, 2017 7:12:27 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -47,10 +47,9 @@ public class Item  implements java.io.Serializable {
     }
 
 	
-    public Item(String itemCode, IssueMethod issueMethod, ItemBrand itemBrand, ItemType itemType, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName) {
+    public Item(String itemCode, IssueMethod issueMethod, ItemType itemType, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName) {
         this.itemCode = itemCode;
         this.issueMethod = issueMethod;
-        this.itemBrand = itemBrand;
         this.itemType = itemType;
         this.rackSlot = rackSlot;
         this.subCategory = subCategory;

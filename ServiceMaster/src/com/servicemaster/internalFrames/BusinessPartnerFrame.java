@@ -9,7 +9,8 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
-import com.servicemaster.functions.KeyCodeFunctions;
+import com.servicemaster.accounts.CreateAccounts;
+import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Address;
 import com.servicemaster.models.BusinessAddress;
@@ -563,6 +564,14 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
 
         transaction.commit();
         session.close();
+        
+        CreateAccounts createAccounts = new CreateAccounts();
+        if (cbxCustomer.isSelected()) {
+            createAccounts.createBusnessPartnerDrAccount(businessPartner);
+        }
+        if (cbxSupplier.isSelected()) {
+            createAccounts.createBusnessPartnerCrAccount(businessPartner);
+        }
 
         if (bUpdate) {
             InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING, this);
@@ -596,9 +605,9 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        if (txtNic.getText().trim().isEmpty()) {
-            InformationDialog.showMessageBox("Please enter valid NIC", "Invalid", this);
-        } else {
+//        if (txtNic.getText().trim().isEmpty()) {
+//            InformationDialog.showMessageBox("Please enter valid NIC", "Invalid", this);
+//        } else {
             if (txtBussinesPatnerCode.getText().trim().isEmpty()) {
                 List busisessPartners = getBusinessPatnerByNic(txtNic.getText().trim(), false);
                 if (busisessPartners.isEmpty()) {
@@ -618,7 +627,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
                     }
                 }
             }
-        }
+//        }
 
         session.getTransaction().commit();
         session.close();

@@ -16,12 +16,37 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `selling_price`
+--
+
+DROP TABLE IF EXISTS `selling_price`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `selling_price` (
+  `selling_price_id` int(11) NOT NULL AUTO_INCREMENT,
+  `selling_price` float DEFAULT NULL,
+  `effective_date` date DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL,
+  `modified_time` time DEFAULT NULL,
+  `modified_user` int(11) DEFAULT NULL,
+  `remark` varchar(100) DEFAULT NULL,
+  `item_item_code` varchar(15) NOT NULL,
+  PRIMARY KEY (`selling_price_id`),
+  KEY `fk_selling_price_item1_idx` (`item_item_code`),
+  CONSTRAINT `fk_selling_price_item1` FOREIGN KEY (`item_item_code`) REFERENCES `item` (`item_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `selling_price`
 --
 
 LOCK TABLES `selling_price` WRITE;
 /*!40000 ALTER TABLE `selling_price` DISABLE KEYS */;
-INSERT INTO `selling_price` VALUES (1,0,'2017-09-10','2017-09-10','22:41:01',1,NULL,NULL,NULL,'','ITM1000'),(2,0,'2017-09-10','2017-09-10','22:43:34',1,NULL,NULL,NULL,'','ITM1001'),(3,0,'2017-09-10','2017-09-10','22:44:25',1,NULL,NULL,NULL,'','ITM1002'),(4,1300,'2017-09-10','2017-09-10','22:45:20',1,'2017-09-10','22:46:23',1,'','ITM1003'),(5,950,'2017-09-10','2017-09-10','22:46:06',1,NULL,NULL,NULL,'','ITM1004'),(6,1700,'2017-09-10','2017-09-10','22:47:05',1,NULL,NULL,NULL,'','ITM1005'),(7,225,'2017-09-10','2017-09-10','22:48:28',1,NULL,NULL,NULL,'','ITM1006'),(8,0,'2017-09-10','2017-09-10','22:49:42',1,NULL,NULL,NULL,'','ITM1007'),(9,80,'2017-09-10','2017-09-10','23:00:53',1,'2017-09-16','18:09:43',1,'','ITM1008'),(10,220,'2017-09-10','2017-09-10','23:01:33',1,NULL,NULL,NULL,'','ITM1009'),(11,300,'2017-09-10','2017-09-10','23:03:29',1,NULL,NULL,NULL,NULL,'ITM1003'),(12,4650,'2017-09-11','2017-09-11','11:27:44',1,NULL,NULL,NULL,NULL,'ITM1007'),(13,1200,'2017-09-17','2017-09-17','12:37:06',1,NULL,NULL,NULL,'','ITM1010'),(14,1100,'2017-12-01','2017-09-17','12:37:06',1,NULL,NULL,NULL,'','ITM1010');
+INSERT INTO `selling_price` VALUES (15,70,'2017-10-01','2017-10-01','18:20:55',1,'2017-10-01','18:33:38',1,'','ITM1001'),(16,500,'2017-10-01','2017-10-01','18:34:33',1,NULL,NULL,NULL,'','ITM1118'),(17,2600,'2017-10-01','2017-10-01','19:34:12',1,NULL,NULL,NULL,'','ITM1012');
 /*!40000 ALTER TABLE `selling_price` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -34,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-28  0:13:01
+-- Dump completed on 2017-10-04  1:24:20

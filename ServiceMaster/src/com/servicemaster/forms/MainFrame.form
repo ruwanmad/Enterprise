@@ -25,6 +25,23 @@
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
               </AuxValues>
               <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="mAccounts">
+                  <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Shift+Ctrl+A"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Accounts"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mAccountsActionPerformed"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                  </AuxValues>
+                </MenuItem>
+                <MenuItem class="javax.swing.JPopupMenu$Separator" name="masterSeparator1">
+                </MenuItem>
                 <Menu class="javax.swing.JMenu" name="mStorage">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Storage"/>
@@ -69,7 +86,7 @@
                     </MenuItem>
                   </SubComponents>
                 </Menu>
-                <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
+                <MenuItem class="javax.swing.JPopupMenu$Separator" name="masterSeparator2">
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="miLocations">
                   <Properties>
@@ -101,7 +118,7 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                   </AuxValues>
                 </MenuItem>
-                <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
+                <MenuItem class="javax.swing.JPopupMenu$Separator" name="masterSeparator3">
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="miCategory">
                   <Properties>
@@ -178,7 +195,7 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                   </AuxValues>
                 </MenuItem>
-                <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator3">
+                <MenuItem class="javax.swing.JPopupMenu$Separator" name="masterSeparator4">
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="miBusinessPartner">
                   <Properties>
@@ -195,7 +212,7 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                   </AuxValues>
                 </MenuItem>
-                <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator4">
+                <MenuItem class="javax.swing.JPopupMenu$Separator" name="masterSeparator5">
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="miVehileType">
                   <Properties>

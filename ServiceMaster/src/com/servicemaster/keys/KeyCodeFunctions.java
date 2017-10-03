@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.servicemaster.functions;
+package com.servicemaster.keys;
 
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.models.KeyTable;

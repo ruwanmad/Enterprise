@@ -10,7 +10,7 @@ import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.AutoCompletion;
-import com.servicemaster.functions.KeyCodeFunctions;
+import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Account;
 import com.servicemaster.models.BusinessPartner;
@@ -98,8 +98,10 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
         jLabel4.setText("Business Partner :");
 
         txtAccountCode.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtAccountCode.setNextFocusableComponent(txtAccountName);
 
         txtAccountName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtAccountName.setNextFocusableComponent(cmbAccountType);
 
         btnCodeSerach.setBackground(new java.awt.Color(150, 255, 150));
         btnCodeSerach.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
@@ -447,12 +449,12 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
             cmbBusinessPartner.removeAllItems();
             cmbBusinessPartner.addItem("");
             for (BusinessPartner businessPartner : businessPartners) {
-                cmbAccountType.addItem(businessPartner.getFirstName() + " " + businessPartner.getLastName());
+                cmbBusinessPartner.addItem(businessPartner.getFirstName() + " " + businessPartner.getLastName());
             }
         }
 
         session.close();
-        
+
         AutoCompletion.enable(cmbAccountType, cmbBusinessPartner);
         AutoCompletion.enable(cmbBusinessPartner, cbxIsActive);
     }//GEN-LAST:event_formInternalFrameOpened
@@ -467,9 +469,6 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         if (like) {
-            Criteria accountCriteria = session.createCriteria(Account.class);
-            accountCriteria.add(Restrictions.like("", ""));
-
             List<Account> accounts = session
                     .createCriteria(Account.class)
                     .add(Restrictions.like("accountCode", "%" + accountCode + "%"))
@@ -546,10 +545,13 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
     public void setAccountCodeEditable(boolean editable) {
         this.txtAccountCode.setEditable(editable);
     }
+    
+    public void setBtnSaveText(String text){
+        this.btnSave.setText(text);
+    }
 
     private boolean verifyInputs() {
-        return !(txtAccountCode.getText().isEmpty()
-                || txtAccountName.getText().isEmpty()
+        return !(txtAccountName.getText().isEmpty()
                 || (cmbAccountType.getSelectedIndex() == 0));
     }
 
@@ -560,6 +562,8 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
         this.cmbBusinessPartner.setSelectedIndex(0);
         this.cbxIsActive.setSelected(true);
         this.txtRemark.setText("");
+        
+        this.btnSave.setText("Save");
     }
 
     private void createOrUpdateAccount(String strAccountCode, boolean bUpdate) {
@@ -573,18 +577,21 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
                 .add(Restrictions.eq("description", cmbAccountType.getSelectedItem().toString().trim()))
                 .uniqueResult();
 
-        BusinessPartner businessPartner = (BusinessPartner) session
+        Account account = new Account();
+        account.setAccountCode(strAccountCode);
+        account.setDescription(txtAccountName.getText().trim().toUpperCase());
+        account.setSubAccount(subAccount);
+        
+        if (!cmbBusinessPartner.getSelectedItem().toString().isEmpty()) {
+            BusinessPartner businessPartner = (BusinessPartner) session
                 .createCriteria(BusinessPartner.class)
                 .add(Restrictions.eq("firstName", cmbBusinessPartner.getSelectedItem().toString().split(" ")[0].trim()))
                 .add(Restrictions.eq("lastName", cmbBusinessPartner.getSelectedItem().toString().split(" ")[1].trim()))
                 .uniqueResult();
-
-        Account account = new Account();
-        account.setAccountCode(strAccountCode);
-        account.setDescription(txtAccountName.getText().trim());
-        account.setSubAccount(subAccount);
-        account.setBusinessPartner(businessPartner);
+            account.setBusinessPartner(businessPartner);
+        }
         account.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
+        account.setRemark(txtRemark.getText().trim().toUpperCase());
 
         if (bUpdate) {
             account.setModifiedDate(date);

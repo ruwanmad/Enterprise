@@ -10,7 +10,7 @@ import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.AutoCompletion;
-import com.servicemaster.functions.KeyCodeFunctions;
+import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.IssueMethod;
 import com.servicemaster.models.Item;
@@ -679,6 +679,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
 
         Criteria ItemBrandCriteria = session.createCriteria(ItemBrand.class).addOrder(Order.asc("brandCode"));
         List<ItemBrand> itemBrands = ItemBrandCriteria.list();
+        cmbBrand.addItem("NONE");
         for (ItemBrand manufacturer : itemBrands) {
             cmbBrand.addItem(manufacturer.getBrandName());
         }
@@ -966,7 +967,6 @@ public class ItemFrame extends javax.swing.JInternalFrame {
     }
 
     private void createNewItemOrUpdate(String strItemCode, boolean bUpdate) {
-
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
@@ -1014,7 +1014,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
 
         Item item = new Item();
         item.setItemCode(strItemCode);
-        if (itemBrand.getBrandName().equalsIgnoreCase("NONE")) {
+        if (itemBrand == null || itemBrand.getBrandName().equalsIgnoreCase("NONE")) {
             item.setItemName(txtItemName.getText().trim().toUpperCase());
         } else {
             if (bUpdate) {
@@ -1034,7 +1034,9 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         item.setCreatedUser(MainFrame.user.getUserId());
         item.setRemark(txtRemarks.getText().trim().toUpperCase());
         item.setIssueMethod((IssueMethod) session.load(IssueMethod.class, issueMethod.getIssueMethodId()));
-        item.setItemBrand((ItemBrand) session.load(ItemBrand.class, itemBrand.getBrandCode()));
+        if (itemBrand != null) {
+            item.setItemBrand((ItemBrand) session.load(ItemBrand.class, itemBrand.getBrandCode()));
+        }
         item.setSubCategory((SubCategory) session.load(SubCategory.class, subCategory.getSubCategoryCode()));
         item.setRackSlot((RackSlot) session.load(RackSlot.class, rackSlot.getRackSlotCode()));
         item.setUomByBuyingUom((Uom) session.load(Uom.class, buyingUom.getUomCode()));
@@ -1125,8 +1127,8 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         this.txtRemarks.setText(remark);
     }
 
-    public void setManufacturer(String manufacturer) {
-        this.cmbBrand.setSelectedItem(manufacturer);
+    public void setItemBrand(String brand) {
+        this.cmbBrand.setSelectedItem(brand);
     }
 
     public void setSubCategory(String subCategory) {

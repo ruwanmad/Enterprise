@@ -185,39 +185,39 @@ public class EnableFeatures {
                     break;
                 }
                 case "111": {
-                    mainFrame.mStorage.setEnabled(true);
+                    mainFrame.mAccounts.setEnabled(true);
                     break;
                 }
                 case "112": {
-                    mainFrame.miLocations.setEnabled(true);
+                    mainFrame.mStorage.setEnabled(true);
                     break;
                 }
                 case "113": {
-                    mainFrame.miPrinters.setEnabled(true);
+                    mainFrame.miLocations.setEnabled(true);
                     break;
                 }
                 case "114": {
-                    mainFrame.miCategory.setEnabled(true);
+                    mainFrame.miPrinters.setEnabled(true);
                     break;
                 }
                 case "115": {
-                    mainFrame.miItemType.setEnabled(true);
+                    mainFrame.miCategory.setEnabled(true);
                     break;
                 }
                 case "116": {
-                    mainFrame.miSubCategory.setEnabled(true);
+                    mainFrame.miItemType.setEnabled(true);
                     break;
                 }
                 case "117": {
-                    mainFrame.miItems.setEnabled(true);
+                    mainFrame.miSubCategory.setEnabled(true);
                     break;
                 }
                 case "118": {
-                    mainFrame.miBom.setEnabled(true);
+                    mainFrame.miItems.setEnabled(true);
                     break;
                 }
                 case "119": {
-                    mainFrame.miBusinessPartner.setEnabled(true);
+                    mainFrame.miBom.setEnabled(true);
                     break;
                 }
                 case "1110": {
@@ -225,14 +225,15 @@ public class EnableFeatures {
                     break;
                 }
                 case "1111": {
-                    mainFrame.miVehileType.setEnabled(true);
+                    mainFrame.miBusinessPartner.setEnabled(true);
                     break;
                 }
                 case "1112": {
-                    mainFrame.miVehicles.setEnabled(true);
+                    mainFrame.miVehileType.setEnabled(true);
                     break;
                 }
                 case "1113": {
+                    mainFrame.miVehicles.setEnabled(true);
                     break;
                 }
                 case "1114": {
@@ -242,6 +243,9 @@ public class EnableFeatures {
                     break;
                 }
                 case "1116": {
+                    break;
+                }
+                case "1117": {
                     break;
                 }
             }

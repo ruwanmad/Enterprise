@@ -260,7 +260,7 @@ public class BusinessPatnerView extends javax.swing.JInternalFrame {
             }
         }
         businessPartnerFrame.setBusinessPatnerCodeEditable(false);
-        businessPartnerFrame.setNicEditable(false);
+        businessPartnerFrame.setNicEditable(true);
         businessPartnerFrame.setBtnSaveText("Update");
         this.dispose();
     }

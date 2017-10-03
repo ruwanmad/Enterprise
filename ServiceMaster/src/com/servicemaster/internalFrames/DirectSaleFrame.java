@@ -12,7 +12,7 @@ import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.AutoCompletion;
 import com.servicemaster.functions.JdbcConnection;
-import com.servicemaster.functions.KeyCodeFunctions;
+import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Bom;
 import com.servicemaster.models.BomItem;
@@ -27,6 +27,7 @@ import com.servicemaster.models.SellingPrice;
 import com.servicemaster.models.ServiceBay;
 import com.servicemaster.models.Vehicle;
 import com.servicemaster.utils.HibernateUtil;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.util.Date;
@@ -38,7 +39,10 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
@@ -65,6 +69,13 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         initComponents();
 
         AutoCompletion.enable(cmbItems, txtQuantity);
+        
+        SearchAction searchAction = new SearchAction();
+        String key = "Search (F2)";
+        btnItemSearch.setAction(searchAction);
+        btnItemSearch.setText(key);
+        btnItemSearch.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), key);
+        btnItemSearch.getActionMap().put(key, searchAction);
     }
 
     /**
@@ -98,6 +109,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         btnSettle = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
+        btnItemSearch = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -375,12 +387,29 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        btnItemSearch.setBackground(new java.awt.Color(150, 255, 150));
+        btnItemSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnItemSearch.setText("Search (F2)");
+        btnItemSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnItemSearch.setContentAreaFilled(false);
+        btnItemSearch.setOpaque(true);
+        btnItemSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnItemSearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnItemSearchMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
         buttonPanel.setLayout(buttonPanelLayout);
         buttonPanelLayout.setHorizontalGroup(
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnItemSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -398,7 +427,8 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnItemSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -638,7 +668,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
         SaleStatus saleStatus = (SaleStatus) session
                 .createCriteria(SaleStatus.class)
-                .add(Restrictions.eq("statusId", 5))
+                .add(Restrictions.eq("statusDescription", "SETTLED"))
                 .uniqueResult();
 
         Sale sale = new Sale();
@@ -689,10 +719,10 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
         session.getTransaction().commit();
         session.close();
-        
+
         Invoice invoice = this.generateInvoice(sale);
-        
-        SettlementDialog settlementDialog = new SettlementDialog(null, true, sale, invoice, this.saleStatusMap);
+
+        SettlementDialog settlementDialog = new SettlementDialog(null, true, sale, invoice);
         settlementDialog.setVisible(true);
     }//GEN-LAST:event_btnSettleActionPerformed
 
@@ -864,6 +894,14 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void btnItemSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnItemSearchMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnItemSearchMouseEntered
+
+    private void btnItemSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnItemSearchMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnItemSearchMouseExited
+
     private Invoice generateInvoice(Sale sale) {
         KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
         String invoiceCode = keyCodeFunctions.getKey("INV", "Invoices");
@@ -888,7 +926,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
         transaction.commit();
         session.close();
-        
+
         JdbcConnection jbConnection = new JdbcConnection();
         Connection connection = jbConnection.getConnection();
 
@@ -906,7 +944,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             }
             jbConnection.closeConnection();
         }
-        
+
         return invoice;
     }
 
@@ -932,7 +970,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             }
         }
     }
-    
+
     private void loadServiceStatus(Session session) {
         Query query = session.createQuery("from SaleStatus ss order by ss.statusId");
         List list = query.list();
@@ -1022,10 +1060,19 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Please select a valid item.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+    
+    private class SearchAction extends AbstractAction{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JOptionPane.showMessageDialog(null, "This is a test shortcut");
+        }
+    };
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnItemSearch;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSettle;
     private javax.swing.JPanel buttonPanel;

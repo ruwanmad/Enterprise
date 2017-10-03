@@ -16,12 +16,38 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `module`
+--
+
+DROP TABLE IF EXISTS `module`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `module` (
+  `module_id` int(11) NOT NULL,
+  `module_code` varchar(10) NOT NULL,
+  `module_name` varchar(45) DEFAULT NULL,
+  `module_icon` mediumblob,
+  `isShortcut_added` int(11) DEFAULT '0',
+  `isActive` int(11) DEFAULT NULL,
+  `isMaximized` int(11) DEFAULT '0',
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL,
+  `modified_time` time DEFAULT NULL,
+  `modified_user` int(11) DEFAULT NULL,
+  `remarks` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`module_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `module`
 --
 
 LOCK TABLES `module` WRITE;
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
-INSERT INTO `module` VALUES (1,'1','Users','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Users module'),(2,'2','User Privilages','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'User privilages module'),(3,'3','Storage','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Storage module'),(4,'4','Storage Racks','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Storage Racks module'),(5,'5','Rack Slots','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Rack Slots module'),(6,'6','Locations','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Locations module'),(7,'7','Category','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Category module'),(8,'8','Item Type','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Sub category type module'),(9,'9','Sub Category','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Sub category module'),(10,'10','Items','',1,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Items module'),(11,'11','Business Partner','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Business partner module'),(12,'12','Printers','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Printers module'),(13,'13','Vehicle Type','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Vehivle Type module'),(14,'14','Vehicles','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Vehivles module'),(15,'15','Add Shortcuts','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Add Shortcuts module'),(16,'16','Service','',1,1,1,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Service module'),(17,'17','BOM','',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'BOM module'),(18,'18','GRN','...',1,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Good receive note module'),(19,'19','Sale','...',1,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Direct sale module'),(20,'20','Service History','?',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Service history module'),(21,'21','Sales Returns','?',0,1,0,'2016-01-01','12:00:00',1,'2017-09-17','12:34:09',1,'Sales returns module');
+INSERT INTO `module` VALUES (1,'1','Users','',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Users module'),(2,'2','User Privilages','',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'User privilages module'),(3,'3','Storage','',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Storage module'),(4,'4','Storage Racks','',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Storage Racks module'),(5,'5','Rack Slots','',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Rack Slots module'),(6,'6','Locations','',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Locations module'),(7,'7','Category','',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Category module'),(8,'8','Item Type','',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Sub category type module'),(9,'9','Sub Category','',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Sub category module'),(10,'10','Items','',1,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Items module'),(11,'11','Business Partner','',1,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Business partner module'),(12,'12','Printers','',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Printers module'),(13,'13','Vehicle Type','',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Vehivle Type module'),(14,'14','Vehicles','',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Vehivles module'),(15,'15','Add Shortcuts','',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Add Shortcuts module'),(16,'16','Service','',1,1,1,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Service module'),(17,'17','BOM','',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'BOM module'),(18,'18','GRN','...',1,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Good receive note module'),(19,'19','Sale','...',1,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Direct sale module'),(20,'20','Service History','?',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Service history module'),(21,'21','Sales Returns','?',1,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Sales returns module'),(22,'22','Accounts','?',0,1,0,'2016-01-01','12:00:00',1,'2017-10-01','18:46:03',1,'Create accounts module');
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -34,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-28  0:12:59
+-- Dump completed on 2017-10-04  1:24:19

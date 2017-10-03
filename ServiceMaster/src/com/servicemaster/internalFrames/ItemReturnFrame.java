@@ -466,6 +466,8 @@ public class ItemReturnFrame extends javax.swing.JInternalFrame {
                     .uniqueResult();
 
             float fExtQty = saleItem.getQuantity();
+            float fUnitPrice = saleItem.getUnitPrice();
+            float fDiscount = saleItem.getDiscount();
 
             if (fExtQty == fCanceledQty) {
                 saleItem.setRemark(strReason);
@@ -477,8 +479,12 @@ public class ItemReturnFrame extends javax.swing.JInternalFrame {
                 session.saveOrUpdate(saleItem);
             } else if (fExtQty > fCanceledQty) {
                 float fRemains = fExtQty - fCanceledQty;
+                float fSubTotal = fUnitPrice * fRemains;
+                float fToral = fSubTotal - fDiscount;
 
                 saleItem.setQuantity(fRemains);
+                saleItem.setSubTotal(fSubTotal);
+                saleItem.setTotal(fToral);
                 saleItem.setModifiedDate(date);
                 saleItem.setModifiedTime(date);
                 saleItem.setModifiedUser(MainFrame.user.getUserId());
@@ -492,8 +498,22 @@ public class ItemReturnFrame extends javax.swing.JInternalFrame {
 
                 Sale sale = (Sale) session
                         .createCriteria(Sale.class)
-                        .add(Restrictions.eq("serviceCode", invoice.getSale().getSaleCode()))
+                        .add(Restrictions.eq("saleCode", invoice.getSale().getSaleCode()))
                         .uniqueResult();
+                
+                float fSaleSubTotal = sale.getSubTotal();
+                float fSaleTotal = sale.getGrandTotal();
+                
+                fSaleSubTotal = fSaleSubTotal - (fUnitPrice * fCanceledQty);
+                fSaleTotal = fSaleTotal - (fUnitPrice * fCanceledQty);
+                
+                sale.setSubTotal(fSaleSubTotal);
+                sale.setGrandTotal(fSaleTotal);
+                sale.setModifiedDate(date);
+                sale.setModifiedTime(date);
+                sale.setModifiedUser(MainFrame.user.getUserId());
+                
+                session.saveOrUpdate(sale);
 
                 SaleItem canceledSaleItem = new SaleItem();
                 canceledSaleItem.setItem(item);
@@ -507,6 +527,8 @@ public class ItemReturnFrame extends javax.swing.JInternalFrame {
                 canceledSaleItem.setCreatedDate(date);
                 canceledSaleItem.setCreatedTime(date);
                 canceledSaleItem.setCreatedUser(MainFrame.user.getUserId());
+                
+                session.saveOrUpdate(canceledSaleItem);
             } else {
                 InformationDialog.showMessageBox("Cancel quantity must be less than or equal saled quantity", "Wrong", this);
             }

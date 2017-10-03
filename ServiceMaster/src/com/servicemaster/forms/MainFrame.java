@@ -9,6 +9,7 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.internalFrames.AccountsFrame;
 import com.servicemaster.internalFrames.BomFrame;
 import com.servicemaster.internalFrames.BusinessPartnerFrame;
 import com.servicemaster.internalFrames.CategoryFrame;
@@ -106,22 +107,24 @@ public class MainFrame extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         mFile = new javax.swing.JMenu();
         mMasterFiles = new javax.swing.JMenu();
+        mAccounts = new javax.swing.JMenuItem();
+        masterSeparator1 = new javax.swing.JPopupMenu.Separator();
         mStorage = new javax.swing.JMenu();
         miStorage = new javax.swing.JMenuItem();
         miStorageRacks = new javax.swing.JMenuItem();
         miRackSlots = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        masterSeparator2 = new javax.swing.JPopupMenu.Separator();
         miLocations = new javax.swing.JMenuItem();
         miPrinters = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        masterSeparator3 = new javax.swing.JPopupMenu.Separator();
         miCategory = new javax.swing.JMenuItem();
         miSubCategory = new javax.swing.JMenuItem();
         miItemType = new javax.swing.JMenuItem();
         miItems = new javax.swing.JMenuItem();
         miBom = new javax.swing.JMenuItem();
-        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        masterSeparator4 = new javax.swing.JPopupMenu.Separator();
         miBusinessPartner = new javax.swing.JMenuItem();
-        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        masterSeparator5 = new javax.swing.JPopupMenu.Separator();
         miVehileType = new javax.swing.JMenuItem();
         miVehicles = new javax.swing.JMenuItem();
         fileSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -187,6 +190,17 @@ public class MainFrame extends javax.swing.JFrame {
         mMasterFiles.setText("Master Files");
         mMasterFiles.setEnabled(false);
 
+        mAccounts.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mAccounts.setText("Accounts");
+        mAccounts.setEnabled(false);
+        mAccounts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mAccountsActionPerformed(evt);
+            }
+        });
+        mMasterFiles.add(mAccounts);
+        mMasterFiles.add(masterSeparator1);
+
         mStorage.setText("Storage");
         mStorage.setEnabled(false);
 
@@ -218,7 +232,7 @@ public class MainFrame extends javax.swing.JFrame {
         mStorage.add(miRackSlots);
 
         mMasterFiles.add(mStorage);
-        mMasterFiles.add(jSeparator1);
+        mMasterFiles.add(masterSeparator2);
 
         miLocations.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miLocations.setText("Locations");
@@ -239,7 +253,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         mMasterFiles.add(miPrinters);
-        mMasterFiles.add(jSeparator2);
+        mMasterFiles.add(masterSeparator3);
 
         miCategory.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miCategory.setText("Category");
@@ -290,7 +304,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         mMasterFiles.add(miBom);
-        mMasterFiles.add(jSeparator3);
+        mMasterFiles.add(masterSeparator4);
 
         miBusinessPartner.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miBusinessPartner.setText("Business Partner");
@@ -301,7 +315,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         mMasterFiles.add(miBusinessPartner);
-        mMasterFiles.add(jSeparator4);
+        mMasterFiles.add(masterSeparator5);
 
         miVehileType.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         miVehileType.setText("Vehicle Type");
@@ -649,6 +663,10 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miSalesReturnsActionPerformed
 
+    private void mAccountsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mAccountsActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_mAccountsActionPerformed
+
     private void exitApllication() {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure", null);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -748,6 +766,10 @@ public class MainFrame extends javax.swing.JFrame {
                 internalFrame = new ItemReturnFrame();
                 break;
             }
+            case "22": {
+                internalFrame = new AccountsFrame();
+                break;
+            }
             default: {
                 internalFrame = null;
             }
@@ -804,16 +826,18 @@ public class MainFrame extends javax.swing.JFrame {
     public static javax.swing.JDesktopPane desktopPane;
     private javax.swing.JPopupMenu.Separator fileSeparator1;
     private javax.swing.JPopupMenu.Separator fileSeparator2;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JPopupMenu.Separator jSeparator3;
-    private javax.swing.JPopupMenu.Separator jSeparator4;
+    public javax.swing.JMenuItem mAccounts;
     public javax.swing.JMenu mFile;
     public javax.swing.JMenu mMasterFiles;
     public javax.swing.JMenu mOptions;
     public javax.swing.JMenu mReports;
     public javax.swing.JMenu mStorage;
     public javax.swing.JMenu mTransactions;
+    private javax.swing.JPopupMenu.Separator masterSeparator1;
+    private javax.swing.JPopupMenu.Separator masterSeparator2;
+    private javax.swing.JPopupMenu.Separator masterSeparator3;
+    private javax.swing.JPopupMenu.Separator masterSeparator4;
+    private javax.swing.JPopupMenu.Separator masterSeparator5;
     private javax.swing.JMenuBar menuBar;
     public javax.swing.JMenuItem miAddShortcuts;
     public javax.swing.JMenuItem miBom;

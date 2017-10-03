@@ -12,38 +12,38 @@
      business_partner.`first_name` AS business_partner_first_name,
      business_partner.`last_name` AS business_partner_last_name,
      vehicle.`vehicle_number` AS vehicle_vehicle_number,
-     service.`milage` AS service_milage,
-     service_has_item.`service_service_code` AS service_has_item_service_service_code,
-     service_has_item.`unit_price` AS service_has_item_unit_price,
-     service_has_item.`quantity` AS service_has_item_quantity,
-     service_has_item.`sub_total` AS service_has_item_sub_total,
-     service_has_item.`discount` AS service_has_item_discount,
-     service_has_item.`total` AS service_has_item_total,
+     sale.`milage` AS service_milage,
+     sale_item.`sale_sale_code` AS service_has_item_service_service_code,
+     sale_item.`unit_price` AS service_has_item_unit_price,
+     sale_item.`quantity` AS service_has_item_quantity,
+     sale_item.`sub_total` AS service_has_item_sub_total,
+     sale_item.`discount` AS service_has_item_discount,
+     sale_item.`total` AS service_has_item_total,
      item.`item_name` AS item_item_name,
-     service.`service_code` AS service_service_code,
-     service.`created_date` AS service_created_date,
-     service.`created_time` AS service_created_time,
+     sale.`sale_code` AS service_service_code,
+     sale.`created_date` AS service_created_date,
+     sale.`created_time` AS service_created_time,
      user.`user_name` AS user_user_name,
      license.`company_name` AS license_company_name,
      license.`address_line1` AS license_address_line1,
      license.`address_line2` AS license_address_line2,
      license.`address_line3` AS license_address_line3,
      license.`telephone` AS license_telephone,
-     service_has_item.`id` AS service_has_item_id,
+     sale_item.`id` AS service_has_item_id,
      invoice.`invoice_number` AS invoice_invoice_number
 FROM
      `business_partner` business_partner INNER JOIN `vehicle` vehicle ON business_partner.`business_partner_code` = vehicle.`business_partner_business_partner_code`
-     INNER JOIN `service` service ON vehicle.`vehicle_code` = service.`vehicle_vehicle_code`
-     INNER JOIN `service_has_item` service_has_item ON service.`service_code` = service_has_item.`service_service_code`
-     INNER JOIN `user` user ON service.`created_user` = user.`user_id`
-     INNER JOIN `invoice` invoice ON service.`service_code` = invoice.`service_service_code`
-     INNER JOIN `item` item ON service_has_item.`item_item_code` = item.`item_code`,
+     INNER JOIN `sale` sale ON vehicle.`vehicle_code` = sale.`vehicle_vehicle_code`
+     INNER JOIN `sale_item` sale_item ON sale.`sale_code` = sale_item.`sale_sale_code`
+     INNER JOIN `user` user ON sale.`created_user` = user.`user_id`
+     INNER JOIN `invoice` invoice ON sale.`sale_code` = invoice.`sale_sale_code`
+     INNER JOIN `item` item ON sale_item.`item_item_code` = item.`item_code`,
      `license` license
 WHERE
-     service.`service_code` = $P{serviceCode}
- AND service_has_item.`service_has_item_status_item_status_id` = 1
+     sale.`sale_code` = $P{serviceCode}
+ AND sale_item.`sale_item_status_item_status_id` = 1
 ORDER BY
-     service_has_item.`id` ASC]]>
+     sale_item.`id` ASC]]>
 	</queryString>
 	<field name="business_partner_business_partner_code" class="java.lang.String"/>
 	<field name="business_partner_first_name" class="java.lang.String"/>

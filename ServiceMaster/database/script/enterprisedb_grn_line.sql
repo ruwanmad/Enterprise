@@ -16,12 +16,42 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `grn_line`
+--
+
+DROP TABLE IF EXISTS `grn_line`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `grn_line` (
+  `grn_line_id` int(11) NOT NULL AUTO_INCREMENT,
+  `unit_price` float DEFAULT NULL,
+  `received_quantity` float DEFAULT NULL,
+  `discount` float DEFAULT NULL,
+  `sub_total` float DEFAULT NULL,
+  `cost_price` float DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL,
+  `modified_time` time DEFAULT NULL,
+  `modified_user` int(11) DEFAULT NULL,
+  `remark` varchar(100) DEFAULT NULL,
+  `grn_grn_code` varchar(15) NOT NULL,
+  `item_item_code` varchar(15) NOT NULL,
+  PRIMARY KEY (`grn_line_id`),
+  KEY `fk_grn_line_grn2_idx` (`grn_grn_code`),
+  KEY `fk_grn_line_item2_idx` (`item_item_code`),
+  CONSTRAINT `fk_grn_line_grn2` FOREIGN KEY (`grn_grn_code`) REFERENCES `grn` (`grn_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_grn_line_item2` FOREIGN KEY (`item_item_code`) REFERENCES `item` (`item_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `grn_line`
 --
 
 LOCK TABLES `grn_line` WRITE;
 /*!40000 ALTER TABLE `grn_line` DISABLE KEYS */;
-INSERT INTO `grn_line` VALUES (1,70,20,0,1400,70,'2017-09-11','12:02:33',1,NULL,NULL,NULL,'','GRN1000','ITM1000'),(2,170,20,0,3400,170,'2017-09-11','12:02:33',1,NULL,NULL,NULL,'','GRN1000','ITM1001'),(3,430,20,0,8600,430,'2017-09-11','12:02:33',1,NULL,NULL,NULL,'','GRN1000','ITM1002');
 /*!40000 ALTER TABLE `grn_line` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -34,4 +64,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-28  0:13:00
+-- Dump completed on 2017-10-04  1:24:20

@@ -16,12 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `invoice`
+--
+
+DROP TABLE IF EXISTS `invoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `invoice` (
+  `invoice_number` varchar(15) NOT NULL,
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL,
+  `modified_time` time DEFAULT NULL,
+  `modified_user` int(11) DEFAULT NULL,
+  `sale_sale_code` varchar(15) NOT NULL,
+  PRIMARY KEY (`invoice_number`),
+  KEY `fk_invoice_sale1_idx` (`sale_sale_code`),
+  CONSTRAINT `fk_invoice_sale1` FOREIGN KEY (`sale_sale_code`) REFERENCES `sale` (`sale_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `invoice`
 --
 
 LOCK TABLES `invoice` WRITE;
 /*!40000 ALTER TABLE `invoice` DISABLE KEYS */;
-INSERT INTO `invoice` VALUES ('INV1000','2017-09-11','10:17:23',1,NULL,NULL,NULL,'SVR1000'),('INV1001','2017-09-11','11:46:31',1,NULL,NULL,NULL,'SVR1001'),('INV1002','2017-09-11','12:11:14',1,NULL,NULL,NULL,'SVR1002'),('INV1003','2017-09-11','12:27:12',1,NULL,NULL,NULL,'SVR1003'),('INV1004','2017-09-11','12:33:57',1,NULL,NULL,NULL,'SVR1004'),('INV1005','2017-09-11','12:38:55',1,NULL,NULL,NULL,'SVR1005'),('INV1006','2017-09-11','12:42:34',1,NULL,NULL,NULL,'SVR1006'),('INV1007','2017-09-11','14:04:30',1,NULL,NULL,NULL,'SVR1007'),('INV1008','2017-09-11','14:13:51',1,NULL,NULL,NULL,'SVR1008'),('INV1009','2017-09-11','14:20:06',1,NULL,NULL,NULL,'SVR1009'),('INV1010','2017-09-14','13:13:54',1,NULL,NULL,NULL,'DRS1000'),('INV1011','2017-09-14','13:15:48',1,NULL,NULL,NULL,'DRS1001'),('INV1012','2017-09-14','13:17:15',1,NULL,NULL,NULL,'DRS1002'),('INV1013','2017-09-14','14:11:48',1,NULL,NULL,NULL,'DRS1003'),('INV1014','2017-09-14','18:57:01',1,NULL,NULL,NULL,'DRS1004'),('INV1015','2017-09-16','17:28:25',1,NULL,NULL,NULL,'DRS1005'),('INV1016','2017-09-16','18:17:59',1,NULL,NULL,NULL,'SVR1010'),('INV1017','2017-09-17','12:43:34',1,NULL,NULL,NULL,'SVR1012');
+INSERT INTO `invoice` VALUES ('INV1001','2017-10-04','00:18:50',1,NULL,NULL,NULL,'DRS1001');
 /*!40000 ALTER TABLE `invoice` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -34,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-28  0:13:01
+-- Dump completed on 2017-10-04  1:24:20

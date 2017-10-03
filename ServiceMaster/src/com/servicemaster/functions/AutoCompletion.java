@@ -71,24 +71,26 @@ public class AutoCompletion extends PlainDocument {
         editorKeyListener = new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (comboBox.isDisplayable()) {
-                    comboBox.setPopupVisible(true);
-                }
-                hitBackspace = false;
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_BACK_SPACE:
-                        hitBackspace = true;
-                        hitBackspaceOnSelection = editor.getSelectionStart() != editor.getSelectionEnd();
-                        break;
-                    case KeyEvent.VK_DELETE:
-                        e.consume();
-                        comboBox.getToolkit().beep();
-                        break;
-                    case KeyEvent.VK_ENTER:
-                        if (!editor.getText().isEmpty()) {
-                            nextFocusable.requestFocus();
-                        }
-                        break;
+                if (!isFunctionKey(e.getKeyCode())) {
+                    if (comboBox.isDisplayable()) {
+                        comboBox.setPopupVisible(true);
+                    }
+                    hitBackspace = false;
+                    switch (e.getKeyCode()) {
+                        case KeyEvent.VK_BACK_SPACE:
+                            hitBackspace = true;
+                            hitBackspaceOnSelection = editor.getSelectionStart() != editor.getSelectionEnd();
+                            break;
+                        case KeyEvent.VK_DELETE:
+                            e.consume();
+                            comboBox.getToolkit().beep();
+                            break;
+                        case KeyEvent.VK_ENTER:
+                            if (!editor.getText().isEmpty()) {
+                                nextFocusable.requestFocus();
+                            }
+                            break;
+                    }
                 }
             }
         };
@@ -211,5 +213,21 @@ public class AutoCompletion extends PlainDocument {
 
     private boolean startsWithIgnoreCase(String str1, String str2) {
         return str1.toUpperCase().startsWith(str2.toUpperCase());
+    }
+
+    private boolean isFunctionKey(int keyCode) {
+        
+        return keyCode == KeyEvent.VK_F1 
+                || keyCode == KeyEvent.VK_F2
+                || keyCode == KeyEvent.VK_F3
+                || keyCode == KeyEvent.VK_F4 
+                || keyCode == KeyEvent.VK_F5
+                || keyCode == KeyEvent.VK_F6
+                || keyCode == KeyEvent.VK_F7
+                || keyCode == KeyEvent.VK_F8
+                || keyCode == KeyEvent.VK_F9
+                || keyCode == KeyEvent.VK_F10
+                || keyCode == KeyEvent.VK_F11
+                || keyCode == KeyEvent.VK_F12;
     }
 }

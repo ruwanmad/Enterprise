@@ -16,6 +16,36 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `user_level` int(11) NOT NULL,
+  `isActive` int(11) DEFAULT '1',
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  `midified_date` date DEFAULT NULL,
+  `modified_time` time DEFAULT NULL,
+  `midified_user` int(11) DEFAULT NULL,
+  `remarks` varchar(100) DEFAULT NULL,
+  `user_privilage_privilage_id` int(11) NOT NULL,
+  `business_partner_business_partner_code` varchar(15) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `fk_user_user_privilage1_idx` (`user_privilage_privilage_id`),
+  KEY `fk_user_business_partner1_idx` (`business_partner_business_partner_code`),
+  CONSTRAINT `fk_user_business_partner1` FOREIGN KEY (`business_partner_business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_user_privilage1` FOREIGN KEY (`user_privilage_privilage_id`) REFERENCES `user_privilage` (`privilage_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `user`
 --
 
@@ -34,4 +64,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-28  0:13:15
+-- Dump completed on 2017-10-04  1:24:31

@@ -12,17 +12,15 @@ import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.AutoCompletion;
 import com.servicemaster.functions.JdbcConnection;
-import com.servicemaster.functions.KeyCodeFunctions;
+import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Address;
 import com.servicemaster.models.Bom;
 import com.servicemaster.models.BomItem;
 import com.servicemaster.models.BusinessAddress;
 import com.servicemaster.models.BusinessPartner;
-import com.servicemaster.models.BusinessTelephone;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Item;
-import com.servicemaster.models.ItemType;
 import com.servicemaster.models.Sale;
 import com.servicemaster.models.SaleItem;
 import com.servicemaster.models.SaleItemStatus;
@@ -53,7 +51,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -594,6 +591,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
         itemPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbItems, jLabel10, jLabel8, jLabel9, txtDiscount, txtQuantity});
 
+        tblItems.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         tblItems.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -839,8 +837,6 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         this.loadVehicles(session);
         this.loadServiceBays(session);
         this.loadItems(session);
-        this.loadServiceStatus(session);
-        this.loadServiceHasItemStatus(session);
 
         session.close();
 
@@ -930,7 +926,13 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             String vehicleNo = (String) cmbVehicle.getSelectedItem();
             if (!vehicleNo.isEmpty()) {
-                Vehicle vehicle = vehicleMap.get(vehicleNo);
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                session.beginTransaction();
+
+                Vehicle vehicle = (Vehicle) session
+                        .createCriteria(Vehicle.class)
+                        .add(Restrictions.eq("vehicleNumber", vehicleNo.trim()))
+                        .uniqueResult();
                 BusinessPartner businessPartner = vehicle.getBusinessPartner();
                 lblCustomerName.setText(businessPartner.getFirstName() + " " + businessPartner.getLastName());
 
@@ -946,23 +948,20 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                         }
                     }
                 }
-
-                Session session = HibernateUtil.getSessionFactory().openSession();
-                session.beginTransaction();
-
-                Query query = session.createQuery("from Service s where s.vehicle.vehicleNumber = :vehicleNumber ");
-                query.setParameter("vehicleNumber", vehicle.getVehicleNumber());
-
-                List list = query.list();
-                if (!list.isEmpty()) {
-                    for (Object object : list) {
-                        if (object instanceof Sale) {
-                            Sale tempSale = (Sale) object;
-                            txtLastServicesMilage.setText(tempSale.getMilage().toString());
-                        }
-                    }
-                } else {
+                
+                List<Sale> sales = session
+                        .createCriteria(Sale.class)
+                        .add(Restrictions.eq("vehicle", vehicle))
+                        .addOrder(Order.desc("createdDate"))
+                        .list();
+                
+                if (sales.isEmpty()) {
                     txtLastServicesMilage.setText("");
+                } else {
+                    for (Sale tempSale : sales) {
+                        txtLastServicesMilage.setText(""+tempSale.getMilage());
+                        break;
+                    }
                 }
             }
         }
@@ -1054,7 +1053,10 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 Transaction transaction = session.beginTransaction();
 
                 String itemName = tblItems.getValueAt(selectedRow, 1).toString();
-                Item item = itemMap.get(itemName);
+                Item item = (Item) session
+                        .createCriteria(Item.class)
+                        .add(Restrictions.eq("itemName", itemName))
+                        .uniqueResult();
                 SaleItem saleItem = (SaleItem) session.createCriteria(SaleItem.class)
                         .add(Restrictions.eq("sale", this.sale))
                         .add(Restrictions.eq("item", item))
@@ -1075,7 +1077,13 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                     int option = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
                     if (option == JOptionPane.YES_OPTION) {
                         SaleItem tempSaleItem = saleItemMap.get(itemName);
-                        tempSaleItem.setSaleItemStatus(this.saleItemStatusMap.get(2));
+
+                        SaleItemStatus saleItemStatus = (SaleItemStatus) session
+                                .createCriteria(SaleItemStatus.class)
+                                .add(Restrictions.eq("itemStatusDescription", "CANCELED"))
+                                .uniqueResult();
+
+                        tempSaleItem.setSaleItemStatus(saleItemStatus);
 
                         SaleItem mergedHasItem = (SaleItem) session.merge(tempSaleItem);
                         session.saveOrUpdate(mergedHasItem);
@@ -1085,7 +1093,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                         DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
                         tableModel.removeRow(tblItems.getSelectedRow());
 
-                        grandSubTotal = grandSubTotal - (tempSaleItem.getQuantity() * this.getItemSellingPrice(itemMap.get(itemName)));
+                        grandSubTotal = grandSubTotal - (tempSaleItem.getQuantity() * this.getItemSellingPrice(item));
                         grandDiscount = grandDiscount - tempSaleItem.getDiscount();
                         grandTotal = grandSubTotal - grandDiscount;
 
@@ -1147,6 +1155,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
 
+            SaleStatus saleStatus = (SaleStatus) session
+                    .createCriteria(SaleStatus.class)
+                    .add(Restrictions.eq("statusDescription", "INVOICED"))
+                    .uniqueResult();
+
             invoice = new Invoice(invoiceCode, sale);
             invoice.setCreatedDate(date);
             invoice.setCreatedTime(date);
@@ -1158,7 +1171,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             invoices.add(invoice);
 
             sale.setInvoices(invoices);
-            sale.setSaleStatus(this.saleStatusMap.get("INVOICED"));
+            sale.setSaleStatus(saleStatus);
 
             session.saveOrUpdate(sale);
 
@@ -1196,6 +1209,24 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if (sale != null) {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+
+            Vehicle vehicle = (Vehicle) session
+                    .createCriteria(Vehicle.class)
+                    .add(Restrictions.eq("vehicleNumber", ((String) cmbVehicle.getSelectedItem()).trim()))
+                    .uniqueResult();
+
+            ServiceBay serviceBay = (ServiceBay) session
+                    .createCriteria(ServiceBay.class)
+                    .add(Restrictions.eq("serviceBayName", ((String) cmbServiceBay.getSelectedItem()).trim()))
+                    .uniqueResult();
+
+            SaleStatus saleStatus = (SaleStatus) session
+                    .createCriteria(SaleStatus.class)
+                    .add(Restrictions.eq("statusDescription", "OPEN"))
+                    .uniqueResult();
+
             Date date = dateServiceDate.getDate();
             Date time = new Date();
 
@@ -1211,14 +1242,16 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             sale.setModifiedDate(date);
             sale.setModifiedTime(time);
             sale.setModifiedUser(MainFrame.user.getUserId());
-            sale.setServiceBay(serviceBayMap.get(((String) cmbServiceBay.getSelectedItem()).trim()));
-            sale.setVehicle(vehicleMap.get(((String) cmbVehicle.getSelectedItem()).trim()));
-            sale.setSaleStatus(saleStatusMap.get("OPEN"));
-
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
+            sale.setServiceBay(serviceBay);
+            sale.setVehicle(vehicle);
+            sale.setSaleStatus(saleStatus);
 
             session.saveOrUpdate(sale);
+
+            SaleItemStatus saleItemStatus = (SaleItemStatus) session
+                    .createCriteria(SaleItemStatus.class)
+                    .add(Restrictions.eq("itemStatusDescription", "ACTIVE"))
+                    .uniqueResult();
 
             DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
             for (int i = 0; i < tableModel.getRowCount(); i++) {
@@ -1243,7 +1276,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 serviceHasItem.setSubTotal(subTotal);
                 serviceHasItem.setDiscount(discount);
                 serviceHasItem.setTotal(itemTotal);
-                serviceHasItem.setSaleItemStatus(this.saleItemStatusMap.get(1));
+                serviceHasItem.setSaleItemStatus(saleItemStatus);
                 serviceHasItem.setModifiedDate(date);
                 serviceHasItem.setModifiedTime(time);
                 serviceHasItem.setModifiedUser(MainFrame.user.getUserId());
@@ -1257,8 +1290,27 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         } else {
             KeyCodeFunctions codeFunctions = new KeyCodeFunctions();
             String saleCode = codeFunctions.getKey("SVR", "Service");
+
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+
             Date date = dateServiceDate.getDate();
             Date time = new Date();
+
+            Vehicle vehicle = (Vehicle) session
+                    .createCriteria(Vehicle.class)
+                    .add(Restrictions.eq("vehicleNumber", ((String) cmbVehicle.getSelectedItem()).trim()))
+                    .uniqueResult();
+
+            ServiceBay serviceBay = (ServiceBay) session
+                    .createCriteria(ServiceBay.class)
+                    .add(Restrictions.eq("serviceBayName", ((String) cmbServiceBay.getSelectedItem()).trim()))
+                    .uniqueResult();
+
+            SaleStatus saleStatus = (SaleStatus) session
+                    .createCriteria(SaleStatus.class)
+                    .add(Restrictions.eq("statusDescription", "OPEN"))
+                    .uniqueResult();
 
             sale = new Sale();
             sale.setSaleCode(saleCode);
@@ -1274,14 +1326,16 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             sale.setCreatedDate(date);
             sale.setCreatedTime(time);
             sale.setCreatedUser(MainFrame.user.getUserId());
-            sale.setServiceBay(serviceBayMap.get(((String) cmbServiceBay.getSelectedItem()).trim()));
-            sale.setVehicle(vehicleMap.get(((String) cmbVehicle.getSelectedItem()).trim()));
-            sale.setSaleStatus(saleStatusMap.get("OPEN"));
-
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
+            sale.setServiceBay(serviceBay);
+            sale.setVehicle(vehicle);
+            sale.setSaleStatus(saleStatus);
 
             session.saveOrUpdate(sale);
+
+            SaleItemStatus saleItemStatus = (SaleItemStatus) session
+                    .createCriteria(SaleItemStatus.class)
+                    .add(Restrictions.eq("itemStatusDescription", "ACTIVE"))
+                    .uniqueResult();
 
             DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
             for (int i = 0; i < tableModel.getRowCount(); i++) {
@@ -1292,15 +1346,20 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 float discount = (float) tblItems.getValueAt(i, 5);
                 float itemTotal = (float) tblItems.getValueAt(i, 6);
 
+                Item item = (Item) session
+                        .createCriteria(Item.class)
+                        .add(Restrictions.eq("itemName", itemName))
+                        .uniqueResult();
+
                 SaleItem saleItem = new SaleItem();
-                saleItem.setItem(itemMap.get(itemName));
+                saleItem.setItem(item);
                 saleItem.setSale(sale);
                 saleItem.setUnitPrice(unitPrice);
                 saleItem.setQuantity(quantity);
                 saleItem.setSubTotal(subTotal);
                 saleItem.setDiscount(discount);
                 saleItem.setTotal(itemTotal);
-                saleItem.setSaleItemStatus(this.saleItemStatusMap.get(1));
+                saleItem.setSaleItemStatus(saleItemStatus);
                 saleItem.setCreatedDate(date);
                 saleItem.setCreatedTime(time);
                 saleItem.setCreatedUser(MainFrame.user.getUserId());
@@ -1357,7 +1416,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSettleMouseExited
 
     private void btnSettleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettleActionPerformed
-        SettlementDialog settlementDialog = new SettlementDialog(null, true, sale, invoice, this.saleStatusMap);
+        SettlementDialog settlementDialog = new SettlementDialog(null, true, sale, invoice);
         settlementDialog.setVisible(true);
     }//GEN-LAST:event_btnSettleActionPerformed
 
@@ -1372,10 +1431,12 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         float quantity = Float.parseFloat(txtQuantity.getText().trim());
         if (quantity != 0.0) {
-            String itemName = (String) cmbItems.getSelectedItem();
-            Item item = itemMap.get(itemName);
-
             Session session = HibernateUtil.getSessionFactory().openSession();
+            String itemName = ((String) cmbItems.getSelectedItem()).trim();
+            Item item = (Item) session
+                    .createCriteria(Item.class)
+                    .add(Restrictions.eq("itemName", itemName))
+                    .uniqueResult();
 
             if (item.getFromBom()) {
                 Bom bom = (Bom) session.createCriteria(Bom.class)
@@ -1503,7 +1564,6 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void loadVehicles(Session session) {
-
         Query query = session.createQuery("from Vehicle v order by v.vehicleNumber");
         List list = query.list();
         if (!list.isEmpty()) {
@@ -1514,27 +1574,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                     Vehicle vehicle = (Vehicle) object;
                     String vehicleNo = vehicle.getVehicleNumber();
 
-                    BusinessPartner businessPartner = vehicle.getBusinessPartner();
-                    Hibernate.initialize(businessPartner);
-
-                    Set addresses = businessPartner.getBusinessAddresses();
-                    for (Object tempAddresse : addresses) {
-                        if (tempAddresse instanceof BusinessAddress) {
-                            BusinessAddress businessAddress = (BusinessAddress) tempAddresse;
-                            Hibernate.initialize(businessAddress.getAddress());
-                        }
-                    }
-
-                    Set businessTelephone = businessPartner.getBusinessTelephones();
-                    for (Object tempTelephone : businessTelephone) {
-                        if (tempTelephone instanceof BusinessTelephone) {
-                            BusinessTelephone telephone = (BusinessTelephone) tempTelephone;
-                            Hibernate.initialize(telephone.getTelephoneNumber());
-                        }
-                    }
-
                     cmbVehicle.addItem(vehicleNo);
-                    vehicleMap.put(vehicleNo, vehicle);
                 }
             }
         }
@@ -1544,13 +1584,10 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         cmbItems.removeAllItems();
         cmbItems.addItem("");
 
-        ItemType itemType = (ItemType) session
-                .createCriteria(ItemType.class)
-                .add(Restrictions.eq("itemTypeName", "SELL"))
-                .uniqueResult();
-
-        List<Item> items = session.createCriteria(Item.class)
-                .add(Restrictions.eq("itemType", itemType))
+        List<Item> items = session
+                .createCriteria(Item.class)
+                .createAlias("itemType", "itemType")
+                .add(Restrictions.eq("itemType.itemTypeCode", "ITP1000"))
                 .addOrder(Order.asc("itemName"))
                 .list();
 
@@ -1558,7 +1595,6 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             for (Item item : items) {
                 String itemName = item.getItemName();
                 cmbItems.addItem(itemName);
-                itemMap.put(itemName, item);
             }
         }
     }
@@ -1566,44 +1602,15 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private void loadServiceBays(Session session) {
         cmbServiceBay.removeAllItems();
         cmbServiceBay.addItem("");
-        Query query = session.createQuery("from ServiceBay sb order by sb.serviceBayCode");
-        List list = query.list();
-        if (!list.isEmpty()) {
-            for (Object object : list) {
-                if (object instanceof ServiceBay) {
-                    ServiceBay serviceBay = (ServiceBay) object;
-                    String serviceBayName = serviceBay.getServiceBayName();
-                    cmbServiceBay.addItem(serviceBayName);
-                    serviceBayMap.put(serviceBayName, serviceBay);
-                }
-            }
-        }
-    }
 
-    private void loadServiceStatus(Session session) {
-        Query query = session.createQuery("from ServiceStatus ss order by ss.statusId");
-        List list = query.list();
-        if (!list.isEmpty()) {
-            for (Object object : list) {
-                if (object instanceof SaleStatus) {
-                    SaleStatus saleStatus = (SaleStatus) object;
-                    String description = saleStatus.getStatusDescription();
-                    saleStatusMap.put(description, saleStatus);
-                }
-            }
-        }
-    }
+        List<ServiceBay> serviceBays = session
+                .createCriteria(ServiceBay.class)
+                .addOrder(Order.asc("serviceBayCode"))
+                .list();
 
-    private void loadServiceHasItemStatus(Session session) {
-        Query query = session.createQuery("from ServiceHasItemStatus ss order by ss.itemStatusId");
-        List list = query.list();
-        if (!list.isEmpty()) {
-            for (Object object : list) {
-                if (object instanceof SaleItemStatus) {
-                    SaleItemStatus saleItemStatus = (SaleItemStatus) object;
-                    int id = saleItemStatus.getItemStatusId();
-                    saleItemStatusMap.put(id, saleItemStatus);
-                }
+        if (!serviceBays.isEmpty()) {
+            for (ServiceBay serviceBay : serviceBays) {
+                cmbServiceBay.addItem(serviceBay.getServiceBayName());
             }
         }
     }
@@ -1749,12 +1756,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
     private Sale sale;
     private Invoice invoice;
-    private final TreeMap<String, Vehicle> vehicleMap = new TreeMap<>();
-    private final TreeMap<String, ServiceBay> serviceBayMap = new TreeMap<>();
-    private final TreeMap<String, Item> itemMap = new TreeMap<>();
-    private final TreeMap<String, SaleStatus> saleStatusMap = new TreeMap<>();
     private final TreeMap<String, SaleItem> saleItemMap = new TreeMap<>();
-    private final TreeMap<Integer, SaleItemStatus> saleItemStatusMap = new TreeMap<>();
 
     private float grandSubTotal = 0.0f;
     private float grandTotal = 0.0f;

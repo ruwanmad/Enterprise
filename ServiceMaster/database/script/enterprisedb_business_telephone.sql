@@ -16,12 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `business_telephone`
+--
+
+DROP TABLE IF EXISTS `business_telephone`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `business_telephone` (
+  `telephone_number_telephone_number_code` varchar(15) NOT NULL,
+  `business_partner_business_partner_code` varchar(15) NOT NULL,
+  KEY `fk_business_telephone_telephone_number1_idx` (`telephone_number_telephone_number_code`),
+  KEY `fk_business_telephone_business_partner1_idx` (`business_partner_business_partner_code`),
+  CONSTRAINT `fk_business_telephone_business_partner1` FOREIGN KEY (`business_partner_business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_business_telephone_telephone_number1` FOREIGN KEY (`telephone_number_telephone_number_code`) REFERENCES `telephone_number` (`telephone_number_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `business_telephone`
 --
 
 LOCK TABLES `business_telephone` WRITE;
 /*!40000 ALTER TABLE `business_telephone` DISABLE KEYS */;
-INSERT INTO `business_telephone` VALUES ('TEL1000','BPT1000'),('TEL1001','BPT1001'),('TEL1002','BPT1002');
+INSERT INTO `business_telephone` VALUES ('TEL1000','BPT1000'),('TEL1001','BPT1001'),('TEL1002','BPT1002'),('TEL1003','BPT1003');
 /*!40000 ALTER TABLE `business_telephone` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -34,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-28  0:13:08
+-- Dump completed on 2017-10-04  1:24:26
