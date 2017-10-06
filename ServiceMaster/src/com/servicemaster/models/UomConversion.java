@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Oct 1, 2017 7:12:27 PM by Hibernate Tools 4.3.1
+// Generated Oct 6, 2017 7:38:33 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -15,6 +15,7 @@ public class UomConversion  implements java.io.Serializable {
      private Uom uomByUomUomCodeTo;
      private Float multipliedBy;
      private Float dividedBy;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -32,12 +33,13 @@ public class UomConversion  implements java.io.Serializable {
         this.uomByUomUomCodeFrom = uomByUomUomCodeFrom;
         this.uomByUomUomCodeTo = uomByUomUomCodeTo;
     }
-    public UomConversion(String uomConversionCode, Uom uomByUomUomCodeFrom, Uom uomByUomUomCodeTo, Float multipliedBy, Float dividedBy, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks) {
+    public UomConversion(String uomConversionCode, Uom uomByUomUomCodeFrom, Uom uomByUomUomCodeTo, Float multipliedBy, Float dividedBy, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks) {
        this.uomConversionCode = uomConversionCode;
        this.uomByUomUomCodeFrom = uomByUomUomCodeFrom;
        this.uomByUomUomCodeTo = uomByUomUomCodeTo;
        this.multipliedBy = multipliedBy;
        this.dividedBy = dividedBy;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -81,6 +83,13 @@ public class UomConversion  implements java.io.Serializable {
     
     public void setDividedBy(Float dividedBy) {
         this.dividedBy = dividedBy;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;

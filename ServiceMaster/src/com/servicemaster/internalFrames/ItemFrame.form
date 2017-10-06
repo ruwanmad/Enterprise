@@ -44,124 +44,140 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="sellingPricePanel" alignment="0" max="32767" attributes="0"/>
-          <Component id="addSellsPricePanel" alignment="0" max="32767" attributes="0"/>
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="lblID" min="-2" pref="0" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel19" linkSize="1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cmbBrand" linkSize="3" min="-2" pref="150" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jLabel17" linkSize="1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cmbBuyingUOM" linkSize="3" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="jLabel14" linkSize="1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="84" pref="566" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel1" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel2" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtSellingQuantity" linkSize="3" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="txtItemCode" max="32767" attributes="0"/>
-                                          <Component id="txtItemName" max="32767" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="btnNameSearch" linkSize="6" min="-2" pref="50" max="-2" attributes="0"/>
-                                          <Component id="btnCodeSerach" linkSize="6" min="-2" pref="50" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="btnReset" linkSize="8" min="-2" pref="75" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnSave" linkSize="8" min="-2" pref="75" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnClose" linkSize="8" min="-2" pref="75" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="sellingPricePanel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="addSellsPricePanel" alignment="1" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel24" linkSize="1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="cmbItemType" linkSize="16" min="-2" pref="192" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel5" linkSize="1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtReorderQuantity" linkSize="3" min="-2" pref="150" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jLabel20" linkSize="1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cmbIssueMethod" linkSize="3" min="-2" pref="150" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
+                              <Component id="txtReorderQuantity" linkSize="16" min="-2" pref="192" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel14" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="424" max="-2" attributes="0"/>
+                              <Component id="jLabel18" linkSize="1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="cmbSellingUOM" linkSize="16" min="-2" pref="192" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="156" max="32767" attributes="0"/>
-                      <Component id="lblID" min="-2" pref="0" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="btnReset" linkSize="8" min="-2" pref="75" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnSave" linkSize="8" min="-2" pref="75" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnClose" linkSize="8" min="-2" pref="75" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="txtRemarks" alignment="1" min="-2" pref="420" max="-2" attributes="0"/>
+                          <Component id="txtRemarks" alignment="1" min="-2" pref="504" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel15" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel18" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel4" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel5" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel1" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel2" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Component id="jLabel19" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Component id="cmbSellingUOM" linkSize="3" min="-2" pref="150" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="txtItemName" max="32767" attributes="0"/>
+                                              <Component id="txtItemCode" pref="450" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jLabel7" linkSize="13" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="cbxIsActive" linkSize="10" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jLabel6" linkSize="13" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="cbxIsPhysical" linkSize="10" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="jLabel8" linkSize="13" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="cbxFromBom" min="-2" max="-2" attributes="0"/>
-                                              </Group>
+                                              <Component id="btnCodeSerach" linkSize="6" min="-2" pref="50" max="-2" attributes="0"/>
+                                              <Component id="btnNameSearch" linkSize="6" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="cmbSubCategory" linkSize="12" min="-2" pref="150" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="txtSearchKey" linkSize="16" min="-2" pref="192" max="-2" attributes="0"/>
+                                              <Component id="cmbBrand" linkSize="16" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
+                                          </Group>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="jLabel16" linkSize="1" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="cmbRackSlot" linkSize="3" pref="111" max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="cbxIsPhysical" linkSize="10" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="cbxIsActive" linkSize="10" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="cbxFromBom" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="jLabel17" linkSize="1" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="cmbBuyingUOM" linkSize="16" min="-2" pref="192" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="jLabel25" linkSize="1" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="cmbBaseItem" linkSize="16" min="-2" pref="192" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Component id="jLabel20" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <EmptySpace min="102" pref="102" max="-2" attributes="0"/>
+                                                  <Component id="cmbIssueMethod" linkSize="16" min="-2" pref="192" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="jLabel3" linkSize="1" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="txtSellingQuantity" linkSize="16" min="-2" pref="192" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="jLabel16" linkSize="1" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="cmbRackSlot" linkSize="16" min="-2" pref="192" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
                                       </Group>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel24" linkSize="1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="cmbItemType" linkSize="12" min="-2" pref="150" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jLabel25" linkSize="1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="cmbBaseItem" linkSize="3" min="-2" pref="150" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
+                                  <Component id="cmbSubCategory" linkSize="16" min="-2" pref="192" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="jLabel15" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="94" max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -169,88 +185,106 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="jLabel1" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="txtItemCode" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="btnCodeSerach" linkSize="7" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
-                  <Component id="lblID" min="-2" pref="0" max="-2" attributes="0"/>
-              </Group>
+              <Component id="lblID" min="-2" pref="0" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel2" linkSize="2" min="-2" pref="25" max="-2" attributes="0"/>
-                  <Component id="txtItemName" linkSize="2" min="-2" pref="25" max="-2" attributes="0"/>
-                  <Component id="btnNameSearch" linkSize="7" min="-2" pref="25" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel3" linkSize="2" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="txtSellingQuantity" linkSize="2" min="-2" pref="25" max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jLabel1" linkSize="2" min="-2" pref="25" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel2" linkSize="2" min="-2" pref="25" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel4" linkSize="2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="cmbSellingUOM" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel18" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel6" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                              <Component id="cbxIsPhysical" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jLabel8" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbxFromBom" linkSize="2" min="-2" pref="25" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel15" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmbSubCategory" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel7" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="cbxIsActive" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Component id="jLabel24" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmbItemType" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="txtItemCode" linkSize="2" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Component id="btnCodeSerach" linkSize="7" min="-2" pref="25" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="txtItemName" linkSize="2" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Component id="btnNameSearch" linkSize="7" min="-2" pref="25" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="txtSearchKey" linkSize="2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="txtReorderQuantity" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                                  <Component id="jLabel5" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel3" linkSize="2" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
+                                  <Component id="txtSellingQuantity" linkSize="2" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel20" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cmbIssueMethod" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel17" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cmbBuyingUOM" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel25" linkSize="2" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cmbBaseItem" linkSize="2" alignment="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="cmbRackSlot" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel16" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel6" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                                      <Component id="cbxIsPhysical" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                                      <Component id="jLabel19" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cmbBrand" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel7" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                                      <Component id="cbxIsActive" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jLabel8" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbxFromBom" linkSize="2" min="-2" pref="25" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel5" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                  <Component id="txtReorderQuantity" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                  <Component id="jLabel20" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmbIssueMethod" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel19" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmbBrand" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmbBuyingUOM" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel17" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="cmbSubCategory" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel16" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cmbRackSlot" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jLabel14" linkSize="2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="addSellsPricePanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="sellingPricePanel" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jLabel15" linkSize="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtRemarks" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="cmbItemType" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel24" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmbBaseItem" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel25" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel14" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtRemarks" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="addSellsPricePanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="sellingPricePanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnSave" linkSize="9" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
@@ -275,6 +309,9 @@
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="SansSerif" size="12" style="0"/>
+        </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="txtItemName"/>
         </Property>
       </Properties>
     </Component>
@@ -331,6 +368,9 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="SansSerif" size="12" style="0"/>
         </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="txtSearchKey"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtSellingQuantity">
@@ -338,12 +378,18 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="SansSerif" size="12" style="0"/>
         </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="cmbSellingUOM"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtReorderQuantity">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="SansSerif" size="12" style="0"/>
+        </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="cmbIssueMethod"/>
         </Property>
       </Properties>
     </Component>
@@ -403,6 +449,9 @@
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
         </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="cmbRackSlot"/>
+        </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -415,6 +464,9 @@
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
+        </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="cmbItemType"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -429,6 +481,9 @@
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
         </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="cmbSubCategory"/>
+        </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -442,6 +497,9 @@
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
         </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="txtReorderQuantity"/>
+        </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -451,6 +509,9 @@
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="SansSerif" size="12" style="0"/>
+        </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="txtSellingPrice"/>
         </Property>
       </Properties>
     </Component>
@@ -464,11 +525,15 @@
     </Component>
     <Component class="javax.swing.JComboBox" name="cmbBrand">
       <Properties>
+        <Property name="editable" type="boolean" value="true"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="SansSerif" size="12" style="0"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
+        </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="cmbBuyingUOM"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -490,6 +555,9 @@
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
+        </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="cmbBrand"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -795,6 +863,9 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="SansSerif" size="12" style="0"/>
             </Property>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="dateEffectiveDate"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtSellingPriceFocusGained"/>
@@ -817,6 +888,9 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="SansSerif" size="12" style="0"/>
             </Property>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="txtSellingPriceRemark"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel23">
@@ -831,6 +905,9 @@
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="SansSerif" size="12" style="0"/>
+            </Property>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="btnAdd"/>
             </Property>
           </Properties>
         </Component>
@@ -882,6 +959,9 @@
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
         </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="cmbBaseItem"/>
+        </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -895,6 +975,9 @@
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
+        </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="txtRemarks"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -921,6 +1004,24 @@
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="SansSerif" size="12" style="0"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel4">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="SansSerif" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Search Key :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtSearchKey">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="SansSerif" size="12" style="0"/>
+        </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="txtSellingQuantity"/>
         </Property>
       </Properties>
     </Component>

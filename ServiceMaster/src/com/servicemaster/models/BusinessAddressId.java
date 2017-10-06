@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Oct 1, 2017 7:12:27 PM by Hibernate Tools 4.3.1
+// Generated Oct 6, 2017 7:38:33 PM by Hibernate Tools 4.3.1
 
 
 
@@ -9,30 +9,30 @@ package com.servicemaster.models;
 public class BusinessAddressId  implements java.io.Serializable {
 
 
-     private String addressAddressCode;
-     private String businessPartnerBusinessPartnerCode;
+     private String addressCode;
+     private String businessPartnerCode;
 
     public BusinessAddressId() {
     }
 
-    public BusinessAddressId(String addressAddressCode, String businessPartnerBusinessPartnerCode) {
-       this.addressAddressCode = addressAddressCode;
-       this.businessPartnerBusinessPartnerCode = businessPartnerBusinessPartnerCode;
+    public BusinessAddressId(String addressCode, String businessPartnerCode) {
+       this.addressCode = addressCode;
+       this.businessPartnerCode = businessPartnerCode;
     }
    
-    public String getAddressAddressCode() {
-        return this.addressAddressCode;
+    public String getAddressCode() {
+        return this.addressCode;
     }
     
-    public void setAddressAddressCode(String addressAddressCode) {
-        this.addressAddressCode = addressAddressCode;
+    public void setAddressCode(String addressCode) {
+        this.addressCode = addressCode;
     }
-    public String getBusinessPartnerBusinessPartnerCode() {
-        return this.businessPartnerBusinessPartnerCode;
+    public String getBusinessPartnerCode() {
+        return this.businessPartnerCode;
     }
     
-    public void setBusinessPartnerBusinessPartnerCode(String businessPartnerBusinessPartnerCode) {
-        this.businessPartnerBusinessPartnerCode = businessPartnerBusinessPartnerCode;
+    public void setBusinessPartnerCode(String businessPartnerCode) {
+        this.businessPartnerCode = businessPartnerCode;
     }
 
 
@@ -42,15 +42,15 @@ public class BusinessAddressId  implements java.io.Serializable {
 		 if ( !(other instanceof BusinessAddressId) ) return false;
 		 BusinessAddressId castOther = ( BusinessAddressId ) other; 
          
-		 return ( (this.getAddressAddressCode()==castOther.getAddressAddressCode()) || ( this.getAddressAddressCode()!=null && castOther.getAddressAddressCode()!=null && this.getAddressAddressCode().equals(castOther.getAddressAddressCode()) ) )
- && ( (this.getBusinessPartnerBusinessPartnerCode()==castOther.getBusinessPartnerBusinessPartnerCode()) || ( this.getBusinessPartnerBusinessPartnerCode()!=null && castOther.getBusinessPartnerBusinessPartnerCode()!=null && this.getBusinessPartnerBusinessPartnerCode().equals(castOther.getBusinessPartnerBusinessPartnerCode()) ) );
+		 return ( (this.getAddressCode()==castOther.getAddressCode()) || ( this.getAddressCode()!=null && castOther.getAddressCode()!=null && this.getAddressCode().equals(castOther.getAddressCode()) ) )
+ && ( (this.getBusinessPartnerCode()==castOther.getBusinessPartnerCode()) || ( this.getBusinessPartnerCode()!=null && castOther.getBusinessPartnerCode()!=null && this.getBusinessPartnerCode().equals(castOther.getBusinessPartnerCode()) ) );
    }
    
    public int hashCode() {
          int result = 17;
          
-         result = 37 * result + ( getAddressAddressCode() == null ? 0 : this.getAddressAddressCode().hashCode() );
-         result = 37 * result + ( getBusinessPartnerBusinessPartnerCode() == null ? 0 : this.getBusinessPartnerBusinessPartnerCode().hashCode() );
+         result = 37 * result + ( getAddressCode() == null ? 0 : this.getAddressCode().hashCode() );
+         result = 37 * result + ( getBusinessPartnerCode() == null ? 0 : this.getBusinessPartnerCode().hashCode() );
          return result;
    }   
 

@@ -239,19 +239,21 @@ public class ItemView extends javax.swing.JInternalFrame {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         
-        IssueMethod issueMethod = (IssueMethod) session.load(IssueMethod.class, item.getIssueMethod().getIssueMethodId());
+
+       IssueMethod issueMethod = (IssueMethod) session.load(IssueMethod.class, item.getIssueMethodId());
         if (item.getItemBrand() != null) {
             ItemBrand itemBrand = (ItemBrand) session.load(ItemBrand.class, item.getItemBrand().getBrandCode());
             itemFrame.setItemBrand(itemBrand.getBrandName());
         }
         SubCategory subCategory = (SubCategory) session.load(SubCategory.class, item.getSubCategory().getSubCategoryCode());
-        RackSlot rackSlot = (RackSlot) session.load(RackSlot.class, item.getRackSlot().getRackSlotCode());
+        RackSlot rackSlot = (RackSlot) session.load(RackSlot.class, item.getRackSlotCode());
         Uom buyingUOM = (Uom) session.load(Uom.class, item.getUomByBuyingUom().getUomCode());
         Uom sellingUOM = (Uom) session.load(Uom.class, item.getUomBySellingUom().getUomCode());
-        ItemType itemType = (ItemType) session.load(ItemType.class, item.getItemType().getItemTypeCode());
+        ItemType itemType = (ItemType) session.load(ItemType.class, item.getItemTypeCode());
         
         itemFrame.setItemCode(item.getItemCode());
         itemFrame.setItemName(item.getItemName());
+        itemFrame.setSearchKey(item.getSearchKey());
         itemFrame.setIssueMethod(issueMethod.getIssueMethodCode());
         itemFrame.setReorderQty(item.getReorderQuantity().toString());
         itemFrame.setSellingQuantity("" + item.getItemQuantity());

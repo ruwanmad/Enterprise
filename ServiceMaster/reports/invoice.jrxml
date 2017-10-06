@@ -12,8 +12,7 @@
      business_partner.`first_name` AS business_partner_first_name,
      business_partner.`last_name` AS business_partner_last_name,
      vehicle.`vehicle_number` AS vehicle_vehicle_number,
-     sale.`milage` AS service_milage,
-     sale_item.`sale_sale_code` AS service_has_item_service_service_code,
+     sale_item.`sale_code` AS service_has_item_service_service_code,
      sale_item.`unit_price` AS service_has_item_unit_price,
      sale_item.`quantity` AS service_has_item_quantity,
      sale_item.`sub_total` AS service_has_item_sub_total,
@@ -30,18 +29,21 @@
      license.`address_line3` AS license_address_line3,
      license.`telephone` AS license_telephone,
      sale_item.`id` AS service_has_item_id,
-     invoice.`invoice_number` AS invoice_invoice_number
+     invoice.`invoice_number` AS invoice_invoice_number,
+     sale.`current_milage` AS sale_current_milage,
+     sale.`previous_milage` AS sale_previous_milage,
+     sale.`next_milage` AS sale_next_milage
 FROM
-     `business_partner` business_partner INNER JOIN `vehicle` vehicle ON business_partner.`business_partner_code` = vehicle.`business_partner_business_partner_code`
-     INNER JOIN `sale` sale ON vehicle.`vehicle_code` = sale.`vehicle_vehicle_code`
-     INNER JOIN `sale_item` sale_item ON sale.`sale_code` = sale_item.`sale_sale_code`
+     `business_partner` business_partner INNER JOIN `vehicle` vehicle ON business_partner.`business_partner_code` = vehicle.`business_partner_code`
+     INNER JOIN `sale` sale ON vehicle.`vehicle_code` = sale.`vehicle_code`
+     INNER JOIN `sale_item` sale_item ON sale.`sale_code` = sale_item.`sale_code`
      INNER JOIN `user` user ON sale.`created_user` = user.`user_id`
-     INNER JOIN `invoice` invoice ON sale.`sale_code` = invoice.`sale_sale_code`
+     INNER JOIN `invoice` invoice ON sale.`sale_code` = invoice.`sale_code`
      INNER JOIN `item` item ON sale_item.`item_item_code` = item.`item_code`,
      `license` license
 WHERE
      sale.`sale_code` = $P{serviceCode}
- AND sale_item.`sale_item_status_item_status_id` = 1
+ AND sale_item.`status_id` = 1
 ORDER BY
      sale_item.`id` ASC]]>
 	</queryString>
@@ -49,7 +51,6 @@ ORDER BY
 	<field name="business_partner_first_name" class="java.lang.String"/>
 	<field name="business_partner_last_name" class="java.lang.String"/>
 	<field name="vehicle_vehicle_number" class="java.lang.String"/>
-	<field name="service_milage" class="java.lang.Float"/>
 	<field name="service_has_item_service_service_code" class="java.lang.String"/>
 	<field name="service_has_item_unit_price" class="java.lang.Float"/>
 	<field name="service_has_item_quantity" class="java.lang.Float"/>
@@ -68,6 +69,9 @@ ORDER BY
 	<field name="license_telephone" class="java.lang.String"/>
 	<field name="service_has_item_id" class="java.lang.Integer"/>
 	<field name="invoice_invoice_number" class="java.lang.String"/>
+	<field name="sale_current_milage" class="java.lang.Float"/>
+	<field name="sale_previous_milage" class="java.lang.Float"/>
+	<field name="sale_next_milage" class="java.lang.Float"/>
 	<variable name="service_has_item_total_1" class="java.lang.Float" resetType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{service_has_item_total}]]></variableExpression>
 	</variable>
@@ -75,7 +79,7 @@ ORDER BY
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="140" splitType="Stretch">
+		<band height="127" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="555" height="30" uuid="f934a572-10af-469f-9876-d7da3f982211"/>
 				<textElement verticalAlignment="Middle" markup="none">
@@ -94,7 +98,7 @@ ORDER BY
 				<textFieldExpression><![CDATA[$F{service_created_date}]]></textFieldExpression>
 			</textField>
 			<textField pattern="HH.mm">
-				<reportElement x="154" y="94" width="100" height="15" uuid="a54883fc-d022-4e8c-be30-89f32a90bae7"/>
+				<reportElement x="154" y="94" width="46" height="15" uuid="a54883fc-d022-4e8c-be30-89f32a90bae7"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{service_created_time}]]></textFieldExpression>
 			</textField>
@@ -109,22 +113,22 @@ ORDER BY
 				<textFieldExpression><![CDATA[$F{vehicle_vehicle_number}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="124" width="100" height="15" uuid="eda52d81-ede7-4a71-986a-5740d7792eb8"/>
+				<reportElement x="257" y="79" width="36" height="15" uuid="eda52d81-ede7-4a71-986a-5740d7792eb8"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Milage :]]></text>
 			</staticText>
 			<textField pattern="###0">
-				<reportElement x="100" y="124" width="100" height="15" uuid="3516eac4-d0ad-46c1-b9c8-d23f7246d97f"/>
+				<reportElement x="293" y="79" width="62" height="15" uuid="3516eac4-d0ad-46c1-b9c8-d23f7246d97f"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{service_milage}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{sale_current_milage}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="255" y="124" width="100" height="15" uuid="d02daf95-e9c4-46a4-9589-e7061b8c6f66"/>
+				<reportElement x="255" y="109" width="100" height="15" uuid="d02daf95-e9c4-46a4-9589-e7061b8c6f66"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Customer Name :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="355" y="124" width="200" height="15" uuid="dad310bd-d516-4c86-9415-5900dff011e1"/>
+				<reportElement x="355" y="109" width="200" height="15" uuid="dad310bd-d516-4c86-9415-5900dff011e1"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{business_partner_first_name}+" "+$F{business_partner_last_name}]]></textFieldExpression>
 			</textField>
@@ -150,7 +154,7 @@ ORDER BY
 				<textFieldExpression><![CDATA[$F{license_address_line3}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="139" width="555" height="1" uuid="eb652f84-c6f9-4a7e-a8b9-c03da879999b"/>
+				<reportElement x="0" y="125" width="555" height="1" uuid="eb652f84-c6f9-4a7e-a8b9-c03da879999b"/>
 			</line>
 			<staticText>
 				<reportElement x="0" y="79" width="100" height="15" uuid="87dedf52-292f-4cd3-a3bb-302763e92df5"/>
@@ -163,6 +167,16 @@ ORDER BY
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{invoice_invoice_number}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="388" y="79" width="95" height="15" uuid="3f057c7a-b1cf-4ede-9077-9e5a47b687d1"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Next Service Milage :]]></text>
+			</staticText>
+			<textField pattern="###0">
+				<reportElement x="483" y="79" width="62" height="15" uuid="9c6abc6a-ebce-4635-b1d3-7cc5ca21daa3"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sale_next_milage}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

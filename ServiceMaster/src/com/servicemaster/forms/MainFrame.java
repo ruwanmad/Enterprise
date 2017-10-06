@@ -15,7 +15,7 @@ import com.servicemaster.internalFrames.BusinessPartnerFrame;
 import com.servicemaster.internalFrames.CategoryFrame;
 import com.servicemaster.internalFrames.DirectSaleFrame;
 import com.servicemaster.internalFrames.GrnFrame;
-import com.servicemaster.internalFrames.ServiceHistoryFrame;
+import com.servicemaster.internalFrames.SaleHistoryFrame;
 import com.servicemaster.internalFrames.ItemFrame;
 import com.servicemaster.internalFrames.ItemReturnFrame;
 import com.servicemaster.internalFrames.LocationFrame;
@@ -759,7 +759,7 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             }
             case "20": {
-                internalFrame = new ServiceHistoryFrame();
+                internalFrame = new SaleHistoryFrame();
                 break;
             }
             case "21": {

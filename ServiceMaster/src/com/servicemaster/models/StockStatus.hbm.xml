@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 1, 2017 7:12:34 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 6, 2017 7:38:40 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.StockStatus" table="stock_status" catalog="enterprisedb" optimistic-lock="version">
         <id name="stockStatusId" type="int">
@@ -10,6 +10,9 @@
         </id>
         <property name="stockStatusName" type="string">
             <column name="stock_status_name" length="45" />
+        </property>
+        <property name="isActive" type="java.lang.Integer">
+            <column name="isActive" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
@@ -34,7 +37,7 @@
         </property>
         <set name="stocks" table="stock" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="stock_status_stock_status_id" not-null="true" />
+                <column name="stock_status_id" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.Stock" />
         </set>

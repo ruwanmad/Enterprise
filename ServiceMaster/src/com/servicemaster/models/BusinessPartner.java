@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Oct 1, 2017 7:12:27 PM by Hibernate Tools 4.3.1
+// Generated Oct 6, 2017 7:38:33 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -15,6 +15,7 @@ public class BusinessPartner  implements java.io.Serializable {
      private String businessPartnerCode;
      private String firstName;
      private String lastName;
+     private String searchKey;
      private String nic;
      private Date birthDay;
      private boolean isCustomer;
@@ -33,8 +34,8 @@ public class BusinessPartner  implements java.io.Serializable {
      private Set businessTelephones = new HashSet(0);
      private Set grns = new HashSet(0);
      private Set accounts = new HashSet(0);
+     private Set accountPostings = new HashSet(0);
      private Set vehicles = new HashSet(0);
-     private Set saleBusinessPartners = new HashSet(0);
 
     public BusinessPartner() {
     }
@@ -47,10 +48,11 @@ public class BusinessPartner  implements java.io.Serializable {
         this.isSupplier = isSupplier;
         this.isEmployee = isEmployee;
     }
-    public BusinessPartner(String businessPartnerCode, String firstName, String lastName, String nic, Date birthDay, boolean isCustomer, boolean isSupplier, boolean isEmployee, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set businessAddresses, Set users, Set businessTelephones, Set grns, Set accounts, Set vehicles, Set saleBusinessPartners) {
+    public BusinessPartner(String businessPartnerCode, String firstName, String lastName, String searchKey, String nic, Date birthDay, boolean isCustomer, boolean isSupplier, boolean isEmployee, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set businessAddresses, Set users, Set businessTelephones, Set grns, Set accounts, Set accountPostings, Set vehicles) {
        this.businessPartnerCode = businessPartnerCode;
        this.firstName = firstName;
        this.lastName = lastName;
+       this.searchKey = searchKey;
        this.nic = nic;
        this.birthDay = birthDay;
        this.isCustomer = isCustomer;
@@ -69,8 +71,8 @@ public class BusinessPartner  implements java.io.Serializable {
        this.businessTelephones = businessTelephones;
        this.grns = grns;
        this.accounts = accounts;
+       this.accountPostings = accountPostings;
        this.vehicles = vehicles;
-       this.saleBusinessPartners = saleBusinessPartners;
     }
    
     public String getBusinessPartnerCode() {
@@ -93,6 +95,13 @@ public class BusinessPartner  implements java.io.Serializable {
     
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+    public String getSearchKey() {
+        return this.searchKey;
+    }
+    
+    public void setSearchKey(String searchKey) {
+        this.searchKey = searchKey;
     }
     public String getNic() {
         return this.nic;
@@ -220,19 +229,19 @@ public class BusinessPartner  implements java.io.Serializable {
     public void setAccounts(Set accounts) {
         this.accounts = accounts;
     }
+    public Set getAccountPostings() {
+        return this.accountPostings;
+    }
+    
+    public void setAccountPostings(Set accountPostings) {
+        this.accountPostings = accountPostings;
+    }
     public Set getVehicles() {
         return this.vehicles;
     }
     
     public void setVehicles(Set vehicles) {
         this.vehicles = vehicles;
-    }
-    public Set getSaleBusinessPartners() {
-        return this.saleBusinessPartners;
-    }
-    
-    public void setSaleBusinessPartners(Set saleBusinessPartners) {
-        this.saleBusinessPartners = saleBusinessPartners;
     }
 
 

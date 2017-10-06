@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Oct 1, 2017 7:12:27 PM by Hibernate Tools 4.3.1
+// Generated Oct 6, 2017 7:38:33 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -14,6 +14,7 @@ public class SaleItemStatus  implements java.io.Serializable {
 
      private Integer itemStatusId;
      private String itemStatusDescription;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -26,8 +27,9 @@ public class SaleItemStatus  implements java.io.Serializable {
     public SaleItemStatus() {
     }
 
-    public SaleItemStatus(String itemStatusDescription, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set saleItems) {
+    public SaleItemStatus(String itemStatusDescription, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set saleItems) {
        this.itemStatusDescription = itemStatusDescription;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -51,6 +53,13 @@ public class SaleItemStatus  implements java.io.Serializable {
     
     public void setItemStatusDescription(String itemStatusDescription) {
         this.itemStatusDescription = itemStatusDescription;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;

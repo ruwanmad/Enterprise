@@ -300,7 +300,7 @@ public class ItemTypeFrame extends javax.swing.JInternalFrame {
         } else {
             List itemTypeByCode = this.getItemTypeByCode(txtItemTypeCode.getText().toUpperCase().trim(), false);
             if (itemTypeByCode.isEmpty()) {
-                InformationDialog.showMessageBox("Invalid sub category type code. Please try again", "Invalid", this);
+                InformationDialog.showMessageBox("Invalid item type code. Please try again", "Invalid", this);
             } else {
                 ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
                 if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -399,10 +399,10 @@ public class ItemTypeFrame extends javax.swing.JInternalFrame {
         
         Criteria itemTypeCriteria = session.createCriteria(ItemType.class);
         if (like) {
-            itemTypeCriteria.add(Restrictions.like("itemTypeName", "%" + itemTypeCode + "%"))
+            itemTypeCriteria.add(Restrictions.like("itemTypeCode", "%" + itemTypeCode + "%"))
                     .addOrder(Order.asc("itemTypeCode"));
         } else {
-            itemTypeCriteria.add(Restrictions.eq("itemTypeName", itemTypeCode))
+            itemTypeCriteria.add(Restrictions.eq("itemTypeCode", itemTypeCode))
                     .addOrder(Order.asc("itemTypeCode"));
         }
         List list = itemTypeCriteria.list();
@@ -430,7 +430,7 @@ public class ItemTypeFrame extends javax.swing.JInternalFrame {
         txtItemTypeCode.setText("");
         txtItemTypeName.setText("");
         txtRemark.setText("");
-        cbxIsActive.setSelected(false);
+        cbxIsActive.setSelected(true);
         txtItemTypeCode.setEditable(true);
     }
 

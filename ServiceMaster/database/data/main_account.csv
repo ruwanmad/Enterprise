@@ -1,0 +1,7 @@
+"code";"description";"isActive";"created_date";"created_time";"created_user";"modified_date";"modified_time";"modified_user";"remark"
+"MAC1000";"LIABILITIES";1;"2017-01-01";"12:00:00";1;"";"";0;"LIABILITIES"
+"MAC1001";"ASSETS";1;"2017-01-01";"12:00:00";1;"";"";0;"ASSETS"
+"MAC1002";"INDIRECT EXPENSES";1;"2017-01-01";"12:00:00";1;"";"";0;"INDIRECT EXPENSES"
+"MAC1003";"INDIRECT INCOME";1;"2017-01-01";"12:00:00";1;"";"";0;"INDIRECT INCOME"
+"MAC1004";"PURCHASE";1;"2017-01-01";"12:00:00";1;"";"";0;"PURCHASE"
+"MAC1005";"SALES";1;"2017-01-01";"12:00:00";1;"";"";0;"SALES"

@@ -563,6 +563,7 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
         this.cbxIsActive.setSelected(true);
         this.txtRemark.setText("");
         
+        this.setAccountCodeEditable(true);
         this.btnSave.setText("Save");
     }
 

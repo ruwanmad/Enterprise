@@ -432,7 +432,7 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
         txtCategoryCode.setText("");
         txtCategoryName.setText("");
         txtRemark.setText("");
-        cbxIsActive.setSelected(false);
+        cbxIsActive.setSelected(true);
         txtCategoryCode.setEditable(true);
     }
 

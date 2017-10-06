@@ -178,7 +178,7 @@ public class SubCategoryView extends javax.swing.JInternalFrame {
                     SubCategory subCategory = (SubCategory) object;
                     tableModel.addRow(new Object[]{subCategory.getSubCategoryCode(),
                         subCategory.getSubCategoryName(),
-                        subCategory.getCategory().getCategoryCode(),
+                        subCategory.getCategoryCode(),
                         subCategory.getRemarks(),
                         subCategory.getIsActive() == 1});
                 }
@@ -227,8 +227,8 @@ public class SubCategoryView extends javax.swing.JInternalFrame {
         subCategoryFrame.setSubcategoryName(subCategory.getSubCategoryName());
         subCategoryFrame.setRemark(subCategory.getRemarks());
         subCategoryFrame.setIsActive((subCategory.getIsActive() == 1));
-        subCategoryFrame.setCategory(subCategory.getCategory().getCategoryCode());
-        subCategoryFrame.setPrinter(subCategory.getPrinter().getPrinterCode());
+        subCategoryFrame.setCategory(subCategory.getCategoryCode());
+        subCategoryFrame.setPrinter(subCategory.getPrinterCode());
         subCategoryFrame.setSubCategoryCodeEditable(false);
         subCategoryFrame.setBtnSaveText("Update");
         this.dispose();

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 1, 2017 7:12:34 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 6, 2017 7:38:40 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Payment" table="payment" catalog="enterprisedb" optimistic-lock="version">
         <id name="paymentCode" type="string">
@@ -9,13 +9,16 @@
             <generator class="assigned" />
         </id>
         <many-to-one name="invoice" class="com.servicemaster.models.Invoice" fetch="select">
-            <column name="invoice_invoice_number" length="15" not-null="true" />
+            <column name="invoice_number" length="15" not-null="true" />
         </many-to-one>
         <many-to-one name="paymentType" class="com.servicemaster.models.PaymentType" fetch="select">
-            <column name="payment_type_payment_type_code" length="15" not-null="true" />
+            <column name="payment_type_code" length="15" not-null="true" />
         </many-to-one>
         <property name="amount" type="java.lang.Float">
             <column name="amount" precision="12" scale="0" />
+        </property>
+        <property name="isActive" type="java.lang.Integer">
+            <column name="isActive" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />

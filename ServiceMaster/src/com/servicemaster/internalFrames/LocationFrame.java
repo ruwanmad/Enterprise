@@ -435,7 +435,7 @@ public class LocationFrame extends javax.swing.JInternalFrame {
         txtLocationCode.setText("");
         txtLocationName.setText("");
         txtRemark.setText("");
-        cbxIsActive.setSelected(false);
+        cbxIsActive.setSelected(true);
         txtLocationCode.setEditable(true);
     }
 

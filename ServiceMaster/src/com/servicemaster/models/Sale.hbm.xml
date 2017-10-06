@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 1, 2017 7:12:34 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 6, 2017 7:38:40 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Sale" table="sale" catalog="enterprisedb" optimistic-lock="version">
         <id name="saleCode" type="string">
@@ -9,16 +9,16 @@
             <generator class="assigned" />
         </id>
         <many-to-one name="saleStatus" class="com.servicemaster.models.SaleStatus" fetch="select">
-            <column name="sale_status_status_id" not-null="true" />
+            <column name="status_id" not-null="true" />
         </many-to-one>
         <many-to-one name="serviceBay" class="com.servicemaster.models.ServiceBay" fetch="select">
-            <column name="service_bay_service_bay_code" length="15" not-null="true" />
+            <column name="service_bay_code" length="15" not-null="true" />
         </many-to-one>
         <many-to-one name="vehicle" class="com.servicemaster.models.Vehicle" fetch="select">
-            <column name="vehicle_vehicle_code" length="15" not-null="true" />
+            <column name="vehicle_code" length="15" not-null="true" />
         </many-to-one>
-        <property name="milage" type="java.lang.Float">
-            <column name="milage" precision="12" scale="0" />
+        <property name="previousMilage" type="java.lang.Float">
+            <column name="previous_milage" precision="12" scale="0" />
         </property>
         <property name="subTotal" type="java.lang.Float">
             <column name="sub_total" precision="12" scale="0" />
@@ -31,6 +31,9 @@
         </property>
         <property name="discounted" type="java.lang.Integer">
             <column name="discounted" />
+        </property>
+        <property name="isActive" type="java.lang.Integer">
+            <column name="isActive" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
@@ -53,21 +56,21 @@
         <property name="remark" type="string">
             <column name="remark" length="100" />
         </property>
+        <property name="currentMilage" type="java.lang.Float">
+            <column name="current_milage" precision="12" scale="0" />
+        </property>
+        <property name="nextMilage" type="java.lang.Float">
+            <column name="next_milage" precision="12" scale="0" />
+        </property>
         <set name="saleItems" table="sale_item" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="sale_sale_code" length="15" not-null="true" />
+                <column name="sale_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.SaleItem" />
         </set>
-        <set name="saleBusinessPartners" table="sale_business_partner" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="sale_sale_code" length="15" not-null="true" />
-            </key>
-            <one-to-many class="com.servicemaster.models.SaleBusinessPartner" />
-        </set>
         <set name="invoices" table="invoice" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="sale_sale_code" length="15" not-null="true" />
+                <column name="sale_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.Invoice" />
         </set>

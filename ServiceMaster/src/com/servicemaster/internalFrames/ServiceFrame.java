@@ -846,7 +846,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             session = HibernateUtil.getSessionFactory().openSession();
 
             cmbVehicle.setSelectedItem(sale.getVehicle().getVehicleNumber());
-            txtLastServicesMilage.setText("" + sale.getMilage());
+            txtLastServicesMilage.setText("" + sale.getPreviousMilage());
 
             lblCustomerName.setText(sale.getVehicle().getBusinessPartner().getFirstName() + " " + sale.getVehicle().getBusinessPartner().getLastName());
             Set businessAddresses = sale.getVehicle().getBusinessPartner().getBusinessAddresses();
@@ -959,7 +959,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                     txtLastServicesMilage.setText("");
                 } else {
                     for (Sale tempSale : sales) {
-                        txtLastServicesMilage.setText(""+tempSale.getMilage());
+                        txtLastServicesMilage.setText(""+tempSale.getPreviousMilage());
                         break;
                     }
                 }
@@ -1230,7 +1230,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             Date date = dateServiceDate.getDate();
             Date time = new Date();
 
-            sale.setMilage(Float.parseFloat(txtLastServicesMilage.getText().trim()));
+            sale.setCurrentMilage(Float.parseFloat(txtLastServicesMilage.getText().trim()));
             sale.setSubTotal(grandSubTotal);
             sale.setDiscount(grandDiscount);
             sale.setGrandTotal(grandTotal);
@@ -1314,7 +1314,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
             sale = new Sale();
             sale.setSaleCode(saleCode);
-            sale.setMilage(Float.parseFloat(txtLastServicesMilage.getText().trim()));
+            sale.setCurrentMilage(Float.parseFloat(txtLastServicesMilage.getText().trim()));
             sale.setSubTotal(grandSubTotal);
             sale.setDiscount(grandDiscount);
             sale.setGrandTotal(grandTotal);
@@ -1586,8 +1586,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
         List<Item> items = session
                 .createCriteria(Item.class)
-                .createAlias("itemType", "itemType")
-                .add(Restrictions.eq("itemType.itemTypeCode", "ITP1000"))
+                .add(Restrictions.eq("itemTypeCode", "ITP1001"))
                 .addOrder(Order.asc("itemName"))
                 .list();
 

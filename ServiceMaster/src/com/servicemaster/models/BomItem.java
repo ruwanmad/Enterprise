@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Oct 1, 2017 7:12:27 PM by Hibernate Tools 4.3.1
+// Generated Oct 6, 2017 7:38:33 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -17,6 +17,7 @@ public class BomItem  implements java.io.Serializable {
      private Float bomItemQuantity;
      private Float unitPrice;
      private Float sellingPrice;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -35,7 +36,7 @@ public class BomItem  implements java.io.Serializable {
         this.item = item;
         this.uom = uom;
     }
-    public BomItem(String bomItemCode, Bom bom, Item item, Uom uom, Float bomItemQuantity, Float unitPrice, Float sellingPrice, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
+    public BomItem(String bomItemCode, Bom bom, Item item, Uom uom, Float bomItemQuantity, Float unitPrice, Float sellingPrice, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
        this.bomItemCode = bomItemCode;
        this.bom = bom;
        this.item = item;
@@ -43,6 +44,7 @@ public class BomItem  implements java.io.Serializable {
        this.bomItemQuantity = bomItemQuantity;
        this.unitPrice = unitPrice;
        this.sellingPrice = sellingPrice;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -100,6 +102,13 @@ public class BomItem  implements java.io.Serializable {
     
     public void setSellingPrice(Float sellingPrice) {
         this.sellingPrice = sellingPrice;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;

@@ -6,16 +6,14 @@
 package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
-import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.functions.JdbcConnection;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Address;
 import com.servicemaster.models.BusinessAddress;
+import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.Sale;
 import com.servicemaster.models.SaleItem;
-import com.servicemaster.models.SaleItemStatus;
-import com.servicemaster.models.SaleStatus;
 import com.servicemaster.models.SellingPrice;
 import com.servicemaster.models.ServiceBay;
 import com.servicemaster.models.Vehicle;
@@ -25,7 +23,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +32,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -481,34 +477,34 @@ public class ServiceHistoryView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
-        this.loadServiceStatus(session);
-        this.loadServiceHasItemStatus(session);
-
-        session.close();
-
         if (sale != null) {
-            session = HibernateUtil.getSessionFactory().openSession();
+            Session session = HibernateUtil.getSessionFactory().openSession();
 
             Vehicle vehicle = (Vehicle) session
                     .createCriteria(Vehicle.class)
                     .add(Restrictions.eq("vehicleCode", this.sale.getVehicle().getVehicleCode()))
                     .uniqueResult();
 
-            txtVehicleNumber.setText(vehicle.getVehicleNumber());
-            txtLastServicesMilage.setText("" + sale.getMilage());
+            BusinessPartner businessPartner = (BusinessPartner) session
+                    .createCriteria(BusinessPartner.class)
+                    .add(Restrictions.eq("businessPartnerCode", vehicle.getBusinessPartner().getBusinessPartnerCode()))
+                    .uniqueResult();
 
-            lblCustomerName.setText(sale.getVehicle().getBusinessPartner().getFirstName() + " " + sale.getVehicle().getBusinessPartner().getLastName());
-            Set businessAddresses = sale.getVehicle().getBusinessPartner().getBusinessAddresses();
-            for (Object object : businessAddresses) {
-                if (object instanceof BusinessAddress) {
-                    BusinessAddress businessAddress = (BusinessAddress) object;
-                    Address address = businessAddress.getAddress();
-                    lblAddress1.setText(address.getAdressLine1());
-                    lblAddress2.setText(address.getAdressLine2());
-                    lblAddress3.setText(address.getAdressLine3());
-                }
+            txtVehicleNumber.setText(vehicle.getVehicleNumber());
+            txtLastServicesMilage.setText("" + sale.getCurrentMilage());
+
+            lblCustomerName.setText(businessPartner.getFirstName() + " " + businessPartner.getLastName());
+
+            List<BusinessAddress> businessAddresses = session
+                    .createCriteria(BusinessAddress.class)
+                    .add(Restrictions.eq("businessPartner", session.load(BusinessPartner.class, businessPartner.getBusinessPartnerCode())))
+                    .list();
+            for (BusinessAddress businessAddress : businessAddresses) {
+                Address address = businessAddress.getAddress();
+                lblAddress1.setText(address.getAdressLine1());
+                lblAddress2.setText(address.getAdressLine2());
+                lblAddress3.setText(address.getAdressLine3());
+                break;
             }
 
             txtServiceDate.setText(SystemData.DATE_FORMAT.format(sale.getCreatedDate()));
@@ -522,30 +518,31 @@ public class ServiceHistoryView extends javax.swing.JInternalFrame {
 
             DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
             tableModel.setRowCount(0);
-            Set saleItems = sale.getSaleItems();
 
-            for (Object object : saleItems) {
-                if (object instanceof SaleItem) {
-                    SaleItem serviceItem = (SaleItem) object;
-                    if (serviceItem.getSaleItemStatus().getItemStatusId() == 1) {
-                        Item item = serviceItem.getItem();
+            List<SaleItem> saleItems = session
+                    .createCriteria(SaleItem.class)
+                    .add(Restrictions.eq("sale", sale))
+                    .list();
 
-                        saleItemMap.put(item.getItemName(), serviceItem);
+            for (SaleItem saleItem : saleItems) {
+                if (saleItem.getSaleItemStatus().getItemStatusId() == 1) {
+                    Item item = saleItem.getItem();
 
-                        String itemCode = item.getItemCode();
-                        String itemName = item.getItemName();
-                        float quantity = serviceItem.getQuantity();
-                        float unitPrice = this.getItemSellingPrice(item);
-                        float subTotal = serviceItem.getSubTotal();
-                        float discount = serviceItem.getDiscount();
-                        float total = serviceItem.getTotal();
+                    saleItemMap.put(item.getItemName(), saleItem);
 
-                        tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
+                    String itemCode = item.getItemCode();
+                    String itemName = item.getItemName();
+                    float quantity = saleItem.getQuantity();
+                    float unitPrice = this.getItemSellingPrice(item);
+                    float subTotal = saleItem.getSubTotal();
+                    float discount = saleItem.getDiscount();
+                    float total = saleItem.getTotal();
 
-                        grandSubTotal += subTotal;
-                        grandDiscount += discount;
-                        grandTotal += total;
-                    }
+                    tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
+
+                    grandSubTotal += subTotal;
+                    grandDiscount += discount;
+                    grandTotal += total;
                 }
             }
 
@@ -600,34 +597,6 @@ public class ServiceHistoryView extends javax.swing.JInternalFrame {
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
-
-    private void loadServiceStatus(Session session) {
-        Query query = session.createQuery("from ServiceStatus ss order by ss.statusId");
-        List list = query.list();
-        if (!list.isEmpty()) {
-            for (Object object : list) {
-                if (object instanceof SaleStatus) {
-                    SaleStatus saleStatus = (SaleStatus) object;
-                    String description = saleStatus.getStatusDescription();
-                    saleStatusMap.put(description, saleStatus);
-                }
-            }
-        }
-    }
-
-    private void loadServiceHasItemStatus(Session session) {
-        Query query = session.createQuery("from ServiceHasItemStatus ss order by ss.itemStatusId");
-        List list = query.list();
-        if (!list.isEmpty()) {
-            for (Object object : list) {
-                if (object instanceof SaleItemStatus) {
-                    SaleItemStatus saleItemStatus = (SaleItemStatus) object;
-                    int id = saleItemStatus.getItemStatusId();
-                    saleItemStatusMap.put(id, saleItemStatus);
-                }
-            }
-        }
-    }
 
     private float getItemSellingPrice(Item item) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -698,12 +667,7 @@ public class ServiceHistoryView extends javax.swing.JInternalFrame {
     private javax.swing.JPanel vehicleDetailPanel;
     // End of variables declaration//GEN-END:variables
     private final Sale sale;
-    private final TreeMap<String, Vehicle> vehicleMap = new TreeMap<>();
-    private final TreeMap<String, ServiceBay> serviceBayMap = new TreeMap<>();
-    private final TreeMap<String, Item> itemMap = new TreeMap<>();
-    private final TreeMap<String, SaleStatus> saleStatusMap = new TreeMap<>();
     private final TreeMap<String, SaleItem> saleItemMap = new TreeMap<>();
-    private final TreeMap<Integer, SaleItemStatus> saleItemStatusMap = new TreeMap<>();
 
     private float grandSubTotal = 0.0f;
     private float grandTotal = 0.0f;

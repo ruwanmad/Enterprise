@@ -481,7 +481,7 @@ public class StorageFrame extends javax.swing.JInternalFrame {
         txtStorageCode.setText("");
         txtStorageName.setText("");
         txtRemark.setText("");
-        cbxIsActive.setSelected(false);
+        cbxIsActive.setSelected(true);
         txtStorageCode.setEditable(true);
         btnRacks.setEnabled(false);
     }

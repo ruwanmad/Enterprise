@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Oct 1, 2017 7:12:27 PM by Hibernate Tools 4.3.1
+// Generated Oct 6, 2017 7:38:33 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -18,6 +18,7 @@ public class GrnLine  implements java.io.Serializable {
      private Float discount;
      private Float subTotal;
      private Float costPrice;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -34,7 +35,7 @@ public class GrnLine  implements java.io.Serializable {
         this.grn = grn;
         this.item = item;
     }
-    public GrnLine(Grn grn, Item item, Float unitPrice, Float receivedQuantity, Float discount, Float subTotal, Float costPrice, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
+    public GrnLine(Grn grn, Item item, Float unitPrice, Float receivedQuantity, Float discount, Float subTotal, Float costPrice, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
        this.grn = grn;
        this.item = item;
        this.unitPrice = unitPrice;
@@ -42,6 +43,7 @@ public class GrnLine  implements java.io.Serializable {
        this.discount = discount;
        this.subTotal = subTotal;
        this.costPrice = costPrice;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -106,6 +108,13 @@ public class GrnLine  implements java.io.Serializable {
     
     public void setCostPrice(Float costPrice) {
         this.costPrice = costPrice;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;

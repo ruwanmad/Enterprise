@@ -53,7 +53,6 @@ Contributor(s):
     <mapping resource="com/servicemaster/models/Item.hbm.xml"/>
     <mapping resource="com/servicemaster/models/VehicleType.hbm.xml"/>
     <mapping resource="com/servicemaster/models/ItemType.hbm.xml"/>
-    <mapping resource="com/servicemaster/models/SaleBusinessPartner.hbm.xml"/>
     <mapping resource="com/servicemaster/models/BusinessTelephone.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Bank.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Vehicle.hbm.xml"/>
@@ -71,9 +70,9 @@ Contributor(s):
     <mapping resource="com/servicemaster/models/Rack.hbm.xml"/>
     <mapping resource="com/servicemaster/models/UserPrivilage.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Module.hbm.xml"/>
-    <mapping resource="com/servicemaster/models/Printer.hbm.xml"/>
     <mapping resource="com/servicemaster/models/AccountPosting.hbm.xml"/>
     <mapping resource="com/servicemaster/models/IssueMethod.hbm.xml"/>
+    <mapping resource="com/servicemaster/models/Printer.hbm.xml"/>
     <mapping resource="com/servicemaster/models/ItemBrand.hbm.xml"/>
     <mapping resource="com/servicemaster/models/GrnLine.hbm.xml"/>
     <mapping resource="com/servicemaster/models/License.hbm.xml"/>
@@ -89,8 +88,8 @@ Contributor(s):
     <mapping resource="com/servicemaster/models/Stock.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Storage.hbm.xml"/>
     <mapping resource="com/servicemaster/models/BusinessPartner.hbm.xml"/>
-    <mapping resource="com/servicemaster/models/SubCategory.hbm.xml"/>
     <mapping resource="com/servicemaster/models/PaymentType.hbm.xml"/>
+    <mapping resource="com/servicemaster/models/SubCategory.hbm.xml"/>
     <mapping resource="com/servicemaster/models/SaleItem.hbm.xml"/>
     <mapping resource="com/servicemaster/models/Category.hbm.xml"/>
   </session-factory>

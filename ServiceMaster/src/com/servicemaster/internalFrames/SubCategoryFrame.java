@@ -501,7 +501,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
 
     private List getSubCategoryByCode(String subCategoryCode, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        
+
         Criteria itemTypeCriteria = session.createCriteria(SubCategory.class);
         if (like) {
             itemTypeCriteria.add(Restrictions.like("subCategoryCode", "%" + subCategoryCode + "%"));
@@ -517,7 +517,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
 
     private List getSubCategoryByName(String subCategoryName, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        
+
         Criteria itemTypeCriteria = session.createCriteria(SubCategory.class);
         if (like) {
             itemTypeCriteria.add(Restrictions.like("subCategoryName", "%" + subCategoryName + "%"));
@@ -535,7 +535,7 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         txtSubcategoryCode.setText("");
         txtSubcategoryName.setText("");
         txtRemark.setText("");
-        cbxIsActive.setSelected(false);
+        cbxIsActive.setSelected(true);
         txtSubcategoryCode.setEditable(true);
         cmbCategory.setSelectedIndex(0);
         cmbPrinter.setSelectedIndex(0);
@@ -556,8 +556,8 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         SubCategory subCategory = new SubCategory();
         subCategory.setSubCategoryCode(strSubCategoryCode);
         subCategory.setSubCategoryName(txtSubcategoryName.getText().toUpperCase().trim());
-        subCategory.setCategory(category);
-        subCategory.setPrinter(printer);
+        subCategory.setCategoryCode(category.getCategoryCode());
+        subCategory.setPrinterCode(printer.getPrinterCode());
         subCategory.setRemarks(txtRemark.getText().toUpperCase().trim());
         subCategory.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
         if (bUpdate) {

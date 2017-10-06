@@ -17,7 +17,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import com.servicemaster.models.User;
 import com.servicemaster.models.UserPrivilage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -243,24 +247,21 @@ public class Login extends javax.swing.JFrame {
 
     private void login() {
         String username = txtUsername.getText().trim();
-        String password = new String(pwdPassword.getPassword());
+        String password = new String(pwdPassword.getPassword()).trim();
         if (username.isEmpty() || password.isEmpty()) {
             InformationDialog.showMessageBox("Please enter valid details", "Invalid", null);
         } else {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-            Query query = session.createQuery("from User u where u.userName = '" + username + "' and u.password = '" + password + "'");
-            List objectList = query.list();
+            try {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                session.beginTransaction();
 
-            if (!objectList.isEmpty()) {
-                Object object = objectList.get(0);
-                if (object instanceof User) {
-                    User user = (User) object;
+                User user = (User) session
+                        .createCriteria(User.class)
+                        .add(Restrictions.eq("userName", username))
+                        .add(Restrictions.eq("password", password))
+                        .uniqueResult();
 
-                    System.out.println(user.getUserName());
-                    System.out.println(user.getPassword());
-                    System.out.println(user.getRemarks());
-
+                if (user != null) {
                     UserPrivilage userPrivilage = user.getUserPrivilage();
                     MainFrame mainFrame = new MainFrame(user);
                     mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -269,12 +270,16 @@ public class Login extends javax.swing.JFrame {
                     enableFeatures.enableFeature(userPrivilage, mainFrame);
                     mainFrame.setVisible(true);
                     this.dispose();
+                } else {
+                    InformationDialog.showMessageBox("<html>Invalid username or password.<br>Please try again.<html>", "Invalid", null);
                 }
-            } else {
-                InformationDialog.showMessageBox("<html>Invalid username or password.<br>Please try again.<html>", "Invalid", null);
+
+                session.getTransaction().commit();
+                session.close();
+            } catch (Exception ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-            session.getTransaction().commit();
-            session.close();
         }
     }
 

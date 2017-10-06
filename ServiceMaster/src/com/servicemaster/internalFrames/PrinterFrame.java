@@ -431,7 +431,7 @@ public class PrinterFrame extends javax.swing.JInternalFrame {
         txtPrinterCode.setText("");
         txtPrinterName.setText("");
         txtRemark.setText("");
-        cbxIsActive.setSelected(false);
+        cbxIsActive.setSelected(true);
         txtPrinterCode.setEditable(true);
     }
 

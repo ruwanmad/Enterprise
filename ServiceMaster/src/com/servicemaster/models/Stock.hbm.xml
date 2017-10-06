@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 1, 2017 7:12:34 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 6, 2017 7:38:40 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Stock" table="stock" catalog="enterprisedb" optimistic-lock="version">
         <id name="stockId" type="java.lang.Integer">
@@ -12,16 +12,19 @@
             <column name="grn_grn_code" length="15" not-null="true" />
         </many-to-one>
         <many-to-one name="item" class="com.servicemaster.models.Item" fetch="select">
-            <column name="item_item_code" length="15" not-null="true" />
+            <column name="item_code" length="15" not-null="true" />
         </many-to-one>
         <many-to-one name="stockStatus" class="com.servicemaster.models.StockStatus" fetch="select">
-            <column name="stock_status_stock_status_id" not-null="true" />
+            <column name="stock_status_id" not-null="true" />
         </many-to-one>
         <property name="costPrice" type="java.lang.Float">
             <column name="cost_price" precision="12" scale="0" />
         </property>
         <property name="quantity" type="java.lang.Float">
             <column name="quantity" precision="12" scale="0" />
+        </property>
+        <property name="isActive" type="java.lang.Integer">
+            <column name="isActive" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />

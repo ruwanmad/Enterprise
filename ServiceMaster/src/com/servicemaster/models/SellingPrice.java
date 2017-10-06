@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Oct 1, 2017 7:12:27 PM by Hibernate Tools 4.3.1
+// Generated Oct 6, 2017 7:38:33 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -14,6 +14,7 @@ public class SellingPrice  implements java.io.Serializable {
      private Item item;
      private Float sellingPrice;
      private Date effectiveDate;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -29,10 +30,11 @@ public class SellingPrice  implements java.io.Serializable {
     public SellingPrice(Item item) {
         this.item = item;
     }
-    public SellingPrice(Item item, Float sellingPrice, Date effectiveDate, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
+    public SellingPrice(Item item, Float sellingPrice, Date effectiveDate, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
        this.item = item;
        this.sellingPrice = sellingPrice;
        this.effectiveDate = effectiveDate;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -69,6 +71,13 @@ public class SellingPrice  implements java.io.Serializable {
     
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;

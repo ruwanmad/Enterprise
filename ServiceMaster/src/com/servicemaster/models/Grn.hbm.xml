@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 1, 2017 7:12:34 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 6, 2017 7:38:40 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Grn" table="grn" catalog="enterprisedb" optimistic-lock="version">
         <id name="grnCode" type="string">
@@ -9,7 +9,7 @@
             <generator class="assigned" />
         </id>
         <many-to-one name="businessPartner" class="com.servicemaster.models.BusinessPartner" fetch="select">
-            <column name="business_partner_business_partner_code" length="15" not-null="true" />
+            <column name="business_partner_code" length="15" not-null="true" />
         </many-to-one>
         <property name="grnReference" type="string">
             <column name="grn_reference" length="45" not-null="true" />
@@ -25,6 +25,9 @@
         </property>
         <property name="batch" type="string">
             <column name="batch" length="15" />
+        </property>
+        <property name="isActive" type="java.lang.Integer">
+            <column name="isActive" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
@@ -49,7 +52,7 @@
         </property>
         <set name="grnLines" table="grn_line" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="grn_grn_code" length="15" not-null="true" />
+                <column name="grn_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.GrnLine" />
         </set>
@@ -61,7 +64,7 @@
         </set>
         <set name="accountPostings" table="account_posting" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="grn_grn_code" length="15" />
+                <column name="grn_code" length="15" />
             </key>
             <one-to-many class="com.servicemaster.models.AccountPosting" />
         </set>

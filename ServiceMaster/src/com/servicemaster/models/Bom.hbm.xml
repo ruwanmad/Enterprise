@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 1, 2017 7:12:34 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 6, 2017 7:38:40 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Bom" table="bom" catalog="enterprisedb" optimistic-lock="version">
         <id name="bomCode" type="string">
@@ -16,6 +16,9 @@
         </property>
         <property name="sellingPrice" type="java.lang.Float">
             <column name="selling_price" precision="12" scale="0" />
+        </property>
+        <property name="isActive" type="java.lang.Integer">
+            <column name="isActive" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />
@@ -38,12 +41,9 @@
         <property name="remark" type="string">
             <column name="remark" length="45" />
         </property>
-        <property name="isActive" type="java.lang.Integer">
-            <column name="isActive" />
-        </property>
         <set name="bomItems" table="bom_item" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="bom_bom_code" length="15" not-null="true" />
+                <column name="bom_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.BomItem" />
         </set>

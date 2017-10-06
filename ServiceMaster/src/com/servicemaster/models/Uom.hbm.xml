@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 1, 2017 7:12:34 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 6, 2017 7:38:40 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Uom" table="uom" catalog="enterprisedb" optimistic-lock="version">
         <id name="uomCode" type="string">
@@ -64,7 +64,7 @@
         </set>
         <set name="bomItems" table="bom_item" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="uom_uom_code" length="15" not-null="true" />
+                <column name="uom_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.BomItem" />
         </set>

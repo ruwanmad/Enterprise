@@ -14,6 +14,7 @@ import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Sale;
 import com.servicemaster.models.Vehicle;
 import com.servicemaster.utils.HibernateUtil;
+import com.servicemaster.views.DirectSaleHistoryView;
 import com.servicemaster.views.ServiceHistoryView;
 import java.beans.PropertyVetoException;
 import java.util.List;
@@ -29,12 +30,12 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author RuwanM
  */
-public class ServiceHistoryFrame extends javax.swing.JInternalFrame {
+public class SaleHistoryFrame extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form GrnFrame
      */
-    public ServiceHistoryFrame() {
+    public SaleHistoryFrame() {
         initComponents();
     }
 
@@ -59,7 +60,7 @@ public class ServiceHistoryFrame extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("Service History");
+        setTitle("Sale History");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -346,7 +347,7 @@ public class ServiceHistoryFrame extends javax.swing.JInternalFrame {
                 tableModel.addRow(new Object[]{
                     sale.getSaleCode(),
                     SystemData.DATE_FORMAT.format(sale.getCreatedDate()),
-                    sale.getMilage(),
+                    sale.getPreviousMilage(),
                     sale.getGrandTotal()
                 });
             }
@@ -366,24 +367,43 @@ public class ServiceHistoryFrame extends javax.swing.JInternalFrame {
         if (selectedRow != -1) {
             String saleCode = tblServices.getValueAt(selectedRow, 0).toString();
 
-            Session session = HibernateUtil.getSessionFactory().openSession();
+            if (saleCode.startsWith("SVR")) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
 
-            Sale sale = (Sale) session
-                    .createCriteria(Sale.class)
-                    .add(Restrictions.eq("saleCode", saleCode))
-                    .uniqueResult();
+                Sale sale = (Sale) session
+                        .createCriteria(Sale.class)
+                        .add(Restrictions.eq("saleCode", saleCode))
+                        .uniqueResult();
+                session.close();
 
-            if (sale != null) {
-                try {
-                    ServiceHistoryView historyView = new ServiceHistoryView(sale);
-                    MainFrame.desktopPane.add(historyView);
-                    historyView.setMaximum(true);
-                    historyView.setVisible(true);
-                } catch (PropertyVetoException ex) {
-                    Logger.getLogger(ServiceHistoryFrame.class.getName()).log(Level.SEVERE, null, ex);
+                if (sale != null) {
+                    try {
+                        ServiceHistoryView historyView = new ServiceHistoryView(sale);
+                        MainFrame.desktopPane.add(historyView);
+                        historyView.setMaximum(true);
+                        historyView.setVisible(true);
+                    } catch (PropertyVetoException ex) {
+                        Logger.getLogger(SaleHistoryFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    InformationDialog.showMessageBox("Service not exist", "Not Exist", this);
                 }
-            } else {
-                InformationDialog.showMessageBox("Service not exist", "Not Exist", this);
+            } else if (saleCode.startsWith("DRS")) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+
+                Sale sale = (Sale) session
+                        .createCriteria(Sale.class)
+                        .add(Restrictions.eq("saleCode", saleCode))
+                        .uniqueResult();
+                session.close();
+
+                if (sale != null) {
+                    DirectSaleHistoryView directSaleHistoryView = new DirectSaleHistoryView(sale);
+                    MainFrame.desktopPane.add(directSaleHistoryView);
+                    directSaleHistoryView.setVisible(true);
+                } else {
+                    InformationDialog.showMessageBox("Service not exist", "Not Exist", this);
+                }
             }
         } else {
             InformationDialog.showMessageBox("Please select a valid service", "Invalid", this);

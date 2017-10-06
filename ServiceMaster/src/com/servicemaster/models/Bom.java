@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Oct 1, 2017 7:12:27 PM by Hibernate Tools 4.3.1
+// Generated Oct 6, 2017 7:38:33 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -16,6 +16,7 @@ public class Bom  implements java.io.Serializable {
      private Item item;
      private String bomName;
      private Float sellingPrice;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -23,7 +24,6 @@ public class Bom  implements java.io.Serializable {
      private Date modifiedTime;
      private Integer modifiedUser;
      private String remark;
-     private Integer isActive;
      private Set bomItems = new HashSet(0);
 
     public Bom() {
@@ -34,11 +34,12 @@ public class Bom  implements java.io.Serializable {
         this.bomCode = bomCode;
         this.item = item;
     }
-    public Bom(String bomCode, Item item, String bomName, Float sellingPrice, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Integer isActive, Set bomItems) {
+    public Bom(String bomCode, Item item, String bomName, Float sellingPrice, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set bomItems) {
        this.bomCode = bomCode;
        this.item = item;
        this.bomName = bomName;
        this.sellingPrice = sellingPrice;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -46,7 +47,6 @@ public class Bom  implements java.io.Serializable {
        this.modifiedTime = modifiedTime;
        this.modifiedUser = modifiedUser;
        this.remark = remark;
-       this.isActive = isActive;
        this.bomItems = bomItems;
     }
    
@@ -77,6 +77,13 @@ public class Bom  implements java.io.Serializable {
     
     public void setSellingPrice(Float sellingPrice) {
         this.sellingPrice = sellingPrice;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;
@@ -126,13 +133,6 @@ public class Bom  implements java.io.Serializable {
     
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-    public Integer getIsActive() {
-        return this.isActive;
-    }
-    
-    public void setIsActive(Integer isActive) {
-        this.isActive = isActive;
     }
     public Set getBomItems() {
         return this.bomItems;

@@ -1,0 +1,8 @@
+"account_code";"description";"isActive";"created_date";"created_time";"created_user";"modified_date";"modified_time";"modified_user";"remark";"business_partner_business_partner_code";"sub_account_code"
+"ACC1001";"CASH";1;"";"";0;"2017-09-30";"16:02:11";1;"CASH ACCOUNT";"";"SAC1000"
+"ACC1002";"RUWAN MADAWALA";1;"2017-09-30";"16:25:51";1;"";"";0;"Debit account for RUWAN MADAWALA";"BPT1001";"SAC1002"
+"ACC1003";"RUWAN MADAWALA";1;"2017-09-30";"16:26:31";1;"";"";0;"Credit account for RUWAN MADAWALA";"BPT1001";"SAC1003"
+"ACC1004";"COMMERCIAL BANK";1;"2017-09-30";"18:20:20";1;"";"";0;"023035001335";"";"SAC1001"
+"ACC1005";"UNALLOCATED RECEIPTS";1;"2017-09-30";"18:38:22";1;"";"";0;"UNALLOCATED RECEIPTS FROM CUSTOMERS";"";"SAC1007"
+"ACC1006";"SALES";1;"2017-09-30";"18:57:40";1;"";"";0;"DEFAULT SALES ACCOUNT";"";"SAC1004"
+"ACC1007";"SAMANTHA AMARASINGHA";1;"2017-10-01";"18:46:39";1;"";"";0;"DEBIT ACCOUNT FOR SAMANTHA AMARASINGHA";"BPT1003";"SAC1002"

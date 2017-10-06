@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Oct 1, 2017 7:12:27 PM by Hibernate Tools 4.3.1
+// Generated Oct 6, 2017 7:38:33 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -16,11 +16,12 @@ public class Sale  implements java.io.Serializable {
      private SaleStatus saleStatus;
      private ServiceBay serviceBay;
      private Vehicle vehicle;
-     private Float milage;
+     private Float previousMilage;
      private Float subTotal;
      private Float discount;
      private Float grandTotal;
      private Integer discounted;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -28,8 +29,9 @@ public class Sale  implements java.io.Serializable {
      private Date modifiedTime;
      private Integer modifiedUser;
      private String remark;
+     private Float currentMilage;
+     private Float nextMilage;
      private Set saleItems = new HashSet(0);
-     private Set saleBusinessPartners = new HashSet(0);
      private Set invoices = new HashSet(0);
 
     public Sale() {
@@ -42,16 +44,17 @@ public class Sale  implements java.io.Serializable {
         this.serviceBay = serviceBay;
         this.vehicle = vehicle;
     }
-    public Sale(String saleCode, SaleStatus saleStatus, ServiceBay serviceBay, Vehicle vehicle, Float milage, Float subTotal, Float discount, Float grandTotal, Integer discounted, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set saleItems, Set saleBusinessPartners, Set invoices) {
+    public Sale(String saleCode, SaleStatus saleStatus, ServiceBay serviceBay, Vehicle vehicle, Float previousMilage, Float subTotal, Float discount, Float grandTotal, Integer discounted, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Float currentMilage, Float nextMilage, Set saleItems, Set invoices) {
        this.saleCode = saleCode;
        this.saleStatus = saleStatus;
        this.serviceBay = serviceBay;
        this.vehicle = vehicle;
-       this.milage = milage;
+       this.previousMilage = previousMilage;
        this.subTotal = subTotal;
        this.discount = discount;
        this.grandTotal = grandTotal;
        this.discounted = discounted;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -59,8 +62,9 @@ public class Sale  implements java.io.Serializable {
        this.modifiedTime = modifiedTime;
        this.modifiedUser = modifiedUser;
        this.remark = remark;
+       this.currentMilage = currentMilage;
+       this.nextMilage = nextMilage;
        this.saleItems = saleItems;
-       this.saleBusinessPartners = saleBusinessPartners;
        this.invoices = invoices;
     }
    
@@ -92,12 +96,12 @@ public class Sale  implements java.io.Serializable {
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
-    public Float getMilage() {
-        return this.milage;
+    public Float getPreviousMilage() {
+        return this.previousMilage;
     }
     
-    public void setMilage(Float milage) {
-        this.milage = milage;
+    public void setPreviousMilage(Float previousMilage) {
+        this.previousMilage = previousMilage;
     }
     public Float getSubTotal() {
         return this.subTotal;
@@ -126,6 +130,13 @@ public class Sale  implements java.io.Serializable {
     
     public void setDiscounted(Integer discounted) {
         this.discounted = discounted;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;
@@ -176,19 +187,26 @@ public class Sale  implements java.io.Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+    public Float getCurrentMilage() {
+        return this.currentMilage;
+    }
+    
+    public void setCurrentMilage(Float currentMilage) {
+        this.currentMilage = currentMilage;
+    }
+    public Float getNextMilage() {
+        return this.nextMilage;
+    }
+    
+    public void setNextMilage(Float nextMilage) {
+        this.nextMilage = nextMilage;
+    }
     public Set getSaleItems() {
         return this.saleItems;
     }
     
     public void setSaleItems(Set saleItems) {
         this.saleItems = saleItems;
-    }
-    public Set getSaleBusinessPartners() {
-        return this.saleBusinessPartners;
-    }
-    
-    public void setSaleBusinessPartners(Set saleBusinessPartners) {
-        this.saleBusinessPartners = saleBusinessPartners;
     }
     public Set getInvoices() {
         return this.invoices;

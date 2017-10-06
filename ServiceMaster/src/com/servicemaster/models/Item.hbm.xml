@@ -1,30 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 1, 2017 7:12:34 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 6, 2017 7:38:40 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Item" table="item" catalog="enterprisedb" optimistic-lock="version">
         <id name="itemCode" type="string">
             <column name="item_code" length="15" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="issueMethod" class="com.servicemaster.models.IssueMethod" fetch="select">
-            <column name="issue_method_issue_method_id" not-null="true" />
-        </many-to-one>
         <many-to-one name="item" class="com.servicemaster.models.Item" fetch="select">
             <column name="base_item" length="15" />
         </many-to-one>
         <many-to-one name="itemBrand" class="com.servicemaster.models.ItemBrand" fetch="select">
-            <column name="item_brand_brand_code" length="15" />
-        </many-to-one>
-        <many-to-one name="itemType" class="com.servicemaster.models.ItemType" fetch="select">
-            <column name="item_type_item_type_code" length="15" not-null="true" />
-        </many-to-one>
-        <many-to-one name="rackSlot" class="com.servicemaster.models.RackSlot" fetch="select">
-            <column name="rack_slot_rack_slot_code" length="15" not-null="true" />
+            <column name="brand_code" length="15" />
         </many-to-one>
         <many-to-one name="subCategory" class="com.servicemaster.models.SubCategory" fetch="select">
-            <column name="sub_category_sub_category_code" length="15" not-null="true" />
+            <column name="sub_category_code" length="15" not-null="true" />
         </many-to-one>
         <many-to-one name="uomByBuyingUom" class="com.servicemaster.models.Uom" fetch="select">
             <column name="buying_uom" length="15" not-null="true" />
@@ -35,7 +26,10 @@
         <property name="itemName" type="string">
             <column name="item_name" length="100" not-null="true" />
         </property>
-        <property name="issueMethod_1" type="string">
+        <property name="searchKey" type="string">
+            <column name="search_key" length="45" />
+        </property>
+        <property name="issueMethod" type="string">
             <column name="issue_method" length="10" />
         </property>
         <property name="reorderQuantity" type="java.lang.Float">
@@ -74,6 +68,15 @@
         <property name="remark" type="string">
             <column name="remark" length="100" />
         </property>
+        <property name="rackSlotCode" type="string">
+            <column name="rack_slot_code" length="10" not-null="true" />
+        </property>
+        <property name="issueMethodId" type="int">
+            <column name="issue_method_id" not-null="true" />
+        </property>
+        <property name="itemTypeCode" type="string">
+            <column name="item_type_code" length="15" not-null="true" />
+        </property>
         <set name="items" table="item" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="base_item" length="15" />
@@ -88,13 +91,13 @@
         </set>
         <set name="grnLines" table="grn_line" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="item_item_code" length="15" not-null="true" />
+                <column name="item_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.GrnLine" />
         </set>
         <set name="sellingPrices" table="selling_price" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="item_item_code" length="15" not-null="true" />
+                <column name="item_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.SellingPrice" />
         </set>
@@ -106,13 +109,13 @@
         </set>
         <set name="stocks" table="stock" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="item_item_code" length="15" not-null="true" />
+                <column name="item_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.Stock" />
         </set>
         <set name="bomItems" table="bom_item" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="item_item_code" length="15" not-null="true" />
+                <column name="item_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.BomItem" />
         </set>

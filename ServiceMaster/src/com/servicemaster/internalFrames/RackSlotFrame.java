@@ -607,7 +607,7 @@ public class RackSlotFrame extends javax.swing.JInternalFrame {
         txtSlotCode.setText("");
         txtSlotName.setText("");
         txtRemark.setText("");
-        cbxIsActive.setSelected(false);
+        cbxIsActive.setSelected(true);
         txtSlotCode.setEditable(true);
         cmbStorage.setSelectedIndex(0);
 

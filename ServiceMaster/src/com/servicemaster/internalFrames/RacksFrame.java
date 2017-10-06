@@ -537,7 +537,7 @@ public class RacksFrame extends javax.swing.JInternalFrame {
         txtRackCode.setText("");
         txtRackName.setText("");
         txtRemark.setText("");
-        cbxIsActive.setSelected(false);
+        cbxIsActive.setSelected(true);
         txtRackCode.setEditable(true);
         cmbStorage.setSelectedIndex(0);
         btnSlots.setEnabled(false);

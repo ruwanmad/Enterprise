@@ -1,0 +1,7 @@
+"category_code";"category_name";"isActive";"created_date";"created_time";"created_user";"modified_date";"modified_time";"modified_user";"remarks"
+"CAT1000";"CHEMICLE";1;"2017-01-01";"12:00:00";1;"2017-01-01";"12:00:00";1;"CHEMICLE"
+"CAT1001";"FILTERS";1;"2017-01-01";"12:00:00";1;"2017-01-01";"12:00:00";1;"FILTERS"
+"CAT1002";"LUBRICANTS";1;"2017-01-01";"12:00:00";1;"2017-01-01";"12:00:00";1;"LUBRICANTS"
+"CAT1003";"MICHELANIOUS";1;"2017-01-01";"12:00:00";1;"2017-01-01";"12:00:00";1;"MICHELANIOUS"
+"CAT1004";"SERVICES";1;"2017-01-01";"12:00:00";1;"2017-01-01";"12:00:00";1;"SERVICES"
+"CAT1005";"SPARE PARTS";1;"2017-01-01";"12:00:00";1;"2017-01-01";"12:00:00";1;"SPARE PARTS"

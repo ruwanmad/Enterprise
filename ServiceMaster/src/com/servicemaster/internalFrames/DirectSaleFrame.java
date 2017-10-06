@@ -8,6 +8,7 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
+import com.servicemaster.dialogs.ItemSearchDialog;
 import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.AutoCompletion;
@@ -18,7 +19,6 @@ import com.servicemaster.models.Bom;
 import com.servicemaster.models.BomItem;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Item;
-import com.servicemaster.models.ItemType;
 import com.servicemaster.models.Sale;
 import com.servicemaster.models.SaleItem;
 import com.servicemaster.models.SaleItemStatus;
@@ -41,6 +41,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
@@ -69,13 +70,6 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         initComponents();
 
         AutoCompletion.enable(cmbItems, txtQuantity);
-        
-        SearchAction searchAction = new SearchAction();
-        String key = "Search (F2)";
-        btnItemSearch.setAction(searchAction);
-        btnItemSearch.setText(key);
-        btnItemSearch.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), key);
-        btnItemSearch.getActionMap().put(key, searchAction);
     }
 
     /**
@@ -561,6 +555,13 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         this.loadItems(session);
         this.loadServiceStatus(session);
         session.close();
+
+        SearchAction searchAction = new SearchAction(this);
+        String searchKey = "Search (F2)";
+        btnItemSearch.setAction(searchAction);
+        btnItemSearch.setText(searchKey);
+        btnItemSearch.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), searchKey);
+        btnItemSearch.getActionMap().put(searchKey, searchAction);
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void txtQuantityFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantityFocusGained
@@ -653,7 +654,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
         ServiceBay serviceBay = (ServiceBay) session
                 .createCriteria(ServiceBay.class)
-                .add(Restrictions.eq("serviceBayCode", "LOC1000"))
+                .add(Restrictions.eq("serviceBayCode", "LOC1001"))
                 .uniqueResult();
 
         Vehicle vehicle = (Vehicle) session
@@ -673,7 +674,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
         Sale sale = new Sale();
         sale.setSaleCode(serviceCode);
-        sale.setMilage(0.0f);
+        sale.setCurrentMilage(0.0f);
         sale.setSubTotal(grandSubTotal);
         sale.setDiscount(grandDiscount);
         sale.setGrandTotal(grandTotal);
@@ -700,8 +701,13 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             float discount = (float) tblItems.getValueAt(i, 5);
             float itemTotal = (float) tblItems.getValueAt(i, 6);
 
+            Item item = (Item) session
+                    .createCriteria(Item.class)
+                    .add(Restrictions.eq("itemName", itemName))
+                    .uniqueResult();
+
             SaleItem saleItem = new SaleItem();
-            saleItem.setItem(itemMap.get(itemName));
+            saleItem.setItem(item);
             saleItem.setSale(sale);
             saleItem.setUnitPrice(unitPrice);
             saleItem.setQuantity(quantity);
@@ -765,9 +771,11 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         float quantity = Float.parseFloat(txtQuantity.getText().trim());
         if (quantity != 0.0) {
             String itemName = (String) cmbItems.getSelectedItem();
-            Item item = itemMap.get(itemName);
-
             Session session = HibernateUtil.getSessionFactory().openSession();
+            Item item = (Item) session
+                    .createCriteria(Item.class)
+                    .add(Restrictions.eq("itemName", itemName))
+                    .uniqueResult();
 
             if (item.getFromBom()) {
                 Bom bom = (Bom) session.createCriteria(Bom.class)
@@ -952,13 +960,9 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         cmbItems.removeAllItems();
         cmbItems.addItem("");
 
-        ItemType itemType = (ItemType) session
-                .createCriteria(ItemType.class)
-                .add(Restrictions.eq("itemTypeName", "SELL"))
-                .uniqueResult();
-
-        List<Item> items = session.createCriteria(Item.class)
-                .add(Restrictions.eq("itemType", itemType))
+        List<Item> items = session
+                .createCriteria(Item.class)
+                .add(Restrictions.eq("itemTypeCode", "ITP1001"))
                 .addOrder(Order.asc("itemName"))
                 .list();
 
@@ -966,7 +970,6 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             for (Item item : items) {
                 String itemName = item.getItemName();
                 cmbItems.addItem(itemName);
-                itemMap.put(itemName, item);
             }
         }
     }
@@ -1060,12 +1063,33 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Please select a valid item.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
-    private class SearchAction extends AbstractAction{
+
+    private class SearchAction extends AbstractAction {
+
+        private final JInternalFrame internalFrame;
+
+        public SearchAction(JInternalFrame internalFrame) {
+            this.internalFrame = internalFrame;
+        }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(null, "This is a test shortcut");
+            ItemSearchDialog itemSearchDialog = new ItemSearchDialog(internalFrame, true);
+            itemSearchDialog.setVisible(true);
+        }
+    };
+
+    private class EscapeAction extends AbstractAction {
+
+        private final JInternalFrame internalFrame;
+
+        public EscapeAction(JInternalFrame internalFrame) {
+            this.internalFrame = internalFrame;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            this.internalFrame.dispose();
         }
     };
 
@@ -1100,7 +1124,6 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField txtGrandTotal;
     private javax.swing.JFormattedTextField txtQuantity;
     // End of variables declaration//GEN-END:variables
-    private final TreeMap<String, Item> itemMap = new TreeMap<>();
     private final TreeMap<String, SaleStatus> saleStatusMap = new TreeMap<>();
 
     private float grandSubTotal = 0.0f;

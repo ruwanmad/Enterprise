@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Oct 1, 2017 7:12:27 PM by Hibernate Tools 4.3.1
+// Generated Oct 6, 2017 7:38:33 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -19,6 +19,7 @@ public class Grn  implements java.io.Serializable {
      private Date grnDate;
      private String handedOverBy;
      private String batch;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -39,7 +40,7 @@ public class Grn  implements java.io.Serializable {
         this.businessPartner = businessPartner;
         this.grnReference = grnReference;
     }
-    public Grn(String grnCode, BusinessPartner businessPartner, String grnReference, Date grnTime, Date grnDate, String handedOverBy, String batch, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set grnLines, Set stocks, Set accountPostings) {
+    public Grn(String grnCode, BusinessPartner businessPartner, String grnReference, Date grnTime, Date grnDate, String handedOverBy, String batch, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set grnLines, Set stocks, Set accountPostings) {
        this.grnCode = grnCode;
        this.businessPartner = businessPartner;
        this.grnReference = grnReference;
@@ -47,6 +48,7 @@ public class Grn  implements java.io.Serializable {
        this.grnDate = grnDate;
        this.handedOverBy = handedOverBy;
        this.batch = batch;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -107,6 +109,13 @@ public class Grn  implements java.io.Serializable {
     
     public void setBatch(String batch) {
         this.batch = batch;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;

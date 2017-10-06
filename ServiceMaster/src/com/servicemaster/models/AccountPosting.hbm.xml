@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 1, 2017 7:12:34 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 6, 2017 7:38:40 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.AccountPosting" table="account_posting" catalog="enterprisedb" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
@@ -9,13 +9,16 @@
             <generator class="identity" />
         </id>
         <many-to-one name="account" class="com.servicemaster.models.Account" fetch="select">
-            <column name="account_account_code" length="15" not-null="true" />
+            <column name="account_code" length="15" not-null="true" />
+        </many-to-one>
+        <many-to-one name="businessPartner" class="com.servicemaster.models.BusinessPartner" fetch="select">
+            <column name="business_partner_code" length="15" />
         </many-to-one>
         <many-to-one name="grn" class="com.servicemaster.models.Grn" fetch="select">
-            <column name="grn_grn_code" length="15" />
+            <column name="grn_code" length="15" />
         </many-to-one>
         <many-to-one name="invoice" class="com.servicemaster.models.Invoice" fetch="select">
-            <column name="invoice_invoice_number" length="15" />
+            <column name="invoice_number" length="15" />
         </many-to-one>
         <property name="narration" type="string">
             <column name="narration" length="250" />
@@ -34,6 +37,9 @@
         </property>
         <property name="postedDate" type="date">
             <column name="posted_date" length="10" />
+        </property>
+        <property name="isActive" type="java.lang.Integer">
+            <column name="isActive" />
         </property>
         <property name="createdDate" type="date">
             <column name="created_date" length="10" />

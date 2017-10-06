@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 1, 2017 7:12:34 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 6, 2017 7:38:40 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Vehicle" table="vehicle" catalog="enterprisedb" optimistic-lock="version">
         <id name="vehicleCode" type="string">
@@ -9,10 +9,10 @@
             <generator class="assigned" />
         </id>
         <many-to-one name="businessPartner" class="com.servicemaster.models.BusinessPartner" fetch="select">
-            <column name="business_partner_business_partner_code" length="15" not-null="true" />
+            <column name="business_partner_code" length="15" not-null="true" />
         </many-to-one>
         <many-to-one name="vehicleType" class="com.servicemaster.models.VehicleType" fetch="select">
-            <column name="vehicle_type_vehicle_type_code" length="15" not-null="true" />
+            <column name="vehicle_type_code" length="15" not-null="true" />
         </many-to-one>
         <property name="vehicleNumber" type="string">
             <column name="vehicle_number" length="15" not-null="true" />
@@ -46,7 +46,7 @@
         </property>
         <set name="sales" table="sale" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="vehicle_vehicle_code" length="15" not-null="true" />
+                <column name="vehicle_code" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.Sale" />
         </set>

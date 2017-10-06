@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Oct 1, 2017 7:12:27 PM by Hibernate Tools 4.3.1
+// Generated Oct 6, 2017 7:38:33 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -14,6 +14,7 @@ public class ItemBrand  implements java.io.Serializable {
 
      private String brandCode;
      private String brandName;
+     private Integer isActive;
      private Date createdDate;
      private Date createdTime;
      private Integer createdUser;
@@ -30,9 +31,10 @@ public class ItemBrand  implements java.io.Serializable {
     public ItemBrand(String brandCode) {
         this.brandCode = brandCode;
     }
-    public ItemBrand(String brandCode, String brandName, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set items) {
+    public ItemBrand(String brandCode, String brandName, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set items) {
        this.brandCode = brandCode;
        this.brandName = brandName;
+       this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
        this.createdUser = createdUser;
@@ -56,6 +58,13 @@ public class ItemBrand  implements java.io.Serializable {
     
     public void setBrandName(String brandName) {
         this.brandName = brandName;
+    }
+    public Integer getIsActive() {
+        return this.isActive;
+    }
+    
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
     public Date getCreatedDate() {
         return this.createdDate;
