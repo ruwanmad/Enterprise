@@ -255,6 +255,7 @@ public class SettlementDialog extends javax.swing.JDialog {
                         .add(Restrictions.eq("statusDescription", "SETTLED"))
                         .uniqueResult();
                 sale.setSaleStatus(saleStatus);
+                sale.setPreviousMilage(sale.getCurrentMilage());
             }
             payment.setCreatedDate(date);
             payment.setCreatedTime(date);

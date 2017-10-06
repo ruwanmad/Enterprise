@@ -76,7 +76,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         this.sale = sale;
         this.servicesFrame = servicesFrame;
 
-        AutoCompletion.enable(cmbVehicle, txtLastServicesMilage);
+        AutoCompletion.enable(cmbVehicle, txtCurrentMilage);
         AutoCompletion.enable(cmbServiceBay, cmbItems);
         AutoCompletion.enable(cmbItems, txtQuantity);
     }
@@ -99,12 +99,16 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         vehicleDetailPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtLastServicesMilage = new javax.swing.JTextField();
+        txtLastMilage = new javax.swing.JTextField();
         cmbVehicle = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         dateServiceDate = new com.toedter.calendar.JDateChooser();
         btnNew = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        txtCurrentMilage = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        txtNextMilage = new javax.swing.JTextField();
         customerDetailPanel = new javax.swing.JPanel();
         lblAddress3 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -131,6 +135,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         rbtPercentage = new javax.swing.JRadioButton();
         rbtNumber = new javax.swing.JRadioButton();
         btnAdd = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        txtUnitPrice = new javax.swing.JFormattedTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblItems = new javax.swing.JTable();
         buttonPanel = new javax.swing.JPanel();
@@ -139,6 +145,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         btnClose = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
         btnSettle = new javax.swing.JButton();
+        cbxUpdateDatabase = new javax.swing.JCheckBox();
 
         itemDelete.setText("Delete");
         itemDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -182,17 +189,20 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         jLabel1.setText("Vehicle No :");
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel2.setText("Last service milage :");
+        jLabel2.setText("Last milage :");
 
-        txtLastServicesMilage.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        txtLastServicesMilage.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtLastMilage.setEditable(false);
+        txtLastMilage.setBackground(new java.awt.Color(255, 255, 255));
+        txtLastMilage.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtLastMilage.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtLastServicesMilageKeyPressed(evt);
+                txtLastMilageKeyPressed(evt);
             }
         });
 
         cmbVehicle.setEditable(true);
         cmbVehicle.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cmbVehicle.setNextFocusableComponent(txtCurrentMilage);
         cmbVehicle.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbVehicleItemStateChanged(evt);
@@ -251,61 +261,105 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel13.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel13.setText("Current milage :");
+
+        txtCurrentMilage.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtCurrentMilage.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCurrentMilageFocusGained(evt);
+            }
+        });
+        txtCurrentMilage.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCurrentMilageKeyPressed(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel14.setText("Next milage :");
+
+        txtNextMilage.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtNextMilage.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNextMilageKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout vehicleDetailPanelLayout = new javax.swing.GroupLayout(vehicleDetailPanel);
         vehicleDetailPanel.setLayout(vehicleDetailPanelLayout);
         vehicleDetailPanelLayout.setHorizontalGroup(
             vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(vehicleDetailPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(vehicleDetailPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbVehicle, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(vehicleDetailPanelLayout.createSequentialGroup()
-                        .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel12))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtLastServicesMilage, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-                            .addComponent(dateServiceDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(4, 4, 4)
-                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                            .addGroup(vehicleDetailPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(dateServiceDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(vehicleDetailPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbVehicle, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(4, 4, 4)
+                        .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(4, 4, 4)
+                        .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtLastMilage, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(vehicleDetailPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCurrentMilage, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(vehicleDetailPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNextMilage, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
-        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel12, jLabel2});
+        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnNew, btnRefresh, jLabel2, txtLastMilage});
 
-        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbVehicle, txtLastServicesMilage});
+        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel12, jLabel13, jLabel14});
 
-        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnNew, btnRefresh});
+        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbVehicle, dateServiceDate, txtCurrentMilage, txtNextMilage});
 
         vehicleDetailPanelLayout.setVerticalGroup(
             vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(vehicleDetailPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cmbVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(vehicleDetailPanelLayout.createSequentialGroup()
+                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtLastMilage, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(vehicleDetailPanelLayout.createSequentialGroup()
+                        .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cmbVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateServiceDate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtLastServicesMilage, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCurrentMilage, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dateServiceDate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGroup(vehicleDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNextMilage, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
-        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnNew, btnRefresh, cmbVehicle, dateServiceDate, jLabel1, jLabel12, jLabel2, txtLastServicesMilage});
+        vehicleDetailPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnNew, btnRefresh, cmbVehicle, dateServiceDate, jLabel1, jLabel12, jLabel13, jLabel14, jLabel2, txtCurrentMilage, txtLastMilage, txtNextMilage});
 
         detailPanel.add(vehicleDetailPanel);
 
@@ -466,6 +520,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
         cmbItems.setEditable(true);
         cmbItems.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cmbItems.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbItemsItemStateChanged(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel9.setText("Quantity :");
@@ -543,6 +602,26 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel15.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel15.setText("Unit Price");
+
+        txtUnitPrice.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.0"))));
+        txtUnitPrice.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtUnitPrice.setText("0.0");
+        txtUnitPrice.setToolTipText("");
+        txtUnitPrice.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtUnitPrice.setNextFocusableComponent(txtGrandDiscount);
+        txtUnitPrice.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtUnitPriceFocusGained(evt);
+            }
+        });
+        txtUnitPrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUnitPriceKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout itemPanelLayout = new javax.swing.GroupLayout(itemPanel);
         itemPanel.setLayout(itemPanelLayout);
         itemPanelLayout.setHorizontalGroup(
@@ -556,7 +635,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -566,10 +649,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addComponent(rbtNumber)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-
-        itemPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel10, jLabel8, jLabel9});
 
         itemPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtDiscount, txtQuantity});
 
@@ -579,17 +660,20 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbItems, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
                     .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rbtPercentage, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rbtNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel15)
+                        .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(5, 5, 5))
         );
 
-        itemPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbItems, jLabel10, jLabel8, jLabel9, txtDiscount, txtQuantity});
+        itemPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbItems, jLabel10, jLabel15, jLabel8, jLabel9, txtDiscount, txtQuantity, txtUnitPrice});
 
         tblItems.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         tblItems.setModel(new javax.swing.table.DefaultTableModel(
@@ -740,12 +824,18 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        cbxUpdateDatabase.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cbxUpdateDatabase.setSelected(true);
+        cbxUpdateDatabase.setText("Update");
+
         javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
         buttonPanel.setLayout(buttonPanelLayout);
         buttonPanelLayout.setHorizontalGroup(
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(cbxUpdateDatabase)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -767,7 +857,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbxUpdateDatabase))
                     .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -775,13 +866,13 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnInvoice, btnReset, btnSave, btnSettle});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnInvoice, btnReset, btnSave, btnSettle, cbxUpdateDatabase});
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(detailPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 917, Short.MAX_VALUE)
+            .addComponent(detailPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(ServiceDetailPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(itemPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane1)
@@ -790,13 +881,13 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addComponent(detailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(detailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(ServiceDetailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(itemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -846,7 +937,9 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             session = HibernateUtil.getSessionFactory().openSession();
 
             cmbVehicle.setSelectedItem(sale.getVehicle().getVehicleNumber());
-            txtLastServicesMilage.setText("" + sale.getPreviousMilage());
+            txtLastMilage.setText(sale.getPreviousMilage() == null ? "" : "" + sale.getPreviousMilage());
+            txtCurrentMilage.setText(sale.getCurrentMilage() == null ? "" : "" + sale.getCurrentMilage());
+            txtNextMilage.setText(sale.getNextMilage() == null ? "" : "" + sale.getNextMilage());
 
             lblCustomerName.setText(sale.getVehicle().getBusinessPartner().getFirstName() + " " + sale.getVehicle().getBusinessPartner().getLastName());
             Set businessAddresses = sale.getVehicle().getBusinessPartner().getBusinessAddresses();
@@ -948,18 +1041,19 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                         }
                     }
                 }
-                
+
                 List<Sale> sales = session
                         .createCriteria(Sale.class)
                         .add(Restrictions.eq("vehicle", vehicle))
                         .addOrder(Order.desc("createdDate"))
                         .list();
-                
+
                 if (sales.isEmpty()) {
-                    txtLastServicesMilage.setText("");
+                    txtLastMilage.setText("");
                 } else {
                     for (Sale tempSale : sales) {
-                        txtLastServicesMilage.setText(""+tempSale.getPreviousMilage());
+                        txtLastMilage.setText(tempSale.getPreviousMilage() == null ? "" : "" + tempSale.getPreviousMilage());
+                        txtCurrentMilage.setText(tempSale.getNextMilage() == null ? "" : "" + tempSale.getNextMilage());
                         break;
                     }
                 }
@@ -967,11 +1061,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_cmbVehicleItemStateChanged
 
-    private void txtLastServicesMilageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLastServicesMilageKeyPressed
+    private void txtLastMilageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLastMilageKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             cmbServiceBay.requestFocus();
         }
-    }//GEN-LAST:event_txtLastServicesMilageKeyPressed
+    }//GEN-LAST:event_txtLastMilageKeyPressed
 
     private void txtQuantityFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantityFocusGained
         SwingUtilities.invokeLater(new Runnable() {
@@ -984,7 +1078,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
     private void txtQuantityKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantityKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtDiscount.requestFocus();
+            txtUnitPrice.requestFocus();
         }
     }//GEN-LAST:event_txtQuantityKeyPressed
 
@@ -1149,7 +1243,12 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private void btnInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvoiceActionPerformed
         if (sale.getInvoices().isEmpty()) {
             KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-            String invoiceCode = keyCodeFunctions.getKey("INV", "Invoices");
+            String invoiceCode;
+            if (cbxUpdateDatabase.isSelected()) {
+                invoiceCode = keyCodeFunctions.getKey("INV", "Invoices");
+            } else {
+                invoiceCode = keyCodeFunctions.getKey("DIN", "Dummy Invoices");
+            }
             Date date = new Date();
 
             Session session = HibernateUtil.getSessionFactory().openSession();
@@ -1230,7 +1329,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             Date date = dateServiceDate.getDate();
             Date time = new Date();
 
-            sale.setCurrentMilage(Float.parseFloat(txtLastServicesMilage.getText().trim()));
+            sale.setCurrentMilage(Float.parseFloat(txtCurrentMilage.getText().trim().isEmpty() ? "0.0" : txtCurrentMilage.getText().trim()));
+            sale.setNextMilage(Float.parseFloat(txtNextMilage.getText().trim().isEmpty() ? "0.0" : txtNextMilage.getText().trim()));
             sale.setSubTotal(grandSubTotal);
             sale.setDiscount(grandDiscount);
             sale.setGrandTotal(grandTotal);
@@ -1288,8 +1388,13 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             session.getTransaction().commit();
             session.close();
         } else {
+            String saleCode;
             KeyCodeFunctions codeFunctions = new KeyCodeFunctions();
-            String saleCode = codeFunctions.getKey("SVR", "Service");
+            if (cbxUpdateDatabase.isSelected()) {
+                saleCode = codeFunctions.getKey("SVR", "Service");
+            } else {
+                saleCode = codeFunctions.getKey("DUM", "Dummy Service");
+            }
 
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
@@ -1314,7 +1419,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
             sale = new Sale();
             sale.setSaleCode(saleCode);
-            sale.setCurrentMilage(Float.parseFloat(txtLastServicesMilage.getText().trim()));
+            sale.setCurrentMilage(Float.parseFloat(txtCurrentMilage.getText().trim()));
+            sale.setNextMilage(Float.parseFloat(txtNextMilage.getText().trim()));
             sale.setSubTotal(grandSubTotal);
             sale.setDiscount(grandDiscount);
             sale.setGrandTotal(grandTotal);
@@ -1523,7 +1629,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 }
             } else {
                 String itemCode = item.getItemCode();
-                float unitPrice = this.getItemSellingPrice(item);
+                float unitPrice = Float.parseFloat(txtUnitPrice.getText().trim());
                 float subTotal = quantity * unitPrice;
                 float discount = Float.parseFloat(txtDiscount.getText().trim());
                 float total = 0.0f;
@@ -1562,6 +1668,61 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             txtQuantity.requestFocus();
         }
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void txtCurrentMilageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCurrentMilageKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtNextMilage.requestFocus();
+        }
+    }//GEN-LAST:event_txtCurrentMilageKeyPressed
+
+    private void txtNextMilageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNextMilageKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            cmbServiceBay.requestFocus();
+        }
+    }//GEN-LAST:event_txtNextMilageKeyPressed
+
+    private void txtCurrentMilageFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCurrentMilageFocusGained
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                txtCurrentMilage.selectAll();
+            }
+        });
+    }//GEN-LAST:event_txtCurrentMilageFocusGained
+
+    private void txtUnitPriceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUnitPriceFocusGained
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                txtUnitPrice.selectAll();
+            }
+        });
+    }//GEN-LAST:event_txtUnitPriceFocusGained
+
+    private void txtUnitPriceKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUnitPriceKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtDiscount.requestFocus();
+        }
+    }//GEN-LAST:event_txtUnitPriceKeyPressed
+
+    private void cmbItemsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbItemsItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            String itemName = cmbItems.getSelectedItem().toString();
+
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Item item = (Item) session
+                    .createCriteria(Item.class)
+                    .add(Restrictions.eq("itemName", itemName))
+                    .uniqueResult();
+
+            if (item != null) {
+                float unitPrice = this.getItemSellingPrice(item);
+                txtUnitPrice.setText("" + unitPrice);
+            }
+
+            session.close();
+        }
+    }//GEN-LAST:event_cmbItemsItemStateChanged
 
     private void loadVehicles(Session session) {
         Query query = session.createQuery("from Vehicle v order by v.vehicleNumber");
@@ -1616,7 +1777,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
     private void clearAll() {
         cmbVehicle.setSelectedIndex(0);
-        txtLastServicesMilage.setText("");
+        txtLastMilage.setText("");
         lblCustomerName.setText("");
         lblAddress1.setText("");
         lblAddress2.setText("");
@@ -1713,6 +1874,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSettle;
     private javax.swing.JPanel buttonPanel;
+    private javax.swing.JCheckBox cbxUpdateDatabase;
     public static javax.swing.JComboBox<String> cmbItems;
     private javax.swing.JComboBox<String> cmbServiceBay;
     private javax.swing.JComboBox<String> cmbVehicle;
@@ -1727,6 +1889,9 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1745,12 +1910,15 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rbtPercentage;
     private javax.swing.JPopupMenu tblItemPopup;
     private javax.swing.JTable tblItems;
+    private javax.swing.JTextField txtCurrentMilage;
     private javax.swing.JFormattedTextField txtDiscount;
     private javax.swing.JFormattedTextField txtGrandDiscount;
     private javax.swing.JFormattedTextField txtGrandSubTotal;
     private javax.swing.JFormattedTextField txtGrandTotal;
-    private javax.swing.JTextField txtLastServicesMilage;
+    private javax.swing.JTextField txtLastMilage;
+    private javax.swing.JTextField txtNextMilage;
     private javax.swing.JFormattedTextField txtQuantity;
+    private javax.swing.JFormattedTextField txtUnitPrice;
     private javax.swing.JPanel vehicleDetailPanel;
     // End of variables declaration//GEN-END:variables
     private Sale sale;
