@@ -23,11 +23,11 @@ DROP TABLE IF EXISTS `bom_item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bom_item` (
-  `bom_bom_code` varchar(15) NOT NULL,
-  `item_item_code` varchar(15) NOT NULL,
+  `bom_item_code` varchar(15) NOT NULL,
   `bom_item_quantity` float DEFAULT NULL,
   `unit_price` float DEFAULT NULL,
   `selling_price` float DEFAULT NULL,
+  `isActive` int(11) DEFAULT '1',
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
   `created_user` int(11) DEFAULT NULL,
@@ -35,15 +35,16 @@ CREATE TABLE `bom_item` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   `remark` varchar(45) DEFAULT NULL,
-  `bom_item_code` varchar(15) NOT NULL,
-  `uom_uom_code` varchar(15) NOT NULL,
+  `bom_code` varchar(15) NOT NULL,
+  `item_code` varchar(15) NOT NULL,
+  `uom_code` varchar(15) NOT NULL,
   PRIMARY KEY (`bom_item_code`),
-  KEY `fk_bom_item_bom1_idx` (`bom_bom_code`),
-  KEY `fk_bom_item_item1_idx` (`item_item_code`),
-  KEY `fk_bom_item_uom1_idx` (`uom_uom_code`),
-  CONSTRAINT `fk_bom_item_bom1` FOREIGN KEY (`bom_bom_code`) REFERENCES `bom` (`bom_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_bom_item_item1` FOREIGN KEY (`item_item_code`) REFERENCES `item` (`item_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_bom_item_uom1` FOREIGN KEY (`uom_uom_code`) REFERENCES `uom` (`uom_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_bom_item_bom1_idx` (`bom_code`),
+  KEY `fk_bom_item_item1_idx` (`item_code`),
+  KEY `fk_bom_item_uom1_idx` (`uom_code`),
+  CONSTRAINT `fk_bom_item_bom1` FOREIGN KEY (`bom_code`) REFERENCES `bom` (`bom_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_bom_item_item1` FOREIGN KEY (`item_code`) REFERENCES `item` (`item_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_bom_item_uom1` FOREIGN KEY (`uom_code`) REFERENCES `uom` (`uom_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -53,6 +54,7 @@ CREATE TABLE `bom_item` (
 
 LOCK TABLES `bom_item` WRITE;
 /*!40000 ALTER TABLE `bom_item` DISABLE KEYS */;
+INSERT INTO `bom_item` VALUES ('BOI1001',5,60,300,NULL,'2017-10-05','19:29:46',1,NULL,NULL,NULL,'','BOM1001','ITM1001','UOM1000');
 /*!40000 ALTER TABLE `bom_item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -65,4 +67,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:28
+-- Dump completed on 2017-10-14 16:36:56

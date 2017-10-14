@@ -106,7 +106,9 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         cmbBankAccount = new javax.swing.JComboBox<>();
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 2, 0, new java.awt.Color(50, 255, 50)), "Cheque Settle", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 1, 12), new java.awt.Color(0, 102, 51))); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel1.setText("Total amount :");
 
         txtTotalAmount.setEditable(false);
@@ -114,9 +116,9 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
         txtTotalAmount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.0"))));
         txtTotalAmount.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtTotalAmount.setText("0.0");
-        txtTotalAmount.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtTotalAmount.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel2.setText("Paid amount :");
 
         txtPaidAmount.setEditable(false);
@@ -124,9 +126,9 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
         txtPaidAmount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.0"))));
         txtPaidAmount.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtPaidAmount.setText("0.0");
-        txtPaidAmount.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtPaidAmount.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel3.setText("Remaining balance :");
 
         txtRemainingBalance.setEditable(false);
@@ -134,15 +136,15 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
         txtRemainingBalance.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.0"))));
         txtRemainingBalance.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtRemainingBalance.setText("0.0");
-        txtRemainingBalance.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtRemainingBalance.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel4.setText("Now paying :");
 
         txtNowPaying.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.0"))));
         txtNowPaying.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtNowPaying.setText("0.0");
-        txtNowPaying.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtNowPaying.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtNowPaying.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtNowPayingFocusGained(evt);
@@ -154,7 +156,7 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel5.setText("Balance :");
 
         txtBalance.setEditable(false);
@@ -162,41 +164,42 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
         txtBalance.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.0"))));
         txtBalance.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtBalance.setText("0.0");
-        txtBalance.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtBalance.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
-        jLabel6.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel6.setText("Cheque No :");
 
         txtChequeNumber.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtChequeNumber.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtChequeNumber.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtChequeNumberKeyPressed(evt);
             }
         });
 
-        jLabel7.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel7.setText("Cheque Date :");
 
         dateChequeDate.setDate(new Date());
         dateChequeDate.setDateFormatString("yyyy-MM-dd");
-        dateChequeDate.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        dateChequeDate.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         dateChequeDate.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 dateChequeDateKeyPressed(evt);
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel8.setText("Bank :");
 
         cmbBank.setEditable(true);
-        cmbBank.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cmbBank.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
-        jLabel9.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel9.setText("Bank Account :");
 
         cmbBankAccount.setEditable(true);
-        cmbBankAccount.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cmbBankAccount.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -217,13 +220,13 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtBalance, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                    .addComponent(txtNowPaying, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                    .addComponent(txtTotalAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                    .addComponent(txtRemainingBalance, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                    .addComponent(txtPaidAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                    .addComponent(txtChequeNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                    .addComponent(dateChequeDate, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                    .addComponent(txtBalance, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(txtNowPaying, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(txtTotalAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(txtRemainingBalance, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(txtPaidAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(txtChequeNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(dateChequeDate, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                     .addComponent(cmbBank, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cmbBankAccount, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -324,8 +327,8 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> cmbBank;
-    private javax.swing.JComboBox<String> cmbBankAccount;
+    public javax.swing.JComboBox<String> cmbBank;
+    public javax.swing.JComboBox<String> cmbBankAccount;
     public com.toedter.calendar.JDateChooser dateChequeDate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

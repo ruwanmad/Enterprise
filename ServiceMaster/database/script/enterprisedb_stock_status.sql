@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS `stock_status`;
 CREATE TABLE `stock_status` (
   `stock_status_id` int(11) NOT NULL,
   `stock_status_name` varchar(45) DEFAULT NULL,
+  `isActive` int(11) DEFAULT '1',
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
   `created_user` int(11) DEFAULT NULL,
@@ -42,7 +43,6 @@ CREATE TABLE `stock_status` (
 
 LOCK TABLES `stock_status` WRITE;
 /*!40000 ALTER TABLE `stock_status` DISABLE KEYS */;
-INSERT INTO `stock_status` VALUES (1,'STOCKED','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Added to stock status'),(2,'REJECTED','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Rejected stock status'),(3,'RETURNED','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Returned stock status');
 /*!40000 ALTER TABLE `stock_status` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:23
+-- Dump completed on 2017-10-14 16:36:51

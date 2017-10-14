@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `main_account`;
 CREATE TABLE `main_account` (
   `code` varchar(15) NOT NULL,
   `description` varchar(45) DEFAULT NULL,
-  `isActive` int(11) DEFAULT NULL,
+  `isActive` int(11) DEFAULT '1',
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
   `created_user` int(11) DEFAULT NULL,
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:20
+-- Dump completed on 2017-10-14 16:36:48

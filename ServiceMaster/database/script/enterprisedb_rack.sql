@@ -33,10 +33,10 @@ CREATE TABLE `rack` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   `remark` varchar(45) DEFAULT NULL,
-  `storage_storage_code` varchar(15) NOT NULL,
+  `storage_code` varchar(15) NOT NULL,
   PRIMARY KEY (`rack_code`),
-  KEY `fk_rack_storage1_idx` (`storage_storage_code`),
-  CONSTRAINT `fk_rack_storage1` FOREIGN KEY (`storage_storage_code`) REFERENCES `storage` (`storage_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_rack_storage1_idx` (`storage_code`),
+  CONSTRAINT `fk_rack_storage1` FOREIGN KEY (`storage_code`) REFERENCES `storage` (`storage_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -46,7 +46,7 @@ CREATE TABLE `rack` (
 
 LOCK TABLES `rack` WRITE;
 /*!40000 ALTER TABLE `rack` DISABLE KEYS */;
-INSERT INTO `rack` VALUES ('RAC1000','MAIN RACK',1,'2017-09-09','20:37:36',1,NULL,NULL,NULL,'MAIN RACK','STO1000');
+INSERT INTO `rack` VALUES ('RAC1001','RACK 1',1,NULL,NULL,NULL,'2017-10-05','15:46:16',1,'RACK 1','STO1001');
 /*!40000 ALTER TABLE `rack` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:30
+-- Dump completed on 2017-10-14 16:36:58

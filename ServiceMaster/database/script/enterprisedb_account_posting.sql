@@ -30,6 +30,7 @@ CREATE TABLE `account_posting` (
   `number_of_days` int(11) DEFAULT NULL,
   `cheque_date` date DEFAULT NULL,
   `posted_date` date DEFAULT NULL,
+  `isActive` int(11) DEFAULT '1',
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
   `created_user` int(11) DEFAULT NULL,
@@ -37,17 +38,20 @@ CREATE TABLE `account_posting` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   `remark` varchar(100) DEFAULT NULL,
-  `invoice_invoice_number` varchar(15) DEFAULT NULL,
-  `grn_grn_code` varchar(15) DEFAULT NULL,
-  `account_account_code` varchar(15) NOT NULL,
+  `invoice_number` varchar(15) DEFAULT NULL,
+  `grn_code` varchar(15) DEFAULT NULL,
+  `business_partner_code` varchar(15) DEFAULT NULL,
+  `account_code` varchar(15) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_account_posting_invoice1_idx` (`invoice_invoice_number`),
-  KEY `fk_account_posting_account1_idx` (`account_account_code`),
-  KEY `fk_account_posting_grn1_idx` (`grn_grn_code`),
-  CONSTRAINT `fk_account_posting_account1` FOREIGN KEY (`account_account_code`) REFERENCES `account` (`account_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_account_posting_grn1` FOREIGN KEY (`grn_grn_code`) REFERENCES `grn` (`grn_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_account_posting_invoice1` FOREIGN KEY (`invoice_invoice_number`) REFERENCES `invoice` (`invoice_number`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  KEY `fk_account_posting_invoice1_idx` (`invoice_number`),
+  KEY `fk_account_posting_account1_idx` (`account_code`),
+  KEY `fk_account_posting_grn1_idx` (`grn_code`),
+  KEY `fk_account_posting_business_partner1_idx` (`business_partner_code`),
+  CONSTRAINT `fk_account_posting_account1` FOREIGN KEY (`account_code`) REFERENCES `account` (`account_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_account_posting_business_partner1` FOREIGN KEY (`business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_account_posting_grn1` FOREIGN KEY (`grn_code`) REFERENCES `grn` (`grn_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_account_posting_invoice1` FOREIGN KEY (`invoice_number`) REFERENCES `invoice` (`invoice_number`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -56,7 +60,7 @@ CREATE TABLE `account_posting` (
 
 LOCK TABLES `account_posting` WRITE;
 /*!40000 ALTER TABLE `account_posting` DISABLE KEYS */;
-INSERT INTO `account_posting` VALUES (1,'Cash settlemnt for DRS1001',350,NULL,NULL,NULL,'2017-10-04','2017-10-04','00:19:14',1,NULL,NULL,NULL,NULL,'INV1001',NULL,'ACC1001'),(2,'Cash settlemnt for DRS1001',NULL,350,NULL,NULL,'2017-10-04','2017-10-04','00:19:15',1,NULL,NULL,NULL,NULL,'INV1001',NULL,'ACC1006');
+INSERT INTO `account_posting` VALUES (12,'Credit settlemnt for SVR1007',300,NULL,NULL,NULL,'2017-10-14',NULL,'2017-10-14','16:33:04',1,NULL,NULL,NULL,NULL,'INV1013',NULL,NULL,'ACC1006'),(13,'Credit settlemnt for SVR1007',NULL,300,NULL,NULL,'2017-10-14',NULL,'2017-10-14','16:33:04',1,NULL,NULL,NULL,NULL,'INV1013',NULL,NULL,'ACC1001');
 /*!40000 ALTER TABLE `account_posting` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -69,4 +73,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:29
+-- Dump completed on 2017-10-14 16:36:57

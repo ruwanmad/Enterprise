@@ -34,13 +34,13 @@ CREATE TABLE `vehicle` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
-  `business_partner_business_partner_code` varchar(15) NOT NULL,
-  `vehicle_type_vehicle_type_code` varchar(15) NOT NULL,
+  `business_partner_code` varchar(15) NOT NULL,
+  `vehicle_type_code` varchar(15) NOT NULL,
   PRIMARY KEY (`vehicle_code`),
-  KEY `fk_vehicle_business_partner1_idx` (`business_partner_business_partner_code`),
-  KEY `fk_vehicle_vehicle_type1_idx` (`vehicle_type_vehicle_type_code`),
-  CONSTRAINT `fk_vehicle_business_partner1` FOREIGN KEY (`business_partner_business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_vehicle_vehicle_type1` FOREIGN KEY (`vehicle_type_vehicle_type_code`) REFERENCES `vehicle_type` (`vehicle_type_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_vehicle_business_partner1_idx` (`business_partner_code`),
+  KEY `fk_vehicle_vehicle_type1_idx` (`vehicle_type_code`),
+  CONSTRAINT `fk_vehicle_business_partner1` FOREIGN KEY (`business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_vehicle_vehicle_type1` FOREIGN KEY (`vehicle_type_code`) REFERENCES `vehicle_type` (`vehicle_type_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -50,7 +50,7 @@ CREATE TABLE `vehicle` (
 
 LOCK TABLES `vehicle` WRITE;
 /*!40000 ALTER TABLE `vehicle` DISABLE KEYS */;
-INSERT INTO `vehicle` VALUES ('VEH1000','CAJ-1082','2016',1,'2017-09-09','22:25:50',1,NULL,NULL,NULL,'','BPT1001','VHT1000'),('VEH1001','CAJ-2535','2015',1,'2017-09-17','12:41:07',1,NULL,NULL,NULL,'HFUKALSDFHSKA;','BPT1002','VHT1000');
+INSERT INTO `vehicle` VALUES ('VEH1000','CAJ-1082','2016',1,'2017-09-09','22:25:50',1,NULL,NULL,NULL,'','BPT1001','VHT1000'),('VEH1001','CAJ-2535','2015',1,'2017-09-17','12:41:07',1,NULL,NULL,NULL,'','BPT1002','VHT1000');
 /*!40000 ALTER TABLE `vehicle` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -63,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:24
+-- Dump completed on 2017-10-14 16:36:52

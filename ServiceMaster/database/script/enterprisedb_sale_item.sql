@@ -23,12 +23,14 @@ DROP TABLE IF EXISTS `sale_item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sale_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `item_item_code` varchar(15) NOT NULL,
   `unit_price` float DEFAULT NULL,
   `quantity` float DEFAULT NULL,
   `sub_total` float DEFAULT NULL,
   `discount` float DEFAULT NULL,
   `total` float DEFAULT NULL,
+  `isActive` int(11) DEFAULT '1',
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
   `created_user` int(11) DEFAULT NULL,
@@ -36,17 +38,16 @@ CREATE TABLE `sale_item` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   `remark` varchar(200) DEFAULT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sale_sale_code` varchar(15) NOT NULL,
-  `sale_item_status_item_status_id` int(11) NOT NULL,
+  `sale_code` varchar(15) NOT NULL,
+  `status_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_service_has_item_item1_idx` (`item_item_code`),
-  KEY `fk_sale_item_sale1_idx` (`sale_sale_code`),
-  KEY `fk_sale_item_sale_item_status1_idx` (`sale_item_status_item_status_id`),
-  CONSTRAINT `fk_sale_item_sale1` FOREIGN KEY (`sale_sale_code`) REFERENCES `sale` (`sale_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_sale_item_sale_item_status1` FOREIGN KEY (`sale_item_status_item_status_id`) REFERENCES `sale_item_status` (`item_status_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `fk_sale_item_sale1_idx` (`sale_code`),
+  KEY `fk_sale_item_sale_item_status1_idx` (`status_id`),
+  CONSTRAINT `fk_sale_item_sale1` FOREIGN KEY (`sale_code`) REFERENCES `sale` (`sale_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_sale_item_sale_item_status1` FOREIGN KEY (`status_id`) REFERENCES `sale_item_status` (`item_status_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_service_has_item_item1` FOREIGN KEY (`item_item_code`) REFERENCES `item` (`item_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,7 +56,7 @@ CREATE TABLE `sale_item` (
 
 LOCK TABLES `sale_item` WRITE;
 /*!40000 ALTER TABLE `sale_item` DISABLE KEYS */;
-INSERT INTO `sale_item` VALUES ('ITM1001',70,2,140,0,140,'2017-10-04','00:18:49',1,'2017-10-04','00:19:48',1,'GREESE MP2 100G',1,'DRS1001',1);
+INSERT INTO `sale_item` VALUES (1,'ITM1001',60,3,180,0,180,NULL,'2017-10-06','22:52:36',1,'2017-10-07','16:20:50',1,'GREESE MP2 100G','SVR1001',1),(2,'ITM1001',70,5,350,0,350,NULL,'2017-10-06','23:09:45',1,NULL,NULL,NULL,'GREESE MP2 100G','DRS1007',1),(3,'ITM1001',60,5,300,0,300,NULL,'2017-10-07','02:28:25',1,NULL,NULL,NULL,'GREESE MP2 100G','SVR1002',1),(4,'ITM1001',70,5,350,0,350,NULL,'2017-10-07','14:43:35',1,NULL,NULL,NULL,'GREESE MP2 100G','DRS1008',1),(5,'ITM1001',60,5,300,0,300,NULL,'2017-10-07','14:49:23',1,NULL,NULL,NULL,'GREESE MP2 100G','SVR1003',1),(6,'ITM1001',3,2,5,0,5,NULL,'2017-10-07','16:20:50',1,NULL,NULL,NULL,'Damaged','SVR1001',2),(7,'ITM1001',70,5,300,0,300,NULL,'2017-10-07','18:24:55',1,'2017-10-07','23:57:32',1,'GREESE MP2 100G','SVR1004',1),(8,'ITM1003',500,1,500,0,500,NULL,NULL,NULL,NULL,'2017-10-07','23:57:32',1,'GEAR OIL MP140 1L','SVR1004',1),(9,'ITM1001',70,5,350,0,350,NULL,'2017-10-08','00:16:13',1,NULL,NULL,NULL,'GREESE MP2 100G','SVR1005',1),(10,'ITM1012',300,1,300,0,300,NULL,'2017-10-08','00:16:13',1,NULL,NULL,NULL,'FULL SERVICE CAR','SVR1005',1),(11,'ITM1012',2900,1,2900,0,2900,NULL,'2017-10-08','10:42:53',1,NULL,NULL,NULL,'FULL SERVICE CAR','SVR1006',1),(12,'ITM1012',2900,1,2900,0,2900,NULL,'2017-10-08','13:30:20',1,NULL,NULL,NULL,'FULL SERVICE CAR','DRS1009',1),(13,'ITM1030',0,1,0,0,0,NULL,'2017-10-14','16:31:00',1,NULL,NULL,NULL,'CALTEX BRAK OIL 500ML','DRS1010',1),(14,'ITM1012',300,1,300,0,300,NULL,'2017-10-14','16:32:16',1,NULL,NULL,NULL,'FULL SERVICE CAR','SVR1007',1);
 /*!40000 ALTER TABLE `sale_item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -68,4 +69,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:27
+-- Dump completed on 2017-10-14 16:36:54

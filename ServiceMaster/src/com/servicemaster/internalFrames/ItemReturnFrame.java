@@ -110,14 +110,14 @@ public class ItemReturnFrame extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Item Code", "Item Name", "Quantity", "Total Amount"
+                "Item Code", "Item Name", "Quantity", "Total Amount", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class
+                java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -394,8 +394,10 @@ public class ItemReturnFrame extends javax.swing.JInternalFrame {
                     String itemName = saleItem.getItem().getItemName();
                     float quantity = saleItem.getQuantity();
                     float totalAmount = saleItem.getSubTotal();
+                    SaleItemStatus saleItemStatus = (SaleItemStatus) session.load(SaleItemStatus.class, saleItem.getSaleItemStatus().getItemStatusId());
+                    String itemStatus = saleItemStatus.getItemStatusDescription();
 
-                    tableModel.addRow(new Object[]{itemCode, itemName, quantity, totalAmount});
+                    tableModel.addRow(new Object[]{itemCode, itemName, quantity, totalAmount, itemStatus});
                 }
             }
         }
@@ -420,7 +422,9 @@ public class ItemReturnFrame extends javax.swing.JInternalFrame {
                         .createCriteria(Invoice.class)
                         .add(Restrictions.eq("sale", saleItem.getSale()))
                         .uniqueResult();
-                cmbInvoices.addItem(invoice.getInvoiceNumber());
+                if (invoice != null) {
+                    cmbInvoices.addItem(invoice.getInvoiceNumber());
+                }
             }
         }
         session.close();
@@ -514,15 +518,19 @@ public class ItemReturnFrame extends javax.swing.JInternalFrame {
                 sale.setModifiedUser(MainFrame.user.getUserId());
                 
                 session.saveOrUpdate(sale);
+                
+                fSaleSubTotal = fSaleSubTotal - (fUnitPrice * fRemains);
+                fSaleTotal = fSaleTotal - (fUnitPrice * fRemains);
 
                 SaleItem canceledSaleItem = new SaleItem();
                 canceledSaleItem.setItem(item);
                 canceledSaleItem.setSale(sale);
                 canceledSaleItem.setDiscount(0.0f);
                 canceledSaleItem.setQuantity(fCanceledQty);
+                canceledSaleItem.setSaleItemStatus(saleItemStatus);
                 canceledSaleItem.setRemark(strReason);
-                canceledSaleItem.setSubTotal(fExtQty);
-                canceledSaleItem.setTotal(fExtQty);
+                canceledSaleItem.setSubTotal(fSaleSubTotal);
+                canceledSaleItem.setTotal(fSaleTotal);
                 canceledSaleItem.setUnitPrice(fRemains);
                 canceledSaleItem.setCreatedDate(date);
                 canceledSaleItem.setCreatedTime(date);

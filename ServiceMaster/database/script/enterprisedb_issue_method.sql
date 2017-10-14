@@ -26,6 +26,7 @@ CREATE TABLE `issue_method` (
   `issue_method_id` int(11) NOT NULL AUTO_INCREMENT,
   `issue_method_code` varchar(10) DEFAULT NULL,
   `issue_method_desciption` varchar(45) DEFAULT NULL,
+  `isActive` int(11) DEFAULT '1',
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
   `created_user` int(11) DEFAULT NULL,
@@ -43,7 +44,7 @@ CREATE TABLE `issue_method` (
 
 LOCK TABLES `issue_method` WRITE;
 /*!40000 ALTER TABLE `issue_method` DISABLE KEYS */;
-INSERT INTO `issue_method` VALUES (1,'FIFO','First in first out','2017-01-01','12:00:00',1,NULL,NULL,NULL,'First in first out issue method'),(2,'LIFO','Last in first out','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Last in first out issue method'),(3,'AVG','Average weighted','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Average weighted issue method');
+INSERT INTO `issue_method` VALUES (1,'FIFO','First in first out',1,'2017-01-01','12:00:00',1,NULL,NULL,NULL,'First in first out issue method'),(2,'LIFO','Last in first out',1,'2017-01-01','12:00:00',1,NULL,NULL,NULL,'Last in first out issue method'),(3,'AVG','Average weighted',1,'2017-01-01','12:00:00',1,NULL,NULL,NULL,'Average weighted issue method');
 /*!40000 ALTER TABLE `issue_method` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:22
+-- Dump completed on 2017-10-14 16:36:49

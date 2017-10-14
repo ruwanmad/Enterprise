@@ -9,7 +9,6 @@ import com.servicemaster.data.SystemData;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 
 /**
  *

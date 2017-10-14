@@ -26,6 +26,7 @@ CREATE TABLE `bom` (
   `bom_code` varchar(15) NOT NULL,
   `bom_name` varchar(45) DEFAULT NULL,
   `selling_price` float DEFAULT NULL,
+  `isActive` int(11) DEFAULT '1',
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
   `created_user` int(11) DEFAULT NULL,
@@ -34,7 +35,6 @@ CREATE TABLE `bom` (
   `modified_user` int(11) DEFAULT NULL,
   `remark` varchar(45) DEFAULT NULL,
   `item_item_code` varchar(15) NOT NULL,
-  `isActive` int(11) DEFAULT NULL,
   PRIMARY KEY (`bom_code`),
   KEY `fk_bom_item1_idx` (`item_item_code`),
   CONSTRAINT `fk_bom_item1` FOREIGN KEY (`item_item_code`) REFERENCES `item` (`item_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -47,6 +47,7 @@ CREATE TABLE `bom` (
 
 LOCK TABLES `bom` WRITE;
 /*!40000 ALTER TABLE `bom` DISABLE KEYS */;
+INSERT INTO `bom` VALUES ('BOM1001','FULL SERVICE CAR',300,1,'2017-10-05','19:29:46',1,NULL,NULL,NULL,'FULL SERVICE CAR','ITM1012');
 /*!40000 ALTER TABLE `bom` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:19
+-- Dump completed on 2017-10-14 16:36:47

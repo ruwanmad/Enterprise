@@ -35,13 +35,13 @@ CREATE TABLE `user` (
   `modified_time` time DEFAULT NULL,
   `midified_user` int(11) DEFAULT NULL,
   `remarks` varchar(100) DEFAULT NULL,
-  `user_privilage_privilage_id` int(11) NOT NULL,
-  `business_partner_business_partner_code` varchar(15) NOT NULL,
+  `privilage_id` int(11) NOT NULL,
+  `business_partner_code` varchar(15) NOT NULL,
   PRIMARY KEY (`user_id`),
-  KEY `fk_user_user_privilage1_idx` (`user_privilage_privilage_id`),
-  KEY `fk_user_business_partner1_idx` (`business_partner_business_partner_code`),
-  CONSTRAINT `fk_user_business_partner1` FOREIGN KEY (`business_partner_business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_user_user_privilage1` FOREIGN KEY (`user_privilage_privilage_id`) REFERENCES `user_privilage` (`privilage_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_user_user_privilage1_idx` (`privilage_id`),
+  KEY `fk_user_business_partner1_idx` (`business_partner_code`),
+  CONSTRAINT `fk_user_business_partner1` FOREIGN KEY (`business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_user_privilage1` FOREIGN KEY (`privilage_id`) REFERENCES `user_privilage` (`privilage_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -64,4 +64,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:31
+-- Dump completed on 2017-10-14 16:36:58

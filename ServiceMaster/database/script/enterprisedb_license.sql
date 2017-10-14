@@ -33,6 +33,14 @@ CREATE TABLE `license` (
   `email` varchar(45) DEFAULT NULL,
   `web` varchar(45) DEFAULT NULL,
   `vat_number` varchar(45) DEFAULT NULL,
+  `isActive` int(11) DEFAULT '1',
+  `created_date` date DEFAULT NULL,
+  `created_time` time DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL,
+  `modified_time` time DEFAULT NULL,
+  `modified_user` int(11) DEFAULT NULL,
+  `remark` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -43,7 +51,7 @@ CREATE TABLE `license` (
 
 LOCK TABLES `license` WRITE;
 /*!40000 ALTER TABLE `license` DISABLE KEYS */;
-INSERT INTO `license` VALUES (1,'Zillion Hub Private Ltd','279/1, Ranasinghegoda Mw','Kalupahana','Poruwadanda','+94342210010','+94342210020','zillionhub@zillionhub.com','www.zillionhub.com','1111-11111111');
+INSERT INTO `license` VALUES (1,'Zillion Hub Private Ltd','279/1, Ranasinghegoda Mw','Kalupahana','Poruwadanda','+94342210010','+94342210020','zillionhub@zillionhub.com','www.zillionhub.com','1111-11111111',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `license` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +64,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:28
+-- Dump completed on 2017-10-14 16:36:56

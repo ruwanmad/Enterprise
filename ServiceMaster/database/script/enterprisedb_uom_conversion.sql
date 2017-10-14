@@ -26,6 +26,7 @@ CREATE TABLE `uom_conversion` (
   `uom_conversion_code` varchar(15) NOT NULL,
   `multiplied_by` float DEFAULT NULL,
   `divided_by` float DEFAULT NULL,
+  `isActive` int(11) DEFAULT '1',
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
   `created_user` int(11) DEFAULT NULL,
@@ -49,7 +50,7 @@ CREATE TABLE `uom_conversion` (
 
 LOCK TABLES `uom_conversion` WRITE;
 /*!40000 ALTER TABLE `uom_conversion` DISABLE KEYS */;
-INSERT INTO `uom_conversion` VALUES ('UOC',1000,1000,'2017-01-01','12:00:00',1,NULL,NULL,NULL,'liter to milliliter','UOM1001','UOM1002');
+INSERT INTO `uom_conversion` VALUES ('UOC',1000,1000,1,'2017-01-01','12:00:00',1,NULL,NULL,NULL,'liter to milliliter','UOM1001','UOM1002');
 /*!40000 ALTER TABLE `uom_conversion` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -62,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:26
+-- Dump completed on 2017-10-14 16:36:54

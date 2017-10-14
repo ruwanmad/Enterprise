@@ -11,7 +11,6 @@ import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.dialogs.ItemSearchDialog;
 import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.forms.MainFrame;
-import com.servicemaster.functions.AutoCompletion;
 import com.servicemaster.functions.JdbcConnection;
 import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
@@ -27,6 +26,7 @@ import com.servicemaster.models.SellingPrice;
 import com.servicemaster.models.ServiceBay;
 import com.servicemaster.models.Vehicle;
 import com.servicemaster.utils.HibernateUtil;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -68,8 +68,6 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
      */
     public DirectSaleFrame() {
         initComponents();
-
-        AutoCompletion.enable(cmbItems, txtQuantity);
     }
 
     /**
@@ -89,7 +87,6 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         detailPanel = new javax.swing.JPanel();
         itemPanel = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        cmbItems = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         txtQuantity = new javax.swing.JFormattedTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -97,6 +94,11 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         rbtPercentage = new javax.swing.JRadioButton();
         rbtNumber = new javax.swing.JRadioButton();
         btnAdd = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        txtUnitPrice = new javax.swing.JFormattedTextField();
+        txtItemName = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtItemSearchKey = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblItems = new javax.swing.JTable();
         buttonPanel = new javax.swing.JPanel();
@@ -153,9 +155,6 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
         jLabel8.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel8.setText("Item Name :");
-
-        cmbItems.setEditable(true);
-        cmbItems.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel9.setText("Quantity :");
@@ -233,20 +232,59 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel15.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel15.setText("Unit Price");
+
+        txtUnitPrice.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.0"))));
+        txtUnitPrice.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtUnitPrice.setText("0.0");
+        txtUnitPrice.setToolTipText("");
+        txtUnitPrice.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtUnitPrice.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtUnitPriceFocusGained(evt);
+            }
+        });
+        txtUnitPrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUnitPriceKeyPressed(evt);
+            }
+        });
+
+        txtItemName.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        jLabel11.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel11.setText("Item Code :");
+
+        txtItemSearchKey.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtItemSearchKey.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtItemSearchKeyKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout itemPanelLayout = new javax.swing.GroupLayout(itemPanel);
         itemPanel.setLayout(itemPanelLayout);
         itemPanelLayout.setHorizontalGroup(
             itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(itemPanelLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtItemSearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbItems, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
+                .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -256,7 +294,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                 .addComponent(rbtNumber)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         itemPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel10, jLabel8, jLabel9});
@@ -266,20 +304,26 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         itemPanelLayout.setVerticalGroup(
             itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(itemPanelLayout.createSequentialGroup()
-                .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbItems, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rbtPercentage, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rbtNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel15)
+                        .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rbtPercentage, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rbtNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtItemSearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(5, 5, 5))
         );
 
-        itemPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbItems, jLabel10, jLabel8, jLabel9, txtDiscount, txtQuantity});
+        itemPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel10, jLabel8, jLabel9, txtDiscount, txtItemName, txtItemSearchKey, txtQuantity});
 
         tblItems.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -468,7 +512,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(detailPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 917, Short.MAX_VALUE)
+            .addComponent(detailPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(itemPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane1)
             .addComponent(buttonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -552,7 +596,6 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Session session = HibernateUtil.getSessionFactory().openSession();
-        this.loadItems(session);
         this.loadServiceStatus(session);
         session.close();
 
@@ -562,6 +605,8 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         btnItemSearch.setText(searchKey);
         btnItemSearch.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), searchKey);
         btnItemSearch.getActionMap().put(searchKey, searchAction);
+
+        txtItemSearchKey.requestFocus();
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void txtQuantityFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantityFocusGained
@@ -575,7 +620,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
     private void txtQuantityKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantityKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtDiscount.requestFocus();
+            txtUnitPrice.requestFocus();
         }
     }//GEN-LAST:event_txtQuantityKeyPressed
 
@@ -770,8 +815,9 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         float quantity = Float.parseFloat(txtQuantity.getText().trim());
         if (quantity != 0.0) {
-            String itemName = (String) cmbItems.getSelectedItem();
+            String itemName = txtItemName.getText();
             Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
             Item item = (Item) session
                     .createCriteria(Item.class)
                     .add(Restrictions.eq("itemName", itemName))
@@ -802,8 +848,10 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                     DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
                     tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
 
-                    cmbItems.setSelectedIndex(0);
-                    cmbItems.requestFocus();
+                    txtItemSearchKey.setText("");
+                    txtItemSearchKey.setForeground(Color.BLACK);
+                    txtItemSearchKey.setSelectionColor(Color.BLUE);
+                    txtItemName.setText("");
                     txtQuantity.setText("0.0");
                     txtDiscount.setText("0.0");
                     rbtPercentage.setSelected(true);
@@ -845,8 +893,10 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                         DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
                         tableModel.addRow(new Object[]{itemCode, releventItem.getItemName(), quantity, unitPrice, subTotal, discount, total});
 
-                        cmbItems.setSelectedIndex(0);
-                        cmbItems.requestFocus();
+                        txtItemSearchKey.setText("");
+                        txtItemSearchKey.setForeground(Color.BLACK);
+                        txtItemSearchKey.setSelectionColor(Color.BLUE);
+                        txtItemName.setText("");
                         txtQuantity.setText("0.0");
                         txtDiscount.setText("0.0");
                         rbtPercentage.setSelected(true);
@@ -862,7 +912,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                 }
             } else {
                 String itemCode = item.getItemCode();
-                float unitPrice = this.getItemSellingPrice(item);
+                float unitPrice = Float.parseFloat(txtUnitPrice.getText().trim());
                 float subTotal = quantity * unitPrice;
                 float discount = Float.parseFloat(txtDiscount.getText().trim());
                 float total = 0.0f;
@@ -880,8 +930,50 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                 DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
                 tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
 
-                cmbItems.setSelectedIndex(0);
-                cmbItems.requestFocus();
+                List<SellingPrice> sellingPrices = session
+                        .createCriteria(SellingPrice.class)
+                        .add(Restrictions.eq("item", item))
+                        .list();
+
+                Date date = new Date();
+
+                if (sellingPrices.isEmpty()) {
+                    SellingPrice sellingPrice = new SellingPrice();
+                    sellingPrice.setItem(item);
+                    sellingPrice.setSellingPrice(unitPrice);
+                    sellingPrice.setRemark("Added by system.");
+                    sellingPrice.setEffectiveDate(date);
+                    sellingPrice.setCreatedDate(date);
+                    sellingPrice.setCreatedTime(date);
+                    sellingPrice.setCreatedUser(MainFrame.user.getUserId());
+
+                    session.saveOrUpdate(sellingPrice);
+                } else {
+                    boolean found = false;
+                    for (SellingPrice sellingPrice : sellingPrices) {
+                        if (sellingPrice.getSellingPrice() > 0.0f) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        SellingPrice sellingPrice = new SellingPrice();
+                        sellingPrice.setItem(item);
+                        sellingPrice.setSellingPrice(unitPrice);
+                        sellingPrice.setRemark("Added by system.");
+                        sellingPrice.setEffectiveDate(date);
+                        sellingPrice.setCreatedDate(date);
+                        sellingPrice.setCreatedTime(date);
+                        sellingPrice.setCreatedUser(MainFrame.user.getUserId());
+
+                        session.saveOrUpdate(sellingPrice);
+                    }
+                }
+
+                txtItemSearchKey.setText("");
+                txtItemSearchKey.setForeground(Color.BLACK);
+                txtItemSearchKey.setSelectionColor(Color.BLUE);
+                txtItemName.setText("");
                 txtQuantity.setText("0.0");
                 txtDiscount.setText("0.0");
                 rbtPercentage.setSelected(true);
@@ -895,6 +987,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                 txtGrandTotal.setText("" + grandTotal);
             }
 
+            transaction.commit();
             session.close();
         } else {
             JOptionPane.showMessageDialog(this, "Please enter valid quantity.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
@@ -903,12 +996,61 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnItemSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnItemSearchMouseEntered
-        // TODO add your handling code here:
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_btnItemSearchMouseEntered
 
     private void btnItemSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnItemSearchMouseExited
-        // TODO add your handling code here:
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_btnItemSearchMouseExited
+
+    private void txtUnitPriceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUnitPriceFocusGained
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                txtUnitPrice.selectAll();
+            }
+        });
+    }//GEN-LAST:event_txtUnitPriceFocusGained
+
+    private void txtUnitPriceKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUnitPriceKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtDiscount.requestFocus();
+        }
+    }//GEN-LAST:event_txtUnitPriceKeyPressed
+
+    private void txtItemSearchKeyKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtItemSearchKeyKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String searchKey = txtItemSearchKey.getText().trim();
+            if (!searchKey.isEmpty()) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+
+                Item item = (Item) session
+                        .createCriteria(Item.class)
+                        .add(Restrictions.eq("searchKey", searchKey))
+                        .uniqueResult();
+
+                if (item == null) {
+                    txtItemSearchKey.setForeground(Color.RED);
+                    txtItemSearchKey.selectAll();
+                    txtItemSearchKey.setSelectionColor(Color.RED);
+                } else {
+                    txtItemName.setText(item.getItemName());
+                    txtQuantity.requestFocus();
+
+                    float sellingPrice = this.getItemSellingPrice(item);
+                    txtUnitPrice.setText("" + sellingPrice);
+                }
+
+                session.close();
+            }
+        } else {
+            Color color = txtItemSearchKey.getForeground();
+            if (color == Color.RED) {
+                txtItemSearchKey.setForeground(Color.BLACK);
+                txtItemSearchKey.setSelectionColor(Color.BLUE);
+            }
+        }
+    }//GEN-LAST:event_txtItemSearchKeyKeyPressed
 
     private Invoice generateInvoice(Sale sale) {
         KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
@@ -935,43 +1077,28 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         transaction.commit();
         session.close();
 
-        JdbcConnection jbConnection = new JdbcConnection();
-        Connection connection = jbConnection.getConnection();
+        ConfirmationDialog.showMessageBox("Do you want to print the invoice?", "Print", null);
+        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+            JdbcConnection jbConnection = new JdbcConnection();
+            Connection connection = jbConnection.getConnection();
 
-        if (connection != null) {
-            String reportFile = "reports/invoice.jasper";
+            if (connection != null) {
+                String reportFile = "reports/invoice.jasper";
 
-            Map map = new HashMap();
-            map.put("serviceCode", sale.getSaleCode());
+                Map map = new HashMap();
+                map.put("serviceCode", sale.getSaleCode());
 
-            try {
-                JasperPrint jasperPrint = JasperFillManager.fillReport(reportFile, map, connection);
-                JasperViewer.viewReport(jasperPrint, false);
-            } catch (JRException ex) {
-                Logger.getLogger(ServiceFrame.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(reportFile, map, connection);
+                    JasperViewer.viewReport(jasperPrint, false);
+                } catch (JRException ex) {
+                    Logger.getLogger(ServiceFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                jbConnection.closeConnection();
             }
-            jbConnection.closeConnection();
         }
 
         return invoice;
-    }
-
-    private void loadItems(Session session) {
-        cmbItems.removeAllItems();
-        cmbItems.addItem("");
-
-        List<Item> items = session
-                .createCriteria(Item.class)
-                .add(Restrictions.eq("itemTypeCode", "ITP1001"))
-                .addOrder(Order.asc("itemName"))
-                .list();
-
-        if (!items.isEmpty()) {
-            for (Item item : items) {
-                String itemName = item.getItemName();
-                cmbItems.addItem(itemName);
-            }
-        }
     }
 
     private void loadServiceStatus(Session session) {
@@ -989,7 +1116,10 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     }
 
     private void clearAll() {
-        cmbItems.setSelectedIndex(0);
+        txtItemSearchKey.setText("");
+        txtItemSearchKey.setForeground(Color.BLACK);
+        txtItemSearchKey.setSelectionColor(Color.BLUE);
+        txtItemName.setText("");
         txtQuantity.setText("0.00");
         txtDiscount.setText("0.00");
         rbtPercentage.setSelected(true);
@@ -1042,7 +1172,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             float unitPrice = (Float) tblItems.getValueAt(row, 3);
             float discount = (Float) tblItems.getValueAt(row, 5);
 
-            cmbItems.setSelectedItem(itemName);
+            txtItemName.setText(itemName);
             txtQuantity.setText("" + quantity);
             txtDiscount.setText("0.0");
 
@@ -1057,8 +1187,8 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             txtGrandSubTotal.setText("" + grandSubTotal);
             txtGrandDiscount.setText("" + grandDiscount);
             txtGrandTotal.setText("" + grandTotal);
-
-            cmbItems.requestFocus();
+            
+            txtQuantity.requestFocus();
         } else {
             JOptionPane.showMessageDialog(this, "Please select a valid item.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -1074,22 +1204,8 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            ItemSearchDialog itemSearchDialog = new ItemSearchDialog(internalFrame, true);
+            ItemSearchDialog itemSearchDialog = new ItemSearchDialog(null, true, internalFrame);
             itemSearchDialog.setVisible(true);
-        }
-    };
-
-    private class EscapeAction extends AbstractAction {
-
-        private final JInternalFrame internalFrame;
-
-        public EscapeAction(JInternalFrame internalFrame) {
-            this.internalFrame = internalFrame;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            this.internalFrame.dispose();
         }
     };
 
@@ -1100,7 +1216,6 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSettle;
     private javax.swing.JPanel buttonPanel;
-    public static javax.swing.JComboBox<String> cmbItems;
     private javax.swing.JPanel detailPanel;
     private javax.swing.ButtonGroup discountGroup;
     private javax.swing.JMenuItem itemDelete;
@@ -1108,6 +1223,8 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     private javax.swing.JPanel itemPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel8;
@@ -1122,7 +1239,10 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField txtGrandDiscount;
     private javax.swing.JFormattedTextField txtGrandSubTotal;
     private javax.swing.JFormattedTextField txtGrandTotal;
-    private javax.swing.JFormattedTextField txtQuantity;
+    public javax.swing.JTextField txtItemName;
+    public javax.swing.JTextField txtItemSearchKey;
+    public javax.swing.JFormattedTextField txtQuantity;
+    private javax.swing.JFormattedTextField txtUnitPrice;
     // End of variables declaration//GEN-END:variables
     private final TreeMap<String, SaleStatus> saleStatusMap = new TreeMap<>();
 

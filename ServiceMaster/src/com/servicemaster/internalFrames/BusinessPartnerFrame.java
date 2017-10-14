@@ -605,12 +605,9 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-//        if (txtNic.getText().trim().isEmpty()) {
-//            InformationDialog.showMessageBox("Please enter valid NIC", "Invalid", this);
-//        } else {
             if (txtBussinesPatnerCode.getText().trim().isEmpty()) {
                 List busisessPartners = getBusinessPatnerByNic(txtNic.getText().trim(), false);
-                if (busisessPartners.isEmpty()) {
+                if (busisessPartners.isEmpty() || txtNic.getText().trim().isEmpty()) {
                     KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
                     this.saveOrUpdateBisnussPatner(keyCodeFunctions.getKey("BPT", "Business partner code"), false);
                 } else {

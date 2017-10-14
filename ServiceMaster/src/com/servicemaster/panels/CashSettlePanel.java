@@ -55,13 +55,14 @@ public class CashSettlePanel extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         txtBalance = new javax.swing.JFormattedTextField();
 
+        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 2, 0, new java.awt.Color(50, 255, 50)), "Cash Settle", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 1, 12), new java.awt.Color(0, 102, 51))); // NOI18N
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel1.setText("Total amount :");
 
         txtTotalAmount.setEditable(false);
@@ -69,9 +70,9 @@ public class CashSettlePanel extends javax.swing.JPanel {
         txtTotalAmount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.0"))));
         txtTotalAmount.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtTotalAmount.setText("0.0");
-        txtTotalAmount.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtTotalAmount.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel2.setText("Paid amount :");
 
         txtPaidAmount.setEditable(false);
@@ -79,9 +80,9 @@ public class CashSettlePanel extends javax.swing.JPanel {
         txtPaidAmount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.0"))));
         txtPaidAmount.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtPaidAmount.setText("0.0");
-        txtPaidAmount.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtPaidAmount.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel3.setText("Remaining balance :");
 
         txtRemainingBalance.setEditable(false);
@@ -89,15 +90,15 @@ public class CashSettlePanel extends javax.swing.JPanel {
         txtRemainingBalance.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.0"))));
         txtRemainingBalance.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtRemainingBalance.setText("0.0");
-        txtRemainingBalance.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtRemainingBalance.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel4.setText("Now paying :");
 
         txtNowPaying.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.0"))));
         txtNowPaying.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtNowPaying.setText("0.0");
-        txtNowPaying.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtNowPaying.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtNowPaying.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtNowPayingFocusGained(evt);
@@ -109,7 +110,7 @@ public class CashSettlePanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel5.setText("Balance :");
 
         txtBalance.setEditable(false);
@@ -117,7 +118,7 @@ public class CashSettlePanel extends javax.swing.JPanel {
         txtBalance.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.0"))));
         txtBalance.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtBalance.setText("0.0");
-        txtBalance.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtBalance.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -133,11 +134,11 @@ public class CashSettlePanel extends javax.swing.JPanel {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtTotalAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                    .addComponent(txtRemainingBalance, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                    .addComponent(txtPaidAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                    .addComponent(txtNowPaying, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                    .addComponent(txtBalance, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
+                    .addComponent(txtTotalAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(txtRemainingBalance, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(txtPaidAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(txtNowPaying, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(txtBalance, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
                 .addContainerGap())
         );
 

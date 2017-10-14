@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `business_address`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `business_address` (
-  `address_address_code` varchar(15) NOT NULL,
-  `business_partner_business_partner_code` varchar(15) NOT NULL,
-  KEY `fk_business_address_address1_idx` (`address_address_code`),
-  KEY `fk_business_address_business_partner1_idx` (`business_partner_business_partner_code`),
-  CONSTRAINT `fk_business_address_address1` FOREIGN KEY (`address_address_code`) REFERENCES `address` (`address_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_business_address_business_partner1` FOREIGN KEY (`business_partner_business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `address_code` varchar(15) NOT NULL,
+  `business_partner_code` varchar(15) NOT NULL,
+  KEY `fk_business_address_address1_idx` (`address_code`),
+  KEY `fk_business_address_business_partner1_idx` (`business_partner_code`),
+  CONSTRAINT `fk_business_address_address1` FOREIGN KEY (`address_code`) REFERENCES `address` (`address_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_business_address_business_partner1` FOREIGN KEY (`business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -38,7 +38,7 @@ CREATE TABLE `business_address` (
 
 LOCK TABLES `business_address` WRITE;
 /*!40000 ALTER TABLE `business_address` DISABLE KEYS */;
-INSERT INTO `business_address` VALUES ('ADD1000','BPT1000'),('ADD1001','BPT1001'),('ADD1002','BPT1002'),('ADD1003','BPT1003');
+INSERT INTO `business_address` VALUES ('ADD1001','BPT1001'),('ADD1002','BPT1002'),('ADD1003','BPT1003'),('ADD1000','BPT1004'),('ADD1000','BPT1005'),('ADD1000','BPT1006');
 /*!40000 ALTER TABLE `business_address` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:24
+-- Dump completed on 2017-10-14 16:36:52

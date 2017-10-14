@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS `sale_item_status`;
 CREATE TABLE `sale_item_status` (
   `item_status_id` int(11) NOT NULL AUTO_INCREMENT,
   `item_status_description` varchar(45) DEFAULT NULL,
+  `isActive` int(11) DEFAULT '1',
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
   `created_user` int(11) DEFAULT NULL,
@@ -42,7 +43,7 @@ CREATE TABLE `sale_item_status` (
 
 LOCK TABLES `sale_item_status` WRITE;
 /*!40000 ALTER TABLE `sale_item_status` DISABLE KEYS */;
-INSERT INTO `sale_item_status` VALUES (1,'ACTIVE','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Active items in service'),(2,'CANCELED','2017-01-01','12:00:00',1,NULL,NULL,NULL,'Canceled items in service');
+INSERT INTO `sale_item_status` VALUES (1,'ACTIVE',1,'2017-01-01','12:00:00',1,NULL,NULL,NULL,'Active items in service'),(2,'CANCELED',1,'2017-01-01','12:00:00',1,NULL,NULL,NULL,'Canceled items in service');
 /*!40000 ALTER TABLE `sale_item_status` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:25
+-- Dump completed on 2017-10-14 16:36:53

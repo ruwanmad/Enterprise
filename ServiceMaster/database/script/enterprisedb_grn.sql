@@ -29,6 +29,7 @@ CREATE TABLE `grn` (
   `grn_date` date DEFAULT NULL,
   `handed_over_by` varchar(45) DEFAULT NULL,
   `batch` varchar(15) DEFAULT NULL,
+  `isActive` int(11) DEFAULT '1',
   `created_date` date DEFAULT NULL,
   `created_time` time DEFAULT NULL,
   `created_user` int(11) DEFAULT NULL,
@@ -36,10 +37,10 @@ CREATE TABLE `grn` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   `remark` varchar(100) DEFAULT NULL,
-  `business_partner_business_partner_code` varchar(15) NOT NULL,
+  `business_partner_code` varchar(15) NOT NULL,
   PRIMARY KEY (`grn_code`),
-  KEY `fk_grn_business_partner1_idx` (`business_partner_business_partner_code`),
-  CONSTRAINT `fk_grn_business_partner1` FOREIGN KEY (`business_partner_business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_grn_business_partner1_idx` (`business_partner_code`),
+  CONSTRAINT `fk_grn_business_partner1` FOREIGN KEY (`business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -61,4 +62,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:24
+-- Dump completed on 2017-10-14 16:36:52

@@ -33,10 +33,10 @@ CREATE TABLE `rack_slot` (
   `modified_time` time DEFAULT NULL,
   `modified_user` int(11) DEFAULT NULL,
   `remark` varchar(45) DEFAULT NULL,
-  `rack_rack_code` varchar(10) NOT NULL,
+  `rack_code` varchar(10) NOT NULL,
   PRIMARY KEY (`rack_slot_code`),
-  KEY `fk_rack_slot_rack1_idx` (`rack_rack_code`),
-  CONSTRAINT `fk_rack_slot_rack1` FOREIGN KEY (`rack_rack_code`) REFERENCES `rack` (`rack_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_rack_slot_rack1_idx` (`rack_code`),
+  CONSTRAINT `fk_rack_slot_rack1` FOREIGN KEY (`rack_code`) REFERENCES `rack` (`rack_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -46,7 +46,7 @@ CREATE TABLE `rack_slot` (
 
 LOCK TABLES `rack_slot` WRITE;
 /*!40000 ALTER TABLE `rack_slot` DISABLE KEYS */;
-INSERT INTO `rack_slot` VALUES ('SLT1000','SLOT 1',1,'2017-09-09','20:37:58',1,NULL,NULL,NULL,'SLOT 1','RAC1000'),('SLT1001','SLOT 2',1,'2017-09-09','20:38:15',1,NULL,NULL,NULL,'SLOT 2','RAC1000');
+INSERT INTO `rack_slot` VALUES ('SLT1001','SLOT 1',1,NULL,NULL,NULL,'2017-10-05','15:46:24',1,'SLOT 1','RAC1001');
 /*!40000 ALTER TABLE `rack_slot` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04  1:24:21
+-- Dump completed on 2017-10-14 16:36:49

@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Oct 6, 2017 7:38:33 PM by Hibernate Tools 4.3.1
+// Generated Oct 7, 2017 6:01:00 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -31,6 +31,7 @@ public class Sale  implements java.io.Serializable {
      private String remark;
      private Float currentMilage;
      private Float nextMilage;
+     private Set saleEmployees = new HashSet(0);
      private Set saleItems = new HashSet(0);
      private Set invoices = new HashSet(0);
 
@@ -44,7 +45,7 @@ public class Sale  implements java.io.Serializable {
         this.serviceBay = serviceBay;
         this.vehicle = vehicle;
     }
-    public Sale(String saleCode, SaleStatus saleStatus, ServiceBay serviceBay, Vehicle vehicle, Float previousMilage, Float subTotal, Float discount, Float grandTotal, Integer discounted, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Float currentMilage, Float nextMilage, Set saleItems, Set invoices) {
+    public Sale(String saleCode, SaleStatus saleStatus, ServiceBay serviceBay, Vehicle vehicle, Float previousMilage, Float subTotal, Float discount, Float grandTotal, Integer discounted, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Float currentMilage, Float nextMilage, Set saleEmployees, Set saleItems, Set invoices) {
        this.saleCode = saleCode;
        this.saleStatus = saleStatus;
        this.serviceBay = serviceBay;
@@ -64,6 +65,7 @@ public class Sale  implements java.io.Serializable {
        this.remark = remark;
        this.currentMilage = currentMilage;
        this.nextMilage = nextMilage;
+       this.saleEmployees = saleEmployees;
        this.saleItems = saleItems;
        this.invoices = invoices;
     }
@@ -200,6 +202,13 @@ public class Sale  implements java.io.Serializable {
     
     public void setNextMilage(Float nextMilage) {
         this.nextMilage = nextMilage;
+    }
+    public Set getSaleEmployees() {
+        return this.saleEmployees;
+    }
+    
+    public void setSaleEmployees(Set saleEmployees) {
+        this.saleEmployees = saleEmployees;
     }
     public Set getSaleItems() {
         return this.saleItems;

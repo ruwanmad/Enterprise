@@ -7,7 +7,21 @@ package com.servicemaster.dialogs;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.internalFrames.DirectSaleFrame;
+import com.servicemaster.internalFrames.ServiceFrame;
+import com.servicemaster.models.Item;
+import com.servicemaster.models.ItemBrand;
+import com.servicemaster.models.SubCategory;
+import com.servicemaster.utils.HibernateUtil;
+import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JInternalFrame;
+import javax.swing.table.DefaultTableModel;
+import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -15,7 +29,7 @@ import javax.swing.JInternalFrame;
  */
 public class ItemSearchDialog extends javax.swing.JDialog {
 
-    private final JInternalFrame parent;
+    private final JInternalFrame internalFrame;
     private final boolean modal;
 
     /**
@@ -23,10 +37,12 @@ public class ItemSearchDialog extends javax.swing.JDialog {
      *
      * @param parent
      * @param modal
+     * @param jInternalFrame
      */
-    public ItemSearchDialog(JInternalFrame parent, boolean modal) {
+    public ItemSearchDialog(java.awt.Frame parent, boolean modal, JInternalFrame jInternalFrame) {
+        super(parent, modal);
         initComponents();
-        this.parent = parent;
+        this.internalFrame = jInternalFrame;
         this.modal = modal;
     }
 
@@ -45,9 +61,25 @@ public class ItemSearchDialog extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         cmbSubCategory = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        txtItemNameCode = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        cmbBrand = new javax.swing.JComboBox<>();
+        btnSearch = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        txtSearchKey = new javax.swing.JTextField();
+        itemPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblItems = new javax.swing.JTable();
+        btnReset = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         mainPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(50, 255, 50)));
 
@@ -97,6 +129,61 @@ public class ItemSearchDialog extends javax.swing.JDialog {
         jLabel1.setText("Sub Category :");
 
         cmbSubCategory.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cmbSubCategory.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbSubCategoryItemStateChanged(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel2.setText("Item Code/Name :");
+
+        txtItemNameCode.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtItemNameCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtItemNameCodeKeyReleased(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel3.setText("Brand");
+
+        cmbBrand.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cmbBrand.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbBrandItemStateChanged(evt);
+            }
+        });
+
+        btnSearch.setBackground(new java.awt.Color(150, 255, 150));
+        btnSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnSearch.setText("Search");
+        btnSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnSearch.setContentAreaFilled(false);
+        btnSearch.setOpaque(true);
+        btnSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSearchMouseExited(evt);
+            }
+        });
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel4.setText("Search Key :");
+
+        txtSearchKey.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtSearchKey.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -104,40 +191,154 @@ public class ItemSearchDialog extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbSubCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(542, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtItemNameCode, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbSubCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbBrand, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtSearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel2, jLabel4});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(cmbSubCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 86, Short.MAX_VALUE))
+                    .addComponent(cmbSubCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtItemNameCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(cmbBrand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtSearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbBrand, cmbSubCategory, jLabel1, jLabel2, jLabel3, jLabel4, txtItemNameCode, txtSearchKey});
+
+        itemPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(50, 255, 50)), "Items", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 255, 50))); // NOI18N
+
+        tblItems.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Item Code", "Item Name", "Search Key", "Sub Category", "Item Brand"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblItems.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblItemsMouseClicked(evt);
+            }
+        });
+        tblItems.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblItemsKeyPressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblItems);
+        if (tblItems.getColumnModel().getColumnCount() > 0) {
+            tblItems.getColumnModel().getColumn(0).setResizable(false);
+            tblItems.getColumnModel().getColumn(1).setResizable(false);
+            tblItems.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tblItems.getColumnModel().getColumn(2).setResizable(false);
+            tblItems.getColumnModel().getColumn(3).setResizable(false);
+            tblItems.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        javax.swing.GroupLayout itemPanelLayout = new javax.swing.GroupLayout(itemPanel);
+        itemPanel.setLayout(itemPanelLayout);
+        itemPanelLayout.setHorizontalGroup(
+            itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
+        );
+        itemPanelLayout.setVerticalGroup(
+            itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, itemPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        btnReset.setBackground(new java.awt.Color(150, 255, 150));
+        btnReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnReset.setText("Reset");
+        btnReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnReset.setContentAreaFilled(false);
+        btnReset.setOpaque(true);
+        btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnResetMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnResetMouseExited(evt);
+            }
+        });
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(itemPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 330, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(itemPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -177,15 +378,294 @@ public class ItemSearchDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSelectMouseExited
 
     private void btnSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectActionPerformed
-
+        this.selectItem();
     }//GEN-LAST:event_btnSelectActionPerformed
+
+    private void btnSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnSearchMouseEntered
+
+    private void btnSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnSearchMouseExited
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void txtItemNameCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtItemNameCodeKeyReleased
+        int keyCode = evt.getKeyCode();
+        if (keyCode == KeyEvent.VK_ENTER) {
+            tblItems.requestFocus();
+            tblItems.setRowSelectionInterval(0, 0);
+        } else {
+            if (isLeaglCharactor(keyCode)) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+
+                String key = txtItemNameCode.getText().trim();
+
+                List<Item> items = session
+                        .createCriteria(Item.class)
+                        .add(Restrictions.or(Restrictions.like("itemName", "%" + key + "%"), Restrictions.like("itemCode", key + "%")))
+                        .list();
+                DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                if (!items.isEmpty()) {
+                    tableModel.setRowCount(0);
+                    for (Item item : items) {
+                        String itemCode = item.getItemCode();
+                        String itemName = item.getItemName();
+                        String searchKey = item.getSearchKey();
+                        String subCategory = item.getSubCategory().getSubCategoryName();
+                        String itemBrand;
+                        if (item.getItemBrand() != null) {
+                            itemBrand = item.getItemBrand().getBrandName();
+                        } else {
+                            itemBrand = "";
+                        }
+
+                        tableModel.addRow(new String[]{itemCode, itemName, searchKey, subCategory, itemBrand});
+                    }
+                } else {
+                    tableModel.setRowCount(0);
+                }
+                session.close();
+            }
+        }
+    }//GEN-LAST:event_txtItemNameCodeKeyReleased
+
+    private void txtSearchKeyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyKeyReleased
+        int keyCode = evt.getKeyCode();
+        if (isLeaglCharactor(keyCode)) {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+
+            String key = txtSearchKey.getText().trim();
+
+            List<Item> items = session
+                    .createCriteria(Item.class)
+                    .add(Restrictions.like("searchKey", "%" + key + "%"))
+                    .list();
+            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+            if (!items.isEmpty()) {
+                tableModel.setRowCount(0);
+                for (Item item : items) {
+                    String itemCode = item.getItemCode();
+                    String itemName = item.getItemName();
+                    String searchKey = item.getSearchKey();
+                    String subCategory = item.getSubCategory().getSubCategoryName();
+                    String itemBrand;
+                    if (item.getItemBrand() != null) {
+                        itemBrand = item.getItemBrand().getBrandName();
+                    } else {
+                        itemBrand = "";
+                    }
+
+                    tableModel.addRow(new String[]{itemCode, itemName, searchKey, subCategory, itemBrand});
+                }
+            } else {
+                tableModel.setRowCount(0);
+            }
+            session.close();
+        }
+    }//GEN-LAST:event_txtSearchKeyKeyReleased
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        List<SubCategory> subCategorys = session
+                .createCriteria(SubCategory.class)
+                .addOrder(Order.asc("subCategoryName"))
+                .list();
+
+        if (!subCategorys.isEmpty()) {
+            cmbSubCategory.removeAllItems();
+            cmbSubCategory.addItem("");
+            for (SubCategory subCategory : subCategorys) {
+                cmbSubCategory.addItem(subCategory.getSubCategoryName());
+            }
+        }
+
+        List<ItemBrand> itemBrands = session
+                .createCriteria(ItemBrand.class)
+                .addOrder(Order.asc("brandName"))
+                .list();
+
+        if (!itemBrands.isEmpty()) {
+            cmbBrand.removeAllItems();
+            cmbBrand.addItem("");
+            for (ItemBrand itemBrand : itemBrands) {
+                cmbBrand.addItem(itemBrand.getBrandName());
+            }
+        }
+
+        session.close();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void btnResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnResetMouseEntered
+
+    private void btnResetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnResetMouseExited
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void cmbSubCategoryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbSubCategoryItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            String subCategoryName = cmbSubCategory.getSelectedItem().toString().trim();
+            if (!subCategoryName.isEmpty()) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+
+                SubCategory subCategory = (SubCategory) session
+                        .createCriteria(SubCategory.class)
+                        .add(Restrictions.eq("subCategoryName", subCategoryName))
+                        .uniqueResult();
+
+                List<Item> items = session
+                        .createCriteria(Item.class)
+                        .add(Restrictions.eq("subCategory", subCategory))
+                        .list();
+                DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                if (!items.isEmpty()) {
+                    tableModel.setRowCount(0);
+                    for (Item item : items) {
+                        String itemCode = item.getItemCode();
+                        String itemName = item.getItemName();
+                        String searchKey = item.getSearchKey();
+                        String subCatName = item.getSubCategory().getSubCategoryName();
+                        String itemBrand;
+                        if (item.getItemBrand() != null) {
+                            itemBrand = item.getItemBrand().getBrandName();
+                        } else {
+                            itemBrand = "";
+                        }
+
+                        tableModel.addRow(new String[]{itemCode, itemName, searchKey, subCatName, itemBrand});
+                    }
+                } else {
+                    tableModel.setRowCount(0);
+                }
+                session.close();
+            }
+        }
+    }//GEN-LAST:event_cmbSubCategoryItemStateChanged
+
+    private void cmbBrandItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbBrandItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            String brandName = cmbBrand.getSelectedItem().toString().trim();
+            if (!brandName.isEmpty()) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+
+                ItemBrand brand = (ItemBrand) session
+                        .createCriteria(ItemBrand.class)
+                        .add(Restrictions.eq("brandName", brandName))
+                        .uniqueResult();
+
+                List<Item> items = session
+                        .createCriteria(Item.class)
+                        .add(Restrictions.eq("itemBrand", brand))
+                        .list();
+                DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                if (!items.isEmpty()) {
+                    tableModel.setRowCount(0);
+                    for (Item item : items) {
+                        String itemCode = item.getItemCode();
+                        String itemName = item.getItemName();
+                        String searchKey = item.getSearchKey();
+                        String subCatName = item.getSubCategory().getSubCategoryName();
+                        String itemBrand;
+                        if (item.getItemBrand() != null) {
+                            itemBrand = item.getItemBrand().getBrandName();
+                        } else {
+                            itemBrand = "";
+                        }
+
+                        tableModel.addRow(new String[]{itemCode, itemName, searchKey, subCatName, itemBrand});
+                    }
+                } else {
+                    tableModel.setRowCount(0);
+                }
+                session.close();
+            }
+        }
+    }//GEN-LAST:event_cmbBrandItemStateChanged
+
+    private void tblItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblItemsMouseClicked
+        if (evt.getClickCount() == 2) {
+            this.selectItem();
+        }
+    }//GEN-LAST:event_tblItemsMouseClicked
+
+    private void tblItemsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblItemsKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.selectItem();
+        }
+    }//GEN-LAST:event_tblItemsKeyPressed
+
+    private void selectItem(){
+        int selectedRow = tblItems.getSelectedRow();
+        if (selectedRow != -1) {
+            String itemCode = tblItems.getValueAt(selectedRow, 0).toString();
+            
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            
+            Item item = (Item) session
+                    .createCriteria(Item.class)
+                    .add(Restrictions.eq("itemCode", itemCode))
+                    .uniqueResult();
+            
+            if (internalFrame instanceof DirectSaleFrame) {
+                DirectSaleFrame directSaleFrame = (DirectSaleFrame) internalFrame;
+                directSaleFrame.txtItemSearchKey.setText(item.getSearchKey());
+                directSaleFrame.txtItemName.setText(item.getItemName());
+                directSaleFrame.txtQuantity.requestFocus();
+            } else if (internalFrame instanceof ServiceFrame) {
+                ServiceFrame serviceFrame = (ServiceFrame) internalFrame;
+                serviceFrame.txtItemSearchCode.setText(item.getSearchKey());
+                serviceFrame.txtItemName.setText(item.getItemName());
+                serviceFrame.txtQuantity.requestFocus();
+            }
+            session.close();
+            this.dispose();
+        }
+    }
+    
+    private boolean isLeaglCharactor(int keyCode) {
+        return keyCode != KeyEvent.VK_F1
+                && keyCode != KeyEvent.VK_F2
+                && keyCode != KeyEvent.VK_F3
+                && keyCode != KeyEvent.VK_F4
+                && keyCode != KeyEvent.VK_F5
+                && keyCode != KeyEvent.VK_F6
+                && keyCode != KeyEvent.VK_F7
+                && keyCode != KeyEvent.VK_F8
+                && keyCode != KeyEvent.VK_F9
+                && keyCode != KeyEvent.VK_F10
+                && keyCode != KeyEvent.VK_F11
+                && keyCode != KeyEvent.VK_F12;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSelect;
+    private javax.swing.JComboBox<String> cmbBrand;
     private javax.swing.JComboBox<String> cmbSubCategory;
+    private javax.swing.JPanel itemPanel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JTable tblItems;
+    private javax.swing.JTextField txtItemNameCode;
+    private javax.swing.JTextField txtSearchKey;
     // End of variables declaration//GEN-END:variables
+    ArrayList<String> subcategoryNames = new ArrayList<>();
+    ArrayList<String> brandNames = new ArrayList<>();
 }

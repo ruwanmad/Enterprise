@@ -14,13 +14,16 @@ import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.listners.PaymentButtonActionListners;
 import com.servicemaster.listners.PaymentButtonMouseListners;
 import com.servicemaster.models.Account;
+import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Payment;
 import com.servicemaster.models.PaymentType;
 import com.servicemaster.models.Sale;
 import com.servicemaster.models.SaleStatus;
+import com.servicemaster.models.SubAccount;
 import com.servicemaster.panels.CashSettlePanel;
 import com.servicemaster.panels.ChequeSettlePanel;
+import com.servicemaster.panels.CreditSettlePanel;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -36,6 +39,7 @@ import javax.swing.SwingUtilities;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -227,7 +231,7 @@ public class SettlementDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSettleMouseExited
 
     private void btnSettleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettleActionPerformed
-        if (panelFrame instanceof CashSettlePanel) {
+        if (panelFrame instanceof CashSettlePanel) { // Cash settlement
             Date date = new Date();
             CashSettlePanel cashSettlePanel = (CashSettlePanel) panelFrame;
             float nowPayingAmount = Float.parseFloat(cashSettlePanel.txtNowPaying.getText());
@@ -306,12 +310,12 @@ public class SettlementDialog extends javax.swing.JDialog {
 
             Account debitAccount = (Account) session
                     .createCriteria(Account.class)
-                    .add(Restrictions.eq("accountCode", "ACC1001"))
+                    .add(Restrictions.eq("accountCode", "ACC1002"))
                     .uniqueResult();
 
             Account creditAccount = (Account) session
                     .createCriteria(Account.class)
-                    .add(Restrictions.eq("accountCode", "ACC1006"))
+                    .add(Restrictions.eq("accountCode", "ACC1001"))
                     .uniqueResult();
 
             transaction.commit();
@@ -323,7 +327,7 @@ public class SettlementDialog extends javax.swing.JDialog {
 
             StockFunctions stockFunctions = new StockFunctions();
             stockFunctions.reduceSaledStoke(sale.getSaleCode());
-        } else if (panelFrame instanceof ChequeSettlePanel) {
+        } else if (panelFrame instanceof ChequeSettlePanel) { // Cheque settlement
             Date date = new Date();
             ChequeSettlePanel chequeSettlePanel = (ChequeSettlePanel) panelFrame;
             float nowPayingAmount = Float.parseFloat(chequeSettlePanel.txtNowPaying.getText());
@@ -331,8 +335,8 @@ public class SettlementDialog extends javax.swing.JDialog {
             String chequeNumber = chequeSettlePanel.txtChequeNumber.getText().trim();
             Date chequeDate = chequeSettlePanel.dateChequeDate.getDate();
 
-            if (chequeNumber.isEmpty()) {
-                InformationDialog.showMessageBox("Please enter valid check number", "Invalid", null);
+            if (this.validateCheque()) {
+                InformationDialog.showMessageBox("Please enter valid details", "Invalid", null);
             } else {
                 KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
                 String paymentCode = keyCodeFunctions.getKey("PAY", "Payment");
@@ -369,7 +373,7 @@ public class SettlementDialog extends javax.swing.JDialog {
                 InformationDialog.showMessageBox("Playment done successfully", "Success", null);
                 panelWindow.removeAll();
 
-                final CashSettlePanel csettlePanel = new CashSettlePanel(this, "PTY1000");
+                final CashSettlePanel csettlePanel = new CashSettlePanel(this, "PTY1001");
                 this.panelFrame = csettlePanel;
                 this.panelWindow.add(this.panelFrame);
                 this.panelWindow.revalidate();
@@ -381,20 +385,19 @@ public class SettlementDialog extends javax.swing.JDialog {
                     }
                 });
 
-                Query query = session.createQuery("from Payment p where p.invoice = :inv order by p.paymentCode");
-                query.setParameter("inv", this.invoice);
+                List<Payment> payments = session
+                        .createCriteria(Payment.class)
+                        .add(Restrictions.eq("invoice", this.invoice))
+                        .addOrder(Order.asc("paymentCode"))
+                        .list();
 
-                List list = query.list();
-                if (list.isEmpty()) {
+                if (payments.isEmpty()) {
                     csettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
                     csettlePanel.txtRemainingBalance.setText("" + sale.getGrandTotal());
                 } else {
                     float paidAmount = 0.0f;
-                    for (Object tempPayment : list) {
-                        if (tempPayment instanceof Payment) {
-                            Payment tPayment = (Payment) tempPayment;
-                            paidAmount += tPayment.getAmount();
-                        }
+                    for (Payment tempPayment : payments) {
+                        paidAmount += tempPayment.getAmount();
                     }
                     csettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
                     csettlePanel.txtPaidAmount.setText("" + paidAmount);
@@ -427,6 +430,116 @@ public class SettlementDialog extends javax.swing.JDialog {
                 StockFunctions stockFunctions = new StockFunctions();
                 stockFunctions.reduceSaledStoke(sale.getSaleCode());
             }
+        } else if (panelFrame instanceof CreditSettlePanel) { // Credit settlement
+            Date date = new Date();
+            CreditSettlePanel creditSettlePanel = (CreditSettlePanel) panelFrame;
+            float nowPayingAmount = Float.parseFloat(creditSettlePanel.txtNowPaying.getText());
+            float balanceAmount = Float.parseFloat(creditSettlePanel.txtBalance.getText());
+            String creditDays = creditSettlePanel.txtCreditDays.getText().trim();
+            String dueDate = creditSettlePanel.txtDueDate.getText().trim();
+            String customer = creditSettlePanel.cmbCustomer.getSelectedItem().toString();
+
+            if (!this.validateCheque()) {
+                InformationDialog.showMessageBox("Please enter valid details", "Invalid", null);
+            } else {
+                KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                String paymentCode = keyCodeFunctions.getKey("PAY", "Payment");
+
+                String customerCode = creditSettlePanel.customerMap.get(customer);
+
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Transaction transaction = session.beginTransaction();
+
+                BusinessPartner businessPartner = (BusinessPartner) session
+                        .createCriteria(BusinessPartner.class)
+                        .add(Restrictions.eq("businessPartnerCode", customerCode))
+                        .uniqueResult();
+
+                Payment payment = new Payment(paymentCode, invoice, new PaymentType(creditSettlePanel.getPaymentTypeCode()));
+                if (balanceAmount < 0) {
+                    payment.setAmount(nowPayingAmount);
+
+                    SaleStatus saleStatus = (SaleStatus) session
+                            .createCriteria(SaleStatus.class)
+                            .add(Restrictions.eq("statusDescription", "PARTIALLY PAID"))
+                            .uniqueResult();
+                    sale.setSaleStatus(saleStatus);
+                } else {
+                    payment.setAmount(nowPayingAmount - balanceAmount);
+                    SaleStatus saleStatus = (SaleStatus) session
+                            .createCriteria(SaleStatus.class)
+                            .add(Restrictions.eq("statusDescription", "SETTLED"))
+                            .uniqueResult();
+                    sale.setSaleStatus(saleStatus);
+                }
+                payment.setCreatedDate(date);
+                payment.setCreatedTime(date);
+                payment.setCreatedUser(MainFrame.user.getUserId());
+                payment.setRemark("Number of credit days : " + creditDays + ". Due Date : " + dueDate);
+
+                session.saveOrUpdate(payment);
+
+                session.saveOrUpdate(sale);
+
+                InformationDialog.showMessageBox("Playment done successfully", "Success", null);
+                panelWindow.removeAll();
+
+                final CreditSettlePanel settlePanel = new CreditSettlePanel(this, "PTY1002");
+                this.panelFrame = settlePanel;
+                this.panelWindow.add(this.panelFrame);
+                this.panelWindow.revalidate();
+                this.panelWindow.repaint();
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        settlePanel.txtNowPaying.requestFocus();
+                    }
+                });
+
+                List<Payment> payments = session
+                        .createCriteria(Payment.class)
+                        .add(Restrictions.eq("invoice", this.invoice))
+                        .addOrder(Order.asc("paymentCode"))
+                        .list();
+
+                if (payments.isEmpty()) {
+                    settlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
+                    settlePanel.txtRemainingBalance.setText("" + sale.getGrandTotal());
+                } else {
+                    float paidAmount = 0.0f;
+                    for (Payment tempPayment : payments) {
+                        paidAmount += tempPayment.getAmount();
+                    }
+                    settlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
+                    settlePanel.txtPaidAmount.setText("" + paidAmount);
+                    settlePanel.txtRemainingBalance.setText("" + (sale.getGrandTotal() - paidAmount));
+
+                    if (sale.getGrandTotal() - paidAmount <= 0.0f) {
+                        this.btnSettle.setEnabled(false);
+                    }
+                }
+
+                Account debitAccount = (Account) session
+                        .createCriteria(Account.class)
+                        .add(Restrictions.eq("businessPartner", businessPartner))
+                        .add(Restrictions.eq("subAccount", session.load(SubAccount.class, "SAC1002")))
+                        .uniqueResult();
+
+                Account creditAccount = (Account) session
+                        .createCriteria(Account.class)
+                        .add(Restrictions.eq("accountCode", "ACC1001"))
+                        .uniqueResult();
+
+                transaction.commit();
+                session.close();
+
+                PostAccounts accountPosting = new PostAccounts();
+                accountPosting.saleDebitPosting(debitAccount, invoice, "Credit settlemnt for " + sale.getSaleCode());
+                accountPosting.salesCreditPosting(creditAccount, invoice, "Credit settlemnt for " + sale.getSaleCode());
+
+                StockFunctions stockFunctions = new StockFunctions();
+                stockFunctions.reduceSaledStoke(sale.getSaleCode());
+            }
         }
     }//GEN-LAST:event_btnSettleActionPerformed
 
@@ -441,6 +554,17 @@ public class SettlementDialog extends javax.swing.JDialog {
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
+
+    private boolean validateCheque() {
+        if (panelFrame instanceof CreditSettlePanel) {
+            CreditSettlePanel creditSettlePanel = (CreditSettlePanel) panelFrame;
+            float nowPaying = Float.parseFloat(creditSettlePanel.txtNowPaying.getText().trim());
+            String customer = creditSettlePanel.cmbCustomer.getSelectedItem().toString().trim();
+            String creditDays = creditSettlePanel.txtCreditDays.getText().trim();
+            return !(nowPaying == 0.0f || customer.isEmpty() || creditDays.isEmpty() || creditDays.equalsIgnoreCase("0"));
+        }
+        return false;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
