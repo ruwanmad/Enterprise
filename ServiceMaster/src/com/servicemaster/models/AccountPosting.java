@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Oct 7, 2017 6:01:00 PM by Hibernate Tools 4.3.1
+// Generated Oct 29, 2017 8:03:34 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -18,7 +18,8 @@ public class AccountPosting  implements java.io.Serializable {
      private String narration;
      private Float debit;
      private Float credit;
-     private Integer numberOfDays;
+     private Long numberOfDays;
+     private String chequeNumber;
      private Date chequeDate;
      private Date postedDate;
      private Integer isActive;
@@ -37,7 +38,7 @@ public class AccountPosting  implements java.io.Serializable {
     public AccountPosting(Account account) {
         this.account = account;
     }
-    public AccountPosting(Account account, BusinessPartner businessPartner, Grn grn, Invoice invoice, String narration, Float debit, Float credit, Integer numberOfDays, Date chequeDate, Date postedDate, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
+    public AccountPosting(Account account, BusinessPartner businessPartner, Grn grn, Invoice invoice, String narration, Float debit, Float credit, Long numberOfDays, String chequeNumber, Date chequeDate, Date postedDate, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
        this.account = account;
        this.businessPartner = businessPartner;
        this.grn = grn;
@@ -46,6 +47,7 @@ public class AccountPosting  implements java.io.Serializable {
        this.debit = debit;
        this.credit = credit;
        this.numberOfDays = numberOfDays;
+       this.chequeNumber = chequeNumber;
        this.chequeDate = chequeDate;
        this.postedDate = postedDate;
        this.isActive = isActive;
@@ -114,12 +116,19 @@ public class AccountPosting  implements java.io.Serializable {
     public void setCredit(Float credit) {
         this.credit = credit;
     }
-    public Integer getNumberOfDays() {
+    public Long getNumberOfDays() {
         return this.numberOfDays;
     }
     
-    public void setNumberOfDays(Integer numberOfDays) {
+    public void setNumberOfDays(Long numberOfDays) {
         this.numberOfDays = numberOfDays;
+    }
+    public String getChequeNumber() {
+        return this.chequeNumber;
+    }
+    
+    public void setChequeNumber(String chequeNumber) {
+        this.chequeNumber = chequeNumber;
     }
     public Date getChequeDate() {
         return this.chequeDate;

@@ -74,6 +74,7 @@ public class PaymentButtonActionListners implements ActionListener {
                 if (payments.isEmpty()) {
                     cashSettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
                     cashSettlePanel.txtRemainingBalance.setText("" + sale.getGrandTotal());
+                    cashSettlePanel.txtNowPaying.setText("" + sale.getGrandTotal());
                 } else {
                     float paidAmount = 0.0f;
                     for (Payment payment : payments) {
@@ -82,6 +83,7 @@ public class PaymentButtonActionListners implements ActionListener {
                     cashSettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
                     cashSettlePanel.txtPaidAmount.setText("" + paidAmount);
                     cashSettlePanel.txtRemainingBalance.setText("" + (sale.getGrandTotal() - paidAmount));
+                    cashSettlePanel.txtNowPaying.setText("" + (sale.getGrandTotal() - paidAmount));
                 }
 
                 transaction.commit();
@@ -112,6 +114,7 @@ public class PaymentButtonActionListners implements ActionListener {
                 if (payments.isEmpty()) {
                     chequeSettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
                     chequeSettlePanel.txtRemainingBalance.setText("" + sale.getGrandTotal());
+                    chequeSettlePanel.txtNowPaying.setText("" + sale.getGrandTotal());
                 } else {
                     float paidAmount = 0.0f;
                     for (Payment payment : payments) {
@@ -120,6 +123,7 @@ public class PaymentButtonActionListners implements ActionListener {
                     chequeSettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
                     chequeSettlePanel.txtPaidAmount.setText("" + paidAmount);
                     chequeSettlePanel.txtRemainingBalance.setText("" + (sale.getGrandTotal() - paidAmount));
+                    chequeSettlePanel.txtNowPaying.setText("" + (sale.getGrandTotal() - paidAmount));
                 }
 
                 transaction.commit();
@@ -199,6 +203,7 @@ public class PaymentButtonActionListners implements ActionListener {
                 if (payments.isEmpty()) {
                     creditCardSettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
                     creditCardSettlePanel.txtRemainingBalance.setText("" + sale.getGrandTotal());
+                    creditCardSettlePanel.txtNowPaying.setText("" + sale.getGrandTotal());
                 } else {
                     float paidAmount = 0.0f;
                     for (Payment payment : payments) {
@@ -206,7 +211,7 @@ public class PaymentButtonActionListners implements ActionListener {
                     }
                     creditCardSettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
                     creditCardSettlePanel.txtPaidAmount.setText("" + paidAmount);
-                    creditCardSettlePanel.txtRemainingBalance.setText("" + (sale.getGrandTotal() - paidAmount));
+                    creditCardSettlePanel.txtNowPaying.setText("" + (sale.getGrandTotal() - paidAmount));
                 }
 
                 transaction.commit();

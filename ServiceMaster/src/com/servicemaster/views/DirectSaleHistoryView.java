@@ -10,6 +10,7 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.functions.JdbcConnection;
+import com.servicemaster.functions.PrintFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.Sale;
@@ -368,23 +369,8 @@ public class DirectSaleHistoryView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void reprintInvoice(Sale sale) {
-        JdbcConnection jbConnection = new JdbcConnection();
-        Connection connection = jbConnection.getConnection();
-
-        if (connection != null) {
-            String reportFile = "reports/invoice.jasper";
-
-            Map map = new HashMap();
-            map.put("serviceCode", sale.getSaleCode());
-
-            try {
-                JasperPrint jasperPrint = JasperFillManager.fillReport(reportFile, map, connection);
-                JasperViewer.viewReport(jasperPrint, false);
-            } catch (JRException ex) {
-                Logger.getLogger(ServiceFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            jbConnection.closeConnection();
-        }
+        PrintFunctions printFunctions = new PrintFunctions();
+        printFunctions.printInvoice(sale.getSaleCode(), true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

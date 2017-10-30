@@ -6,6 +6,7 @@
 
 package com.servicemaster.functions;
 
+import com.servicemaster.configs.Configs;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,7 +24,10 @@ public class JdbcConnection {
     public Connection getConnection(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/enterprisedb?zeroDateTimeBehavior=convertToNull","root","senuja2014");
+            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+Configs.database+"?"
+                    + "zeroDateTimeBehavior=convertToNull",
+                    Configs.username,
+                    Configs.password);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(JdbcConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

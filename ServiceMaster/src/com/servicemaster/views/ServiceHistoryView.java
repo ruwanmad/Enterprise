@@ -7,6 +7,7 @@ package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.functions.JdbcConnection;
+import com.servicemaster.functions.PrintFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Address;
 import com.servicemaster.models.BusinessAddress;
@@ -566,22 +567,13 @@ public class ServiceHistoryView extends javax.swing.JInternalFrame {
 
     private void btnReprintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReprintActionPerformed
         if (sale != null) {
-            JdbcConnection jbConnection = new JdbcConnection();
-            Connection connection = jbConnection.getConnection();
+            PrintFunctions printFunctions = new PrintFunctions();
 
-            if (connection != null) {
-                String reportFile = "reports/invoice.jasper";
-
-                Map map = new HashMap();
-                map.put("serviceCode", this.sale.getSaleCode());
-
-                try {
-                    JasperPrint jasperPrint = JasperFillManager.fillReport(reportFile, map, connection);
-                    JasperViewer.viewReport(jasperPrint, false);
-                } catch (JRException ex) {
-                    Logger.getLogger(ServiceHistoryView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                jbConnection.closeConnection();
+            String customerName = lblCustomerName.getText().trim();
+            if (customerName.equalsIgnoreCase("cash")) {
+                printFunctions.printInvoice(title, true);
+            } else {
+                printFunctions.printInvoice(title, false);
             }
         }
     }//GEN-LAST:event_btnReprintActionPerformed

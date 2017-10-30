@@ -19,6 +19,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.ComboBoxEditor;
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.SwingUtilities;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
@@ -87,7 +88,12 @@ public class AutoCompletion extends PlainDocument {
                             break;
                         case KeyEvent.VK_ENTER:
                             if (!editor.getText().isEmpty()) {
-                                nextFocusable.requestFocus();
+                                SwingUtilities.invokeLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        nextFocusable.requestFocus();
+                                    }
+                                });
                             }
                             break;
                     }

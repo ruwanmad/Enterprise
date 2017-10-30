@@ -139,7 +139,7 @@ public class MainFrame extends javax.swing.JFrame {
         transactionSeparator2 = new javax.swing.JPopupMenu.Separator();
         miGRN = new javax.swing.JMenuItem();
         mReports = new javax.swing.JMenu();
-        miServiceHistory = new javax.swing.JMenuItem();
+        miSalesHistory = new javax.swing.JMenuItem();
         reportSeparator1 = new javax.swing.JPopupMenu.Separator();
         miSalesReports = new javax.swing.JMenuItem();
         miStockReports = new javax.swing.JMenuItem();
@@ -412,15 +412,15 @@ public class MainFrame extends javax.swing.JFrame {
         mReports.setText("Reports");
         mReports.setEnabled(false);
 
-        miServiceHistory.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
-        miServiceHistory.setText("Service History");
-        miServiceHistory.setEnabled(false);
-        miServiceHistory.addActionListener(new java.awt.event.ActionListener() {
+        miSalesHistory.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
+        miSalesHistory.setText("Sales History");
+        miSalesHistory.setEnabled(false);
+        miSalesHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miServiceHistoryActionPerformed(evt);
+                miSalesHistoryActionPerformed(evt);
             }
         });
-        mReports.add(miServiceHistory);
+        mReports.add(miSalesHistory);
         mReports.add(reportSeparator1);
 
         miSalesReports.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
@@ -655,9 +655,9 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_miSaleActionPerformed
 
-    private void miServiceHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miServiceHistoryActionPerformed
+    private void miSalesHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalesHistoryActionPerformed
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
-    }//GEN-LAST:event_miServiceHistoryActionPerformed
+    }//GEN-LAST:event_miSalesHistoryActionPerformed
 
     private void miSalesReturnsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalesReturnsActionPerformed
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
@@ -852,10 +852,10 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JMenuItem miPrinters;
     private javax.swing.JMenuItem miRackSlots;
     public javax.swing.JMenuItem miSale;
+    public javax.swing.JMenuItem miSalesHistory;
     public javax.swing.JMenuItem miSalesReports;
     public javax.swing.JMenuItem miSalesReturns;
     public javax.swing.JMenuItem miService;
-    public javax.swing.JMenuItem miServiceHistory;
     public javax.swing.JMenuItem miStockReports;
     private javax.swing.JMenuItem miStorage;
     private javax.swing.JMenuItem miStorageRacks;

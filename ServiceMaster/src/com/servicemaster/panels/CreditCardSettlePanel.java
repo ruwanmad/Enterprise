@@ -7,7 +7,6 @@ package com.servicemaster.panels;
 
 import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.functions.AutoCompletion;
-import com.servicemaster.models.Account;
 import com.servicemaster.models.Bank;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.event.KeyEvent;
@@ -18,7 +17,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import com.servicemaster.functions.LimitDocumentFilter;
 
 /**
@@ -324,28 +322,30 @@ public class CreditCardSettlePanel extends javax.swing.JPanel {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             dateExpireDate.requestFocus();
         } else {
-            int cardType = cmbCardType.getSelectedIndex();
-            String value = txtCardNumber.getText();
-            switch(cardType){
-                case 1:
-                case 2:
-                    ((AbstractDocument)txtCardNumber.getDocument()).setDocumentFilter(new LimitDocumentFilter(19));
-                    if (value.length() == 4 
-                            || value.length() == 9
-                            || value.length() == 14) {
-                        value += "-";
-                        txtCardNumber.setText(value);
-                    }
-                    break;
-                case 3:
-                    ((AbstractDocument)txtCardNumber.getDocument()).setDocumentFilter(new LimitDocumentFilter(17));
-                    if (value.length() == 4
-                            || value.length() == 11) {
-                        value += "-";
-                        txtCardNumber.setText(value);
-                    }
-                    break;
-                default:
+            if (evt.getKeyCode() != KeyEvent.VK_BACK_SPACE) {
+                int cardType = cmbCardType.getSelectedIndex();
+                String value = txtCardNumber.getText();
+                switch (cardType) {
+                    case 1:
+                    case 2:
+                        ((AbstractDocument) txtCardNumber.getDocument()).setDocumentFilter(new LimitDocumentFilter(19));
+                        if (value.length() == 4
+                                || value.length() == 9
+                                || value.length() == 14) {
+                            value += "-";
+                            txtCardNumber.setText(value);
+                        }
+                        break;
+                    case 3:
+                        ((AbstractDocument) txtCardNumber.getDocument()).setDocumentFilter(new LimitDocumentFilter(17));
+                        if (value.length() == 4
+                                || value.length() == 11) {
+                            value += "-";
+                            txtCardNumber.setText(value);
+                        }
+                        break;
+                    default:
+                }
             }
         }
     }//GEN-LAST:event_txtCardNumberKeyReleased

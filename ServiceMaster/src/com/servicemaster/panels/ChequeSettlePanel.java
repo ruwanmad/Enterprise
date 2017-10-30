@@ -7,14 +7,18 @@ package com.servicemaster.panels;
 
 import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.functions.AutoCompletion;
+import com.servicemaster.functions.LimitDocumentFilter;
 import com.servicemaster.models.Account;
 import com.servicemaster.models.Bank;
+import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.event.KeyEvent;
 import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.text.AbstractDocument;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -27,6 +31,7 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
 
     private final SettlementDialog settlementDialog;
     private final String paymentTypeCode;
+    public TreeMap<String, String> customerMap = new TreeMap<>();
 
     /**
      * Creates new form CashSettlePanel
@@ -38,15 +43,15 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
         initComponents();
         this.settlementDialog = settlementDialog;
         this.paymentTypeCode = paymentTypeCode;
-        
+
         Session session = HibernateUtil.getSessionFactory().openSession();
-        
+
         List<Account> accounts = session
                 .createCriteria(Account.class)
                 .createAlias("subAccount", "subAccount")
                 .add(Restrictions.eq("subAccount.code", "SAC1001"))
                 .list();
-        
+
         if (!accounts.isEmpty()) {
             cmbBankAccount.removeAllItems();
             cmbBankAccount.addItem("");
@@ -54,12 +59,12 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
                 cmbBankAccount.addItem(account.getDescription());
             }
         }
-        
+
         List<Bank> banks = session
                 .createCriteria(Bank.class)
                 .addOrder(Order.asc("id"))
                 .list();
-        
+
         if (!banks.isEmpty()) {
             cmbBank.removeAllItems();
             cmbBank.addItem("");
@@ -67,9 +72,23 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
                 cmbBank.addItem(bank.getBankName());
             }
         }
-        
+
+        List<BusinessPartner> businessPartners = session
+                .createCriteria(BusinessPartner.class)
+                .add(Restrictions.eq("isCustomer", true))
+                .list();
+        if (!businessPartners.isEmpty()) {
+            cmbCustomer.removeAllItems();
+            cmbCustomer.addItem("");
+            for (BusinessPartner businessPartner : businessPartners) {
+                cmbCustomer.addItem(businessPartner.getFirstName() + " " + businessPartner.getLastName());
+                this.customerMap.put(businessPartner.getFirstName() + " " + businessPartner.getLastName(), businessPartner.getBusinessPartnerCode());
+            }
+        }
+
         session.close();
-        
+
+        AutoCompletion.enable(cmbCustomer, txtChequeNumber);
         AutoCompletion.enable(cmbBank, cmbBankAccount);
         AutoCompletion.enable(cmbBankAccount, settlementDialog.btnSettle);
     }
@@ -105,6 +124,8 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
         cmbBank = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         cmbBankAccount = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        cmbCustomer = new javax.swing.JComboBox<>();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 2, 0, new java.awt.Color(50, 255, 50)), "Cheque Settle", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 1, 12), new java.awt.Color(0, 102, 51))); // NOI18N
 
@@ -172,8 +193,8 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
         txtChequeNumber.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtChequeNumber.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtChequeNumber.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtChequeNumberKeyPressed(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtChequeNumberKeyReleased(evt);
             }
         });
 
@@ -201,6 +222,12 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
         cmbBankAccount.setEditable(true);
         cmbBankAccount.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
+        jLabel10.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel10.setText("Customer :");
+
+        cmbCustomer.setEditable(true);
+        cmbCustomer.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -208,31 +235,40 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel4)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel6)
-                        .addComponent(jLabel7)
-                        .addComponent(jLabel8))
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtBalance, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(txtNowPaying, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(txtTotalAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(txtRemainingBalance, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(txtPaidAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(txtChequeNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(dateChequeDate, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(cmbBank, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cmbBankAccount, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtBalance, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                            .addComponent(txtNowPaying, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                            .addComponent(txtTotalAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                            .addComponent(txtRemainingBalance, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                            .addComponent(txtPaidAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtChequeNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                            .addComponent(dateChequeDate, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                            .addComponent(cmbBank, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbBankAccount, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbCustomer, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel10, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,6 +295,10 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
                     .addComponent(txtBalance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(cmbCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtChequeNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -276,7 +316,7 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbBank, cmbBankAccount, dateChequeDate, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, txtBalance, txtChequeNumber, txtNowPaying, txtPaidAmount, txtRemainingBalance, txtTotalAmount});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbBank, cmbBankAccount, cmbCustomer, dateChequeDate, jLabel1, jLabel10, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, txtBalance, txtChequeNumber, txtNowPaying, txtPaidAmount, txtRemainingBalance, txtTotalAmount});
 
     }// </editor-fold>//GEN-END:initComponents
 
@@ -305,7 +345,7 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
                 } else {
                     settlementDialog.btnSettle.setText("Settle");
                 }
-                txtChequeNumber.requestFocus();
+                cmbCustomer.requestFocus();
             }
         }
     }//GEN-LAST:event_txtNowPayingKeyPressed
@@ -316,11 +356,24 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_dateChequeDateKeyPressed
 
-    private void txtChequeNumberKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtChequeNumberKeyPressed
+    private void txtChequeNumberKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtChequeNumberKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            dateChequeDate.requestFocus();
+            String text = txtChequeNumber.getText();
+            if (!text.isEmpty()) {
+                dateChequeDate.requestFocus();
+            }
+        } else {
+            if (evt.getKeyCode() != KeyEvent.VK_BACK_SPACE) {
+                String value = txtChequeNumber.getText();
+                ((AbstractDocument) txtChequeNumber.getDocument()).setDocumentFilter(new LimitDocumentFilter(15));
+                if (value.length() == 6
+                        || value.length() == 11) {
+                    value += "-";
+                    txtChequeNumber.setText(value);
+                }
+            }
         }
-    }//GEN-LAST:event_txtChequeNumberKeyPressed
+    }//GEN-LAST:event_txtChequeNumberKeyReleased
 
     public void setTotalAmount(String totalAmount) {
         txtTotalAmount.setText(totalAmount);
@@ -329,8 +382,10 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox<String> cmbBank;
     public javax.swing.JComboBox<String> cmbBankAccount;
+    public javax.swing.JComboBox<String> cmbCustomer;
     public com.toedter.calendar.JDateChooser dateChequeDate;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

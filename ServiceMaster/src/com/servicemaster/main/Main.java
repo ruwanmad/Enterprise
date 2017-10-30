@@ -5,7 +5,8 @@
  */
 package com.servicemaster.main;
 
-
+import com.servicemaster.configs.Configs;
+import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.Login;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.Font;
@@ -27,21 +28,27 @@ public class Main {
         try {
             Font miFont = new Font("Segoe UI", Font.PLAIN, 16);
             UIManager.put("MenuItem.font", miFont);
-            
+
             Font mFont = new Font("Segoe UI", Font.PLAIN, 16);
             UIManager.put("Menu.font", mFont);
-            
+
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.getTransaction().commit();
-        session.close();
 
-        Login login = new Login();
-        login.setVisible(true);
+        boolean readed = Configs.readConfigs();
+
+        if (readed) {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.getTransaction().commit();
+            session.close();
+
+            Login login = new Login();
+            login.setVisible(true);
+        } else {
+            InformationDialog.showMessageBox("Something wrong with the configurations. Please check.", "COnfiguration issue", null);
+        }
     }
 }

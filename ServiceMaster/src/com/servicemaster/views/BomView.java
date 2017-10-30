@@ -246,8 +246,8 @@ public class BomView extends javax.swing.JInternalFrame {
                 .createCriteria(Item.class)
                 .add(Restrictions.eq("itemCode", bom.getItem().getItemCode()))
                 .uniqueResult();
-        
-        List bomItems = session
+
+        List<BomItem> bomItems = session
                 .createCriteria(BomItem.class)
                 .add(Restrictions.eq("bom.bomCode", bom.getBomCode()))
                 .list();
@@ -256,6 +256,7 @@ public class BomView extends javax.swing.JInternalFrame {
         session.close();
 
         bomFrame.setBomCode(bom.getBomCode());
+        bomFrame.setBomSellingPrice(bom.getSellingPrice());
         bomFrame.setMainItem(item.getItemName());
         bomFrame.setRemark(bom.getRemark());
         bomFrame.setIsActive(bom.getIsActive() == 1);

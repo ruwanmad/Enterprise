@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 7, 2017 6:01:10 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 29, 2017 8:03:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Sale" table="sale" catalog="enterprisedb" optimistic-lock="version">
         <id name="saleCode" type="string">
@@ -12,10 +12,10 @@
             <column name="status_id" not-null="true" />
         </many-to-one>
         <many-to-one name="serviceBay" class="com.servicemaster.models.ServiceBay" fetch="select">
-            <column name="service_bay_code" length="15" not-null="true" />
+            <column name="service_bay_code" length="15" />
         </many-to-one>
         <many-to-one name="vehicle" class="com.servicemaster.models.Vehicle" fetch="select">
-            <column name="vehicle_code" length="15" not-null="true" />
+            <column name="vehicle_code" length="15" />
         </many-to-one>
         <property name="previousMilage" type="java.lang.Float">
             <column name="previous_milage" precision="12" scale="0" />

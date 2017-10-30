@@ -11,7 +11,7 @@
 <currentDirectory>.</currentDirectory>
 <embeddedJar>false</embeddedJar>
 <executableName>Service Manager.exe</executableName>
-<iconLocation>sm.png</iconLocation>
+<iconLocation>images\icon.png</iconLocation>
 <initialMemoryHeap>50331648</initialMemoryHeap>
 <javaProperties>
 <name>nom1</name>

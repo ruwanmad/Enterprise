@@ -11,7 +11,7 @@ import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.dialogs.ItemSearchDialog;
 import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.forms.MainFrame;
-import com.servicemaster.functions.JdbcConnection;
+import com.servicemaster.functions.PrintFunctions;
 import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Bom;
@@ -29,16 +29,11 @@ import com.servicemaster.utils.HibernateUtil;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.sql.Connection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
@@ -46,10 +41,6 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -773,7 +764,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
         Invoice invoice = this.generateInvoice(sale);
 
-        SettlementDialog settlementDialog = new SettlementDialog(null, true, sale, invoice);
+        SettlementDialog settlementDialog = new SettlementDialog(null, true, sale, invoice, "CASH");
         settlementDialog.setVisible(true);
     }//GEN-LAST:event_btnSettleActionPerformed
 
@@ -1034,7 +1025,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                     txtItemSearchKey.selectAll();
                     txtItemSearchKey.setSelectionColor(Color.RED);
                 } else {
-                    txtItemName.setText(item.getItemName());
+                    txtItemName.setText(item.getItemName() + " - " + item.getItemCode());
                     txtQuantity.requestFocus();
 
                     float sellingPrice = this.getItemSellingPrice(item);
@@ -1079,23 +1070,9 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
         ConfirmationDialog.showMessageBox("Do you want to print the invoice?", "Print", null);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            JdbcConnection jbConnection = new JdbcConnection();
-            Connection connection = jbConnection.getConnection();
+            PrintFunctions printFunctions = new PrintFunctions();
 
-            if (connection != null) {
-                String reportFile = "reports/invoice.jasper";
-
-                Map map = new HashMap();
-                map.put("serviceCode", sale.getSaleCode());
-
-                try {
-                    JasperPrint jasperPrint = JasperFillManager.fillReport(reportFile, map, connection);
-                    JasperViewer.viewReport(jasperPrint, false);
-                } catch (JRException ex) {
-                    Logger.getLogger(ServiceFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                jbConnection.closeConnection();
-            }
+            printFunctions.printInvoice(sale.getSaleCode(), true);
         }
 
         return invoice;
@@ -1187,7 +1164,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             txtGrandSubTotal.setText("" + grandSubTotal);
             txtGrandDiscount.setText("" + grandDiscount);
             txtGrandTotal.setText("" + grandTotal);
-            
+
             txtQuantity.requestFocus();
         } else {
             JOptionPane.showMessageDialog(this, "Please select a valid item.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
@@ -1242,7 +1219,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     public javax.swing.JTextField txtItemName;
     public javax.swing.JTextField txtItemSearchKey;
     public javax.swing.JFormattedTextField txtQuantity;
-    private javax.swing.JFormattedTextField txtUnitPrice;
+    public javax.swing.JFormattedTextField txtUnitPrice;
     // End of variables declaration//GEN-END:variables
     private final TreeMap<String, SaleStatus> saleStatusMap = new TreeMap<>();
 

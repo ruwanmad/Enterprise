@@ -100,7 +100,7 @@ public class EnableFeatures {
                     break;
                 }
                 case "31": {
-                    mainFrame.miServiceHistory.setEnabled(true);
+                    mainFrame.miSalesHistory.setEnabled(true);
                     break;
                 }
                 case "32": {

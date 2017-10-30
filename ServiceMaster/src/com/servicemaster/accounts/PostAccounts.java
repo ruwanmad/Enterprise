@@ -5,9 +5,11 @@
  */
 package com.servicemaster.accounts;
 
+import com.servicemaster.data.SystemData;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.models.Account;
 import com.servicemaster.models.AccountPosting;
+import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.models.Grn;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Sale;
@@ -22,7 +24,9 @@ import org.hibernate.Transaction;
  */
 public class PostAccounts {
 
-    public void saleDebitPosting(Account debitAccount, Invoice invoice, String narration) {
+    public void cashDebitPosting(Account debitAccount,
+            Invoice invoice,
+            String narration) {
         if (debitAccount != null) {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
@@ -48,7 +52,140 @@ public class PostAccounts {
         }
     }
 
-    public void salesCreditPosting(Account creditAccount, Invoice invoice, String narration) {
+    public void chequeDebitPosting(Account debitAccount,
+            BusinessPartner businessPartner,
+            Invoice invoice,
+            Date chequeDate,
+            long creditDays,
+            String chequeNumber,
+            String narration) {
+        if (debitAccount != null) {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            Date date = new Date();
+
+            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+
+            AccountPosting posting = new AccountPosting();
+            posting.setAccount(debitAccount);
+            posting.setDebit(sale.getGrandTotal());
+            posting.setBusinessPartner(businessPartner);
+            posting.setChequeDate(chequeDate);
+            posting.setNumberOfDays(creditDays);
+            posting.setChequeNumber(chequeNumber);
+            posting.setInvoice(invoice);
+            posting.setCreatedDate(date);
+            posting.setCreatedTime(date);
+            posting.setCreatedUser(MainFrame.user.getUserId());
+            posting.setNarration(narration);
+            posting.setPostedDate(date);
+
+            session.saveOrUpdate(posting);
+
+            transaction.commit();
+            session.close();
+        }
+    }
+
+    public void creditDebitPosting(Account debitAccount,
+            BusinessPartner businessPartner,
+            Invoice invoice,
+            long cretidDays,
+            String narration) {
+        if (debitAccount != null) {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            Date date = new Date();
+
+            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+
+            AccountPosting posting = new AccountPosting();
+            posting.setAccount(debitAccount);
+            posting.setDebit(sale.getGrandTotal());
+            posting.setBusinessPartner(businessPartner);
+            posting.setNumberOfDays(cretidDays);
+            posting.setInvoice(invoice);
+            posting.setCreatedDate(date);
+            posting.setCreatedTime(date);
+            posting.setCreatedUser(MainFrame.user.getUserId());
+            posting.setNarration(narration);
+            posting.setPostedDate(date);
+
+            session.saveOrUpdate(posting);
+
+            transaction.commit();
+            session.close();
+        }
+    }
+
+    public void creditCardDebitPosting(Account debitAccount,
+            Invoice invoice,
+            String cardNumber,
+            Date expireDate,
+            String bank,
+            String cardType,
+            String narration) {
+        if (debitAccount != null) {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            Date date = new Date();
+
+            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+
+            AccountPosting posting = new AccountPosting();
+            posting.setAccount(debitAccount);
+            posting.setDebit(sale.getGrandTotal());
+            posting.setRemark(bank + ";" + cardType + ";" + cardNumber + ";" + SystemData.DATE_FORMAT.format(expireDate));
+            posting.setInvoice(invoice);
+            posting.setCreatedDate(date);
+            posting.setCreatedTime(date);
+            posting.setCreatedUser(MainFrame.user.getUserId());
+            posting.setNarration(narration);
+            posting.setPostedDate(date);
+
+            session.saveOrUpdate(posting);
+
+            transaction.commit();
+            session.close();
+        }
+    }
+
+    public void generalDebitPosting(Account creditAccount,
+            BusinessPartner businessPartner,
+            Invoice invoice,
+            String narration) {
+        if (creditAccount != null) {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            Date date = new Date();
+
+            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+
+            AccountPosting posting = new AccountPosting();
+            posting.setAccount(creditAccount);
+            posting.setDebit(sale.getGrandTotal());
+            posting.setBusinessPartner(businessPartner);
+            posting.setInvoice(invoice);
+            posting.setCreatedDate(date);
+            posting.setCreatedTime(date);
+            posting.setCreatedUser(MainFrame.user.getUserId());
+            posting.setNarration(narration);
+            posting.setPostedDate(date);
+
+            session.saveOrUpdate(posting);
+
+            transaction.commit();
+            session.close();
+        }
+    }
+
+    public void cashCreditPosting(Account creditAccount,
+            Invoice invoice,
+            String narration) {
         if (creditAccount != null) {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
@@ -60,6 +197,137 @@ public class PostAccounts {
             AccountPosting posting = new AccountPosting();
             posting.setAccount(creditAccount);
             posting.setCredit(sale.getGrandTotal());
+            posting.setInvoice(invoice);
+            posting.setCreatedDate(date);
+            posting.setCreatedTime(date);
+            posting.setCreatedUser(MainFrame.user.getUserId());
+            posting.setNarration(narration);
+            posting.setPostedDate(date);
+
+            session.saveOrUpdate(posting);
+
+            transaction.commit();
+            session.close();
+        }
+    }
+
+    public void chequeCreditPosting(Account creditAccount,
+            BusinessPartner businessPartner,
+            Invoice invoice,
+            Date chequeDate,
+            long creditDays,
+            String chequeNumber,
+            String narration) {
+        if (creditAccount != null) {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            Date date = new Date();
+
+            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+
+            AccountPosting posting = new AccountPosting();
+            posting.setAccount(creditAccount);
+            posting.setCredit(sale.getGrandTotal());
+            posting.setBusinessPartner(businessPartner);
+            posting.setChequeDate(chequeDate);
+            posting.setNumberOfDays(creditDays);
+            posting.setChequeNumber(chequeNumber);
+            posting.setInvoice(invoice);
+            posting.setCreatedDate(date);
+            posting.setCreatedTime(date);
+            posting.setCreatedUser(MainFrame.user.getUserId());
+            posting.setNarration(narration);
+            posting.setPostedDate(date);
+
+            session.saveOrUpdate(posting);
+
+            transaction.commit();
+            session.close();
+        }
+    }
+
+    public void creditCreditPosting(Account creditAccount,
+            BusinessPartner businessPartner,
+            Invoice invoice,
+            long cretidDays,
+            String narration) {
+        if (creditAccount != null) {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            Date date = new Date();
+
+            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+
+            AccountPosting posting = new AccountPosting();
+            posting.setAccount(creditAccount);
+            posting.setCredit(sale.getGrandTotal());
+            posting.setBusinessPartner(businessPartner);
+            posting.setNumberOfDays(cretidDays);
+            posting.setInvoice(invoice);
+            posting.setCreatedDate(date);
+            posting.setCreatedTime(date);
+            posting.setCreatedUser(MainFrame.user.getUserId());
+            posting.setNarration(narration);
+            posting.setPostedDate(date);
+
+            session.saveOrUpdate(posting);
+
+            transaction.commit();
+            session.close();
+        }
+    }
+
+    public void creditCardCreditPosting(Account creditAccount,
+            Invoice invoice,
+            String cardNumber,
+            Date expireDate,
+            String bank,
+            String cardType,
+            String narration) {
+        if (creditAccount != null) {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            Date date = new Date();
+
+            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+
+            AccountPosting posting = new AccountPosting();
+            posting.setAccount(creditAccount);
+            posting.setCredit(sale.getGrandTotal());
+            posting.setRemark(bank + ";" + cardType + ";" + cardNumber + ";" + SystemData.DATE_FORMAT.format(expireDate));
+            posting.setInvoice(invoice);
+            posting.setCreatedDate(date);
+            posting.setCreatedTime(date);
+            posting.setCreatedUser(MainFrame.user.getUserId());
+            posting.setNarration(narration);
+            posting.setPostedDate(date);
+
+            session.saveOrUpdate(posting);
+
+            transaction.commit();
+            session.close();
+        }
+    }
+
+    public void generalCreditPosting(Account creditAccount,
+            BusinessPartner businessPartner,
+            Invoice invoice,
+            String narration) {
+        if (creditAccount != null) {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            Date date = new Date();
+
+            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+
+            AccountPosting posting = new AccountPosting();
+            posting.setAccount(creditAccount);
+            posting.setCredit(sale.getGrandTotal());
+            posting.setBusinessPartner(businessPartner);
             posting.setInvoice(invoice);
             posting.setCreatedDate(date);
             posting.setCreatedTime(date);

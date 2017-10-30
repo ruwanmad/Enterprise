@@ -13,7 +13,8 @@ import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.dialogs.ShowEmployeeDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.AutoCompletion;
-import com.servicemaster.functions.JdbcConnection;
+import com.servicemaster.functions.ItemFunctions;
+import com.servicemaster.functions.PrintFunctions;
 import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Address;
@@ -36,17 +37,12 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -55,10 +51,6 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -1044,30 +1036,27 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
             DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
             tableModel.setRowCount(0);
-            Set saleItems = sale.getSaleItems();
+            Set<SaleItem> saleItems = sale.getSaleItems();
 
-            for (Object object : saleItems) {
-                if (object instanceof SaleItem) {
-                    SaleItem saleItem = (SaleItem) object;
-                    if (saleItem.getSaleItemStatus().getItemStatusId() == 1) {
-                        Item item = saleItem.getItem();
+            for (SaleItem saleItem : saleItems) {
+                if (saleItem.getSaleItemStatus().getItemStatusId() == 1) {
+                    Item item = saleItem.getItem();
 
-                        saleItemMap.put(item.getItemName(), saleItem);
+                    saleItemMap.put(item.getItemCode(), saleItem);
 
-                        String itemCode = item.getItemCode();
-                        String itemName = item.getItemName();
-                        float quantity = saleItem.getQuantity();
-                        float unitPrice = this.getItemSellingPrice(item);
-                        float subTotal = saleItem.getSubTotal();
-                        float discount = saleItem.getDiscount();
-                        float total = saleItem.getTotal();
+                    String itemCode = item.getItemCode();
+                    String itemName = item.getItemName();
+                    float quantity = saleItem.getQuantity();
+                    float unitPrice = ItemFunctions.getItemSellingPrice(item);
+                    float subTotal = saleItem.getSubTotal();
+                    float discount = saleItem.getDiscount();
+                    float total = saleItem.getTotal();
 
-                        tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
+                    tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
 
-                        grandSubTotal += subTotal;
-                        grandDiscount += discount;
-                        grandTotal += total;
-                    }
+                    grandSubTotal += subTotal;
+                    grandDiscount += discount;
+                    grandTotal += total;
                 }
             }
 
@@ -1116,25 +1105,35 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                         .add(Restrictions.eq("vehicleNumber", vehicleNo.trim()))
                         .uniqueResult();
                 BusinessPartner businessPartner = vehicle.getBusinessPartner();
-                lblCustomerName.setText(businessPartner.getFirstName() + " " + businessPartner.getLastName());
 
-                Set addresses = businessPartner.getBusinessAddresses();
-                if (!addresses.isEmpty()) {
-                    for (Object object : addresses) {
-                        if (object instanceof BusinessAddress) {
-                            BusinessAddress businessAddress = (BusinessAddress) object;
-                            Address address = businessAddress.getAddress();
-                            this.lblAddress1.setText(address.getAdressLine1());
-                            this.lblAddress2.setText(address.getAdressLine2());
-                            this.lblAddress3.setText(address.getAdressLine3());
+                String firstName = businessPartner.getFirstName();
+                if (!firstName.equalsIgnoreCase("CASH")) {
+                    lblCustomerName.setText(businessPartner.getFirstName() + " " + businessPartner.getLastName());
+
+                    Set addresses = businessPartner.getBusinessAddresses();
+                    if (!addresses.isEmpty()) {
+                        for (Object object : addresses) {
+                            if (object instanceof BusinessAddress) {
+                                BusinessAddress businessAddress = (BusinessAddress) object;
+                                Address address = businessAddress.getAddress();
+                                this.lblAddress1.setText(address.getAdressLine1());
+                                this.lblAddress2.setText(address.getAdressLine2());
+                                this.lblAddress3.setText(address.getAdressLine3());
+                            }
                         }
                     }
+                } else {
+                    lblCustomerName.setText(businessPartner.getFirstName());
+                    this.lblAddress1.setText("");
+                    this.lblAddress2.setText("");
+                    this.lblAddress3.setText("");
                 }
 
                 List<Sale> sales = session
                         .createCriteria(Sale.class)
                         .add(Restrictions.eq("vehicle", vehicle))
                         .addOrder(Order.desc("createdDate"))
+                        .addOrder(Order.desc("createdTime"))
                         .list();
 
                 if (sales.isEmpty()) {
@@ -1244,10 +1243,10 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 Transaction transaction = session.beginTransaction();
 
-                String itemName = tblItems.getValueAt(selectedRow, 1).toString();
+                String itemCode = tblItems.getValueAt(selectedRow, 0).toString();
                 Item item = (Item) session
                         .createCriteria(Item.class)
-                        .add(Restrictions.eq("itemName", itemName))
+                        .add(Restrictions.eq("itemCode", itemCode))
                         .uniqueResult();
                 SaleItem saleItem = (SaleItem) session.createCriteria(SaleItem.class)
                         .add(Restrictions.eq("sale", this.sale))
@@ -1268,7 +1267,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 } else {
                     int option = JOptionPane.showConfirmDialog(this, "Are you sure?", "Sure", JOptionPane.YES_NO_OPTION);
                     if (option == JOptionPane.YES_OPTION) {
-                        SaleItem tempSaleItem = saleItemMap.get(itemName);
+                        SaleItem tempSaleItem = saleItemMap.get(itemCode);
 
                         SaleItemStatus saleItemStatus = (SaleItemStatus) session
                                 .createCriteria(SaleItemStatus.class)
@@ -1280,12 +1279,12 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                         SaleItem mergedHasItem = (SaleItem) session.merge(tempSaleItem);
                         session.saveOrUpdate(mergedHasItem);
 
-                        saleItemMap.remove(itemName);
+                        saleItemMap.remove(itemCode);
 
                         DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
                         tableModel.removeRow(tblItems.getSelectedRow());
 
-                        grandSubTotal = grandSubTotal - (tempSaleItem.getQuantity() * this.getItemSellingPrice(item));
+                        grandSubTotal = grandSubTotal - (tempSaleItem.getQuantity() * ItemFunctions.getItemSellingPrice(item));
                         grandDiscount = grandDiscount - tempSaleItem.getDiscount();
                         grandTotal = grandSubTotal - grandDiscount;
 
@@ -1378,22 +1377,13 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
         ConfirmationDialog.showMessageBox("Do you want to print the invoice?", "Print", null);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            JdbcConnection jbConnection = new JdbcConnection();
-            Connection connection = jbConnection.getConnection();
+            PrintFunctions printFunctions = new PrintFunctions();
 
-            if (connection != null) {
-                String reportFile = "reports/invoice.jasper";
-
-                Map map = new HashMap();
-                map.put("serviceCode", this.sale.getSaleCode());
-
-                try {
-                    JasperPrint jasperPrint = JasperFillManager.fillReport(reportFile, map, connection);
-                    JasperViewer.viewReport(jasperPrint, false);
-                } catch (JRException ex) {
-                    Logger.getLogger(ServiceFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                jbConnection.closeConnection();
+            String customerName = lblCustomerName.getText().trim();
+            if (customerName.equalsIgnoreCase("cash")) {
+                printFunctions.printInvoice(sale.getSaleCode(), true);
+            } else {
+                printFunctions.printInvoice(sale.getSaleCode(), false);
             }
         }
 
@@ -1457,6 +1447,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
             DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
             for (int i = 0; i < tableModel.getRowCount(); i++) {
+                String itemCode = (String) tblItems.getValueAt(i, 0);
                 String itemName = (String) tblItems.getValueAt(i, 1);
                 float quantity = (float) tblItems.getValueAt(i, 2);
                 float unitPrice = (float) tblItems.getValueAt(i, 3);
@@ -1464,11 +1455,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 float discount = (float) tblItems.getValueAt(i, 5);
                 float itemTotal = (float) tblItems.getValueAt(i, 6);
 
-                SaleItem serviceHasItem = saleItemMap.get(itemName);
+                SaleItem serviceHasItem = saleItemMap.get(itemCode);
                 if (serviceHasItem == null) {
                     serviceHasItem = new SaleItem();
                     Item item = (Item) session.createCriteria(Item.class)
-                            .add(Restrictions.eq("itemCode", tblItems.getValueAt(i, 0).toString()))
+                            .add(Restrictions.eq("itemCode", itemCode))
                             .uniqueResult();
                     serviceHasItem.setItem(item);
                     serviceHasItem.setSale(sale);
@@ -1561,6 +1552,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
             DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
             for (int i = 0; i < tableModel.getRowCount(); i++) {
+                String itemCode = (String) tblItems.getValueAt(i, 0);
                 String itemName = (String) tblItems.getValueAt(i, 1);
                 float quantity = (float) tblItems.getValueAt(i, 2);
                 float unitPrice = (float) tblItems.getValueAt(i, 3);
@@ -1570,7 +1562,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
                 Item item = (Item) session
                         .createCriteria(Item.class)
-                        .add(Restrictions.eq("itemName", itemName))
+                        .add(Restrictions.eq("itemCode", itemCode))
                         .uniqueResult();
 
                 SaleItem saleItem = new SaleItem();
@@ -1587,7 +1579,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 saleItem.setCreatedUser(MainFrame.user.getUserId());
                 saleItem.setRemark(itemName);
 
-                saleItemMap.put(itemName, saleItem);
+                saleItemMap.put(itemCode, saleItem);
 
                 session.saveOrUpdate(saleItem);
             }
@@ -1596,6 +1588,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             session.close();
         }
         btnInvoice.setEnabled(true);
+        btnSettle.setEnabled(true);
         InformationDialog.showMessageBox("Updated successfully", "Success", null);
         this.servicesFrame.loadServices();
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -1638,7 +1631,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSettleMouseExited
 
     private void btnSettleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettleActionPerformed
-        SettlementDialog settlementDialog = new SettlementDialog(null, true, sale, invoice);
+        SettlementDialog settlementDialog = new SettlementDialog(null, true, sale, invoice, lblCustomerName.getText().trim());
         settlementDialog.setVisible(true);
     }//GEN-LAST:event_btnSettleActionPerformed
 
@@ -1655,10 +1648,10 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         if (quantity != 0.0) {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
-            String itemName = txtItemName.getText().trim();
+            String itemName = txtItemName.getText().split("-")[0].trim();
             Item item = (Item) session
                     .createCriteria(Item.class)
-                    .add(Restrictions.eq("itemName", itemName))
+                    .add(Restrictions.eq("itemCode", (txtItemName.getText().split("-")[1]).trim()))
                     .uniqueResult();
 
             if (item.getFromBom()) {
@@ -1668,7 +1661,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
                 if (bom == null) {
                     String itemCode = item.getItemCode();
-                    float unitPrice = this.getItemSellingPrice(item);
+                    float unitPrice = ItemFunctions.getItemSellingPrice(item);
                     float subTotal = quantity * unitPrice;
                     float discount = Float.parseFloat(txtDiscount.getText().trim());
                     float total = 0.0f;
@@ -1911,10 +1904,10 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                     txtItemSearchCode.selectAll();
                     txtItemSearchCode.setSelectionColor(Color.RED);
                 } else {
-                    txtItemName.setText(item.getItemName());
+                    txtItemName.setText(item.getItemName() + " - " + item.getItemCode());
                     txtQuantity.requestFocus();
 
-                    float sellingPrice = this.getItemSellingPrice(item);
+                    float sellingPrice = ItemFunctions.getItemSellingPrice(item);
                     txtUnitPrice.setText("" + sellingPrice);
                 }
 
@@ -2137,7 +2130,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNextMilage;
     private javax.swing.JTextField txtNextService;
     public javax.swing.JFormattedTextField txtQuantity;
-    private javax.swing.JFormattedTextField txtUnitPrice;
+    public javax.swing.JFormattedTextField txtUnitPrice;
     private javax.swing.JPanel vehicleDetailPanel;
     // End of variables declaration//GEN-END:variables
     private Sale sale;

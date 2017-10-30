@@ -6,6 +6,7 @@
 package com.servicemaster.dialogs;
 
 import com.servicemaster.data.SystemData;
+import com.servicemaster.functions.ItemFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.internalFrames.DirectSaleFrame;
 import com.servicemaster.internalFrames.ServiceFrame;
@@ -134,6 +135,11 @@ public class ItemSearchDialog extends javax.swing.JDialog {
                 cmbSubCategoryItemStateChanged(evt);
             }
         });
+        cmbSubCategory.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cmbSubCategoryKeyPressed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel2.setText("Item Code/Name :");
@@ -146,12 +152,17 @@ public class ItemSearchDialog extends javax.swing.JDialog {
         });
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel3.setText("Brand");
+        jLabel3.setText("Brand :");
 
         cmbBrand.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         cmbBrand.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbBrandItemStateChanged(evt);
+            }
+        });
+        cmbBrand.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cmbBrandKeyPressed(evt);
             }
         });
 
@@ -192,44 +203,51 @@ public class ItemSearchDialog extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtItemNameCode, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbBrand, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbSubCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbBrand, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtSearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtItemNameCode, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel2, jLabel4});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel3, jLabel4});
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cmbSubCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtItemNameCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(cmbBrand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(txtSearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(txtItemNameCode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtSearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(cmbSubCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(cmbBrand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -435,36 +453,41 @@ public class ItemSearchDialog extends javax.swing.JDialog {
 
     private void txtSearchKeyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyKeyReleased
         int keyCode = evt.getKeyCode();
-        if (isLeaglCharactor(keyCode)) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
+        if (keyCode == KeyEvent.VK_ENTER) {
+            tblItems.requestFocus();
+            tblItems.setRowSelectionInterval(0, 0);
+        } else {
+            if (isLeaglCharactor(keyCode)) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
 
-            String key = txtSearchKey.getText().trim();
+                String key = txtSearchKey.getText().trim();
 
-            List<Item> items = session
-                    .createCriteria(Item.class)
-                    .add(Restrictions.like("searchKey", "%" + key + "%"))
-                    .list();
-            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-            if (!items.isEmpty()) {
-                tableModel.setRowCount(0);
-                for (Item item : items) {
-                    String itemCode = item.getItemCode();
-                    String itemName = item.getItemName();
-                    String searchKey = item.getSearchKey();
-                    String subCategory = item.getSubCategory().getSubCategoryName();
-                    String itemBrand;
-                    if (item.getItemBrand() != null) {
-                        itemBrand = item.getItemBrand().getBrandName();
-                    } else {
-                        itemBrand = "";
+                List<Item> items = session
+                        .createCriteria(Item.class)
+                        .add(Restrictions.like("searchKey", "%" + key + "%"))
+                        .list();
+                DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                if (!items.isEmpty()) {
+                    tableModel.setRowCount(0);
+                    for (Item item : items) {
+                        String itemCode = item.getItemCode();
+                        String itemName = item.getItemName();
+                        String searchKey = item.getSearchKey();
+                        String subCategory = item.getSubCategory().getSubCategoryName();
+                        String itemBrand;
+                        if (item.getItemBrand() != null) {
+                            itemBrand = item.getItemBrand().getBrandName();
+                        } else {
+                            itemBrand = "";
+                        }
+
+                        tableModel.addRow(new String[]{itemCode, itemName, searchKey, subCategory, itemBrand});
                     }
-
-                    tableModel.addRow(new String[]{itemCode, itemName, searchKey, subCategory, itemBrand});
+                } else {
+                    tableModel.setRowCount(0);
                 }
-            } else {
-                tableModel.setRowCount(0);
+                session.close();
             }
-            session.close();
         }
     }//GEN-LAST:event_txtSearchKeyKeyReleased
 
@@ -498,6 +521,8 @@ public class ItemSearchDialog extends javax.swing.JDialog {
         }
 
         session.close();
+
+        txtSearchKey.requestFocus();
     }//GEN-LAST:event_formWindowOpened
 
     private void btnResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseEntered
@@ -604,34 +629,50 @@ public class ItemSearchDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_tblItemsKeyPressed
 
-    private void selectItem(){
+    private void cmbSubCategoryKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbSubCategoryKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            tblItems.requestFocus();
+            tblItems.setRowSelectionInterval(0, 0);
+        }
+    }//GEN-LAST:event_cmbSubCategoryKeyPressed
+
+    private void cmbBrandKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbBrandKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            tblItems.requestFocus();
+            tblItems.setRowSelectionInterval(0, 0);
+        }
+    }//GEN-LAST:event_cmbBrandKeyPressed
+
+    private void selectItem() {
         int selectedRow = tblItems.getSelectedRow();
         if (selectedRow != -1) {
             String itemCode = tblItems.getValueAt(selectedRow, 0).toString();
-            
+
             Session session = HibernateUtil.getSessionFactory().openSession();
-            
+
             Item item = (Item) session
                     .createCriteria(Item.class)
                     .add(Restrictions.eq("itemCode", itemCode))
                     .uniqueResult();
-            
+
             if (internalFrame instanceof DirectSaleFrame) {
                 DirectSaleFrame directSaleFrame = (DirectSaleFrame) internalFrame;
                 directSaleFrame.txtItemSearchKey.setText(item.getSearchKey());
-                directSaleFrame.txtItemName.setText(item.getItemName());
+                directSaleFrame.txtItemName.setText(item.getItemName() + " - " + item.getItemCode());
+                directSaleFrame.txtUnitPrice.setText("" + ItemFunctions.getItemSellingPrice(item));
                 directSaleFrame.txtQuantity.requestFocus();
             } else if (internalFrame instanceof ServiceFrame) {
                 ServiceFrame serviceFrame = (ServiceFrame) internalFrame;
                 serviceFrame.txtItemSearchCode.setText(item.getSearchKey());
-                serviceFrame.txtItemName.setText(item.getItemName());
+                serviceFrame.txtItemName.setText(item.getItemName() + " - " + item.getItemCode());
+                serviceFrame.txtUnitPrice.setText("" + ItemFunctions.getItemSellingPrice(item));
                 serviceFrame.txtQuantity.requestFocus();
             }
             session.close();
             this.dispose();
         }
     }
-    
+
     private boolean isLeaglCharactor(int keyCode) {
         return keyCode != KeyEvent.VK_F1
                 && keyCode != KeyEvent.VK_F2

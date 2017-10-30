@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Oct 7, 2017 6:01:00 PM by Hibernate Tools 4.3.1
+// Generated Oct 29, 2017 8:03:34 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -39,11 +39,9 @@ public class Sale  implements java.io.Serializable {
     }
 
 	
-    public Sale(String saleCode, SaleStatus saleStatus, ServiceBay serviceBay, Vehicle vehicle) {
+    public Sale(String saleCode, SaleStatus saleStatus) {
         this.saleCode = saleCode;
         this.saleStatus = saleStatus;
-        this.serviceBay = serviceBay;
-        this.vehicle = vehicle;
     }
     public Sale(String saleCode, SaleStatus saleStatus, ServiceBay serviceBay, Vehicle vehicle, Float previousMilage, Float subTotal, Float discount, Float grandTotal, Integer discounted, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Float currentMilage, Float nextMilage, Set saleEmployees, Set saleItems, Set invoices) {
        this.saleCode = saleCode;

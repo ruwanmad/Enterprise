@@ -19,6 +19,7 @@ import com.servicemaster.models.SellingPrice;
 import com.servicemaster.models.Uom;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.BomView;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -130,6 +132,11 @@ public class BomFrame extends javax.swing.JInternalFrame {
         cmbBomItem.setEditable(true);
         cmbBomItem.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         cmbBomItem.setNextFocusableComponent(txtQuantity);
+        cmbBomItem.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbBomItemItemStateChanged(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel4.setText("Quantity :");
@@ -562,12 +569,19 @@ public class BomFrame extends javax.swing.JInternalFrame {
             String uom = tblAddedBomItems.getValueAt(selectedRow, 3).toString();
             String selingPrice = tblAddedBomItems.getValueAt(selectedRow, 4).toString();
 
-            ((DefaultTableModel) tblAddedBomItems.getModel()).removeRow(selectedRow);
+            this.addedItemMap.remove(itemName);
 
             cmbBomItem.setSelectedItem(itemName);
             txtQuantity.setText(quantity);
             cmbUom.setSelectedItem(uom);
             txtItemUnitPrice.setText(selingPrice);
+
+            float sellingPrice = Float.parseFloat(selingPrice);
+
+            grandTotal -= sellingPrice;
+            txtBomSellingPrice.setText("" + grandTotal);
+
+            ((DefaultTableModel) tblAddedBomItems.getModel()).removeRow(selectedRow);
 
             txtQuantity.requestFocus();
         }
@@ -587,6 +601,14 @@ public class BomFrame extends javax.swing.JInternalFrame {
         if (selectedRow == -1) {
             InformationDialog.showMessageBox("Please select a valid item", "Invalid", this);
         } else {
+            float sellingPrice = Float.parseFloat(tblAddedBomItems.getValueAt(selectedRow, 5).toString());
+            String itemName = tblAddedBomItems.getValueAt(selectedRow, 1).toString().trim();
+
+            this.addedItemMap.remove(itemName);
+
+            grandTotal -= sellingPrice;
+            txtBomSellingPrice.setText("" + grandTotal);
+
             ((DefaultTableModel) tblAddedBomItems.getModel()).removeRow(selectedRow);
         }
     }//GEN-LAST:event_itemDeleteActionPerformed
@@ -600,26 +622,38 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddMouseExited
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        String strItemName = (String) cmbBomItem.getSelectedItem();
+        String strItemName = ((String) cmbBomItem.getSelectedItem()).trim();
         String strQuantity = txtQuantity.getText().trim();
-        String strUom = (String) cmbUom.getSelectedItem();
+        String strUom = ((String) cmbUom.getSelectedItem()).trim();
         String strUnitPrice = txtItemUnitPrice.getText().trim();
 
         if (strItemName.isEmpty() || strQuantity.isEmpty() || strUom.isEmpty() || strUnitPrice.isEmpty()) {
             InformationDialog.showMessageBox("Please enter valid details", "Invalid", this);
         } else {
-            float fQuantity = Float.parseFloat(strQuantity);
-            float fUnitPaice = Float.parseFloat(strUnitPrice);
-            
-            float fSellingPricec = fQuantity * fUnitPaice;
-            
-            DefaultTableModel tableModel = (DefaultTableModel) tblAddedBomItems.getModel();
-            Item item = itemMap.get(strItemName);
-            tableModel.addRow(new Object[]{item.getItemCode(), strItemName, strQuantity, strUom, fUnitPaice, fSellingPricec});
 
-            grandTotal += fSellingPricec;
-            txtBomSellingPrice.setText("" + grandTotal);
+            if (this.addedItemMap.containsKey(strItemName)) {
+                InformationDialog.showMessageBox("This item is already added to current BOM", "Already Added", this);
+            } else {
+                float fQuantity = Float.parseFloat(strQuantity);
+                float fUnitPaice = Float.parseFloat(strUnitPrice);
 
+                float fSellingPricec = fQuantity * fUnitPaice;
+
+                DefaultTableModel tableModel = (DefaultTableModel) tblAddedBomItems.getModel();
+                Item item = itemMap.get(strItemName);
+                tableModel.addRow(new Object[]{item.getItemCode(), strItemName, strQuantity, strUom, fUnitPaice, fSellingPricec});
+
+                BomItem bomItem = new BomItem();
+                bomItem.setItem(item);
+                bomItem.setBomItemQuantity(fQuantity);
+                bomItem.setSellingPrice(fSellingPricec);
+                bomItem.setUnitPrice(fUnitPaice);
+
+                this.addedItemMap.put(item.getItemName(), bomItem);
+
+                grandTotal += fSellingPricec;
+                txtBomSellingPrice.setText("" + grandTotal);
+            }
             cmbBomItem.setSelectedIndex(0);
             txtQuantity.setText("");
             cmbUom.setSelectedIndex(0);
@@ -728,6 +762,18 @@ public class BomFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtItemUnitPriceKeyPressed
 
+    private void cmbBomItemItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbBomItemItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            if (cmbBomItem.getSelectedIndex() != 0) {
+                String itemName = cmbBomItem.getSelectedItem().toString();
+                if (itemMap.containsKey(itemName)) {
+                    Item item = itemMap.get(itemName);
+                    txtItemUnitPrice.setText("" + this.getItemSellingPrice(item));
+                }
+            }
+        }
+    }//GEN-LAST:event_cmbBomItemItemStateChanged
+
     private void loadItems(Session session) {
         cmbMainItem.removeAllItems();
         cmbMainItem.addItem("");
@@ -769,6 +815,11 @@ public class BomFrame extends javax.swing.JInternalFrame {
         this.txtBomCode.setText(bomCode);
     }
 
+    public void setBomSellingPrice(float bomSellingPrice) {
+        this.txtBomSellingPrice.setText("" + bomSellingPrice);
+        this.grandTotal = bomSellingPrice;
+    }
+
     public void setMainItem(String item) {
         this.cmbMainItem.setSelectedItem(item);
     }
@@ -781,29 +832,25 @@ public class BomFrame extends javax.swing.JInternalFrame {
         this.cbxIsActive.setSelected(isActive);
     }
 
-    public void setAddedItems(List bomItems) {
+    public void setAddedItems(List<BomItem> bomItems) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         if (!bomItems.isEmpty()) {
             DefaultTableModel tableModel = (DefaultTableModel) tblAddedBomItems.getModel();
             tableModel.setRowCount(0);
-            for (Object object : bomItems) {
-                if (object instanceof BomItem) {
-                    BomItem bomItem = (BomItem) object;
+            for (BomItem bomItem : bomItems) {
+                Item item = (Item) session.createCriteria(Item.class)
+                        .add(Restrictions.eq("itemCode", bomItem.getItem().getItemCode()))
+                        .uniqueResult();
 
-                    Item item = (Item) session.createCriteria(Item.class)
-                            .add(Restrictions.eq("itemCode", bomItem.getItem().getItemCode()))
-                            .uniqueResult();
-
-                    Uom uom = (Uom) session.createCriteria(Uom.class)
-                            .add(Restrictions.eq("uomCode", bomItem.getUom().getUomCode()))
-                            .uniqueResult();
-                    tableModel.addRow(new Object[]{item.getItemCode(), 
-                        item.getItemName(), 
-                        bomItem.getBomItemQuantity(), 
-                        uom.getUomSymble(), 
-                        bomItem.getUnitPrice(), 
-                        bomItem.getSellingPrice()});
-                }
+                Uom uom = (Uom) session.createCriteria(Uom.class)
+                        .add(Restrictions.eq("uomCode", bomItem.getUom().getUomCode()))
+                        .uniqueResult();
+                tableModel.addRow(new Object[]{item.getItemCode(),
+                    item.getItemName(),
+                    bomItem.getBomItemQuantity(),
+                    uom.getUomSymble(),
+                    bomItem.getUnitPrice(),
+                    bomItem.getSellingPrice()});
             }
         }
     }
@@ -889,7 +936,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
         }
 
         session.saveOrUpdate(bom);
-        
+
         SellingPrice sellingPrice = new SellingPrice();
         sellingPrice.setItem(itemMap.get((String) cmbMainItem.getSelectedItem()));
         sellingPrice.setEffectiveDate(date);
@@ -897,7 +944,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
         sellingPrice.setCreatedDate(date);
         sellingPrice.setCreatedTime(date);
         sellingPrice.setCreatedUser(MainFrame.user.getUserId());
-        
+
         session.saveOrUpdate(sellingPrice);
 
         Set bomItems = bom.getBomItems();
@@ -905,8 +952,9 @@ public class BomFrame extends javax.swing.JInternalFrame {
         if (bomItems.isEmpty()) {
             DefaultTableModel tableModel = (DefaultTableModel) tblAddedBomItems.getModel();
             KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+
             for (int i = 0; i < tableModel.getRowCount(); i++) {
-                BomItem bomItem = new BomItem();
+                BomItem bomItem = this.addedItemMap.get((String) tableModel.getValueAt(i, 1));
                 bomItem.setBom(bom);
                 bomItem.setBomItemCode(keyCodeFunctions.getKey("BOI", "Bill of metirial item code"));
                 bomItem.setItem(itemMap.get((String) tableModel.getValueAt(i, 1)));
@@ -939,6 +987,42 @@ public class BomFrame extends javax.swing.JInternalFrame {
             InformationDialog.showMessageBox("New entry created successfully", "Success", this);
         }
         this.clearAll();
+    }
+
+    private float getItemSellingPrice(Item item) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        List<SellingPrice> todaySellingPrices = session
+                .createCriteria(SellingPrice.class)
+                .add(Restrictions.eq("item", item))
+                .add(Restrictions.eq("effectiveDate", new Date()))
+                .addOrder(Order.desc("createdTime"))
+                .list();
+
+        if (todaySellingPrices.isEmpty()) {
+            List<SellingPrice> sellingPrices = session
+                    .createCriteria(SellingPrice.class)
+                    .add(Restrictions.eq("item", item))
+                    .add(Restrictions.le("effectiveDate", new Date()))
+                    .addOrder(Order.desc("effectiveDate"))
+                    .addOrder(Order.desc("createdTime"))
+                    .list();
+            if (sellingPrices.isEmpty()) {
+                session.close();
+                return 0.0f;
+            } else {
+                for (SellingPrice sellingPrice : sellingPrices) {
+                    session.close();
+                    return sellingPrice.getSellingPrice();
+                }
+            }
+        } else {
+            for (SellingPrice todaySellingPrice : todaySellingPrices) {
+                session.close();
+                return todaySellingPrice.getSellingPrice();
+            }
+        }
+        return 0.0f;
     }
 
     public void clearAll() {
@@ -987,5 +1071,6 @@ public class BomFrame extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
     private final TreeMap<String, Item> itemMap = new TreeMap<>();
     private final TreeMap<String, Uom> uomMap = new TreeMap<>();
+    private final TreeMap<String, BomItem> addedItemMap = new TreeMap<>();
     float grandTotal = 0.0f;
 }
