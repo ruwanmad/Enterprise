@@ -16,35 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `key_table`
---
-
-DROP TABLE IF EXISTS `key_table`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `key_table` (
-  `key_id` int(11) NOT NULL AUTO_INCREMENT,
-  `key_code` varchar(5) DEFAULT NULL,
-  `key_number` int(11) DEFAULT NULL,
-  `key_remark` varchar(45) DEFAULT NULL,
-  `isActive` int(11) DEFAULT '1',
-  `created_date` date DEFAULT NULL,
-  `created_time` time DEFAULT NULL,
-  `created_user` int(11) DEFAULT NULL,
-  `modified_date` date DEFAULT NULL,
-  `modified_time` time DEFAULT NULL,
-  `modified_user` int(11) DEFAULT NULL,
-  PRIMARY KEY (`key_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `key_table`
 --
 
 LOCK TABLES `key_table` WRITE;
 /*!40000 ALTER TABLE `key_table` DISABLE KEYS */;
-INSERT INTO `key_table` VALUES (1,'STO',1002,'Storage',NULL,'2017-10-05','15:34:11',1,NULL,NULL,NULL),(2,'RAC',1002,'Racks',NULL,'2017-10-05','15:35:40',1,NULL,NULL,NULL),(3,'SLT',1002,'Rack slots',NULL,'2017-10-05','15:36:24',1,NULL,NULL,NULL),(4,'LOC',1007,'Location',NULL,'2017-10-05','15:46:42',1,'2017-10-05','15:47:29',1),(5,'PRN',1002,'Printer',NULL,'2017-10-05','15:48:52',1,NULL,NULL,NULL),(6,'BOM',1002,'Bill of metirial codes',NULL,'2017-10-05','19:29:46',1,NULL,NULL,NULL),(7,'BOI',1002,'Bill of metirial item code',NULL,'2017-10-05','19:29:47',1,NULL,NULL,NULL),(8,'DRS',1011,'Direct sale',NULL,'2017-10-05','19:42:00',1,'2017-10-14','16:30:59',1),(9,'INV',1014,'Invoices',NULL,'2017-10-05','19:51:59',1,'2017-10-14','16:32:20',1),(10,'PAY',1013,'Payment',NULL,'2017-10-05','19:58:28',1,'2017-10-14','16:33:00',1),(11,'SVR',1008,'Service',NULL,'2017-10-06','22:52:36',1,'2017-10-14','16:32:16',1),(12,'BPT',1007,'Business partner code',NULL,'2017-10-07','17:18:16',1,'2017-10-07','17:35:31',1),(13,'ITM',1570,'Item code',1,'2017-10-07','17:18:16',1,NULL,NULL,NULL),(14,'ACC',1010,'Account codes',NULL,'2017-10-10','00:44:46',1,'2017-10-14','14:23:55',1);
+INSERT INTO `key_table` VALUES (1,'STO',1002,'Storage',1,'2017-10-05','15:34:11',1,NULL,NULL,NULL),(2,'RAC',1002,'Racks',1,'2017-10-05','15:35:40',1,NULL,NULL,NULL),(3,'SLT',1002,'Rack slots',1,'2017-10-05','15:36:24',1,NULL,NULL,NULL),(4,'LOC',1007,'Location',1,'2017-10-05','15:46:42',1,'2017-10-05','15:47:29',1),(5,'PRN',1002,'Printer',1,'2017-10-05','15:48:52',1,NULL,NULL,NULL),(12,'BPT',1008,'Business partner code',1,'2017-10-07','17:18:16',1,'2017-11-01','16:39:23',1),(14,'ACC',1014,'Account codes',1,'2017-10-10','00:44:46',1,'2017-10-15','17:40:40',1),(15,'BRN',1069,'Item brand codes',1,'2017-10-10','00:44:46',1,NULL,NULL,NULL),(16,'CAT',1008,'Category codes',1,'2017-10-10','00:44:46',1,NULL,NULL,NULL),(17,'SUB',1037,'Sun cstegory codes',1,'2017-10-10','00:44:46',1,NULL,NULL,NULL),(18,'ITM',2945,'Item codes',1,'2017-10-10','00:44:46',1,NULL,NULL,NULL),(23,'VEH',1002,'Vehivle',NULL,'2017-10-21','16:36:32',1,NULL,NULL,NULL),(24,'BOM',1002,'Bill of metirial codes',NULL,'2017-10-21','22:14:02',1,NULL,NULL,NULL),(25,'BOI',1007,'Bill of metirial item code',NULL,'2017-10-21','22:14:03',1,'2017-10-28','15:44:07',1),(26,'SVR',1005,'Service',NULL,'2017-10-28','14:34:06',1,'2017-11-01','19:55:16',1),(27,'INV',1005,'Invoices',NULL,'2017-10-28','14:58:35',1,'2017-11-01','19:55:20',1),(28,'PAY',1004,'Payment',NULL,'2017-10-28','14:58:53',1,'2017-10-28','20:53:22',1),(29,'ADD',1002,'Address code',NULL,'2017-11-01','16:39:09',1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `key_table` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-14 16:36:57
+-- Dump completed on 2017-11-01 23:28:44

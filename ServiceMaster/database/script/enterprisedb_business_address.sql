@@ -16,23 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `business_address`
---
-
-DROP TABLE IF EXISTS `business_address`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `business_address` (
-  `address_code` varchar(15) NOT NULL,
-  `business_partner_code` varchar(15) NOT NULL,
-  KEY `fk_business_address_address1_idx` (`address_code`),
-  KEY `fk_business_address_business_partner1_idx` (`business_partner_code`),
-  CONSTRAINT `fk_business_address_address1` FOREIGN KEY (`address_code`) REFERENCES `address` (`address_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_business_address_business_partner1` FOREIGN KEY (`business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `business_address`
 --
 
@@ -51,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-14 16:36:52
+-- Dump completed on 2017-11-01 23:28:33

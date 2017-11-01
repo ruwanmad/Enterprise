@@ -16,34 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `category`
---
-
-DROP TABLE IF EXISTS `category`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `category` (
-  `category_code` varchar(15) NOT NULL,
-  `category_name` varchar(20) DEFAULT NULL,
-  `isActive` int(11) DEFAULT '1',
-  `created_date` date DEFAULT NULL,
-  `created_time` time DEFAULT NULL,
-  `created_user` int(11) DEFAULT NULL,
-  `modified_date` date DEFAULT NULL,
-  `modified_time` time DEFAULT NULL,
-  `modified_user` int(11) DEFAULT NULL,
-  `remarks` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`category_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `category`
 --
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES ('CAT1000','CHEMICLE',1,NULL,NULL,NULL,'2017-10-05','15:52:25',1,'CHEMICLE'),('CAT1001','FILTERS',1,'2017-01-01','12:00:00',1,'2017-01-01','12:00:00',1,'FILTERS'),('CAT1002','LUBRICANTS',1,'2017-01-01','12:00:00',1,'2017-01-01','12:00:00',1,'LUBRICANTS'),('CAT1003','MICHELANIOUS',1,'2017-01-01','12:00:00',1,'2017-01-01','12:00:00',1,'MICHELANIOUS'),('CAT1004','SERVICES',1,'2017-01-01','12:00:00',1,'2017-01-01','12:00:00',1,'SERVICES'),('CAT1005','SPARE PARTS',1,'2017-01-01','12:00:00',1,'2017-01-01','12:00:00',1,'SPARE PARTS');
+INSERT INTO `category` VALUES ('CAT1000','ACID',1,'2017-01-01','12:00:00',1,'2017-01-01','12:00:00',1,'ACID'),('CAT1001','AIR FRESHENER',1,'2017-01-01','12:00:00',1,'2017-01-01','12:00:00',1,'AIR FRESHENER'),('CAT1002','CHEMICALS',1,'2017-01-01','12:00:00',1,'2017-01-01','12:00:00',1,'CHEMICALS'),('CAT1003','FILTERS',1,'2017-01-01','12:00:00',1,'2017-01-01','12:00:00',1,'FILTERS'),('CAT1004','LUBRICANTS',1,'2017-01-01','12:00:00',1,'2017-01-01','12:00:00',1,'LUBRICANTS'),('CAT1005','MICHELANIOUS',1,'2017-01-01','12:00:00',1,'2017-01-01','12:00:00',1,'MICHELANIOUS'),('CAT1006','SERVICES',1,'2017-01-01','12:00:00',1,'2017-01-01','12:00:00',1,'SERVICES'),('CAT1007','SPARE PARTS',1,'2017-01-01','12:00:00',1,'2017-01-01','12:00:00',1,'SPARE PARTS');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-14 16:36:50
+-- Dump completed on 2017-11-01 23:28:30

@@ -16,38 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `stock`
---
-
-DROP TABLE IF EXISTS `stock`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `stock` (
-  `stock_id` int(11) NOT NULL AUTO_INCREMENT,
-  `cost_price` float DEFAULT NULL,
-  `quantity` float DEFAULT NULL,
-  `isActive` int(11) DEFAULT '1',
-  `created_date` date DEFAULT NULL,
-  `created_time` time DEFAULT NULL,
-  `created_user` int(11) DEFAULT NULL,
-  `modified_date` date DEFAULT NULL,
-  `modified_time` time DEFAULT NULL,
-  `modified_user` int(11) DEFAULT NULL,
-  `remark` varchar(100) DEFAULT NULL,
-  `grn_grn_code` varchar(15) NOT NULL,
-  `item_code` varchar(15) NOT NULL,
-  `stock_status_id` int(11) NOT NULL,
-  PRIMARY KEY (`stock_id`),
-  KEY `fk_grn_line_grn1_idx` (`grn_grn_code`),
-  KEY `fk_stock_item1_idx` (`item_code`),
-  KEY `fk_stock_stock_status1_idx` (`stock_status_id`),
-  CONSTRAINT `fk_grn_line_grn1` FOREIGN KEY (`grn_grn_code`) REFERENCES `grn` (`grn_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_stock_item1` FOREIGN KEY (`item_code`) REFERENCES `item` (`item_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_stock_stock_status1` FOREIGN KEY (`stock_status_id`) REFERENCES `stock_status` (`stock_status_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `stock`
 --
 
@@ -65,4 +33,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-14 16:36:58
+-- Dump completed on 2017-11-01 23:28:45

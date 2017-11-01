@@ -16,36 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `license`
---
-
-DROP TABLE IF EXISTS `license`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `license` (
-  `id` int(11) NOT NULL,
-  `company_name` varchar(150) DEFAULT NULL,
-  `address_line1` varchar(100) DEFAULT NULL,
-  `address_line2` varchar(100) DEFAULT NULL,
-  `address_line3` varchar(100) DEFAULT NULL,
-  `telephone` varchar(15) DEFAULT NULL,
-  `fax` varchar(15) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
-  `web` varchar(45) DEFAULT NULL,
-  `vat_number` varchar(45) DEFAULT NULL,
-  `isActive` int(11) DEFAULT '1',
-  `created_date` date DEFAULT NULL,
-  `created_time` time DEFAULT NULL,
-  `created_user` int(11) DEFAULT NULL,
-  `modified_date` date DEFAULT NULL,
-  `modified_time` time DEFAULT NULL,
-  `modified_user` int(11) DEFAULT NULL,
-  `remark` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `license`
 --
 
@@ -64,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-14 16:36:56
+-- Dump completed on 2017-11-01 23:28:41

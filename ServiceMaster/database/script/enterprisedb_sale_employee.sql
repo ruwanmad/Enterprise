@@ -16,31 +16,11 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `sale_employee`
---
-
-DROP TABLE IF EXISTS `sale_employee`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sale_employee` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `business_partner_code` varchar(15) NOT NULL,
-  `sale_code` varchar(15) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_sale_employee_business_partner1_idx` (`business_partner_code`),
-  KEY `fk_sale_employee_sale1_idx` (`sale_code`),
-  CONSTRAINT `fk_sale_employee_business_partner1` FOREIGN KEY (`business_partner_code`) REFERENCES `business_partner` (`business_partner_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_sale_employee_sale1` FOREIGN KEY (`sale_code`) REFERENCES `sale` (`sale_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `sale_employee`
 --
 
 LOCK TABLES `sale_employee` WRITE;
 /*!40000 ALTER TABLE `sale_employee` DISABLE KEYS */;
-INSERT INTO `sale_employee` VALUES (1,'BPT1003','SVR1004'),(2,'BPT1004','SVR1004');
 /*!40000 ALTER TABLE `sale_employee` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +33,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-14 16:36:56
+-- Dump completed on 2017-11-01 23:28:42

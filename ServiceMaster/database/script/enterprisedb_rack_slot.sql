@@ -16,31 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `rack_slot`
---
-
-DROP TABLE IF EXISTS `rack_slot`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `rack_slot` (
-  `rack_slot_code` varchar(15) NOT NULL,
-  `rack_slot_name` varchar(45) DEFAULT NULL,
-  `isActive` int(11) DEFAULT NULL,
-  `created_date` date DEFAULT NULL,
-  `created_time` time DEFAULT NULL,
-  `created_user` int(11) DEFAULT NULL,
-  `modified_date` date DEFAULT NULL,
-  `modified_time` time DEFAULT NULL,
-  `modified_user` int(11) DEFAULT NULL,
-  `remark` varchar(45) DEFAULT NULL,
-  `rack_code` varchar(10) NOT NULL,
-  PRIMARY KEY (`rack_slot_code`),
-  KEY `fk_rack_slot_rack1_idx` (`rack_code`),
-  CONSTRAINT `fk_rack_slot_rack1` FOREIGN KEY (`rack_code`) REFERENCES `rack` (`rack_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `rack_slot`
 --
 
@@ -59,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-14 16:36:49
+-- Dump completed on 2017-11-01 23:28:29
