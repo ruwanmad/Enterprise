@@ -622,7 +622,8 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddMouseExited
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        String strItemName = ((String) cmbBomItem.getSelectedItem()).trim();
+        String strItemName = ((String) cmbBomItem.getSelectedItem()).split("-")[0].trim();
+        String strItemCode = ((String) cmbBomItem.getSelectedItem()).split("-")[1].trim();
         String strQuantity = txtQuantity.getText().trim();
         String strUom = ((String) cmbUom.getSelectedItem()).trim();
         String strUnitPrice = txtItemUnitPrice.getText().trim();
@@ -631,7 +632,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
             InformationDialog.showMessageBox("Please enter valid details", "Invalid", this);
         } else {
 
-            if (this.addedItemMap.containsKey(strItemName)) {
+            if (this.addedItemMap.containsKey(strItemCode)) {
                 InformationDialog.showMessageBox("This item is already added to current BOM", "Already Added", this);
             } else {
                 float fQuantity = Float.parseFloat(strQuantity);
@@ -640,8 +641,8 @@ public class BomFrame extends javax.swing.JInternalFrame {
                 float fSellingPricec = fQuantity * fUnitPaice;
 
                 DefaultTableModel tableModel = (DefaultTableModel) tblAddedBomItems.getModel();
-                Item item = itemMap.get(strItemName);
-                tableModel.addRow(new Object[]{item.getItemCode(), strItemName, strQuantity, strUom, fUnitPaice, fSellingPricec});
+                Item item = itemMap.get(strItemCode);
+                tableModel.addRow(new Object[]{strItemCode, strItemName, strQuantity, strUom, fUnitPaice, fSellingPricec});
 
                 BomItem bomItem = new BomItem();
                 bomItem.setItem(item);
@@ -649,7 +650,7 @@ public class BomFrame extends javax.swing.JInternalFrame {
                 bomItem.setSellingPrice(fSellingPricec);
                 bomItem.setUnitPrice(fUnitPaice);
 
-                this.addedItemMap.put(item.getItemName(), bomItem);
+                this.addedItemMap.put(strItemCode, bomItem);
 
                 grandTotal += fSellingPricec;
                 txtBomSellingPrice.setText("" + grandTotal);
@@ -765,9 +766,9 @@ public class BomFrame extends javax.swing.JInternalFrame {
     private void cmbBomItemItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbBomItemItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             if (cmbBomItem.getSelectedIndex() != 0) {
-                String itemName = cmbBomItem.getSelectedItem().toString();
-                if (itemMap.containsKey(itemName)) {
-                    Item item = itemMap.get(itemName);
+                String itemCode = cmbBomItem.getSelectedItem().toString().split("-")[1].trim();
+                if (itemMap.containsKey(itemCode)) {
+                    Item item = itemMap.get(itemCode);
                     txtItemUnitPrice.setText("" + this.getItemSellingPrice(item));
                 }
             }
@@ -779,17 +780,19 @@ public class BomFrame extends javax.swing.JInternalFrame {
         cmbMainItem.addItem("");
         cmbBomItem.removeAllItems();
         cmbBomItem.addItem("");
-        Query query = session.createQuery("from Item i order by i.itemName");
-        List list = query.list();
-        if (!list.isEmpty()) {
-            for (Object object : list) {
-                if (object instanceof Item) {
-                    Item item = (Item) object;
-                    String itemName = item.getItemName();
-                    cmbMainItem.addItem(itemName);
-                    cmbBomItem.addItem(itemName);
-                    itemMap.put(itemName, item);
-                }
+
+        List<Item> items = session
+                .createCriteria(Item.class)
+                .addOrder(Order.asc("itemName"))
+                .list();
+
+        if (!items.isEmpty()) {
+            for (Item item : items) {
+                String itemName = item.getItemName();
+                String itemCode = item.getItemCode();
+                cmbMainItem.addItem(itemName + " - " + itemCode);
+                cmbBomItem.addItem(itemName + " - " + itemCode);
+                itemMap.put(itemCode, item);
             }
         }
     }

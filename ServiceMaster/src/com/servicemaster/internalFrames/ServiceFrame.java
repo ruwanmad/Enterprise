@@ -1648,10 +1648,12 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         if (quantity != 0.0) {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
-            String itemName = txtItemName.getText().split("-")[0].trim();
+            String tempName = txtItemName.getText().trim();
+            String itemName = tempName.substring(0, tempName.lastIndexOf("-")).trim();
+            String tempItemCode = tempName.substring(tempName.lastIndexOf("-") + 1).trim();
             Item item = (Item) session
                     .createCriteria(Item.class)
-                    .add(Restrictions.eq("itemCode", (txtItemName.getText().split("-")[1]).trim()))
+                    .add(Restrictions.eq("itemCode", (tempItemCode)))
                     .uniqueResult();
 
             if (item.getFromBom()) {
