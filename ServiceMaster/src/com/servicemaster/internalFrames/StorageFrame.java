@@ -348,18 +348,15 @@ public class StorageFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCloseMouseExited
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
-        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            this.dispose();
-        }
+        this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnRacksMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRacksMouseEntered
-        // TODO add your handling code here:
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
     }//GEN-LAST:event_btnRacksMouseEntered
 
     private void btnRacksMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRacksMouseExited
-        // TODO add your handling code here:
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
     }//GEN-LAST:event_btnRacksMouseExited
 
     private void btnRacksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRacksActionPerformed

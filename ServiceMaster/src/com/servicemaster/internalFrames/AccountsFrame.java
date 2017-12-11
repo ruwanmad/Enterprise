@@ -417,10 +417,7 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCloseMouseExited
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
-        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            this.dispose();
-        }
+        this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
@@ -545,8 +542,8 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
     public void setAccountCodeEditable(boolean editable) {
         this.txtAccountCode.setEditable(editable);
     }
-    
-    public void setBtnSaveText(String text){
+
+    public void setBtnSaveText(String text) {
         this.btnSave.setText(text);
     }
 
@@ -562,7 +559,7 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
         this.cmbBusinessPartner.setSelectedIndex(0);
         this.cbxIsActive.setSelected(true);
         this.txtRemark.setText("");
-        
+
         this.setAccountCodeEditable(true);
         this.btnSave.setText("Save");
     }
@@ -582,13 +579,13 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
         account.setAccountCode(strAccountCode);
         account.setDescription(txtAccountName.getText().trim().toUpperCase());
         account.setSubAccount(subAccount);
-        
+
         if (!cmbBusinessPartner.getSelectedItem().toString().isEmpty()) {
             BusinessPartner businessPartner = (BusinessPartner) session
-                .createCriteria(BusinessPartner.class)
-                .add(Restrictions.eq("firstName", cmbBusinessPartner.getSelectedItem().toString().split(" ")[0].trim()))
-                .add(Restrictions.eq("lastName", cmbBusinessPartner.getSelectedItem().toString().split(" ")[1].trim()))
-                .uniqueResult();
+                    .createCriteria(BusinessPartner.class)
+                    .add(Restrictions.eq("firstName", cmbBusinessPartner.getSelectedItem().toString().split(" ")[0].trim()))
+                    .add(Restrictions.eq("lastName", cmbBusinessPartner.getSelectedItem().toString().split(" ")[1].trim()))
+                    .uniqueResult();
             account.setBusinessPartner(businessPartner);
         }
         account.setIsActive(cbxIsActive.isSelected() ? 1 : 0);

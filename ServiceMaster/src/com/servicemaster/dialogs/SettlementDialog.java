@@ -52,7 +52,7 @@ import org.hibernate.criterion.Restrictions;
  */
 public class SettlementDialog extends javax.swing.JDialog {
 
-    private final Sale sale;
+    private Sale sale;
     private Invoice invoice;
     private final String customerName;
 
@@ -68,6 +68,7 @@ public class SettlementDialog extends javax.swing.JDialog {
     public SettlementDialog(java.awt.Frame parent, boolean modal, Sale sale, Invoice invoice, String customerName) {
         super(parent, modal);
         initComponents();
+
         this.sale = sale;
         this.invoice = invoice;
         this.customerName = customerName;
@@ -202,6 +203,8 @@ public class SettlementDialog extends javax.swing.JDialog {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
+        sale = (Sale) session.load(Sale.class, sale.getSaleCode());
+
         if (invoice == null) {
             KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
             String invoiceCode;
@@ -291,23 +294,28 @@ public class SettlementDialog extends javax.swing.JDialog {
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 Transaction transaction = session.beginTransaction();
 
+                sale = (Sale) session.load(Sale.class, sale.getSaleCode());
+
                 Payment payment = new Payment(paymentCode, invoice, new PaymentType(cashSettlePanel.getPaymentTypeCode()));
+
+                float payingAmount;
                 if (balanceAmount < 0) {
                     payment.setAmount(nowPayingAmount);
-
                     SaleStatus saleStatus = (SaleStatus) session
                             .createCriteria(SaleStatus.class)
                             .add(Restrictions.eq("statusDescription", "PARTIALLY PAID"))
                             .uniqueResult();
                     sale.setSaleStatus(saleStatus);
+                    payingAmount = nowPayingAmount;
                 } else {
                     payment.setAmount(nowPayingAmount - balanceAmount);
                     SaleStatus saleStatus = (SaleStatus) session
                             .createCriteria(SaleStatus.class)
-                            .add(Restrictions.eq("statusDescription", "SETTLED"))
+                            .add(Restrictions.eq("statusDescription", "PAID"))
                             .uniqueResult();
                     sale.setSaleStatus(saleStatus);
                     sale.setPreviousMilage(sale.getCurrentMilage());
+                    payingAmount = (nowPayingAmount - balanceAmount);
                 }
                 payment.setCreatedDate(date);
                 payment.setCreatedTime(date);
@@ -370,8 +378,8 @@ public class SettlementDialog extends javax.swing.JDialog {
                 session.close();
 
                 PostAccounts accountPosting = new PostAccounts();
-                accountPosting.cashDebitPosting(debitAccount, invoice, "Cash settlemnt for " + sale.getSaleCode());
-                accountPosting.cashCreditPosting(creditAccount, invoice, "Cash settlemnt for " + sale.getSaleCode());
+                accountPosting.cashDebitPosting(debitAccount, invoice, "Cash settlemnt for " + sale.getSaleCode(), payingAmount);
+                accountPosting.cashCreditPosting(creditAccount, invoice, "Cash settlemnt for " + sale.getSaleCode(), payingAmount);
 
                 StockFunctions stockFunctions = new StockFunctions();
                 stockFunctions.reduceSaledStoke(sale.getSaleCode());
@@ -387,7 +395,7 @@ public class SettlementDialog extends javax.swing.JDialog {
                 String chequeNumber = chequeSettlePanel.txtChequeNumber.getText().trim();
                 Date chequeDate = chequeSettlePanel.dateChequeDate.getDate();
                 String customer = chequeSettlePanel.cmbCustomer.getSelectedItem().toString();
-                long creditDays = 0;
+                int creditDays = 0;
 
                 if (date != chequeDate) {
                     long lToday = date.getTime();
@@ -395,14 +403,16 @@ public class SettlementDialog extends javax.swing.JDialog {
 
                     long differece = lCheckDate - lToday;
 
-                    creditDays = TimeUnit.DAYS.convert(differece, TimeUnit.MILLISECONDS);
+                    creditDays = (int) TimeUnit.DAYS.convert(differece, TimeUnit.MILLISECONDS);
                 }
 
                 KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                String paymentCode = keyCodeFunctions.getKey("PAY", "Payment");
+                String paymentCode = keyCodeFunctions.getKey("SET", "Settlement");
 
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 Transaction transaction = session.beginTransaction();
+
+                sale = (Sale) session.load(Sale.class, sale.getSaleCode());
 
                 String customerCode = chequeSettlePanel.customerMap.get(customer);
 
@@ -417,7 +427,7 @@ public class SettlementDialog extends javax.swing.JDialog {
 
                     SaleStatus saleStatus = (SaleStatus) session
                             .createCriteria(SaleStatus.class)
-                            .add(Restrictions.eq("statusDescription", "PARTIALLY PAID"))
+                            .add(Restrictions.eq("statusDescription", "PARTIALLY SETTLED"))
                             .uniqueResult();
                     sale.setSaleStatus(saleStatus);
                 } else {
@@ -456,6 +466,7 @@ public class SettlementDialog extends javax.swing.JDialog {
                 List<Payment> payments = session
                         .createCriteria(Payment.class)
                         .add(Restrictions.eq("invoice", this.invoice))
+                        .add(Restrictions.like("paymentCode", "SET%"))
                         .addOrder(Order.asc("paymentCode"))
                         .list();
 
@@ -476,13 +487,13 @@ public class SettlementDialog extends javax.swing.JDialog {
                     }
                 }
 
-                Account deptersAccount = (Account) session
+                Account deptorAccount = (Account) session
                         .createCriteria(Account.class)
                         .add(Restrictions.eq("businessPartner", businessPartner))
                         .add(Restrictions.eq("subAccount", session.load(SubAccount.class, "SAC1002")))
                         .uniqueResult();
 
-                Account salesAccount = (Account) session
+                Account saleAccount = (Account) session
                         .createCriteria(Account.class)
                         .add(Restrictions.eq("accountCode", "ACC1001"))
                         .uniqueResult();
@@ -494,17 +505,17 @@ public class SettlementDialog extends javax.swing.JDialog {
 
                 Account uarAccount = (Account) session
                         .createCriteria(Account.class)
-                        .add(Restrictions.eq("accountCode", "ACC1005"))
+                        .add(Restrictions.eq("accountCode", "ACC1006"))
                         .uniqueResult();
 
                 transaction.commit();
                 session.close();
 
                 PostAccounts accountPosting = new PostAccounts();
-                accountPosting.chequeDebitPosting(deptersAccount, businessPartner, invoice, chequeDate, creditDays, chequeNumber, paymentCode);
-                accountPosting.chequeCreditPosting(salesAccount, businessPartner, invoice, chequeDate, creditDays, chequeNumber, paymentCode);
-                accountPosting.generalDebitPosting(cihAccount, businessPartner, invoice, "Cheque settlemnt for " + sale.getSaleCode());
-                accountPosting.generalCreditPosting(uarAccount, businessPartner, invoice, "Cheque settlemnt for " + sale.getSaleCode());
+                accountPosting.chequeDebitPosting(deptorAccount, businessPartner, invoice, 0, chequeDate, creditDays, chequeNumber, paymentCode);
+                accountPosting.chequeCreditPosting(saleAccount, businessPartner, invoice, 0, chequeDate, creditDays, chequeNumber, paymentCode);
+                accountPosting.chequeDebitPosting(cihAccount, businessPartner, invoice, 0, chequeDate, creditDays, chequeNumber, "Cheque settlemnt for " + sale.getSaleCode());
+                accountPosting.chequeCreditPosting(uarAccount, businessPartner, invoice, 0, chequeDate, creditDays, chequeNumber, "Cheque settlemnt for " + sale.getSaleCode());
 
                 StockFunctions stockFunctions = new StockFunctions();
                 stockFunctions.reduceSaledStoke(sale.getSaleCode());
@@ -522,12 +533,14 @@ public class SettlementDialog extends javax.swing.JDialog {
                 String customer = creditSettlePanel.cmbCustomer.getSelectedItem().toString();
 
                 KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                String paymentCode = keyCodeFunctions.getKey("PAY", "Payment");
+                String paymentCode = keyCodeFunctions.getKey("SET", "Settlement");
 
                 String customerCode = creditSettlePanel.customerMap.get(customer);
 
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 Transaction transaction = session.beginTransaction();
+
+                sale = (Sale) session.load(Sale.class, sale.getSaleCode());
 
                 BusinessPartner businessPartner = (BusinessPartner) session
                         .createCriteria(BusinessPartner.class)
@@ -540,7 +553,7 @@ public class SettlementDialog extends javax.swing.JDialog {
 
                     SaleStatus saleStatus = (SaleStatus) session
                             .createCriteria(SaleStatus.class)
-                            .add(Restrictions.eq("statusDescription", "PARTIALLY PAID"))
+                            .add(Restrictions.eq("statusDescription", "PARTIALLY SETTLED"))
                             .uniqueResult();
                     sale.setSaleStatus(saleStatus);
                 } else {
@@ -579,6 +592,7 @@ public class SettlementDialog extends javax.swing.JDialog {
                 List<Payment> payments = session
                         .createCriteria(Payment.class)
                         .add(Restrictions.eq("invoice", this.invoice))
+                        .add(Restrictions.like("paymentCode", "SET%"))
                         .addOrder(Order.asc("paymentCode"))
                         .list();
 
@@ -614,8 +628,8 @@ public class SettlementDialog extends javax.swing.JDialog {
                 session.close();
 
                 PostAccounts accountPosting = new PostAccounts();
-                accountPosting.creditDebitPosting(debitAccount, businessPartner, invoice, Long.parseLong(creditDays), "Credit settlemnt for " + sale.getSaleCode());
-                accountPosting.creditCreditPosting(creditAccount, businessPartner, invoice, Long.parseLong(creditDays), "Credit settlemnt for " + sale.getSaleCode());
+                accountPosting.creditDebitPosting(debitAccount, businessPartner, invoice, Integer.parseInt(creditDays), "Credit settlemnt for " + sale.getSaleCode());
+                accountPosting.creditCreditPosting(creditAccount, businessPartner, invoice, Integer.parseInt(creditDays), "Credit settlemnt for " + sale.getSaleCode());
 
                 StockFunctions stockFunctions = new StockFunctions();
                 stockFunctions.reduceSaledStoke(sale.getSaleCode());
@@ -634,10 +648,12 @@ public class SettlementDialog extends javax.swing.JDialog {
                 Date expireDate = creditCardSettlePanel.dateExpireDate.getDate();
 
                 KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                String paymentCode = keyCodeFunctions.getKey("PAY", "Payment");
+                String paymentCode = keyCodeFunctions.getKey("SET", "Settlement");
 
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 Transaction transaction = session.beginTransaction();
+
+                sale = (Sale) session.load(Sale.class, sale.getSaleCode());
 
                 Payment payment = new Payment(paymentCode, invoice, new PaymentType(creditCardSettlePanel.getPaymentTypeCode()));
                 if (balanceAmount < 0) {
@@ -645,7 +661,7 @@ public class SettlementDialog extends javax.swing.JDialog {
 
                     SaleStatus saleStatus = (SaleStatus) session
                             .createCriteria(SaleStatus.class)
-                            .add(Restrictions.eq("statusDescription", "PARTIALLY PAID"))
+                            .add(Restrictions.eq("statusDescription", "PARTIALLY SETTLED"))
                             .uniqueResult();
                     sale.setSaleStatus(saleStatus);
                 } else {
@@ -684,6 +700,7 @@ public class SettlementDialog extends javax.swing.JDialog {
                 List<Payment> payments = session
                         .createCriteria(Payment.class)
                         .add(Restrictions.eq("invoice", this.invoice))
+                        .add(Restrictions.like("paymentCode", "SET%"))
                         .addOrder(Order.asc("paymentCode"))
                         .list();
 
@@ -744,6 +761,11 @@ public class SettlementDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void printInvoice() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+
+        this.sale = (Sale) session.load(Sale.class, this.sale.getSaleCode());
+
         Set invoices = this.sale.getInvoices();
         if (invoices == null || invoices.isEmpty()) {
             KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
@@ -754,9 +776,6 @@ public class SettlementDialog extends javax.swing.JDialog {
                 invoiceCode = keyCodeFunctions.getKey("DIN", "Dummy Invoices");
             }
             Date date = new Date();
-
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
 
             SaleStatus saleStatus = (SaleStatus) session
                     .createCriteria(SaleStatus.class)
@@ -777,19 +796,26 @@ public class SettlementDialog extends javax.swing.JDialog {
             sale.setSaleStatus(saleStatus);
 
             session.saveOrUpdate(sale);
-
-            transaction.commit();
-            session.close();
         }
+
+        transaction.commit();
+        session.close();
 
         ConfirmationDialog.showMessageBox("Do you want to print the invoice?", "Print", null);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             PrintFunctions printFunctions = new PrintFunctions();
 
-            if (customerName.equalsIgnoreCase("cash")) {
-                printFunctions.printInvoice(this.sale.getSaleCode(), true);
+            String vehicleCode;
+            if (sale.getVehicle() == null) {
+                vehicleCode = null;
             } else {
-                printFunctions.printInvoice(this.sale.getSaleCode(), false);
+                vehicleCode = sale.getVehicle().getVehicleCode();
+            }
+
+            if (customerName.equalsIgnoreCase("cash")) {
+                printFunctions.printInvoice(this.sale.getSaleCode(), vehicleCode, true);
+            } else {
+                printFunctions.printInvoice(this.sale.getSaleCode(), vehicleCode, false);
             }
         }
     }

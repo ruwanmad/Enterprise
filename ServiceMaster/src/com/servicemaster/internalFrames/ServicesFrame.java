@@ -295,8 +295,11 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
         session.beginTransaction();
 
         Criteria serviceCriteria = session.createCriteria(Sale.class);
+        
+        serviceCriteria.add(Restrictions.ne("saleStatus", session.load(SaleStatus.class, new SaleStatus(4).getStatusId())));
         serviceCriteria.add(Restrictions.ne("saleStatus", session.load(SaleStatus.class, new SaleStatus(5).getStatusId())));
         serviceCriteria.add(Restrictions.ne("saleStatus", session.load(SaleStatus.class, new SaleStatus(6).getStatusId())));
+        serviceCriteria.add(Restrictions.ne("saleStatus", session.load(SaleStatus.class, new SaleStatus(7).getStatusId())));
 
         List list = serviceCriteria.list();
 
@@ -354,18 +357,17 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
             Sale sale = saleMap.get(value);
 
             if (serviceFrame != null) {
-                JOptionPane.showMessageDialog(this, "Please save and close opened service.", "Close", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                this.serviceFrame = new ServiceFrame(sale, this);
-                desktopPane.add(serviceFrame);
-                serviceFrame.setMaximum(true);
-
-                BasicInternalFrameUI internalFrameUI = (BasicInternalFrameUI) serviceFrame.getUI();
-                internalFrameUI.setNorthPane(null);
-                serviceFrame.setBorder(null);
-
-                serviceFrame.setVisible(true);
+                serviceFrame.dispose();
             }
+            this.serviceFrame = new ServiceFrame(sale, this);
+            desktopPane.add(serviceFrame);
+            serviceFrame.setMaximum(true);
+
+            BasicInternalFrameUI internalFrameUI = (BasicInternalFrameUI) serviceFrame.getUI();
+            internalFrameUI.setNorthPane(null);
+            serviceFrame.setBorder(null);
+
+            serviceFrame.setVisible(true);
             listServices.clearSelection();
         } catch (PropertyVetoException ex) {
             Logger.getLogger(ServicesFrame.class.getName()).log(Level.SEVERE, null, ex);

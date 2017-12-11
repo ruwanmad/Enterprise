@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Nov 1, 2017 5:06:11 PM by Hibernate Tools 4.3.1
+// Generated Dec 4, 2017 10:06:33 PM by Hibernate Tools 4.3.1
 
 import java.util.Date;
 import java.util.HashSet;

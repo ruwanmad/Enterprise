@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Nov 1, 2017 5:06:11 PM by Hibernate Tools 4.3.1
+// Generated Dec 4, 2017 10:06:33 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -19,6 +19,7 @@ public class Item  implements java.io.Serializable {
      private Uom uomByBuyingUom;
      private Uom uomBySellingUom;
      private String itemName;
+     private String printName;
      private String searchKey;
      private String issueMethod;
      private Float reorderQuantity;
@@ -58,7 +59,7 @@ public class Item  implements java.io.Serializable {
         this.issueMethodId = issueMethodId;
         this.itemTypeCode = itemTypeCode;
     }
-    public Item(String itemCode, Item item, ItemBrand itemBrand, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, String searchKey, String issueMethod, Float reorderQuantity, Float itemQuantity, Integer isPhysical, Integer isActive, Boolean fromBom, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, String rackSlotCode, int issueMethodId, String itemTypeCode, Set items, Set boms, Set grnLines, Set sellingPrices, Set saleItems, Set stocks, Set bomItems) {
+    public Item(String itemCode, Item item, ItemBrand itemBrand, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, String printName, String searchKey, String issueMethod, Float reorderQuantity, Float itemQuantity, Integer isPhysical, Integer isActive, Boolean fromBom, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, String rackSlotCode, int issueMethodId, String itemTypeCode, Set items, Set boms, Set grnLines, Set sellingPrices, Set saleItems, Set stocks, Set bomItems) {
        this.itemCode = itemCode;
        this.item = item;
        this.itemBrand = itemBrand;
@@ -66,6 +67,7 @@ public class Item  implements java.io.Serializable {
        this.uomByBuyingUom = uomByBuyingUom;
        this.uomBySellingUom = uomBySellingUom;
        this.itemName = itemName;
+       this.printName = printName;
        this.searchKey = searchKey;
        this.issueMethod = issueMethod;
        this.reorderQuantity = reorderQuantity;
@@ -140,6 +142,13 @@ public class Item  implements java.io.Serializable {
     
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+    public String getPrintName() {
+        return this.printName;
+    }
+    
+    public void setPrintName(String printName) {
+        this.printName = printName;
     }
     public String getSearchKey() {
         return this.searchKey;

@@ -66,8 +66,8 @@ Contributor(s):
     <mapping resource="com/servicemaster/models/BusinessAddress.hbm.xml"/>
     <mapping resource="com/servicemaster/models/SubAccount.hbm.xml"/>
     <mapping resource="com/servicemaster/models/PaymentType.hbm.xml"/>
-    <mapping resource="com/servicemaster/models/ServiceBay.hbm.xml"/>
     <mapping resource="com/servicemaster/models/ItemType.hbm.xml"/>
+    <mapping resource="com/servicemaster/models/ServiceBay.hbm.xml"/>
     <mapping resource="com/servicemaster/models/SubCategory.hbm.xml"/>
     <mapping resource="com/servicemaster/models/SaleStatus.hbm.xml"/>
     <mapping resource="com/servicemaster/models/TelephoneNumber.hbm.xml"/>

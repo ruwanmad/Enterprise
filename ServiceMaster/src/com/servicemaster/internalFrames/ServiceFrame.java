@@ -8,7 +8,6 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.dialogs.ItemSearchDialog;
 import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.dialogs.ShowEmployeeDialog;
 import com.servicemaster.forms.MainFrame;
@@ -46,7 +45,6 @@ import java.util.TreeMap;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
@@ -117,6 +115,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         lblCustomerName = new javax.swing.JLabel();
         lblAddress1 = new javax.swing.JLabel();
         lblAddress2 = new javax.swing.JLabel();
+        lblBpCode = new javax.swing.JLabel();
         ServiceDetailPanel = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         txtGrandSubTotal = new javax.swing.JFormattedTextField();
@@ -151,6 +150,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         btnSettle = new javax.swing.JButton();
         cbxUpdateDatabase = new javax.swing.JCheckBox();
         btnItemSearch = new javax.swing.JButton();
+        btnNewService = new javax.swing.JButton();
 
         itemDelete.setText("Delete");
         itemDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -285,6 +285,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         jLabel14.setText("Next Reading :");
 
         txtNextMilage.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtNextMilage.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNextMilageFocusLost(evt);
+            }
+        });
         txtNextMilage.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtNextMilageKeyPressed(evt);
@@ -417,7 +422,9 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblCustomerName, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE))
                     .addGroup(customerDetailPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addGroup(customerDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(lblBpCode, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(customerDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblAddress2, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
@@ -439,10 +446,12 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addGroup(customerDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblAddress1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblAddress2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(lblAddress3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(customerDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAddress3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblBpCode, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -780,7 +789,6 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         btnInvoice.setText("Invoice");
         btnInvoice.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
         btnInvoice.setContentAreaFilled(false);
-        btnInvoice.setEnabled(false);
         btnInvoice.setOpaque(true);
         btnInvoice.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -838,7 +846,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
         btnReset.setBackground(new java.awt.Color(150, 255, 150));
         btnReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        btnReset.setText("Reset");
+        btnReset.setText("Reset (F5)");
         btnReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
         btnReset.setContentAreaFilled(false);
         btnReset.setOpaque(true);
@@ -861,7 +869,6 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         btnSettle.setText("Settle");
         btnSettle.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
         btnSettle.setContentAreaFilled(false);
-        btnSettle.setEnabled(false);
         btnSettle.setOpaque(true);
         btnSettle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -896,6 +903,26 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        btnNewService.setBackground(new java.awt.Color(150, 255, 150));
+        btnNewService.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnNewService.setText("New (F1)");
+        btnNewService.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnNewService.setContentAreaFilled(false);
+        btnNewService.setOpaque(true);
+        btnNewService.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnNewServiceMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnNewServiceMouseExited(evt);
+            }
+        });
+        btnNewService.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewServiceActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
         buttonPanel.setLayout(buttonPanelLayout);
         buttonPanelLayout.setHorizontalGroup(
@@ -912,13 +939,15 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNewService, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnInvoice, btnReset, btnSave, btnSettle});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnInvoice, btnItemSearch, btnNewService, btnReset, btnSave, btnSettle});
 
         buttonPanelLayout.setVerticalGroup(
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -933,11 +962,34 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                     .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnNewService, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnInvoice, btnReset, btnSave, btnSettle, cbxUpdateDatabase});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnInvoice, btnItemSearch, btnNewService, btnReset, btnSave, btnSettle, cbxUpdateDatabase});
+
+        btnReset.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F5,0),"F5");
+        btnReset.getActionMap().put("F5", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnReset.doClick();
+            }
+        });
+        btnItemSearch.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2,0),"F2");
+        btnItemSearch.getActionMap().put("F2", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnItemSearch.doClick();
+            }
+        });
+        btnNewService.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F1,0),"F1");
+        btnNewService.getActionMap().put("F1", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnNewService.doClick();
+            }
+        });
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -999,19 +1051,16 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         this.loadVehicles(session);
         this.loadServiceBays(session);
 
-        session.close();
-
         if (sale == null) {
             cmbVehicle.requestFocus();
         } else {
-            session = HibernateUtil.getSessionFactory().openSession();
-
             cmbVehicle.setSelectedItem(sale.getVehicle().getVehicleNumber());
             txtLastMilage.setText(sale.getPreviousMilage() == null ? "" : "" + sale.getPreviousMilage());
             txtCurrentMilage.setText(sale.getCurrentMilage() == null ? "" : "" + sale.getCurrentMilage());
             txtNextMilage.setText(sale.getNextMilage() == null ? "" : "" + sale.getNextMilage());
 
             lblCustomerName.setText(sale.getVehicle().getBusinessPartner().getFirstName() + " " + sale.getVehicle().getBusinessPartner().getLastName());
+            lblBpCode.setText(sale.getVehicle().getBusinessPartner().getBusinessPartnerCode());
             Set businessAddresses = sale.getVehicle().getBusinessPartner().getBusinessAddresses();
             for (Object object : businessAddresses) {
                 if (object instanceof BusinessAddress) {
@@ -1073,8 +1122,6 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
             this.btnSave.setText("Update");
 
-            session.close();
-
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
@@ -1082,15 +1129,12 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 }
             });
 
+            sale = (Sale) session.load(Sale.class, sale.getSaleCode());
+
             getRootPane().setBorder(BorderFactory.createLineBorder(SystemData.BORDER_COLOR, 2));
         }
 
-        SearchAction searchAction = new SearchAction(this);
-        String searchKey = "Search (F2)";
-        btnItemSearch.setAction(searchAction);
-        btnItemSearch.setText(searchKey);
-        btnItemSearch.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), searchKey);
-        btnItemSearch.getActionMap().put(searchKey, searchAction);
+        session.close();
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void cmbVehicleItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbVehicleItemStateChanged
@@ -1128,6 +1172,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                     this.lblAddress2.setText("");
                     this.lblAddress3.setText("");
                 }
+
+                lblBpCode.setText(businessPartner.getBusinessPartnerCode().trim());
 
                 List<Sale> sales = session
                         .createCriteria(Sale.class)
@@ -1327,6 +1373,8 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
         session.getTransaction().commit();
         session.close();
+
+        cmbVehicle.requestFocus();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnInvoiceMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInvoiceMouseEntered
@@ -1338,6 +1386,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnInvoiceMouseExited
 
     private void btnInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvoiceActionPerformed
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+
+        this.sale = (Sale) session.load(Sale.class, sale.getSaleCode());
+
         if (sale.getInvoices().isEmpty()) {
             KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
             String invoiceCode;
@@ -1347,9 +1400,6 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 invoiceCode = keyCodeFunctions.getKey("DIN", "Dummy Invoices");
             }
             Date date = new Date();
-
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
 
             SaleStatus saleStatus = (SaleStatus) session
                     .createCriteria(SaleStatus.class)
@@ -1370,20 +1420,27 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             sale.setSaleStatus(saleStatus);
 
             session.saveOrUpdate(sale);
-
-            transaction.commit();
-            session.close();
         }
+
+        transaction.commit();
+        session.close();
 
         ConfirmationDialog.showMessageBox("Do you want to print the invoice?", "Print", null);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             PrintFunctions printFunctions = new PrintFunctions();
 
+            String vehicleCode;
+            if (sale.getVehicle() == null) {
+                vehicleCode = null;
+            } else {
+                vehicleCode = sale.getVehicle().getVehicleCode();
+            }
+
             String customerName = lblCustomerName.getText().trim();
             if (customerName.equalsIgnoreCase("cash")) {
-                printFunctions.printInvoice(sale.getSaleCode(), true);
+                printFunctions.printInvoice(sale.getSaleCode(), vehicleCode, true);
             } else {
-                printFunctions.printInvoice(sale.getSaleCode(), false);
+                printFunctions.printInvoice(sale.getSaleCode(), vehicleCode, false);
             }
         }
 
@@ -1399,198 +1456,216 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSaveMouseExited
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if (sale != null) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
+        if (this.validateServiceItems()) {
+            if (sale != null) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                session.beginTransaction();
 
-            Vehicle vehicle = (Vehicle) session
-                    .createCriteria(Vehicle.class)
-                    .add(Restrictions.eq("vehicleNumber", ((String) cmbVehicle.getSelectedItem()).trim()))
-                    .uniqueResult();
+                sale = (Sale) session.load(Sale.class, sale.getSaleCode());
 
-            ServiceBay serviceBay = (ServiceBay) session
-                    .createCriteria(ServiceBay.class)
-                    .add(Restrictions.eq("serviceBayName", ((String) cmbServiceBay.getSelectedItem()).trim()))
-                    .uniqueResult();
-
-            SaleStatus saleStatus = (SaleStatus) session
-                    .createCriteria(SaleStatus.class)
-                    .add(Restrictions.eq("statusDescription", "OPEN"))
-                    .uniqueResult();
-
-            Date date = dateServiceDate.getDate();
-            Date time = new Date();
-
-            sale.setCurrentMilage(Float.parseFloat(txtCurrentMilage.getText().trim().isEmpty() ? "0.0" : txtCurrentMilage.getText().trim()));
-            sale.setNextMilage(Float.parseFloat(txtNextMilage.getText().trim().isEmpty() ? "0.0" : txtNextMilage.getText().trim()));
-            sale.setSubTotal(grandSubTotal);
-            sale.setDiscount(grandDiscount);
-            sale.setGrandTotal(grandTotal);
-            if (grandDiscount > 0.0) {
-                sale.setDiscounted(1);
-            } else {
-                sale.setDiscounted(0);
-            }
-            sale.setModifiedDate(date);
-            sale.setModifiedTime(time);
-            sale.setModifiedUser(MainFrame.user.getUserId());
-            sale.setServiceBay(serviceBay);
-            sale.setVehicle(vehicle);
-            sale.setSaleStatus(saleStatus);
-
-            session.saveOrUpdate(sale);
-
-            SaleItemStatus saleItemStatus = (SaleItemStatus) session
-                    .createCriteria(SaleItemStatus.class)
-                    .add(Restrictions.eq("itemStatusDescription", "ACTIVE"))
-                    .uniqueResult();
-
-            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                String itemCode = (String) tblItems.getValueAt(i, 0);
-                String itemName = (String) tblItems.getValueAt(i, 1);
-                float quantity = (float) tblItems.getValueAt(i, 2);
-                float unitPrice = (float) tblItems.getValueAt(i, 3);
-                float subTotal = (float) tblItems.getValueAt(i, 4);
-                float discount = (float) tblItems.getValueAt(i, 5);
-                float itemTotal = (float) tblItems.getValueAt(i, 6);
-
-                SaleItem serviceHasItem = saleItemMap.get(itemCode);
-                if (serviceHasItem == null) {
-                    serviceHasItem = new SaleItem();
-                    Item item = (Item) session.createCriteria(Item.class)
-                            .add(Restrictions.eq("itemCode", itemCode))
-                            .uniqueResult();
-                    serviceHasItem.setItem(item);
-                    serviceHasItem.setSale(sale);
-                }
-                serviceHasItem.setUnitPrice(unitPrice);
-                serviceHasItem.setQuantity(quantity);
-                serviceHasItem.setSubTotal(subTotal);
-                serviceHasItem.setDiscount(discount);
-                serviceHasItem.setTotal(itemTotal);
-                serviceHasItem.setSaleItemStatus(saleItemStatus);
-                serviceHasItem.setModifiedDate(date);
-                serviceHasItem.setModifiedTime(time);
-                serviceHasItem.setModifiedUser(MainFrame.user.getUserId());
-                serviceHasItem.setRemark(itemName);
-
-                session.saveOrUpdate(serviceHasItem);
-            }
-
-            if (!this.employeeList.isEmpty()) {
-                for (String businessPartnerCode : employeeList) {
-                    BusinessPartner businessPartner = (BusinessPartner) session
-                            .createCriteria(BusinessPartner.class)
-                            .add(Restrictions.eq("businessPartnerCode", businessPartnerCode))
-                            .uniqueResult();
-
-                    SaleEmployee saleEmployee = new SaleEmployee();
-                    saleEmployee.setSale(sale);
-                    saleEmployee.setBusinessPartner(businessPartner);
-                    session.saveOrUpdate(saleEmployee);
-                }
-            }
-
-            session.getTransaction().commit();
-            session.close();
-        } else {
-            String saleCode;
-            KeyCodeFunctions codeFunctions = new KeyCodeFunctions();
-            if (cbxUpdateDatabase.isSelected()) {
-                saleCode = codeFunctions.getKey("SVR", "Service");
-            } else {
-                saleCode = codeFunctions.getKey("DUM", "Dummy Service");
-            }
-
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-
-            Date date = dateServiceDate.getDate();
-            Date time = new Date();
-
-            Vehicle vehicle = (Vehicle) session
-                    .createCriteria(Vehicle.class)
-                    .add(Restrictions.eq("vehicleNumber", ((String) cmbVehicle.getSelectedItem()).trim()))
-                    .uniqueResult();
-
-            ServiceBay serviceBay = (ServiceBay) session
-                    .createCriteria(ServiceBay.class)
-                    .add(Restrictions.eq("serviceBayName", ((String) cmbServiceBay.getSelectedItem()).trim()))
-                    .uniqueResult();
-
-            SaleStatus saleStatus = (SaleStatus) session
-                    .createCriteria(SaleStatus.class)
-                    .add(Restrictions.eq("statusDescription", "OPEN"))
-                    .uniqueResult();
-
-            sale = new Sale();
-            sale.setSaleCode(saleCode);
-            sale.setCurrentMilage(Float.parseFloat(txtCurrentMilage.getText().trim()));
-            sale.setNextMilage(Float.parseFloat(txtNextService.getText().trim()));
-            sale.setSubTotal(grandSubTotal);
-            sale.setDiscount(grandDiscount);
-            sale.setGrandTotal(grandTotal);
-            if (grandDiscount > 0.0) {
-                sale.setDiscounted(1);
-            } else {
-                sale.setDiscounted(0);
-            }
-            sale.setCreatedDate(date);
-            sale.setCreatedTime(time);
-            sale.setCreatedUser(MainFrame.user.getUserId());
-            sale.setServiceBay(serviceBay);
-            sale.setVehicle(vehicle);
-            sale.setSaleStatus(saleStatus);
-
-            session.saveOrUpdate(sale);
-
-            SaleItemStatus saleItemStatus = (SaleItemStatus) session
-                    .createCriteria(SaleItemStatus.class)
-                    .add(Restrictions.eq("itemStatusDescription", "ACTIVE"))
-                    .uniqueResult();
-
-            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                String itemCode = (String) tblItems.getValueAt(i, 0);
-                String itemName = (String) tblItems.getValueAt(i, 1);
-                float quantity = (float) tblItems.getValueAt(i, 2);
-                float unitPrice = (float) tblItems.getValueAt(i, 3);
-                float subTotal = (float) tblItems.getValueAt(i, 4);
-                float discount = (float) tblItems.getValueAt(i, 5);
-                float itemTotal = (float) tblItems.getValueAt(i, 6);
-
-                Item item = (Item) session
-                        .createCriteria(Item.class)
-                        .add(Restrictions.eq("itemCode", itemCode))
+                Vehicle vehicle = (Vehicle) session
+                        .createCriteria(Vehicle.class)
+                        .add(Restrictions.eq("vehicleNumber", ((String) cmbVehicle.getSelectedItem()).trim()))
                         .uniqueResult();
 
-                SaleItem saleItem = new SaleItem();
-                saleItem.setItem(item);
-                saleItem.setSale(sale);
-                saleItem.setUnitPrice(unitPrice);
-                saleItem.setQuantity(quantity);
-                saleItem.setSubTotal(subTotal);
-                saleItem.setDiscount(discount);
-                saleItem.setTotal(itemTotal);
-                saleItem.setSaleItemStatus(saleItemStatus);
-                saleItem.setCreatedDate(date);
-                saleItem.setCreatedTime(time);
-                saleItem.setCreatedUser(MainFrame.user.getUserId());
-                saleItem.setRemark(itemName);
+                BusinessPartner businessPartner = (BusinessPartner) session
+                        .createCriteria(BusinessPartner.class)
+                        .add(Restrictions.eq("businessPartnerCode", lblBpCode.getText().trim()))
+                        .uniqueResult();
 
-                saleItemMap.put(itemCode, saleItem);
+                ServiceBay serviceBay = (ServiceBay) session
+                        .createCriteria(ServiceBay.class)
+                        .add(Restrictions.eq("serviceBayName", ((String) cmbServiceBay.getSelectedItem()).trim()))
+                        .uniqueResult();
 
-                session.saveOrUpdate(saleItem);
+                SaleStatus saleStatus = (SaleStatus) session
+                        .createCriteria(SaleStatus.class)
+                        .add(Restrictions.eq("statusDescription", "OPEN"))
+                        .uniqueResult();
+
+                Date date = dateServiceDate.getDate();
+                Date time = new Date();
+
+                sale.setCurrentMilage(Float.parseFloat(txtCurrentMilage.getText().trim().isEmpty() ? "0.0" : txtCurrentMilage.getText().trim()));
+                sale.setNextMilage(Float.parseFloat(txtNextMilage.getText().trim().isEmpty() ? "0.0" : txtNextMilage.getText().trim()));
+                sale.setSubTotal(grandSubTotal);
+                sale.setDiscount(grandDiscount);
+                sale.setGrandTotal(grandTotal);
+                if (grandDiscount > 0.0) {
+                    sale.setDiscounted(1);
+                } else {
+                    sale.setDiscounted(0);
+                }
+                sale.setModifiedDate(date);
+                sale.setModifiedTime(time);
+                sale.setModifiedUser(MainFrame.user.getUserId());
+                sale.setServiceBay(serviceBay);
+                sale.setVehicle(vehicle);
+                sale.setBusinessPartner(businessPartner);
+                sale.setSaleStatus(saleStatus);
+
+                session.saveOrUpdate(sale);
+
+                SaleItemStatus saleItemStatus = (SaleItemStatus) session
+                        .createCriteria(SaleItemStatus.class)
+                        .add(Restrictions.eq("itemStatusDescription", "ACTIVE"))
+                        .uniqueResult();
+
+                DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                for (int i = 0; i < tableModel.getRowCount(); i++) {
+                    String itemCode = (String) tblItems.getValueAt(i, 0);
+                    String itemName = (String) tblItems.getValueAt(i, 1);
+                    float quantity = (float) tblItems.getValueAt(i, 2);
+                    float unitPrice = (float) tblItems.getValueAt(i, 3);
+                    float subTotal = (float) tblItems.getValueAt(i, 4);
+                    float discount = (float) tblItems.getValueAt(i, 5);
+                    float itemTotal = (float) tblItems.getValueAt(i, 6);
+
+                    SaleItem serviceHasItem = saleItemMap.get(itemCode);
+                    if (serviceHasItem == null) {
+                        serviceHasItem = new SaleItem();
+                        Item item = (Item) session.createCriteria(Item.class)
+                                .add(Restrictions.eq("itemCode", itemCode))
+                                .uniqueResult();
+                        serviceHasItem.setItem(item);
+                        serviceHasItem.setSale(sale);
+                    }
+                    serviceHasItem.setUnitPrice(unitPrice);
+                    serviceHasItem.setQuantity(quantity);
+                    serviceHasItem.setSubTotal(subTotal);
+                    serviceHasItem.setDiscount(discount);
+                    serviceHasItem.setTotal(itemTotal);
+                    serviceHasItem.setSaleItemStatus(saleItemStatus);
+                    serviceHasItem.setModifiedDate(date);
+                    serviceHasItem.setModifiedTime(time);
+                    serviceHasItem.setModifiedUser(MainFrame.user.getUserId());
+                    serviceHasItem.setRemark(itemName);
+
+                    session.saveOrUpdate(serviceHasItem);
+                }
+
+                if (!this.employeeList.isEmpty()) {
+                    for (String businessPartnerCode : employeeList) {
+                        BusinessPartner employee = (BusinessPartner) session
+                                .createCriteria(BusinessPartner.class)
+                                .add(Restrictions.eq("businessPartnerCode", businessPartnerCode))
+                                .uniqueResult();
+
+                        SaleEmployee saleEmployee = new SaleEmployee();
+                        saleEmployee.setSale(sale);
+                        saleEmployee.setBusinessPartner(employee);
+                        session.saveOrUpdate(saleEmployee);
+                    }
+                }
+
+                session.getTransaction().commit();
+                session.close();
+            } else {
+                String saleCode;
+                KeyCodeFunctions codeFunctions = new KeyCodeFunctions();
+                if (cbxUpdateDatabase.isSelected()) {
+                    saleCode = codeFunctions.getKey("SVR", "Service");
+                } else {
+                    saleCode = codeFunctions.getKey("DUM", "Dummy Service");
+                }
+
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                session.beginTransaction();
+
+                Date date = dateServiceDate.getDate();
+                Date time = new Date();
+
+                Vehicle vehicle = (Vehicle) session
+                        .createCriteria(Vehicle.class)
+                        .add(Restrictions.eq("vehicleNumber", ((String) cmbVehicle.getSelectedItem()).trim()))
+                        .uniqueResult();
+
+                BusinessPartner businessPartner = (BusinessPartner) session
+                        .createCriteria(BusinessPartner.class)
+                        .add(Restrictions.eq("businessPartnerCode", lblBpCode.getText().trim()))
+                        .uniqueResult();
+
+                ServiceBay serviceBay = (ServiceBay) session
+                        .createCriteria(ServiceBay.class)
+                        .add(Restrictions.eq("serviceBayName", ((String) cmbServiceBay.getSelectedItem()).trim()))
+                        .uniqueResult();
+
+                SaleStatus saleStatus = (SaleStatus) session
+                        .createCriteria(SaleStatus.class)
+                        .add(Restrictions.eq("statusDescription", "OPEN"))
+                        .uniqueResult();
+
+                sale = new Sale();
+                sale.setSaleCode(saleCode);
+                sale.setCurrentMilage(Float.parseFloat(txtCurrentMilage.getText().trim()));
+                sale.setNextMilage(Float.parseFloat(txtNextService.getText().trim()));
+                sale.setSubTotal(grandSubTotal);
+                sale.setDiscount(grandDiscount);
+                sale.setGrandTotal(grandTotal);
+                if (grandDiscount > 0.0) {
+                    sale.setDiscounted(1);
+                } else {
+                    sale.setDiscounted(0);
+                }
+                sale.setCreatedDate(date);
+                sale.setCreatedTime(time);
+                sale.setCreatedUser(MainFrame.user.getUserId());
+                sale.setServiceBay(serviceBay);
+                sale.setVehicle(vehicle);
+                sale.setBusinessPartner(businessPartner);
+                sale.setSaleStatus(saleStatus);
+
+                session.saveOrUpdate(sale);
+
+                SaleItemStatus saleItemStatus = (SaleItemStatus) session
+                        .createCriteria(SaleItemStatus.class)
+                        .add(Restrictions.eq("itemStatusDescription", "ACTIVE"))
+                        .uniqueResult();
+
+                DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                for (int i = 0; i < tableModel.getRowCount(); i++) {
+                    String itemCode = (String) tblItems.getValueAt(i, 0);
+                    String itemName = (String) tblItems.getValueAt(i, 1);
+                    float quantity = (float) tblItems.getValueAt(i, 2);
+                    float unitPrice = (float) tblItems.getValueAt(i, 3);
+                    float subTotal = (float) tblItems.getValueAt(i, 4);
+                    float discount = (float) tblItems.getValueAt(i, 5);
+                    float itemTotal = (float) tblItems.getValueAt(i, 6);
+
+                    Item item = (Item) session
+                            .createCriteria(Item.class)
+                            .add(Restrictions.eq("itemCode", itemCode))
+                            .uniqueResult();
+
+                    SaleItem saleItem = new SaleItem();
+                    saleItem.setItem(item);
+                    saleItem.setSale(sale);
+                    saleItem.setUnitPrice(unitPrice);
+                    saleItem.setQuantity(quantity);
+                    saleItem.setSubTotal(subTotal);
+                    saleItem.setDiscount(discount);
+                    saleItem.setTotal(itemTotal);
+                    saleItem.setSaleItemStatus(saleItemStatus);
+                    saleItem.setCreatedDate(date);
+                    saleItem.setCreatedTime(time);
+                    saleItem.setCreatedUser(MainFrame.user.getUserId());
+                    saleItem.setRemark(itemName);
+
+                    saleItemMap.put(itemCode, saleItem);
+
+                    session.saveOrUpdate(saleItem);
+                }
+
+                session.getTransaction().commit();
+                session.close();
             }
-
-            session.getTransaction().commit();
-            session.close();
+            btnInvoice.setEnabled(true);
+            btnSettle.setEnabled(true);
+            InformationDialog.showMessageBox("Updated successfully", "Success", null);
+            this.servicesFrame.loadServices();
+        } else {
+            InformationDialog.showMessageBox("Plaese add items before save", "Invalid", null);
         }
-        btnInvoice.setEnabled(true);
-        btnSettle.setEnabled(true);
-        InformationDialog.showMessageBox("Updated successfully", "Success", null);
-        this.servicesFrame.loadServices();
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
@@ -1685,6 +1760,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                     txtItemSearchCode.setText("");
                     txtItemName.setText("");
                     txtQuantity.setText("0.0");
+                    txtUnitPrice.setText("0.0");
                     txtDiscount.setText("0.0");
                     rbtPercentage.setSelected(true);
 
@@ -1727,6 +1803,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
                         txtItemName.setText("");
                         txtQuantity.setText("0.0");
+                        txtUnitPrice.setText("0.0");
                         txtDiscount.setText("0.0");
                         rbtPercentage.setSelected(true);
 
@@ -1803,6 +1880,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
                 txtItemSearchCode.setText("");
                 txtItemName.setText("");
                 txtQuantity.setText("0.0");
+                txtUnitPrice.setText("0.0");
                 txtDiscount.setText("0.0");
                 rbtPercentage.setSelected(true);
 
@@ -1830,16 +1908,16 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
 
     private void txtNextMilageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNextMilageKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String nextService = txtNextMilage.getText().trim();
-            String currentService = txtCurrentMilage.getText().trim();
-            if (!nextService.isEmpty() && !currentService.isEmpty()) {
-                int current = Integer.parseInt(currentService);
-                int next = Integer.parseInt(nextService);
-
-                next = current + next;
-
-                txtNextService.setText("" + next);
-            }
+//            String nextService = txtNextMilage.getText().trim();
+//            String currentService = txtCurrentMilage.getText().trim();
+//            if (!nextService.isEmpty() && !currentService.isEmpty()) {
+//                int current = Integer.parseInt(currentService);
+//                int next = Integer.parseInt(nextService);
+//
+//                next = current + next;
+//
+//                txtNextService.setText("" + next);
+//            }
             cmbServiceBay.requestFocus();
         }
     }//GEN-LAST:event_txtNextMilageKeyPressed
@@ -1933,6 +2011,33 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         });
     }//GEN-LAST:event_txtItemSearchCodeFocusGained
 
+    private void btnNewServiceMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewServiceMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnNewServiceMouseEntered
+
+    private void btnNewServiceMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewServiceMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnNewServiceMouseExited
+
+    private void btnNewServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewServiceActionPerformed
+        this.clearAll();
+        this.sale = null;
+        cmbVehicle.requestFocus();
+    }//GEN-LAST:event_btnNewServiceActionPerformed
+
+    private void txtNextMilageFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNextMilageFocusLost
+        String nextService = txtNextMilage.getText().trim();
+        String currentService = txtCurrentMilage.getText().trim();
+        if (!nextService.isEmpty() && !currentService.isEmpty()) {
+            int current = Integer.parseInt(currentService);
+            int next = Integer.parseInt(nextService);
+
+            next = current + next;
+
+            txtNextService.setText("" + next);
+        }
+    }//GEN-LAST:event_txtNextMilageFocusLost
+
     private void loadVehicles(Session session) {
         Query query = session.createQuery("from Vehicle v order by v.vehicleNumber");
         List list = query.list();
@@ -1970,6 +2075,9 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         cmbVehicle.setSelectedIndex(0);
         cmbVehicle.requestFocus();
         txtLastMilage.setText("");
+        txtCurrentMilage.setText("");
+        txtNextMilage.setText("");
+        txtNextService.setText("");
         lblCustomerName.setText("");
         lblAddress1.setText("");
         lblAddress2.setText("");
@@ -1990,52 +2098,18 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         tableModel.setRowCount(0);
     }
 
-    private float getItemSellingPrice(Item item) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
-        List<SellingPrice> todaySellingPrices = session
-                .createCriteria(SellingPrice.class)
-                .add(Restrictions.eq("item", item))
-                .add(Restrictions.eq("effectiveDate", new Date()))
-                .addOrder(Order.desc("createdTime"))
-                .list();
-
-        if (todaySellingPrices.isEmpty()) {
-            List<SellingPrice> sellingPrices = session
-                    .createCriteria(SellingPrice.class)
-                    .add(Restrictions.eq("item", item))
-                    .add(Restrictions.le("effectiveDate", new Date()))
-                    .addOrder(Order.desc("effectiveDate"))
-                    .addOrder(Order.desc("createdTime"))
-                    .list();
-            if (sellingPrices.isEmpty()) {
-                session.close();
-                return 0.0f;
-            } else {
-                for (SellingPrice sellingPrice : sellingPrices) {
-                    session.close();
-                    return sellingPrice.getSellingPrice();
-                }
-            }
-        } else {
-            for (SellingPrice todaySellingPrice : todaySellingPrices) {
-                session.close();
-                return todaySellingPrice.getSellingPrice();
-            }
-        }
-        return 0.0f;
-    }
-
     private void ItemEdit() {
         int row = tblItems.getSelectedRow();
         if (row != -1) {
+            String itemCode = (String) tblItems.getValueAt(row, 0);
             String itemName = (String) tblItems.getValueAt(row, 1);
             float quantity = (Float) tblItems.getValueAt(row, 2);
             float unitPrice = (Float) tblItems.getValueAt(row, 3);
             float discount = (Float) tblItems.getValueAt(row, 5);
 
-            txtItemName.setText(itemName);
+            txtItemName.setText(itemName + " - " + itemCode);
             txtQuantity.setText("" + quantity);
+            txtUnitPrice.setText("" + unitPrice);
             txtDiscount.setText("0.0");
 
             DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
@@ -2056,20 +2130,10 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
         }
     }
 
-    private class SearchAction extends AbstractAction {
-
-        private final JInternalFrame internalFrame;
-
-        public SearchAction(JInternalFrame internalFrame) {
-            this.internalFrame = internalFrame;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            ItemSearchDialog itemSearchDialog = new ItemSearchDialog(null, true, internalFrame);
-            itemSearchDialog.setVisible(true);
-        }
-    };
+    boolean validateServiceItems() {
+        DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+        return tableModel.getRowCount() > 0;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ServiceDetailPanel;
@@ -2079,6 +2143,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnInvoice;
     private javax.swing.JButton btnItemSearch;
     private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnNewService;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSave;
@@ -2115,6 +2180,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblAddress1;
     private javax.swing.JLabel lblAddress2;
     private javax.swing.JLabel lblAddress3;
+    private javax.swing.JLabel lblBpCode;
     private javax.swing.JLabel lblCustomerName;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JRadioButton rbtNumber;

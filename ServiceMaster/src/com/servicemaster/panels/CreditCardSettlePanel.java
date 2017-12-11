@@ -314,7 +314,7 @@ public class CreditCardSettlePanel extends javax.swing.JPanel {
 
     private void dateExpireDateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dateExpireDateKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            cmbBank.requestFocus();
+            settlementDialog.btnSettle.requestFocus();
         }
     }//GEN-LAST:event_dateExpireDateKeyPressed
 

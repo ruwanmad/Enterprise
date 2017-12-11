@@ -295,6 +295,7 @@ public class CreditSettlePanel extends javax.swing.JPanel {
                 currentDate += iCreditDays;
                 calendar.set(Calendar.DAY_OF_YEAR, currentDate);
                 txtDueDate.setText(SystemData.DATE_FORMAT.format(calendar.getTime()));
+                settlementDialog.btnSettle.requestFocus();
             }
         }
     }//GEN-LAST:event_txtCreditDaysKeyPressed

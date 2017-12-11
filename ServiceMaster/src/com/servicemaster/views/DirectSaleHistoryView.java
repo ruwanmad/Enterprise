@@ -369,8 +369,15 @@ public class DirectSaleHistoryView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void reprintInvoice(Sale sale) {
+        String vehicleCode;
+        if (sale.getVehicle() == null) {
+            vehicleCode = null;
+        } else {
+            vehicleCode = sale.getVehicle().getVehicleCode();
+        }
+
         PrintFunctions printFunctions = new PrintFunctions();
-        printFunctions.printInvoice(sale.getSaleCode(), true);
+        printFunctions.printInvoice(sale.getSaleCode(), vehicleCode, true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

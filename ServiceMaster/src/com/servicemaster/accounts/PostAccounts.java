@@ -26,18 +26,17 @@ public class PostAccounts {
 
     public void cashDebitPosting(Account debitAccount,
             Invoice invoice,
-            String narration) {
+            String narration,
+            float amount) {
         if (debitAccount != null) {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
 
             Date date = new Date();
 
-            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
-
             AccountPosting posting = new AccountPosting();
             posting.setAccount(debitAccount);
-            posting.setDebit(sale.getGrandTotal());
+            posting.setDebit(amount);
             posting.setInvoice(invoice);
             posting.setCreatedDate(date);
             posting.setCreatedTime(date);
@@ -55,8 +54,9 @@ public class PostAccounts {
     public void chequeDebitPosting(Account debitAccount,
             BusinessPartner businessPartner,
             Invoice invoice,
+            float amount,
             Date chequeDate,
-            long creditDays,
+            int creditDays,
             String chequeNumber,
             String narration) {
         if (debitAccount != null) {
@@ -65,11 +65,20 @@ public class PostAccounts {
 
             Date date = new Date();
 
-            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+            Sale sale;
+            if (invoice != null) {
+                sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+            } else {
+                sale = null;
+            }
 
             AccountPosting posting = new AccountPosting();
             posting.setAccount(debitAccount);
-            posting.setDebit(sale.getGrandTotal());
+            if (sale != null) {
+                posting.setDebit(sale.getGrandTotal());
+            } else {
+                posting.setDebit(amount);
+            }
             posting.setBusinessPartner(businessPartner);
             posting.setChequeDate(chequeDate);
             posting.setNumberOfDays(creditDays);
@@ -91,7 +100,7 @@ public class PostAccounts {
     public void creditDebitPosting(Account debitAccount,
             BusinessPartner businessPartner,
             Invoice invoice,
-            long cretidDays,
+            int cretidDays,
             String narration) {
         if (debitAccount != null) {
             Session session = HibernateUtil.getSessionFactory().openSession();
@@ -155,7 +164,7 @@ public class PostAccounts {
 
     public void generalDebitPosting(Account creditAccount,
             BusinessPartner businessPartner,
-            Invoice invoice,
+            float amount,
             String narration) {
         if (creditAccount != null) {
             Session session = HibernateUtil.getSessionFactory().openSession();
@@ -163,13 +172,10 @@ public class PostAccounts {
 
             Date date = new Date();
 
-            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
-
             AccountPosting posting = new AccountPosting();
             posting.setAccount(creditAccount);
-            posting.setDebit(sale.getGrandTotal());
+            posting.setDebit(amount);
             posting.setBusinessPartner(businessPartner);
-            posting.setInvoice(invoice);
             posting.setCreatedDate(date);
             posting.setCreatedTime(date);
             posting.setCreatedUser(MainFrame.user.getUserId());
@@ -185,18 +191,17 @@ public class PostAccounts {
 
     public void cashCreditPosting(Account creditAccount,
             Invoice invoice,
-            String narration) {
+            String narration,
+            float amount) {
         if (creditAccount != null) {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
 
             Date date = new Date();
 
-            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
-
             AccountPosting posting = new AccountPosting();
             posting.setAccount(creditAccount);
-            posting.setCredit(sale.getGrandTotal());
+            posting.setCredit(amount);
             posting.setInvoice(invoice);
             posting.setCreatedDate(date);
             posting.setCreatedTime(date);
@@ -214,8 +219,9 @@ public class PostAccounts {
     public void chequeCreditPosting(Account creditAccount,
             BusinessPartner businessPartner,
             Invoice invoice,
+            float amount,
             Date chequeDate,
-            long creditDays,
+            int creditDays,
             String chequeNumber,
             String narration) {
         if (creditAccount != null) {
@@ -224,11 +230,20 @@ public class PostAccounts {
 
             Date date = new Date();
 
-            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+            Sale sale;
+            if (invoice != null) {
+                sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+            } else {
+                sale = null;
+            }
 
             AccountPosting posting = new AccountPosting();
             posting.setAccount(creditAccount);
-            posting.setCredit(sale.getGrandTotal());
+            if (sale != null) {
+                posting.setCredit(sale.getGrandTotal());
+            } else {
+                posting.setCredit(amount);
+            }
             posting.setBusinessPartner(businessPartner);
             posting.setChequeDate(chequeDate);
             posting.setNumberOfDays(creditDays);
@@ -250,7 +265,7 @@ public class PostAccounts {
     public void creditCreditPosting(Account creditAccount,
             BusinessPartner businessPartner,
             Invoice invoice,
-            long cretidDays,
+            int cretidDays,
             String narration) {
         if (creditAccount != null) {
             Session session = HibernateUtil.getSessionFactory().openSession();
@@ -314,7 +329,7 @@ public class PostAccounts {
 
     public void generalCreditPosting(Account creditAccount,
             BusinessPartner businessPartner,
-            Invoice invoice,
+            float amount,
             String narration) {
         if (creditAccount != null) {
             Session session = HibernateUtil.getSessionFactory().openSession();
@@ -322,13 +337,10 @@ public class PostAccounts {
 
             Date date = new Date();
 
-            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
-
             AccountPosting posting = new AccountPosting();
             posting.setAccount(creditAccount);
-            posting.setCredit(sale.getGrandTotal());
+            posting.setCredit(amount);
             posting.setBusinessPartner(businessPartner);
-            posting.setInvoice(invoice);
             posting.setCreatedDate(date);
             posting.setCreatedTime(date);
             posting.setCreatedUser(MainFrame.user.getUserId());

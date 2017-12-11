@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -408,7 +409,7 @@ public class ItemSearchDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSearchMouseExited
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // TODO add your handling code here:
+        this.searchItem();
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void txtItemNameCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtItemNameCodeKeyReleased
@@ -418,35 +419,7 @@ public class ItemSearchDialog extends javax.swing.JDialog {
             tblItems.setRowSelectionInterval(0, 0);
         } else {
             if (isLeaglCharactor(keyCode)) {
-                Session session = HibernateUtil.getSessionFactory().openSession();
-
-                String key = txtItemNameCode.getText().trim();
-
-                List<Item> items = session
-                        .createCriteria(Item.class)
-                        .add(Restrictions.or(Restrictions.like("itemName", "%" + key + "%"), Restrictions.like("itemCode", key + "%")))
-                        .list();
-                DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-                if (!items.isEmpty()) {
-                    tableModel.setRowCount(0);
-                    for (Item item : items) {
-                        String itemCode = item.getItemCode();
-                        String itemName = item.getItemName();
-                        String searchKey = item.getSearchKey();
-                        String subCategory = item.getSubCategory().getSubCategoryName();
-                        String itemBrand;
-                        if (item.getItemBrand() != null) {
-                            itemBrand = item.getItemBrand().getBrandName();
-                        } else {
-                            itemBrand = "";
-                        }
-
-                        tableModel.addRow(new String[]{itemCode, itemName, searchKey, subCategory, itemBrand});
-                    }
-                } else {
-                    tableModel.setRowCount(0);
-                }
-                session.close();
+                this.searchItem();
             }
         }
     }//GEN-LAST:event_txtItemNameCodeKeyReleased
@@ -534,86 +507,19 @@ public class ItemSearchDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnResetMouseExited
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-        // TODO add your handling code here:
+        this.resetSearch();
+        this.searchItem();
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void cmbSubCategoryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbSubCategoryItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            String subCategoryName = cmbSubCategory.getSelectedItem().toString().trim();
-            if (!subCategoryName.isEmpty()) {
-                Session session = HibernateUtil.getSessionFactory().openSession();
-
-                SubCategory subCategory = (SubCategory) session
-                        .createCriteria(SubCategory.class)
-                        .add(Restrictions.eq("subCategoryName", subCategoryName))
-                        .uniqueResult();
-
-                List<Item> items = session
-                        .createCriteria(Item.class)
-                        .add(Restrictions.eq("subCategory", subCategory))
-                        .list();
-                DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-                if (!items.isEmpty()) {
-                    tableModel.setRowCount(0);
-                    for (Item item : items) {
-                        String itemCode = item.getItemCode();
-                        String itemName = item.getItemName();
-                        String searchKey = item.getSearchKey();
-                        String subCatName = item.getSubCategory().getSubCategoryName();
-                        String itemBrand;
-                        if (item.getItemBrand() != null) {
-                            itemBrand = item.getItemBrand().getBrandName();
-                        } else {
-                            itemBrand = "";
-                        }
-
-                        tableModel.addRow(new String[]{itemCode, itemName, searchKey, subCatName, itemBrand});
-                    }
-                } else {
-                    tableModel.setRowCount(0);
-                }
-                session.close();
-            }
+            this.searchItem();
         }
     }//GEN-LAST:event_cmbSubCategoryItemStateChanged
 
     private void cmbBrandItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbBrandItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            String brandName = cmbBrand.getSelectedItem().toString().trim();
-            if (!brandName.isEmpty()) {
-                Session session = HibernateUtil.getSessionFactory().openSession();
-
-                ItemBrand brand = (ItemBrand) session
-                        .createCriteria(ItemBrand.class)
-                        .add(Restrictions.eq("brandName", brandName))
-                        .uniqueResult();
-
-                List<Item> items = session
-                        .createCriteria(Item.class)
-                        .add(Restrictions.eq("itemBrand", brand))
-                        .list();
-                DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-                if (!items.isEmpty()) {
-                    tableModel.setRowCount(0);
-                    for (Item item : items) {
-                        String itemCode = item.getItemCode();
-                        String itemName = item.getItemName();
-                        String searchKey = item.getSearchKey();
-                        String subCatName = item.getSubCategory().getSubCategoryName();
-                        String itemBrand;
-                        if (item.getItemBrand() != null) {
-                            itemBrand = item.getItemBrand().getBrandName();
-                        } else {
-                            itemBrand = "";
-                        }
-
-                        tableModel.addRow(new String[]{itemCode, itemName, searchKey, subCatName, itemBrand});
-                    }
-                } else {
-                    tableModel.setRowCount(0);
-                }
-                session.close();
-            }
+            this.searchItem();
         }
     }//GEN-LAST:event_cmbBrandItemStateChanged
 
@@ -643,6 +549,55 @@ public class ItemSearchDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_cmbBrandKeyPressed
 
+    private void searchItem() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        String key = txtItemNameCode.getText().trim();
+
+        String strBrandName = cmbBrand.getSelectedItem() == null ? "" : cmbBrand.getSelectedItem().toString();
+        String strSubCategory = cmbSubCategory.getSelectedItem() == null ? "" : cmbSubCategory.getSelectedItem().toString();
+
+        Criteria searchCriteria = session.createCriteria(Item.class);
+        if (!strBrandName.isEmpty()) {
+            ItemBrand itemBrand = (ItemBrand) session
+                    .createCriteria(ItemBrand.class)
+                    .add(Restrictions.eq("brandName", strBrandName))
+                    .uniqueResult();
+            searchCriteria.add(Restrictions.eq("itemBrand", itemBrand));
+        }
+        if (!strSubCategory.isEmpty()) {
+            SubCategory subCategory = (SubCategory) session
+                    .createCriteria(SubCategory.class)
+                    .add(Restrictions.eq("subCategoryName", strSubCategory))
+                    .uniqueResult();
+            searchCriteria.add(Restrictions.eq("subCategory", subCategory));
+        }
+        searchCriteria.add(Restrictions.or(Restrictions.like("itemName", "%" + key + "%"), Restrictions.like("itemCode", key + "%")));
+
+        List<Item> items = searchCriteria.list();
+        DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+        if (!items.isEmpty()) {
+            tableModel.setRowCount(0);
+            for (Item item : items) {
+                String itemCode = item.getItemCode();
+                String itemName = item.getItemName();
+                String searchKey = item.getSearchKey();
+                String subCategory = item.getSubCategory().getSubCategoryName();
+                String itemBrand;
+                if (item.getItemBrand() != null) {
+                    itemBrand = item.getItemBrand().getBrandName();
+                } else {
+                    itemBrand = "";
+                }
+
+                tableModel.addRow(new String[]{itemCode, itemName, searchKey, subCategory, itemBrand});
+            }
+        } else {
+            tableModel.setRowCount(0);
+        }
+        session.close();
+    }
+
     private void selectItem() {
         int selectedRow = tblItems.getSelectedRow();
         if (selectedRow != -1) {
@@ -671,6 +626,13 @@ public class ItemSearchDialog extends javax.swing.JDialog {
             session.close();
             this.dispose();
         }
+    }
+
+    private void resetSearch() {
+        this.txtSearchKey.setText("");
+        this.txtItemNameCode.setText("");
+        cmbBrand.setSelectedIndex(0);
+        cmbSubCategory.setSelectedIndex(0);
     }
 
     private boolean isLeaglCharactor(int keyCode) {

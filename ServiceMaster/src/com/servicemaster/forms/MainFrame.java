@@ -27,6 +27,8 @@ import com.servicemaster.internalFrames.ShortCutsFrame;
 import com.servicemaster.internalFrames.StorageFrame;
 import com.servicemaster.internalFrames.SubCategoryFrame;
 import com.servicemaster.internalFrames.ItemTypeFrame;
+import com.servicemaster.internalFrames.BillSetoffFrame;
+import com.servicemaster.internalFrames.ChequeReceipt;
 import com.servicemaster.internalFrames.VehicleFrame;
 import com.servicemaster.internalFrames.VehicleTypeFrame;
 import com.servicemaster.models.Module;
@@ -138,6 +140,10 @@ public class MainFrame extends javax.swing.JFrame {
         miSalesReturns = new javax.swing.JMenuItem();
         transactionSeparator2 = new javax.swing.JPopupMenu.Separator();
         miGRN = new javax.swing.JMenuItem();
+        transactionSeparator3 = new javax.swing.JPopupMenu.Separator();
+        miChequeReceipts = new javax.swing.JMenuItem();
+        miBillSetoff = new javax.swing.JMenuItem();
+        miPayments = new javax.swing.JMenuItem();
         mReports = new javax.swing.JMenu();
         miSalesHistory = new javax.swing.JMenuItem();
         reportSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -406,6 +412,37 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         mTransactions.add(miGRN);
+        mTransactions.add(transactionSeparator3);
+
+        miChequeReceipts.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        miChequeReceipts.setText("Cheque Receipts");
+        miChequeReceipts.setEnabled(false);
+        miChequeReceipts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miChequeReceiptsActionPerformed(evt);
+            }
+        });
+        mTransactions.add(miChequeReceipts);
+
+        miBillSetoff.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        miBillSetoff.setText("Bill Setoff");
+        miBillSetoff.setEnabled(false);
+        miBillSetoff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miBillSetoffActionPerformed(evt);
+            }
+        });
+        mTransactions.add(miBillSetoff);
+
+        miPayments.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        miPayments.setText("Payments");
+        miPayments.setEnabled(false);
+        miPayments.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPaymentsActionPerformed(evt);
+            }
+        });
+        mTransactions.add(miPayments);
 
         menuBar.add(mTransactions);
 
@@ -667,6 +704,18 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
     }//GEN-LAST:event_mAccountsActionPerformed
 
+    private void miBillSetoffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miBillSetoffActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miBillSetoffActionPerformed
+
+    private void miPaymentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPaymentsActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miPaymentsActionPerformed
+
+    private void miChequeReceiptsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miChequeReceiptsActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+    }//GEN-LAST:event_miChequeReceiptsActionPerformed
+
     private void exitApllication() {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure", null);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -770,6 +819,14 @@ public class MainFrame extends javax.swing.JFrame {
                 internalFrame = new AccountsFrame();
                 break;
             }
+            case "23": {
+                internalFrame = new BillSetoffFrame();
+                break;
+            }
+            case "24": {
+                internalFrame = new ChequeReceipt();
+                break;
+            }
             default: {
                 internalFrame = null;
             }
@@ -840,15 +897,18 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator masterSeparator5;
     private javax.swing.JMenuBar menuBar;
     public javax.swing.JMenuItem miAddShortcuts;
+    public javax.swing.JMenuItem miBillSetoff;
     public javax.swing.JMenuItem miBom;
     public javax.swing.JMenuItem miBusinessPartner;
     public javax.swing.JMenuItem miCategory;
     private javax.swing.JMenuItem miChangeBackground;
+    public javax.swing.JMenuItem miChequeReceipts;
     private javax.swing.JMenuItem miExit;
     public javax.swing.JMenuItem miGRN;
     public javax.swing.JMenuItem miItemType;
     public javax.swing.JMenuItem miItems;
     public javax.swing.JMenuItem miLocations;
+    public javax.swing.JMenuItem miPayments;
     public javax.swing.JMenuItem miPrinters;
     private javax.swing.JMenuItem miRackSlots;
     public javax.swing.JMenuItem miSale;
@@ -867,6 +927,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JPanel panelShortcuts;
     private javax.swing.JPopupMenu.Separator reportSeparator1;
     private javax.swing.JPopupMenu.Separator transactionSeparator2;
+    private javax.swing.JPopupMenu.Separator transactionSeparator3;
     // End of variables declaration//GEN-END:variables
     public static final LinkedHashMap<String, HashMap<String, Object>> allModuleMap = new LinkedHashMap<>();
     public static final LinkedHashMap<String, HashMap<String, Object>> availableModuleMap = new LinkedHashMap<>();

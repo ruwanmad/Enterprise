@@ -85,12 +85,15 @@ public class EnableFeatures {
                     break;
                 }
                 case "25": {
+                    mainFrame.miChequeReceipts.setEnabled(true);
                     break;
                 }
                 case "26": {
+                    mainFrame.miBillSetoff.setEnabled(true);
                     break;
                 }
                 case "27": {
+                    mainFrame.miPayments.setEnabled(true);
                     break;
                 }
                 case "28": {

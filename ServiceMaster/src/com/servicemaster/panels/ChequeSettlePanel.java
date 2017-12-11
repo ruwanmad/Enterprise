@@ -80,9 +80,9 @@ public class ChequeSettlePanel extends javax.swing.JPanel {
         if (!businessPartners.isEmpty()) {
             cmbCustomer.removeAllItems();
             cmbCustomer.addItem("");
-            for (BusinessPartner businessPartner : businessPartners) {
-                cmbCustomer.addItem(businessPartner.getFirstName() + " " + businessPartner.getLastName());
-                this.customerMap.put(businessPartner.getFirstName() + " " + businessPartner.getLastName(), businessPartner.getBusinessPartnerCode());
+            for (BusinessPartner tempBusinessPartner : businessPartners) {
+                cmbCustomer.addItem(tempBusinessPartner.getFirstName() + " " + tempBusinessPartner.getLastName());
+                this.customerMap.put(tempBusinessPartner.getFirstName() + " " + tempBusinessPartner.getLastName(), tempBusinessPartner.getBusinessPartnerCode());
             }
         }
 

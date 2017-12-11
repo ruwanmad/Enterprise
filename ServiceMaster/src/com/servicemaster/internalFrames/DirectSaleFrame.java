@@ -11,11 +11,12 @@ import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.dialogs.ItemSearchDialog;
 import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.forms.MainFrame;
-import com.servicemaster.functions.PrintFunctions;
+import com.servicemaster.functions.AutoCompletion;
 import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.Bom;
 import com.servicemaster.models.BomItem;
+import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.Sale;
@@ -23,8 +24,6 @@ import com.servicemaster.models.SaleItem;
 import com.servicemaster.models.SaleItemStatus;
 import com.servicemaster.models.SaleStatus;
 import com.servicemaster.models.SellingPrice;
-import com.servicemaster.models.ServiceBay;
-import com.servicemaster.models.Vehicle;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -36,12 +35,10 @@ import java.util.Set;
 import java.util.TreeMap;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
-import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
@@ -59,6 +56,8 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
      */
     public DirectSaleFrame() {
         initComponents();
+
+        AutoCompletion.enable(cmbBusinessPartner, txtItemSearchKey);
     }
 
     /**
@@ -75,7 +74,6 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         itemDelete = new javax.swing.JMenuItem();
         itemEdit = new javax.swing.JMenuItem();
         mainPanel = new javax.swing.JPanel();
-        detailPanel = new javax.swing.JPanel();
         itemPanel = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -97,12 +95,18 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         btnClose = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
         btnItemSearch = new javax.swing.JButton();
+        btnNewSale = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtGrandSubTotal = new javax.swing.JFormattedTextField();
         txtGrandDiscount = new javax.swing.JFormattedTextField();
         txtGrandTotal = new javax.swing.JFormattedTextField();
+        jPanel1 = new javax.swing.JPanel();
+        cmbBusinessPartner = new javax.swing.JComboBox<>();
+        btnRefresh = new javax.swing.JButton();
+        btnNew = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
 
         itemDelete.setText("Delete");
         itemDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -121,6 +125,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         tblItemPopup.add(itemEdit);
 
         setClosable(true);
+        setMaximizable(true);
         setTitle("Sale");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -139,8 +144,6 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                 formInternalFrameOpened(evt);
             }
         });
-
-        detailPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         itemPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255)), "Items", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 255))); // NOI18N
 
@@ -171,6 +174,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         jLabel10.setText("Discount :");
 
         txtDiscount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.0"))));
+        txtDiscount.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtDiscount.setText("0.0");
         txtDiscount.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         txtDiscount.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -266,19 +270,19 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtItemName, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtUnitPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDiscount, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(rbtPercentage)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -289,8 +293,6 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         );
 
         itemPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel10, jLabel8, jLabel9});
-
-        itemPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtDiscount, txtQuantity});
 
         itemPanelLayout.setVerticalGroup(
             itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,7 +316,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                 .addGap(5, 5, 5))
         );
 
-        itemPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel10, jLabel8, jLabel9, txtDiscount, txtItemName, txtItemSearchKey, txtQuantity});
+        itemPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel10, jLabel8, jLabel9, txtDiscount, txtItemName, txtItemSearchKey, txtQuantity, txtUnitPrice});
 
         tblItems.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -358,7 +360,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
         btnSettle.setBackground(new java.awt.Color(150, 255, 150));
         btnSettle.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        btnSettle.setText("Settle");
+        btnSettle.setText("Settle (F6)");
         btnSettle.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
         btnSettle.setContentAreaFilled(false);
         btnSettle.setOpaque(true);
@@ -398,7 +400,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
         btnReset.setBackground(new java.awt.Color(150, 255, 150));
         btnReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        btnReset.setText("Reset");
+        btnReset.setText("Reset (F5)");
         btnReset.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
         btnReset.setContentAreaFilled(false);
         btnReset.setOpaque(true);
@@ -430,6 +432,31 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                 btnItemSearchMouseExited(evt);
             }
         });
+        btnItemSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnItemSearchActionPerformed(evt);
+            }
+        });
+
+        btnNewSale.setBackground(new java.awt.Color(150, 255, 150));
+        btnNewSale.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnNewSale.setText("New (F1)");
+        btnNewSale.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnNewSale.setContentAreaFilled(false);
+        btnNewSale.setOpaque(true);
+        btnNewSale.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnNewSaleMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnNewSaleMouseExited(evt);
+            }
+        });
+        btnNewSale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewSaleActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
         buttonPanel.setLayout(buttonPanelLayout);
@@ -441,13 +468,15 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNewSale, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnReset, btnSettle});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnItemSearch, btnNewSale, btnReset, btnSettle});
 
         buttonPanelLayout.setVerticalGroup(
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -457,11 +486,41 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                     .addComponent(btnSettle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnItemSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnItemSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNewSale, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnReset, btnSettle});
+        buttonPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnItemSearch, btnNewSale, btnReset, btnSettle});
+
+        btnSettle.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F6,0),"F6");
+        btnSettle.getActionMap().put("F6", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnSettle.doClick();
+            }
+        });
+        btnReset.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F5,0),"F5");
+        btnReset.getActionMap().put("F5", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnReset.doClick();
+            }
+        });
+        btnItemSearch.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2,0),"F2");
+        btnItemSearch.getActionMap().put("F2", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnItemSearch.doClick();
+            }
+        });
+        btnNewSale.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F1,0),"F1");
+        btnNewSale.getActionMap().put("F1", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnNewSale.doClick();
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel1.setText("Sub Total :");
@@ -499,12 +558,88 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         txtGrandTotal.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         txtGrandTotal.setNextFocusableComponent(txtGrandDiscount);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255)), "Business Partner", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 255))); // NOI18N
+
+        cmbBusinessPartner.setEditable(true);
+        cmbBusinessPartner.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
+        btnRefresh.setBackground(new java.awt.Color(150, 255, 150));
+        btnRefresh.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnRefresh.setText("Refresh");
+        btnRefresh.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnRefresh.setContentAreaFilled(false);
+        btnRefresh.setOpaque(true);
+        btnRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRefreshMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRefreshMouseExited(evt);
+            }
+        });
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
+        btnNew.setBackground(new java.awt.Color(150, 255, 150));
+        btnNew.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnNew.setText("New");
+        btnNew.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnNew.setContentAreaFilled(false);
+        btnNew.setOpaque(true);
+        btnNew.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnNewMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnNewMouseExited(evt);
+            }
+        });
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel12.setText("Business Partner :");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbBusinessPartner, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbBusinessPartner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5))
+        );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnNew, btnRefresh, cmbBusinessPartner, jLabel12});
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(detailPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(itemPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane1)
             .addComponent(buttonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
@@ -523,6 +658,8 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtGrandSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addComponent(itemPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         mainPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtGrandDiscount, txtGrandSubTotal, txtGrandTotal});
@@ -532,11 +669,12 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addComponent(detailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(itemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -552,8 +690,6 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                 .addGap(50, 50, 50)
                 .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        mainPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, txtGrandDiscount, txtGrandSubTotal, txtGrandTotal});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -588,14 +724,8 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Session session = HibernateUtil.getSessionFactory().openSession();
         this.loadServiceStatus(session);
+        this.loadBusinessPartners(session);
         session.close();
-
-        SearchAction searchAction = new SearchAction(this);
-        String searchKey = "Search (F2)";
-        btnItemSearch.setAction(searchAction);
-        btnItemSearch.setText(searchKey);
-        btnItemSearch.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), searchKey);
-        btnItemSearch.getActionMap().put(searchKey, searchAction);
 
         txtItemSearchKey.requestFocus();
     }//GEN-LAST:event_formInternalFrameOpened
@@ -680,92 +810,94 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSettleMouseExited
 
     private void btnSettleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettleActionPerformed
-        KeyCodeFunctions codeFunctions = new KeyCodeFunctions();
-        String serviceCode = codeFunctions.getKey("DRS", "Direct sale");
+        if (this.validateServiceItems()) {
+            KeyCodeFunctions codeFunctions = new KeyCodeFunctions();
+            String serviceCode = codeFunctions.getKey("DRS", "Direct sale");
 
-        Date date = new Date();
+            String businessPartnerCode = cmbBusinessPartner.getSelectedItem().toString().split("-")[1].trim();
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
+            Date date = new Date();
 
-        ServiceBay serviceBay = (ServiceBay) session
-                .createCriteria(ServiceBay.class)
-                .add(Restrictions.eq("serviceBayCode", "LOC1001"))
-                .uniqueResult();
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
 
-        Vehicle vehicle = (Vehicle) session
-                .createCriteria(Vehicle.class)
-                .add(Restrictions.eq("vehicleCode", "VEH1000"))
-                .uniqueResult();
-
-        SaleItemStatus itemStatus = (SaleItemStatus) session
-                .createCriteria(SaleItemStatus.class)
-                .add(Restrictions.eq("itemStatusId", 1))
-                .uniqueResult();
-
-        SaleStatus saleStatus = (SaleStatus) session
-                .createCriteria(SaleStatus.class)
-                .add(Restrictions.eq("statusDescription", "SETTLED"))
-                .uniqueResult();
-
-        Sale sale = new Sale();
-        sale.setSaleCode(serviceCode);
-        sale.setCurrentMilage(0.0f);
-        sale.setSubTotal(grandSubTotal);
-        sale.setDiscount(grandDiscount);
-        sale.setGrandTotal(grandTotal);
-        if (grandDiscount > 0.0) {
-            sale.setDiscounted(1);
-        } else {
-            sale.setDiscounted(0);
-        }
-        sale.setCreatedDate(date);
-        sale.setCreatedTime(date);
-        sale.setCreatedUser(MainFrame.user.getUserId());
-        sale.setServiceBay(serviceBay);
-        sale.setVehicle(vehicle);
-        sale.setSaleStatus(saleStatus);
-
-        session.saveOrUpdate(sale);
-
-        DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            String itemName = (String) tblItems.getValueAt(i, 1);
-            float quantity = (float) tblItems.getValueAt(i, 2);
-            float unitPrice = (float) tblItems.getValueAt(i, 3);
-            float subTotal = (float) tblItems.getValueAt(i, 4);
-            float discount = (float) tblItems.getValueAt(i, 5);
-            float itemTotal = (float) tblItems.getValueAt(i, 6);
-
-            Item item = (Item) session
-                    .createCriteria(Item.class)
-                    .add(Restrictions.eq("itemName", itemName))
+            SaleItemStatus itemStatus = (SaleItemStatus) session
+                    .createCriteria(SaleItemStatus.class)
+                    .add(Restrictions.eq("itemStatusId", 1))
                     .uniqueResult();
 
-            SaleItem saleItem = new SaleItem();
-            saleItem.setItem(item);
-            saleItem.setSale(sale);
-            saleItem.setUnitPrice(unitPrice);
-            saleItem.setQuantity(quantity);
-            saleItem.setSubTotal(subTotal);
-            saleItem.setDiscount(discount);
-            saleItem.setTotal(itemTotal);
-            saleItem.setSaleItemStatus(itemStatus);
-            saleItem.setCreatedDate(date);
-            saleItem.setCreatedTime(date);
-            saleItem.setCreatedUser(MainFrame.user.getUserId());
-            saleItem.setRemark(itemName);
+            BusinessPartner businessPartner = (BusinessPartner) session
+                    .createCriteria(BusinessPartner.class)
+                    .add(Restrictions.eq("businessPartnerCode", businessPartnerCode))
+                    .uniqueResult();
 
-            session.saveOrUpdate(saleItem);
+            SaleStatus saleStatus = (SaleStatus) session
+                    .createCriteria(SaleStatus.class)
+                    .add(Restrictions.eq("statusDescription", "SETTLED"))
+                    .uniqueResult();
+
+            Sale sale = new Sale();
+            sale.setSaleCode(serviceCode);
+            sale.setCurrentMilage(0.0f);
+            sale.setSubTotal(grandSubTotal);
+            sale.setDiscount(grandDiscount);
+            sale.setGrandTotal(grandTotal);
+            if (grandDiscount > 0.0) {
+                sale.setDiscounted(1);
+            } else {
+                sale.setDiscounted(0);
+            }
+            sale.setCreatedDate(date);
+            sale.setCreatedTime(date);
+            sale.setCreatedUser(MainFrame.user.getUserId());
+            sale.setBusinessPartner(businessPartner);
+            sale.setSaleStatus(saleStatus);
+
+            session.saveOrUpdate(sale);
+
+            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                String itemName = (String) tblItems.getValueAt(i, 1);
+                float quantity = (float) tblItems.getValueAt(i, 2);
+                float unitPrice = (float) tblItems.getValueAt(i, 3);
+                float subTotal = (float) tblItems.getValueAt(i, 4);
+                float discount = (float) tblItems.getValueAt(i, 5);
+                float itemTotal = (float) tblItems.getValueAt(i, 6);
+
+                Item item = (Item) session
+                        .createCriteria(Item.class)
+                        .add(Restrictions.eq("itemName", itemName))
+                        .uniqueResult();
+
+                SaleItem saleItem = new SaleItem();
+                saleItem.setItem(item);
+                saleItem.setSale(sale);
+                saleItem.setUnitPrice(unitPrice);
+                saleItem.setQuantity(quantity);
+                saleItem.setSubTotal(subTotal);
+                saleItem.setDiscount(discount);
+                saleItem.setTotal(itemTotal);
+                saleItem.setSaleItemStatus(itemStatus);
+                saleItem.setCreatedDate(date);
+                saleItem.setCreatedTime(date);
+                saleItem.setCreatedUser(MainFrame.user.getUserId());
+                saleItem.setRemark(itemName);
+
+                session.saveOrUpdate(saleItem);
+            }
+
+            session.getTransaction().commit();
+            session.close();
+
+            Invoice invoice = this.generateInvoice(sale);
+
+            String customerName = businessPartner.getFirstName() + " " + businessPartner.getLastName();
+
+            SettlementDialog settlementDialog = new SettlementDialog(null, true, sale, invoice, customerName);
+            settlementDialog.setVisible(true);
+        } else {
+            InformationDialog.showMessageBox("Plaese add items before save", "Invalid", null);
         }
-
-        session.getTransaction().commit();
-        session.close();
-
-        Invoice invoice = this.generateInvoice(sale);
-
-        SettlementDialog settlementDialog = new SettlementDialog(null, true, sale, invoice, "CASH");
-        settlementDialog.setVisible(true);
     }//GEN-LAST:event_btnSettleActionPerformed
 
     private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
@@ -806,12 +938,16 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         float quantity = Float.parseFloat(txtQuantity.getText().trim());
         if (quantity != 0.0) {
-            String itemName = txtItemName.getText();
+            String itemDescription = txtItemName.getText().trim();
+            String itemName = itemDescription.substring(0, itemDescription.lastIndexOf("-")).trim();
+            String[] itemNameSplit = itemDescription.split("-");
+            int itemNameSplitLength = itemNameSplit.length;
+            String tempItemCode = itemNameSplit[itemNameSplitLength - 1].trim();
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
             Item item = (Item) session
                     .createCriteria(Item.class)
-                    .add(Restrictions.eq("itemName", itemName))
+                    .add(Restrictions.eq("itemCode", tempItemCode))
                     .uniqueResult();
 
             if (item.getFromBom()) {
@@ -844,6 +980,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                     txtItemSearchKey.setSelectionColor(Color.BLUE);
                     txtItemName.setText("");
                     txtQuantity.setText("0.0");
+                    txtUnitPrice.setText("0.0");
                     txtDiscount.setText("0.0");
                     rbtPercentage.setSelected(true);
 
@@ -889,6 +1026,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                         txtItemSearchKey.setSelectionColor(Color.BLUE);
                         txtItemName.setText("");
                         txtQuantity.setText("0.0");
+                        txtUnitPrice.setText("0.0");
                         txtDiscount.setText("0.0");
                         rbtPercentage.setSelected(true);
 
@@ -966,6 +1104,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                 txtItemSearchKey.setSelectionColor(Color.BLUE);
                 txtItemName.setText("");
                 txtQuantity.setText("0.0");
+                txtUnitPrice.setText("0.0");
                 txtDiscount.setText("0.0");
                 rbtPercentage.setSelected(true);
 
@@ -977,6 +1116,8 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                 txtGrandDiscount.setText("" + grandDiscount);
                 txtGrandTotal.setText("" + grandTotal);
             }
+
+            txtItemSearchKey.requestFocus();
 
             transaction.commit();
             session.close();
@@ -1043,6 +1184,55 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtItemSearchKeyKeyPressed
 
+    private void btnNewSaleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewSaleMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnNewSaleMouseEntered
+
+    private void btnNewSaleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewSaleMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnNewSaleMouseExited
+
+    private void btnNewSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSaleActionPerformed
+        this.clearAll();
+    }//GEN-LAST:event_btnNewSaleActionPerformed
+
+    private void btnNewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnNewMouseEntered
+
+    private void btnNewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnNewMouseExited
+
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        MainFrame.openWindow(MainFrame.allModuleMap.get("Business Partner"));
+    }//GEN-LAST:event_btnNewActionPerformed
+
+    private void btnRefreshMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnRefreshMouseEntered
+
+    private void btnRefreshMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnRefreshMouseExited
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        this.loadBusinessPartners(session);
+
+        session.getTransaction().commit();
+        session.close();
+
+        cmbBusinessPartner.requestFocus();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnItemSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnItemSearchActionPerformed
+        ItemSearchDialog itemSearchDialog = new ItemSearchDialog(null, true, this);
+        itemSearchDialog.setVisible(true);
+    }//GEN-LAST:event_btnItemSearchActionPerformed
+
     private Invoice generateInvoice(Sale sale) {
         KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
         String invoiceCode = keyCodeFunctions.getKey("INV", "Invoices");
@@ -1068,26 +1258,35 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         transaction.commit();
         session.close();
 
-        ConfirmationDialog.showMessageBox("Do you want to print the invoice?", "Print", null);
-        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            PrintFunctions printFunctions = new PrintFunctions();
-
-            printFunctions.printInvoice(sale.getSaleCode(), true);
-        }
-
         return invoice;
     }
 
+    private void loadBusinessPartners(Session session) {
+        List<BusinessPartner> businessPartners = session
+                .createCriteria(BusinessPartner.class)
+                .add(Restrictions.eq("isCustomer", true))
+                .addOrder(Order.asc("businessPartnerCode"))
+                .list();
+
+        if (!businessPartners.isEmpty()) {
+            cmbBusinessPartner.removeAllItems();
+            for (BusinessPartner businessPartner : businessPartners) {
+                cmbBusinessPartner.addItem(businessPartner.getFirstName() + " " + businessPartner.getLastName() + " - " + businessPartner.getBusinessPartnerCode());
+            }
+        }
+    }
+
     private void loadServiceStatus(Session session) {
-        Query query = session.createQuery("from SaleStatus ss order by ss.statusId");
-        List list = query.list();
-        if (!list.isEmpty()) {
-            for (Object object : list) {
-                if (object instanceof SaleStatus) {
-                    SaleStatus serviceStatus = (SaleStatus) object;
-                    String description = serviceStatus.getStatusDescription();
-                    saleStatusMap.put(description, serviceStatus);
-                }
+        List<SaleStatus> saleStatuses = session
+                .createCriteria(SaleStatus.class)
+                .addOrder(Order.asc("statusId"))
+                .list();
+
+        if (!saleStatuses.isEmpty()) {
+            saleStatusMap.clear();
+            for (SaleStatus saleStatus : saleStatuses) {
+                String description = saleStatus.getStatusDescription();
+                saleStatusMap.put(description, saleStatus);
             }
         }
     }
@@ -1144,13 +1343,15 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     private void ItemEdit() {
         int row = tblItems.getSelectedRow();
         if (row != -1) {
+            String itemCode = (String) tblItems.getValueAt(row, 0);
             String itemName = (String) tblItems.getValueAt(row, 1);
             float quantity = (Float) tblItems.getValueAt(row, 2);
             float unitPrice = (Float) tblItems.getValueAt(row, 3);
             float discount = (Float) tblItems.getValueAt(row, 5);
 
-            txtItemName.setText(itemName);
+            txtItemName.setText(itemName + " - " + itemCode);
             txtQuantity.setText("" + quantity);
+            txtUnitPrice.setText("" + unitPrice);
             txtDiscount.setText("0.0");
 
             DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
@@ -1171,29 +1372,22 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         }
     }
 
-    private class SearchAction extends AbstractAction {
-
-        private final JInternalFrame internalFrame;
-
-        public SearchAction(JInternalFrame internalFrame) {
-            this.internalFrame = internalFrame;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            ItemSearchDialog itemSearchDialog = new ItemSearchDialog(null, true, internalFrame);
-            itemSearchDialog.setVisible(true);
-        }
-    };
+    boolean validateServiceItems() {
+        DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+        return tableModel.getRowCount() > 0;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnItemSearch;
+    private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnNewSale;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSettle;
     private javax.swing.JPanel buttonPanel;
-    private javax.swing.JPanel detailPanel;
+    private javax.swing.JComboBox<String> cmbBusinessPartner;
     private javax.swing.ButtonGroup discountGroup;
     private javax.swing.JMenuItem itemDelete;
     private javax.swing.JMenuItem itemEdit;
@@ -1201,11 +1395,13 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JRadioButton rbtNumber;

@@ -10,6 +10,7 @@ import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Payment;
 import com.servicemaster.models.Sale;
+import com.servicemaster.models.Vehicle;
 import com.servicemaster.panels.CashSettlePanel;
 import com.servicemaster.panels.ChequeSettlePanel;
 import com.servicemaster.panels.CreditCardSettlePanel;
@@ -31,7 +32,7 @@ import org.hibernate.criterion.Restrictions;
 public class PaymentButtonActionListners implements ActionListener {
 
     private final SettlementDialog settlementDialog;
-    private final Sale sale;
+    private Sale sale;
     private final Invoice invoice;
 
     public PaymentButtonActionListners(SettlementDialog settlementDialog, Sale sale, Invoice invoice) {
@@ -65,6 +66,8 @@ public class PaymentButtonActionListners implements ActionListener {
 
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 Transaction transaction = session.beginTransaction();
+
+                sale = (Sale) session.load(Sale.class, sale.getSaleCode());
 
                 List<Payment> payments = session
                         .createCriteria(Payment.class)
@@ -106,10 +109,21 @@ public class PaymentButtonActionListners implements ActionListener {
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 Transaction transaction = session.beginTransaction();
 
+                sale = (Sale) session.load(Sale.class, sale.getSaleCode());
+
                 List<Payment> payments = session
                         .createCriteria(Payment.class)
                         .add(Restrictions.eq("invoice", this.invoice))
                         .list();
+
+                BusinessPartner businessPartner = (BusinessPartner) session
+                        .createCriteria(BusinessPartner.class)
+                        .add(Restrictions.eq("businessPartnerCode", sale.getBusinessPartner().getBusinessPartnerCode()))
+                        .uniqueResult();
+
+                if (businessPartner != null) {
+                    chequeSettlePanel.cmbCustomer.setSelectedItem(businessPartner.getFirstName() + " " + businessPartner.getLastName());
+                }
 
                 if (payments.isEmpty()) {
                     chequeSettlePanel.txtTotalAmount.setText("" + sale.getGrandTotal());
@@ -146,6 +160,8 @@ public class PaymentButtonActionListners implements ActionListener {
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 Transaction transaction = session.beginTransaction();
 
+                sale = (Sale) session.load(Sale.class, sale.getSaleCode());
+
                 List<Payment> payments = session
                         .createCriteria(Payment.class)
                         .add(Restrictions.eq("invoice", this.invoice))
@@ -153,7 +169,7 @@ public class PaymentButtonActionListners implements ActionListener {
 
                 BusinessPartner businessPartner = (BusinessPartner) session
                         .createCriteria(BusinessPartner.class)
-                        .add(Restrictions.eq("businessPartnerCode", sale.getVehicle().getBusinessPartner().getBusinessPartnerCode()))
+                        .add(Restrictions.eq("businessPartnerCode", sale.getBusinessPartner().getBusinessPartnerCode()))
                         .uniqueResult();
 
                 if (businessPartner != null) {
@@ -194,6 +210,8 @@ public class PaymentButtonActionListners implements ActionListener {
 
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 Transaction transaction = session.beginTransaction();
+
+                sale = (Sale) session.load(Sale.class, sale.getSaleCode());
 
                 List<Payment> payments = session
                         .createCriteria(Payment.class)

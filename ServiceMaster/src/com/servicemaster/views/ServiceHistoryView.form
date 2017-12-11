@@ -37,7 +37,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="detailPanel" pref="917" max="32767" attributes="0"/>
+              <Component id="detailPanel" max="32767" attributes="0"/>
               <Component id="ServiceDetailPanel" alignment="0" max="32767" attributes="0"/>
               <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
               <Component id="buttonPanel" alignment="0" max="32767" attributes="0"/>
@@ -50,7 +50,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="ServiceDetailPanel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="174" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="166" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="buttonPanel" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -126,7 +126,7 @@
                               <Component id="jLabel12" linkSize="2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                               <Component id="txtServiceDate" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="30" max="32767" attributes="0"/>
+                          <EmptySpace pref="42" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -211,24 +211,24 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel3" linkSize="3" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="lblCustomerName" linkSize="4" min="-2" pref="322" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblCustomerName" pref="324" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel4" linkSize="3" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lblAddress2" linkSize="4" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblAddress1" linkSize="4" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblAddress3" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblAddress2" pref="324" max="32767" attributes="0"/>
+                                      <Component id="lblAddress1" pref="324" max="32767" attributes="0"/>
+                                      <Component id="lblAddress3" alignment="0" pref="324" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -245,9 +245,9 @@
                               <Component id="jLabel4" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                               <Component id="lblAddress1" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="lblAddress2" min="-2" pref="25" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="lblAddress3" min="-2" pref="25" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>

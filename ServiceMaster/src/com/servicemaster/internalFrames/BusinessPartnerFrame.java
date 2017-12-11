@@ -641,10 +641,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCloseMouseExited
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
-        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            this.dispose();
-        }
+        this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnCodeSerachMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCodeSerachMouseEntered

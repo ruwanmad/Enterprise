@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Nov 1, 2017 5:06:11 PM by Hibernate Tools 4.3.1
+// Generated Dec 4, 2017 10:06:33 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -18,9 +18,9 @@ public class AccountPosting  implements java.io.Serializable {
      private String narration;
      private Float debit;
      private Float credit;
-     private Long numberOfDays;
-     private String chequeNumber;
+     private Integer numberOfDays;
      private Date chequeDate;
+     private String chequeNumber;
      private Date postedDate;
      private Integer isActive;
      private Date createdDate;
@@ -38,7 +38,7 @@ public class AccountPosting  implements java.io.Serializable {
     public AccountPosting(Account account) {
         this.account = account;
     }
-    public AccountPosting(Account account, BusinessPartner businessPartner, Grn grn, Invoice invoice, String narration, Float debit, Float credit, Long numberOfDays, String chequeNumber, Date chequeDate, Date postedDate, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
+    public AccountPosting(Account account, BusinessPartner businessPartner, Grn grn, Invoice invoice, String narration, Float debit, Float credit, Integer numberOfDays, Date chequeDate, String chequeNumber, Date postedDate, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark) {
        this.account = account;
        this.businessPartner = businessPartner;
        this.grn = grn;
@@ -47,8 +47,8 @@ public class AccountPosting  implements java.io.Serializable {
        this.debit = debit;
        this.credit = credit;
        this.numberOfDays = numberOfDays;
-       this.chequeNumber = chequeNumber;
        this.chequeDate = chequeDate;
+       this.chequeNumber = chequeNumber;
        this.postedDate = postedDate;
        this.isActive = isActive;
        this.createdDate = createdDate;
@@ -116,19 +116,12 @@ public class AccountPosting  implements java.io.Serializable {
     public void setCredit(Float credit) {
         this.credit = credit;
     }
-    public Long getNumberOfDays() {
+    public Integer getNumberOfDays() {
         return this.numberOfDays;
     }
     
-    public void setNumberOfDays(Long numberOfDays) {
+    public void setNumberOfDays(Integer numberOfDays) {
         this.numberOfDays = numberOfDays;
-    }
-    public String getChequeNumber() {
-        return this.chequeNumber;
-    }
-    
-    public void setChequeNumber(String chequeNumber) {
-        this.chequeNumber = chequeNumber;
     }
     public Date getChequeDate() {
         return this.chequeDate;
@@ -136,6 +129,13 @@ public class AccountPosting  implements java.io.Serializable {
     
     public void setChequeDate(Date chequeDate) {
         this.chequeDate = chequeDate;
+    }
+    public String getChequeNumber() {
+        return this.chequeNumber;
+    }
+    
+    public void setChequeNumber(String chequeNumber) {
+        this.chequeNumber = chequeNumber;
     }
     public Date getPostedDate() {
         return this.postedDate;

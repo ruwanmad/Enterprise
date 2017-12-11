@@ -119,6 +119,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         cbxFromBom = new javax.swing.JCheckBox();
         jLabel4 = new javax.swing.JLabel();
         txtSearchKey = new javax.swing.JTextField();
+        btnReset1 = new javax.swing.JButton();
 
         miEdit.setText("Edit");
         miEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -496,6 +497,26 @@ public class ItemFrame extends javax.swing.JInternalFrame {
         txtSearchKey.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         txtSearchKey.setNextFocusableComponent(txtSellingQuantity);
 
+        btnReset1.setBackground(new java.awt.Color(150, 255, 150));
+        btnReset1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnReset1.setText("Copy");
+        btnReset1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnReset1.setContentAreaFilled(false);
+        btnReset1.setOpaque(true);
+        btnReset1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnReset1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnReset1MouseExited(evt);
+            }
+        });
+        btnReset1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReset1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -515,6 +536,8 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnReset1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -608,7 +631,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCodeSerach, btnNameSearch});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnReset, btnSave});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnReset, btnReset1, btnSave});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cbxIsActive, cbxIsPhysical});
 
@@ -700,7 +723,8 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReset1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -708,7 +732,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCodeSerach, btnNameSearch});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnReset, btnSave});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnReset, btnReset1, btnSave});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -940,6 +964,19 @@ public class ItemFrame extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_miEditActionPerformed
+
+    private void btnReset1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReset1MouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnReset1MouseEntered
+
+    private void btnReset1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReset1MouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnReset1MouseExited
+
+    private void btnReset1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset1ActionPerformed
+        txtItemCode.setText("");
+        btnSave.setText("Save");
+    }//GEN-LAST:event_btnReset1ActionPerformed
 
     public void clearAll() {
         this.setItemCodeEditable(true);
@@ -1251,6 +1288,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnCodeSerach;
     private javax.swing.JButton btnNameSearch;
     private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnReset1;
     private javax.swing.JButton btnSave;
     private javax.swing.JCheckBox cbxFromBom;
     private javax.swing.JCheckBox cbxIsActive;

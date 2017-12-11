@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Nov 1, 2017 5:06:11 PM by Hibernate Tools 4.3.1
+// Generated Dec 4, 2017 10:06:33 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,6 +13,7 @@ public class Sale  implements java.io.Serializable {
 
 
      private String saleCode;
+     private BusinessPartner businessPartner;
      private SaleStatus saleStatus;
      private ServiceBay serviceBay;
      private Vehicle vehicle;
@@ -31,6 +32,7 @@ public class Sale  implements java.io.Serializable {
      private String remark;
      private Float currentMilage;
      private Float nextMilage;
+     private Float paidAmount;
      private Set saleEmployees = new HashSet(0);
      private Set saleItems = new HashSet(0);
      private Set invoices = new HashSet(0);
@@ -39,12 +41,14 @@ public class Sale  implements java.io.Serializable {
     }
 
 	
-    public Sale(String saleCode, SaleStatus saleStatus) {
+    public Sale(String saleCode, BusinessPartner businessPartner, SaleStatus saleStatus) {
         this.saleCode = saleCode;
+        this.businessPartner = businessPartner;
         this.saleStatus = saleStatus;
     }
-    public Sale(String saleCode, SaleStatus saleStatus, ServiceBay serviceBay, Vehicle vehicle, Float previousMilage, Float subTotal, Float discount, Float grandTotal, Integer discounted, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Float currentMilage, Float nextMilage, Set saleEmployees, Set saleItems, Set invoices) {
+    public Sale(String saleCode, BusinessPartner businessPartner, SaleStatus saleStatus, ServiceBay serviceBay, Vehicle vehicle, Float previousMilage, Float subTotal, Float discount, Float grandTotal, Integer discounted, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Float currentMilage, Float nextMilage, Float paidAmount, Set saleEmployees, Set saleItems, Set invoices) {
        this.saleCode = saleCode;
+       this.businessPartner = businessPartner;
        this.saleStatus = saleStatus;
        this.serviceBay = serviceBay;
        this.vehicle = vehicle;
@@ -63,6 +67,7 @@ public class Sale  implements java.io.Serializable {
        this.remark = remark;
        this.currentMilage = currentMilage;
        this.nextMilage = nextMilage;
+       this.paidAmount = paidAmount;
        this.saleEmployees = saleEmployees;
        this.saleItems = saleItems;
        this.invoices = invoices;
@@ -74,6 +79,13 @@ public class Sale  implements java.io.Serializable {
     
     public void setSaleCode(String saleCode) {
         this.saleCode = saleCode;
+    }
+    public BusinessPartner getBusinessPartner() {
+        return this.businessPartner;
+    }
+    
+    public void setBusinessPartner(BusinessPartner businessPartner) {
+        this.businessPartner = businessPartner;
     }
     public SaleStatus getSaleStatus() {
         return this.saleStatus;
@@ -200,6 +212,13 @@ public class Sale  implements java.io.Serializable {
     
     public void setNextMilage(Float nextMilage) {
         this.nextMilage = nextMilage;
+    }
+    public Float getPaidAmount() {
+        return this.paidAmount;
+    }
+    
+    public void setPaidAmount(Float paidAmount) {
+        this.paidAmount = paidAmount;
     }
     public Set getSaleEmployees() {
         return this.saleEmployees;

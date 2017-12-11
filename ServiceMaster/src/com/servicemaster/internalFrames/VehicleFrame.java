@@ -9,6 +9,7 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
+import com.servicemaster.functions.AutoCompletion;
 import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.models.BusinessPartner;
@@ -98,8 +99,9 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel3.setText("Vehicle type :");
 
+        cmbVehicleType.setEditable(true);
         cmbVehicleType.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        cmbVehicleType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--" }));
+        cmbVehicleType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
 
         jLabel4.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel4.setText("Is Active :");
@@ -119,8 +121,9 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
         jLabel7.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel7.setText("Bus. Patner :");
 
+        cmbBusinessPatner.setEditable(true);
         cmbBusinessPatner.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        cmbBusinessPatner.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--" }));
+        cmbBusinessPatner.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
 
         btnReset.setBackground(new java.awt.Color(150, 255, 150));
         btnReset.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
@@ -385,6 +388,9 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
 
         session.getTransaction().commit();
         session.close();
+        
+        AutoCompletion.enable(cmbVehicleType, cmbBusinessPatner);
+        AutoCompletion.enable(cmbBusinessPatner, txtRemark);
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseEntered
@@ -448,10 +454,7 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCloseMouseExited
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
-        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            this.dispose();
-        }
+        this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnNewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewMouseEntered
