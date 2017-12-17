@@ -8,6 +8,7 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
+import com.servicemaster.dialogs.ItemSearchDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.functions.AutoCompletion;
 import com.servicemaster.keys.KeyCodeFunctions;
@@ -21,10 +22,15 @@ import com.servicemaster.models.StockStatus;
 import com.servicemaster.models.Uom;
 import com.servicemaster.models.UomConversion;
 import com.servicemaster.utils.HibernateUtil;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Criteria;
@@ -90,6 +96,7 @@ public class GrnFrame extends javax.swing.JInternalFrame {
         btnSave = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
+        btnItemSearch = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -375,28 +382,25 @@ public class GrnFrame extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbItems, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cmbItems, 0, 200, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtUnitPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblUom, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDiscount, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
-        grnItemDetailsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtDiscount, txtQuantity, txtUnitPrice});
-
         grnItemDetailsPanelLayout.setVerticalGroup(
             grnItemDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(grnItemDetailsPanelLayout.createSequentialGroup()
@@ -461,7 +465,7 @@ public class GrnFrame extends javax.swing.JInternalFrame {
         );
         addedItemsPanelLayout.setVerticalGroup(
             addedItemsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
 
         btnSave.setBackground(new java.awt.Color(150, 255, 150));
@@ -524,6 +528,26 @@ public class GrnFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        btnItemSearch.setBackground(new java.awt.Color(150, 255, 150));
+        btnItemSearch.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnItemSearch.setText("Search (F2)");
+        btnItemSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(50, 255, 50)));
+        btnItemSearch.setContentAreaFilled(false);
+        btnItemSearch.setOpaque(true);
+        btnItemSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnItemSearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnItemSearchMouseExited(evt);
+            }
+        });
+        btnItemSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnItemSearchActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -533,6 +557,8 @@ public class GrnFrame extends javax.swing.JInternalFrame {
             .addComponent(addedItemsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnItemSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -540,6 +566,9 @@ public class GrnFrame extends javax.swing.JInternalFrame {
                 .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnItemSearch, btnReset, btnSave});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -547,14 +576,25 @@ public class GrnFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(grnItemDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addedItemsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(addedItemsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5))
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnItemSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnItemSearch, btnReset, btnSave});
+
+        btnItemSearch.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2,0),"F2");
+        btnItemSearch.getActionMap().put("F2", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnItemSearch.doClick();
+            }
+        });
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -597,7 +637,7 @@ public class GrnFrame extends javax.swing.JInternalFrame {
 
             session.close();
         }
-        
+
         cmbItems.requestFocus();
         cmbItems.setSelectedIndex(0);
         txtQuantity.setText("0.0");
@@ -673,12 +713,13 @@ public class GrnFrame extends javax.swing.JInternalFrame {
             cmbSupplier.addItem("");
             for (BusinessPartner businessPartner : businessPartners) {
                 cmbSupplier.addItem(businessPartner.getFirstName() + " " + businessPartner.getLastName());
+                businessPartnerMap.put(businessPartner.getFirstName() + " " + businessPartner.getLastName(), businessPartner);
             }
         }
 
         Criteria itemCriteria = session.createCriteria(Item.class)
                 .add(Restrictions.eq("isPhysical", 1))
-                .addOrder(Order.asc("itemCode"));
+                .addOrder(Order.asc("itemName"));
         List<Item> items = itemCriteria.list();
         if (!items.isEmpty()) {
             cmbItems.removeAllItems();
@@ -766,6 +807,19 @@ public class GrnFrame extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnCodeSerachActionPerformed
 
+    private void btnItemSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnItemSearchMouseEntered
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
+    }//GEN-LAST:event_btnItemSearchMouseEntered
+
+    private void btnItemSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnItemSearchMouseExited
+        ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
+    }//GEN-LAST:event_btnItemSearchMouseExited
+
+    private void btnItemSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnItemSearchActionPerformed
+        ItemSearchDialog itemSearchDialog = new ItemSearchDialog(null, true, this);
+        itemSearchDialog.setVisible(true);
+    }//GEN-LAST:event_btnItemSearchActionPerformed
+
     private boolean validateAddItemFields() {
         return !(((String) cmbItems.getSelectedItem()).isEmpty() || txtQuantity.getText().equalsIgnoreCase("0.0") || txtUnitPrice.getText().equalsIgnoreCase("0.0"));
     }
@@ -783,11 +837,9 @@ public class GrnFrame extends javax.swing.JInternalFrame {
 
         Date date = new Date();
 
-        BusinessPartner businessPartner = (BusinessPartner) session
-                .createCriteria(BusinessPartner.class)
-                .add(Restrictions.eq("firstName", cmbSupplier.getSelectedItem().toString().split(" ")[0].trim()))
-                .add(Restrictions.eq("lastName", cmbSupplier.getSelectedItem().toString().split(" ")[1].trim()))
-                .uniqueResult();
+        String businessPartnerName = cmbSupplier.getSelectedItem().toString().trim();
+
+        BusinessPartner businessPartner = businessPartnerMap.get(businessPartnerName);
 
         Grn grn = new Grn();
         grn.setGrnCode(strGrnCode);
@@ -854,7 +906,7 @@ public class GrnFrame extends javax.swing.JInternalFrame {
                     * Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()))
                     - Float.parseFloat(tblGrnItems.getValueAt(i, 4).toString()))
                     / Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
-            
+
             /**
              * Convert buying uom to selling uom
              */
@@ -891,19 +943,19 @@ public class GrnFrame extends javax.swing.JInternalFrame {
                     .add(Restrictions.eq("stockStatusId", 1))
                     .uniqueResult());
             stock.setItem(item);
-            
+
             session.saveOrUpdate(stock);
         }
-        
+
         transaction.commit();
         session.close();
-        
+
         if (bUpdate) {
             InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING, this);
         } else {
             InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING, this);
         }
-        
+
         this.clearAll();
     }
 
@@ -932,6 +984,10 @@ public class GrnFrame extends javax.swing.JInternalFrame {
         txtGrandSubTotal.setText("0.00");
         txtGrandDiscount.setText("0.00");
         txtGrandTotal.setText("0.00");
+
+        grandSubTotal = 0.0f;
+        grandDiscount = 0.0f;
+        grandTotal = 0.0f;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -939,9 +995,10 @@ public class GrnFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnCodeSerach;
+    private javax.swing.JButton btnItemSearch;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox<String> cmbItems;
+    public javax.swing.JComboBox<String> cmbItems;
     private javax.swing.JComboBox<String> cmbSupplier;
     private com.toedter.calendar.JDateChooser dateGrnDate;
     private javax.swing.JPanel grnDetailsPanel;
@@ -962,16 +1019,18 @@ public class GrnFrame extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JTable tblGrnItems;
     private javax.swing.JTextField txtDeliveredBy;
-    private javax.swing.JFormattedTextField txtDiscount;
+    public javax.swing.JFormattedTextField txtDiscount;
     private javax.swing.JFormattedTextField txtGrandDiscount;
     private javax.swing.JFormattedTextField txtGrandSubTotal;
     private javax.swing.JFormattedTextField txtGrandTotal;
     private javax.swing.JTextField txtGrnReference;
-    private javax.swing.JFormattedTextField txtQuantity;
+    public javax.swing.JFormattedTextField txtQuantity;
     private javax.swing.JTextField txtRemark;
-    private javax.swing.JFormattedTextField txtUnitPrice;
+    public javax.swing.JFormattedTextField txtUnitPrice;
     // End of variables declaration//GEN-END:variables
     float grandSubTotal = 0.0f;
     float grandDiscount = 0.0f;
     float grandTotal = 0.0f;
+
+    TreeMap<String, BusinessPartner> businessPartnerMap = new TreeMap<>();
 }

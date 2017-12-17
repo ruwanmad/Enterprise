@@ -29,6 +29,8 @@ import com.servicemaster.internalFrames.SubCategoryFrame;
 import com.servicemaster.internalFrames.ItemTypeFrame;
 import com.servicemaster.internalFrames.BillSetoffFrame;
 import com.servicemaster.internalFrames.ChequeReceipt;
+import com.servicemaster.internalFrames.SalesReportFrame;
+import com.servicemaster.internalFrames.StockReportFrame;
 import com.servicemaster.internalFrames.VehicleFrame;
 import com.servicemaster.internalFrames.VehicleTypeFrame;
 import com.servicemaster.models.Module;
@@ -825,6 +827,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
             case "24": {
                 internalFrame = new ChequeReceipt();
+                break;
+            }
+            case "25": {
+                internalFrame = new SalesReportFrame();
+                break;
+            }
+            case "26": {
+                internalFrame = new StockReportFrame();
                 break;
             }
             default: {

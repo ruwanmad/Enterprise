@@ -616,7 +616,7 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
                 .uniqueResult();
 
         BusinessPartner businessPartner = (BusinessPartner) session.createCriteria(BusinessPartner.class)
-                .add(Restrictions.eq("businessPartnerCode", ((String) cmbBusinessPatner.getSelectedItem()).split("-")[0].trim()))
+                .add(Restrictions.eq("businessPartnerCode", ((String) cmbBusinessPatner.getSelectedItem()).split("-")[1].trim()))
                 .uniqueResult();
 
         Vehicle vehicle = new Vehicle();
@@ -650,7 +650,7 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
     }
 
     private void loadBusinessPartner(Session session) {
-        Query query = session.createQuery("from BusinessPartner b order by b.businessPartnerCode");
+        Query query = session.createQuery("from BusinessPartner b order by b.firstName");
         List list = query.list();
         if (!list.isEmpty()) {
             cmbBusinessPatner.removeAllItems();
@@ -659,7 +659,7 @@ public class VehicleFrame extends javax.swing.JInternalFrame {
                     BusinessPartner businessPartner = (BusinessPartner) object;
                     String businessPartnerCode = businessPartner.getBusinessPartnerCode();
                     String businessPartnerName = businessPartner.getFirstName() + " " + businessPartner.getLastName();
-                    cmbBusinessPatner.addItem(businessPartnerCode + "-" + businessPartnerName);
+                    cmbBusinessPatner.addItem(businessPartnerName + "-" + businessPartnerCode);
                     this.businessPatnerMap.put(businessPartnerCode, businessPartner);
                 }
             }

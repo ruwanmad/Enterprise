@@ -1251,6 +1251,7 @@
               <Events>
                 <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnItemSearchMouseEntered"/>
                 <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnItemSearchMouseExited"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnItemSearchActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="btnItemSearch.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2,0),&quot;F2&quot;);&#xa;btnItemSearch.getActionMap().put(&quot;F2&quot;, new AbstractAction() {&#xa;   @Override&#xa;   public void actionPerformed(ActionEvent e) {&#xa;       btnItemSearch.doClick();&#xa;   }&#xa;});"/>

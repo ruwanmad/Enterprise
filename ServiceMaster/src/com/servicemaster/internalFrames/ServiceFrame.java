@@ -8,6 +8,7 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
+import com.servicemaster.dialogs.ItemSearchDialog;
 import com.servicemaster.dialogs.SettlementDialog;
 import com.servicemaster.dialogs.ShowEmployeeDialog;
 import com.servicemaster.forms.MainFrame;
@@ -900,6 +901,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnItemSearchMouseExited(evt);
+            }
+        });
+        btnItemSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnItemSearchActionPerformed(evt);
             }
         });
 
@@ -2037,6 +2043,11 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
             txtNextService.setText("" + next);
         }
     }//GEN-LAST:event_txtNextMilageFocusLost
+
+    private void btnItemSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnItemSearchActionPerformed
+        ItemSearchDialog itemSearchDialog = new ItemSearchDialog(null, true, this);
+        itemSearchDialog.setVisible(true);
+    }//GEN-LAST:event_btnItemSearchActionPerformed
 
     private void loadVehicles(Session session) {
         Query query = session.createQuery("from Vehicle v order by v.vehicleNumber");

@@ -125,7 +125,9 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         tblItemPopup.add(itemEdit);
 
         setClosable(true);
+        setIconifiable(true);
         setMaximizable(true);
+        setResizable(true);
         setTitle("Sale");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -814,7 +816,8 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             KeyCodeFunctions codeFunctions = new KeyCodeFunctions();
             String serviceCode = codeFunctions.getKey("DRS", "Direct sale");
 
-            String businessPartnerCode = cmbBusinessPartner.getSelectedItem().toString().split("-")[1].trim();
+            String busnessPartnerString = cmbBusinessPartner.getSelectedItem().toString().trim();
+            String businessPartnerCode = busnessPartnerString.substring(busnessPartnerString.lastIndexOf("-") + 1).trim();
 
             Date date = new Date();
 
@@ -1296,12 +1299,24 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         txtItemSearchKey.setForeground(Color.BLACK);
         txtItemSearchKey.setSelectionColor(Color.BLUE);
         txtItemName.setText("");
-        txtQuantity.setText("0.00");
-        txtDiscount.setText("0.00");
+        txtQuantity.setText("0.0");
+        txtDiscount.setText("0.0");
         rbtPercentage.setSelected(true);
+
+        txtGrandSubTotal.setText("0.0");
+        txtGrandDiscount.setText("0.0");
+        txtGrandTotal.setText("0.0");
+
+        grandSubTotal = 0.0f;
+        grandTotal = 0.0f;
+        grandDiscount = 0.0f;
 
         DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
         tableModel.setRowCount(0);
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        this.loadBusinessPartners(session);
+        session.close();
     }
 
     private float getItemSellingPrice(Item item) {

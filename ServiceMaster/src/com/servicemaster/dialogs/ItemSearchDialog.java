@@ -9,6 +9,7 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.functions.ItemFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import com.servicemaster.internalFrames.DirectSaleFrame;
+import com.servicemaster.internalFrames.GrnFrame;
 import com.servicemaster.internalFrames.ServiceFrame;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.ItemBrand;
@@ -622,6 +623,10 @@ public class ItemSearchDialog extends javax.swing.JDialog {
                 serviceFrame.txtItemName.setText(item.getItemName() + " - " + item.getItemCode());
                 serviceFrame.txtUnitPrice.setText("" + ItemFunctions.getItemSellingPrice(item));
                 serviceFrame.txtQuantity.requestFocus();
+            } else if (internalFrame instanceof GrnFrame) {
+                GrnFrame grnFrame = (GrnFrame) internalFrame;
+                grnFrame.cmbItems.setSelectedItem(item.getItemName());
+                grnFrame.txtUnitPrice.requestFocus();
             }
             session.close();
             this.dispose();
