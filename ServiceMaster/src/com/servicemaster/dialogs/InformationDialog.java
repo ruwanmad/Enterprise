@@ -9,15 +9,16 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import java.awt.Dimension;
 import java.awt.Point;
-import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author RuwanM
  */
 public class InformationDialog extends javax.swing.JDialog {
+    
+    final private static Logger LOGGER = Logger.getLogger(InformationDialog.class);
 
     private final String title;
 
@@ -140,6 +141,7 @@ public class InformationDialog extends javax.swing.JDialog {
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         this.dispose();
+        LOGGER.info("Message accepted.");
     }//GEN-LAST:event_btnOKActionPerformed
 
     public static void showMessageBox(String message, String title, JInternalFrame internalFrame) {

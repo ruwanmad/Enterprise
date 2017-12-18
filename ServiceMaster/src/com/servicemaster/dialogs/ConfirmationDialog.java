@@ -9,7 +9,9 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.guiFunctions.ButtonFunctions;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import javax.swing.JInternalFrame;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -17,6 +19,8 @@ import javax.swing.JInternalFrame;
  */
 public class ConfirmationDialog extends javax.swing.JDialog {
 
+    final static private Logger LOGGER = Logger.getLogger(ConfirmationDialog.class);
+    
     private final String title;
 
     public static final int YES_OPTION = 1;
@@ -85,6 +89,11 @@ public class ConfirmationDialog extends javax.swing.JDialog {
                 btnYesActionPerformed(evt);
             }
         });
+        btnYes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnYesKeyPressed(evt);
+            }
+        });
 
         btnNo.setBackground(new java.awt.Color(150, 255, 150));
         btnNo.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
@@ -103,6 +112,11 @@ public class ConfirmationDialog extends javax.swing.JDialog {
         btnNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNoActionPerformed(evt);
+            }
+        });
+        btnNo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnNoKeyPressed(evt);
             }
         });
 
@@ -174,6 +188,7 @@ public class ConfirmationDialog extends javax.swing.JDialog {
     private void btnYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYesActionPerformed
         ConfirmationDialog.option = YES_OPTION;
         this.dispose();
+        LOGGER.info("Yes option selected.");
     }//GEN-LAST:event_btnYesActionPerformed
 
     private void btnNoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNoMouseEntered
@@ -187,7 +202,20 @@ public class ConfirmationDialog extends javax.swing.JDialog {
     private void btnNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoActionPerformed
         ConfirmationDialog.option = NO_OPTION;
         this.dispose();
+        LOGGER.info("No option selected.");
     }//GEN-LAST:event_btnNoActionPerformed
+
+    private void btnYesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnYesKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_RIGHT) {
+            btnNo.requestFocus();
+        }
+    }//GEN-LAST:event_btnYesKeyPressed
+
+    private void btnNoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnNoKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_LEFT) {
+            btnYes.requestFocus();
+        }
+    }//GEN-LAST:event_btnNoKeyPressed
 
     public static void showMessageBox(String message, String title, JInternalFrame internalFrame) {
         ConfirmationDialog confirmationDialog = new ConfirmationDialog(null, true, message, title);

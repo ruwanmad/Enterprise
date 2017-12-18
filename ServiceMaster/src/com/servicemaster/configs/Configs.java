@@ -9,14 +9,15 @@ package com.servicemaster.configs;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author RuwanM
  */
 public class Configs {
+    
+    final static Logger LOGGER = Logger.getLogger(Configs.class);
     
     /**
      * Database configurations
@@ -50,7 +51,7 @@ public class Configs {
             
             return true;
         } catch (IOException ex) {
-            Logger.getLogger(Configs.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error(ex);
             return false;
         }
     }

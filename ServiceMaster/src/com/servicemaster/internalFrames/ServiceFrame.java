@@ -1360,7 +1360,7 @@ public class ServiceFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnNewMouseExited
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get("Vehicles"));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get("Vehicles"));
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnRefreshMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseEntered

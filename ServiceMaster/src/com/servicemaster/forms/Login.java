@@ -15,10 +15,10 @@ import javax.swing.JFrame;
 import org.hibernate.Session;
 import com.servicemaster.models.User;
 import com.servicemaster.models.UserPrivilage;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -274,9 +274,9 @@ public class Login extends javax.swing.JFrame {
 
                 session.getTransaction().commit();
                 session.close();
-            } catch (Exception ex) {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (HibernateException | NullPointerException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                LOGGER.error(ex);
             }
         }
     }
@@ -290,4 +290,5 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPasswordField pwdPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
+    final private static Logger LOGGER = Logger.getLogger(Login.class);
 }

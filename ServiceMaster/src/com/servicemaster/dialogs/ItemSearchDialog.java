@@ -21,7 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -31,9 +33,6 @@ import org.hibernate.criterion.Restrictions;
  * @author RuwanM
  */
 public class ItemSearchDialog extends javax.swing.JDialog {
-
-    private final JInternalFrame internalFrame;
-    private final boolean modal;
 
     /**
      * Creates new form ItemSearchDialog
@@ -46,7 +45,6 @@ public class ItemSearchDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.internalFrame = jInternalFrame;
-        this.modal = modal;
     }
 
     /**
@@ -551,85 +549,93 @@ public class ItemSearchDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_cmbBrandKeyPressed
 
     private void searchItem() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
 
-        String key = txtItemNameCode.getText().trim();
+            String key = txtItemNameCode.getText().trim();
 
-        String strBrandName = cmbBrand.getSelectedItem() == null ? "" : cmbBrand.getSelectedItem().toString();
-        String strSubCategory = cmbSubCategory.getSelectedItem() == null ? "" : cmbSubCategory.getSelectedItem().toString();
+            String strBrandName = cmbBrand.getSelectedItem() == null ? "" : cmbBrand.getSelectedItem().toString();
+            String strSubCategory = cmbSubCategory.getSelectedItem() == null ? "" : cmbSubCategory.getSelectedItem().toString();
 
-        Criteria searchCriteria = session.createCriteria(Item.class);
-        if (!strBrandName.isEmpty()) {
-            ItemBrand itemBrand = (ItemBrand) session
-                    .createCriteria(ItemBrand.class)
-                    .add(Restrictions.eq("brandName", strBrandName))
-                    .uniqueResult();
-            searchCriteria.add(Restrictions.eq("itemBrand", itemBrand));
-        }
-        if (!strSubCategory.isEmpty()) {
-            SubCategory subCategory = (SubCategory) session
-                    .createCriteria(SubCategory.class)
-                    .add(Restrictions.eq("subCategoryName", strSubCategory))
-                    .uniqueResult();
-            searchCriteria.add(Restrictions.eq("subCategory", subCategory));
-        }
-        searchCriteria.add(Restrictions.or(Restrictions.like("itemName", "%" + key + "%"), Restrictions.like("itemCode", key + "%")));
-
-        List<Item> items = searchCriteria.list();
-        DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-        if (!items.isEmpty()) {
-            tableModel.setRowCount(0);
-            for (Item item : items) {
-                String itemCode = item.getItemCode();
-                String itemName = item.getItemName();
-                String searchKey = item.getSearchKey();
-                String subCategory = item.getSubCategory().getSubCategoryName();
-                String itemBrand;
-                if (item.getItemBrand() != null) {
-                    itemBrand = item.getItemBrand().getBrandName();
-                } else {
-                    itemBrand = "";
-                }
-
-                tableModel.addRow(new String[]{itemCode, itemName, searchKey, subCategory, itemBrand});
+            Criteria searchCriteria = session.createCriteria(Item.class);
+            if (!strBrandName.isEmpty()) {
+                ItemBrand itemBrand = (ItemBrand) session
+                        .createCriteria(ItemBrand.class)
+                        .add(Restrictions.eq("brandName", strBrandName))
+                        .uniqueResult();
+                searchCriteria.add(Restrictions.eq("itemBrand", itemBrand));
             }
-        } else {
-            tableModel.setRowCount(0);
+            if (!strSubCategory.isEmpty()) {
+                SubCategory subCategory = (SubCategory) session
+                        .createCriteria(SubCategory.class)
+                        .add(Restrictions.eq("subCategoryName", strSubCategory))
+                        .uniqueResult();
+                searchCriteria.add(Restrictions.eq("subCategory", subCategory));
+            }
+            searchCriteria.add(Restrictions.or(Restrictions.like("itemName", "%" + key + "%"), Restrictions.like("itemCode", key + "%")));
+
+            List<Item> items = searchCriteria.list();
+            DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+            if (!items.isEmpty()) {
+                tableModel.setRowCount(0);
+                for (Item item : items) {
+                    String itemCode = item.getItemCode();
+                    String itemName = item.getItemName();
+                    String searchKey = item.getSearchKey();
+                    String subCategory = item.getSubCategory().getSubCategoryName();
+                    String itemBrand;
+                    if (item.getItemBrand() != null) {
+                        itemBrand = item.getItemBrand().getBrandName();
+                    } else {
+                        itemBrand = "";
+                    }
+
+                    tableModel.addRow(new String[]{itemCode, itemName, searchKey, subCategory, itemBrand});
+                }
+            } else {
+                tableModel.setRowCount(0);
+            }
+            session.close();
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
-        session.close();
     }
 
     private void selectItem() {
-        int selectedRow = tblItems.getSelectedRow();
-        if (selectedRow != -1) {
-            String itemCode = tblItems.getValueAt(selectedRow, 0).toString();
+        try {
+            int selectedRow = tblItems.getSelectedRow();
+            if (selectedRow != -1) {
+                String itemCode = tblItems.getValueAt(selectedRow, 0).toString();
 
-            Session session = HibernateUtil.getSessionFactory().openSession();
+                Session session = HibernateUtil.getSessionFactory().openSession();
 
-            Item item = (Item) session
-                    .createCriteria(Item.class)
-                    .add(Restrictions.eq("itemCode", itemCode))
-                    .uniqueResult();
+                Item item = (Item) session
+                        .createCriteria(Item.class)
+                        .add(Restrictions.eq("itemCode", itemCode))
+                        .uniqueResult();
 
-            if (internalFrame instanceof DirectSaleFrame) {
-                DirectSaleFrame directSaleFrame = (DirectSaleFrame) internalFrame;
-                directSaleFrame.txtItemSearchKey.setText(item.getSearchKey());
-                directSaleFrame.txtItemName.setText(item.getItemName() + " - " + item.getItemCode());
-                directSaleFrame.txtUnitPrice.setText("" + ItemFunctions.getItemSellingPrice(item));
-                directSaleFrame.txtQuantity.requestFocus();
-            } else if (internalFrame instanceof ServiceFrame) {
-                ServiceFrame serviceFrame = (ServiceFrame) internalFrame;
-                serviceFrame.txtItemSearchCode.setText(item.getSearchKey());
-                serviceFrame.txtItemName.setText(item.getItemName() + " - " + item.getItemCode());
-                serviceFrame.txtUnitPrice.setText("" + ItemFunctions.getItemSellingPrice(item));
-                serviceFrame.txtQuantity.requestFocus();
-            } else if (internalFrame instanceof GrnFrame) {
-                GrnFrame grnFrame = (GrnFrame) internalFrame;
-                grnFrame.cmbItems.setSelectedItem(item.getItemName());
-                grnFrame.txtUnitPrice.requestFocus();
+                if (internalFrame instanceof DirectSaleFrame) {
+                    DirectSaleFrame directSaleFrame = (DirectSaleFrame) internalFrame;
+                    directSaleFrame.txtItemSearchKey.setText(item.getSearchKey());
+                    directSaleFrame.txtItemName.setText(item.getItemName() + " - " + item.getItemCode());
+                    directSaleFrame.txtUnitPrice.setText("" + ItemFunctions.getItemSellingPrice(item));
+                    directSaleFrame.txtQuantity.requestFocus();
+                } else if (internalFrame instanceof ServiceFrame) {
+                    ServiceFrame serviceFrame = (ServiceFrame) internalFrame;
+                    serviceFrame.txtItemSearchCode.setText(item.getSearchKey());
+                    serviceFrame.txtItemName.setText(item.getItemName() + " - " + item.getItemCode());
+                    serviceFrame.txtUnitPrice.setText("" + ItemFunctions.getItemSellingPrice(item));
+                    serviceFrame.txtQuantity.requestFocus();
+                } else if (internalFrame instanceof GrnFrame) {
+                    GrnFrame grnFrame = (GrnFrame) internalFrame;
+                    grnFrame.cmbItems.setSelectedItem(item.getItemName());
+                    grnFrame.txtUnitPrice.requestFocus();
+                }
+                session.close();
+                this.dispose();
             }
-            session.close();
-            this.dispose();
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
     }
 
@@ -676,4 +682,8 @@ public class ItemSearchDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
     ArrayList<String> subcategoryNames = new ArrayList<>();
     ArrayList<String> brandNames = new ArrayList<>();
+
+    private final static Logger LOGGER = Logger.getLogger(ItemSearchDialog.class);
+
+    private final JInternalFrame internalFrame;
 }

@@ -56,14 +56,14 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -72,8 +72,6 @@ import org.hibernate.Session;
  * @author Ruwan Madawala
  */
 public class MainFrame extends javax.swing.JFrame {
-
-    public static User user;
 
     /**
      * Creates new form MainFrame
@@ -530,64 +528,68 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_miExitActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-
-        Query query = session.createQuery("from Module m order by m.moduleId");
-        List objectList = query.list();
-        for (Object object : objectList) {
-            if (object instanceof Module) {
-                Module module = (Module) object;
-                String moduleCode = module.getModuleCode();
-                String moduleName = module.getModuleName();
-                int max = module.getIsMaximized();
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("ModuleCode", moduleCode);
-                map.put("Max", max);
-                allModuleMap.put(moduleName, map);
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            
+            Query query = session.createQuery("from Module m order by m.moduleId");
+            List objectList = query.list();
+            for (Object object : objectList) {
+                if (object instanceof Module) {
+                    Module module = (Module) object;
+                    String moduleCode = module.getModuleCode();
+                    String moduleName = module.getModuleName();
+                    int max = module.getIsMaximized();
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("ModuleCode", moduleCode);
+                    map.put("Max", max);
+                    ALL_MODULE_MAP.put(moduleName, map);
+                }
             }
-        }
-
-        query = session.createQuery("from Module m where m.isShortcutAdded = 0 order by m.moduleId");
-        objectList = query.list();
-        for (Object object : objectList) {
-            if (object instanceof Module) {
-                Module module = (Module) object;
-                String moduleCode = module.getModuleCode();
-                String moduleName = module.getModuleName();
-                int max = module.getIsMaximized();
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("ModuleCode", moduleCode);
-                map.put("Max", max);
-                availableModuleMap.put(moduleName, map);
+            
+            query = session.createQuery("from Module m where m.isShortcutAdded = 0 order by m.moduleId");
+            objectList = query.list();
+            for (Object object : objectList) {
+                if (object instanceof Module) {
+                    Module module = (Module) object;
+                    String moduleCode = module.getModuleCode();
+                    String moduleName = module.getModuleName();
+                    int max = module.getIsMaximized();
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("ModuleCode", moduleCode);
+                    map.put("Max", max);
+                    AVAILABLE_MODULE_MAP.put(moduleName, map);
+                }
             }
-        }
-
-        query = session.createQuery("from Module m where m.isShortcutAdded = 1 order by m.moduleId");
-        objectList = query.list();
-        for (Object object : objectList) {
-            if (object instanceof Module) {
-                Module module = (Module) object;
-                String moduleCode = module.getModuleCode();
-                String moduleName = module.getModuleName();
-                int max = module.getIsMaximized();
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("ModuleCode", moduleCode);
-                map.put("Max", max);
-                addedModuleMap.put(moduleName, map);
+            
+            query = session.createQuery("from Module m where m.isShortcutAdded = 1 order by m.moduleId");
+            objectList = query.list();
+            for (Object object : objectList) {
+                if (object instanceof Module) {
+                    Module module = (Module) object;
+                    String moduleCode = module.getModuleCode();
+                    String moduleName = module.getModuleName();
+                    int max = module.getIsMaximized();
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("ModuleCode", moduleCode);
+                    map.put("Max", max);
+                    ADDED_MODULE_MAP.put(moduleName, map);
+                }
             }
-        }
-        session.getTransaction().commit();
-        session.close();
-
-        if (!addedModuleMap.isEmpty()) {
-            Set<String> keySet = addedModuleMap.keySet();
-            for (String key : keySet) {
-                this.addShortCuts(key);
+            session.getTransaction().commit();
+            session.close();
+            
+            if (!ADDED_MODULE_MAP.isEmpty()) {
+                Set<String> keySet = ADDED_MODULE_MAP.keySet();
+                for (String key : keySet) {
+                    this.addShortCuts(key);
+                }
+                
+                this.panelShortcuts.revalidate();
+                this.panelShortcuts.repaint();
             }
-
-            this.panelShortcuts.revalidate();
-            this.panelShortcuts.repaint();
+        } catch (HibernateException | NullPointerException ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_formWindowOpened
 
@@ -609,7 +611,7 @@ public class MainFrame extends javax.swing.JFrame {
                 InformationDialog.showMessageBox("Please restart the application", "Restart", null);
                 System.exit(0);
             } catch (IOException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(ex);
             }
         }
     }//GEN-LAST:event_miChangeBackgroundActionPerformed
@@ -623,117 +625,117 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void miCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCategoryActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miCategoryActionPerformed
 
     private void miSubCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSubCategoryActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miSubCategoryActionPerformed
 
     private void miLocationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miLocationsActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miLocationsActionPerformed
 
     private void miStorageRacksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miStorageRacksActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miStorageRacksActionPerformed
 
     private void miStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miStorageActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miStorageActionPerformed
 
     private void miRackSlotsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRackSlotsActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miRackSlotsActionPerformed
 
     private void miPrintersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPrintersActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miPrintersActionPerformed
 
     private void miItemTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miItemTypeActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miItemTypeActionPerformed
 
     private void miBusinessPartnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miBusinessPartnerActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miBusinessPartnerActionPerformed
 
     private void miVehileTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miVehileTypeActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miVehileTypeActionPerformed
 
     private void miVehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miVehiclesActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miVehiclesActionPerformed
 
     private void miItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miItemsActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miItemsActionPerformed
 
     private void miServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miServiceActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miServiceActionPerformed
 
     private void miBomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miBomActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miBomActionPerformed
 
     private void miStockReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miStockReportsActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miStockReportsActionPerformed
 
     private void miSalesReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalesReportsActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miSalesReportsActionPerformed
 
     private void miGRNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGRNActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miGRNActionPerformed
 
     private void miSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSaleActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miSaleActionPerformed
 
     private void miSalesHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalesHistoryActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miSalesHistoryActionPerformed
 
     private void miSalesReturnsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalesReturnsActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miSalesReturnsActionPerformed
 
     private void mAccountsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mAccountsActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_mAccountsActionPerformed
 
     private void miBillSetoffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miBillSetoffActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miBillSetoffActionPerformed
 
     private void miPaymentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPaymentsActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miPaymentsActionPerformed
 
     private void miChequeReceiptsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miChequeReceiptsActionPerformed
-        MainFrame.openWindow(MainFrame.allModuleMap.get(evt.getActionCommand()));
+        MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miChequeReceiptsActionPerformed
-
+    
     private void exitApllication() {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure", null);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             System.exit(0);
         }
     }
-
+    
     public static void openWindow(HashMap<String, Object> moduleDetailsMap) {
         String moduleCode = (String) moduleDetailsMap.get("ModuleCode");
         int max = (int) moduleDetailsMap.get("Max");
-
+        
         boolean maximized = false;
         if (max == 1) {
             maximized = true;
         }
-
+        
         JInternalFrame internalFrame = null;
         switch (moduleCode) {
             case "1": {
@@ -841,18 +843,20 @@ public class MainFrame extends javax.swing.JFrame {
                 internalFrame = null;
             }
         }
-
+        
         if (internalFrame != null) {
             try {
                 desktopPane.add(internalFrame);
                 internalFrame.setMaximum(maximized);
                 internalFrame.setVisible(true);
             } catch (PropertyVetoException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(ex);
             }
+        } else {
+            LOGGER.info("The internal frame is null. Selected module code was " + moduleCode);
         }
     }
-
+    
     public void addShortCuts(String name) {
         JButton button = new JButton(name);
         button.setName(name);
@@ -860,12 +864,12 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void mouseClicked(MouseEvent evt) {
             }
-
+            
             @Override
             public void mouseEntered(MouseEvent evt) {
                 ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
             }
-
+            
             @Override
             public void mouseExited(MouseEvent evt) {
                 ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
@@ -874,10 +878,10 @@ public class MainFrame extends javax.swing.JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                MainFrame.openWindow(MainFrame.allModuleMap.get(((JButton) evt.getSource()).getName().trim()));
+                MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(((JButton) evt.getSource()).getName().trim()));
             }
         });
-
+        
         button.setPreferredSize(new Dimension(150, 50));
         button.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
         button.setHorizontalAlignment(SwingConstants.CENTER);
@@ -939,7 +943,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator transactionSeparator2;
     private javax.swing.JPopupMenu.Separator transactionSeparator3;
     // End of variables declaration//GEN-END:variables
-    public static final LinkedHashMap<String, HashMap<String, Object>> allModuleMap = new LinkedHashMap<>();
-    public static final LinkedHashMap<String, HashMap<String, Object>> availableModuleMap = new LinkedHashMap<>();
-    public static final LinkedHashMap<String, HashMap<String, Object>> addedModuleMap = new LinkedHashMap<>();
+    public static final LinkedHashMap<String, HashMap<String, Object>> ALL_MODULE_MAP = new LinkedHashMap<>();
+    public static final LinkedHashMap<String, HashMap<String, Object>> AVAILABLE_MODULE_MAP = new LinkedHashMap<>();
+    public static final LinkedHashMap<String, HashMap<String, Object>> ADDED_MODULE_MAP = new LinkedHashMap<>();
+    
+    public static User user;
+    
+    private static final Logger LOGGER = Logger.getLogger(MainFrame.class);
 }

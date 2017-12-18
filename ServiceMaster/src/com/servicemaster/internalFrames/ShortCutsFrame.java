@@ -293,7 +293,7 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
             for (Object value : array) {
                 if (value instanceof String) {
                     mainFrame.addShortCuts(value.toString());
-                    HashMap<String, Object> map = MainFrame.allModuleMap.get(value.toString());
+                    HashMap<String, Object> map = MainFrame.ALL_MODULE_MAP.get(value.toString());
 
                     Module module = (Module) session.load(Module.class, Integer.parseInt((String) map.get("ModuleCode")));
                     module.setIsShortcutAdded(1);
@@ -316,7 +316,7 @@ public class ShortCutsFrame extends javax.swing.JInternalFrame {
             Object[] array = model.toArray();
             for (Object value : array) {
                 if (value instanceof String) {
-                    HashMap<String, Object> map = MainFrame.allModuleMap.get(value.toString());
+                    HashMap<String, Object> map = MainFrame.ALL_MODULE_MAP.get(value.toString());
 
                     Module module = (Module) session.load(Module.class, Integer.parseInt((String) map.get("ModuleCode")));
                     module.setIsShortcutAdded(0);

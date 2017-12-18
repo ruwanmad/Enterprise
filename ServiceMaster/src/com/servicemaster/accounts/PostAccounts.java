@@ -15,6 +15,8 @@ import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Sale;
 import com.servicemaster.utils.HibernateUtil;
 import java.util.Date;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -24,30 +26,36 @@ import org.hibernate.Transaction;
  */
 public class PostAccounts {
 
+    final static Logger LOGGER = Logger.getLogger(PostAccounts.class);
+
     public void cashDebitPosting(Account debitAccount,
             Invoice invoice,
             String narration,
             float amount) {
-        if (debitAccount != null) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
+        try {
+            if (debitAccount != null) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Transaction transaction = session.beginTransaction();
 
-            Date date = new Date();
+                Date date = new Date();
 
-            AccountPosting posting = new AccountPosting();
-            posting.setAccount(debitAccount);
-            posting.setDebit(amount);
-            posting.setInvoice(invoice);
-            posting.setCreatedDate(date);
-            posting.setCreatedTime(date);
-            posting.setCreatedUser(MainFrame.user.getUserId());
-            posting.setNarration(narration);
-            posting.setPostedDate(date);
+                AccountPosting posting = new AccountPosting();
+                posting.setAccount(debitAccount);
+                posting.setDebit(amount);
+                posting.setInvoice(invoice);
+                posting.setCreatedDate(date);
+                posting.setCreatedTime(date);
+                posting.setCreatedUser(MainFrame.user.getUserId());
+                posting.setNarration(narration);
+                posting.setPostedDate(date);
 
-            session.saveOrUpdate(posting);
+                session.saveOrUpdate(posting);
 
-            transaction.commit();
-            session.close();
+                transaction.commit();
+                session.close();
+            }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
     }
 
@@ -59,41 +67,45 @@ public class PostAccounts {
             int creditDays,
             String chequeNumber,
             String narration) {
-        if (debitAccount != null) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
+        try {
+            if (debitAccount != null) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Transaction transaction = session.beginTransaction();
 
-            Date date = new Date();
+                Date date = new Date();
 
-            Sale sale;
-            if (invoice != null) {
-                sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
-            } else {
-                sale = null;
+                Sale sale;
+                if (invoice != null) {
+                    sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+                } else {
+                    sale = null;
+                }
+
+                AccountPosting posting = new AccountPosting();
+                posting.setAccount(debitAccount);
+                if (sale != null) {
+                    posting.setDebit(sale.getGrandTotal());
+                } else {
+                    posting.setDebit(amount);
+                }
+                posting.setBusinessPartner(businessPartner);
+                posting.setChequeDate(chequeDate);
+                posting.setNumberOfDays(creditDays);
+                posting.setChequeNumber(chequeNumber);
+                posting.setInvoice(invoice);
+                posting.setCreatedDate(date);
+                posting.setCreatedTime(date);
+                posting.setCreatedUser(MainFrame.user.getUserId());
+                posting.setNarration(narration);
+                posting.setPostedDate(date);
+
+                session.saveOrUpdate(posting);
+
+                transaction.commit();
+                session.close();
             }
-
-            AccountPosting posting = new AccountPosting();
-            posting.setAccount(debitAccount);
-            if (sale != null) {
-                posting.setDebit(sale.getGrandTotal());
-            } else {
-                posting.setDebit(amount);
-            }
-            posting.setBusinessPartner(businessPartner);
-            posting.setChequeDate(chequeDate);
-            posting.setNumberOfDays(creditDays);
-            posting.setChequeNumber(chequeNumber);
-            posting.setInvoice(invoice);
-            posting.setCreatedDate(date);
-            posting.setCreatedTime(date);
-            posting.setCreatedUser(MainFrame.user.getUserId());
-            posting.setNarration(narration);
-            posting.setPostedDate(date);
-
-            session.saveOrUpdate(posting);
-
-            transaction.commit();
-            session.close();
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
     }
 
@@ -102,30 +114,34 @@ public class PostAccounts {
             Invoice invoice,
             int cretidDays,
             String narration) {
-        if (debitAccount != null) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
+        try {
+            if (debitAccount != null) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Transaction transaction = session.beginTransaction();
 
-            Date date = new Date();
+                Date date = new Date();
 
-            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+                Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
 
-            AccountPosting posting = new AccountPosting();
-            posting.setAccount(debitAccount);
-            posting.setDebit(sale.getGrandTotal());
-            posting.setBusinessPartner(businessPartner);
-            posting.setNumberOfDays(cretidDays);
-            posting.setInvoice(invoice);
-            posting.setCreatedDate(date);
-            posting.setCreatedTime(date);
-            posting.setCreatedUser(MainFrame.user.getUserId());
-            posting.setNarration(narration);
-            posting.setPostedDate(date);
+                AccountPosting posting = new AccountPosting();
+                posting.setAccount(debitAccount);
+                posting.setDebit(sale.getGrandTotal());
+                posting.setBusinessPartner(businessPartner);
+                posting.setNumberOfDays(cretidDays);
+                posting.setInvoice(invoice);
+                posting.setCreatedDate(date);
+                posting.setCreatedTime(date);
+                posting.setCreatedUser(MainFrame.user.getUserId());
+                posting.setNarration(narration);
+                posting.setPostedDate(date);
 
-            session.saveOrUpdate(posting);
+                session.saveOrUpdate(posting);
 
-            transaction.commit();
-            session.close();
+                transaction.commit();
+                session.close();
+            }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
     }
 
@@ -136,29 +152,33 @@ public class PostAccounts {
             String bank,
             String cardType,
             String narration) {
-        if (debitAccount != null) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
+        try {
+            if (debitAccount != null) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Transaction transaction = session.beginTransaction();
 
-            Date date = new Date();
+                Date date = new Date();
 
-            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+                Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
 
-            AccountPosting posting = new AccountPosting();
-            posting.setAccount(debitAccount);
-            posting.setDebit(sale.getGrandTotal());
-            posting.setRemark(bank + ";" + cardType + ";" + cardNumber + ";" + SystemData.DATE_FORMAT.format(expireDate));
-            posting.setInvoice(invoice);
-            posting.setCreatedDate(date);
-            posting.setCreatedTime(date);
-            posting.setCreatedUser(MainFrame.user.getUserId());
-            posting.setNarration(narration);
-            posting.setPostedDate(date);
+                AccountPosting posting = new AccountPosting();
+                posting.setAccount(debitAccount);
+                posting.setDebit(sale.getGrandTotal());
+                posting.setRemark(bank + ";" + cardType + ";" + cardNumber + ";" + SystemData.DATE_FORMAT.format(expireDate));
+                posting.setInvoice(invoice);
+                posting.setCreatedDate(date);
+                posting.setCreatedTime(date);
+                posting.setCreatedUser(MainFrame.user.getUserId());
+                posting.setNarration(narration);
+                posting.setPostedDate(date);
 
-            session.saveOrUpdate(posting);
+                session.saveOrUpdate(posting);
 
-            transaction.commit();
-            session.close();
+                transaction.commit();
+                session.close();
+            }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
     }
 
@@ -166,26 +186,30 @@ public class PostAccounts {
             BusinessPartner businessPartner,
             float amount,
             String narration) {
-        if (creditAccount != null) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
+        try {
+            if (creditAccount != null) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Transaction transaction = session.beginTransaction();
 
-            Date date = new Date();
+                Date date = new Date();
 
-            AccountPosting posting = new AccountPosting();
-            posting.setAccount(creditAccount);
-            posting.setDebit(amount);
-            posting.setBusinessPartner(businessPartner);
-            posting.setCreatedDate(date);
-            posting.setCreatedTime(date);
-            posting.setCreatedUser(MainFrame.user.getUserId());
-            posting.setNarration(narration);
-            posting.setPostedDate(date);
+                AccountPosting posting = new AccountPosting();
+                posting.setAccount(creditAccount);
+                posting.setDebit(amount);
+                posting.setBusinessPartner(businessPartner);
+                posting.setCreatedDate(date);
+                posting.setCreatedTime(date);
+                posting.setCreatedUser(MainFrame.user.getUserId());
+                posting.setNarration(narration);
+                posting.setPostedDate(date);
 
-            session.saveOrUpdate(posting);
+                session.saveOrUpdate(posting);
 
-            transaction.commit();
-            session.close();
+                transaction.commit();
+                session.close();
+            }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
     }
 
@@ -193,26 +217,30 @@ public class PostAccounts {
             Invoice invoice,
             String narration,
             float amount) {
-        if (creditAccount != null) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
+        try {
+            if (creditAccount != null) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Transaction transaction = session.beginTransaction();
 
-            Date date = new Date();
+                Date date = new Date();
 
-            AccountPosting posting = new AccountPosting();
-            posting.setAccount(creditAccount);
-            posting.setCredit(amount);
-            posting.setInvoice(invoice);
-            posting.setCreatedDate(date);
-            posting.setCreatedTime(date);
-            posting.setCreatedUser(MainFrame.user.getUserId());
-            posting.setNarration(narration);
-            posting.setPostedDate(date);
+                AccountPosting posting = new AccountPosting();
+                posting.setAccount(creditAccount);
+                posting.setCredit(amount);
+                posting.setInvoice(invoice);
+                posting.setCreatedDate(date);
+                posting.setCreatedTime(date);
+                posting.setCreatedUser(MainFrame.user.getUserId());
+                posting.setNarration(narration);
+                posting.setPostedDate(date);
 
-            session.saveOrUpdate(posting);
+                session.saveOrUpdate(posting);
 
-            transaction.commit();
-            session.close();
+                transaction.commit();
+                session.close();
+            }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
     }
 
@@ -224,41 +252,45 @@ public class PostAccounts {
             int creditDays,
             String chequeNumber,
             String narration) {
-        if (creditAccount != null) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
+        try {
+            if (creditAccount != null) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Transaction transaction = session.beginTransaction();
 
-            Date date = new Date();
+                Date date = new Date();
 
-            Sale sale;
-            if (invoice != null) {
-                sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
-            } else {
-                sale = null;
+                Sale sale;
+                if (invoice != null) {
+                    sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+                } else {
+                    sale = null;
+                }
+
+                AccountPosting posting = new AccountPosting();
+                posting.setAccount(creditAccount);
+                if (sale != null) {
+                    posting.setCredit(sale.getGrandTotal());
+                } else {
+                    posting.setCredit(amount);
+                }
+                posting.setBusinessPartner(businessPartner);
+                posting.setChequeDate(chequeDate);
+                posting.setNumberOfDays(creditDays);
+                posting.setChequeNumber(chequeNumber);
+                posting.setInvoice(invoice);
+                posting.setCreatedDate(date);
+                posting.setCreatedTime(date);
+                posting.setCreatedUser(MainFrame.user.getUserId());
+                posting.setNarration(narration);
+                posting.setPostedDate(date);
+
+                session.saveOrUpdate(posting);
+
+                transaction.commit();
+                session.close();
             }
-
-            AccountPosting posting = new AccountPosting();
-            posting.setAccount(creditAccount);
-            if (sale != null) {
-                posting.setCredit(sale.getGrandTotal());
-            } else {
-                posting.setCredit(amount);
-            }
-            posting.setBusinessPartner(businessPartner);
-            posting.setChequeDate(chequeDate);
-            posting.setNumberOfDays(creditDays);
-            posting.setChequeNumber(chequeNumber);
-            posting.setInvoice(invoice);
-            posting.setCreatedDate(date);
-            posting.setCreatedTime(date);
-            posting.setCreatedUser(MainFrame.user.getUserId());
-            posting.setNarration(narration);
-            posting.setPostedDate(date);
-
-            session.saveOrUpdate(posting);
-
-            transaction.commit();
-            session.close();
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
     }
 
@@ -267,30 +299,34 @@ public class PostAccounts {
             Invoice invoice,
             int cretidDays,
             String narration) {
-        if (creditAccount != null) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
+        try {
+            if (creditAccount != null) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Transaction transaction = session.beginTransaction();
 
-            Date date = new Date();
+                Date date = new Date();
 
-            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+                Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
 
-            AccountPosting posting = new AccountPosting();
-            posting.setAccount(creditAccount);
-            posting.setCredit(sale.getGrandTotal());
-            posting.setBusinessPartner(businessPartner);
-            posting.setNumberOfDays(cretidDays);
-            posting.setInvoice(invoice);
-            posting.setCreatedDate(date);
-            posting.setCreatedTime(date);
-            posting.setCreatedUser(MainFrame.user.getUserId());
-            posting.setNarration(narration);
-            posting.setPostedDate(date);
+                AccountPosting posting = new AccountPosting();
+                posting.setAccount(creditAccount);
+                posting.setCredit(sale.getGrandTotal());
+                posting.setBusinessPartner(businessPartner);
+                posting.setNumberOfDays(cretidDays);
+                posting.setInvoice(invoice);
+                posting.setCreatedDate(date);
+                posting.setCreatedTime(date);
+                posting.setCreatedUser(MainFrame.user.getUserId());
+                posting.setNarration(narration);
+                posting.setPostedDate(date);
 
-            session.saveOrUpdate(posting);
+                session.saveOrUpdate(posting);
 
-            transaction.commit();
-            session.close();
+                transaction.commit();
+                session.close();
+            }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
     }
 
@@ -301,29 +337,33 @@ public class PostAccounts {
             String bank,
             String cardType,
             String narration) {
-        if (creditAccount != null) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
+        try {
+            if (creditAccount != null) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Transaction transaction = session.beginTransaction();
 
-            Date date = new Date();
+                Date date = new Date();
 
-            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+                Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
 
-            AccountPosting posting = new AccountPosting();
-            posting.setAccount(creditAccount);
-            posting.setCredit(sale.getGrandTotal());
-            posting.setRemark(bank + ";" + cardType + ";" + cardNumber + ";" + SystemData.DATE_FORMAT.format(expireDate));
-            posting.setInvoice(invoice);
-            posting.setCreatedDate(date);
-            posting.setCreatedTime(date);
-            posting.setCreatedUser(MainFrame.user.getUserId());
-            posting.setNarration(narration);
-            posting.setPostedDate(date);
+                AccountPosting posting = new AccountPosting();
+                posting.setAccount(creditAccount);
+                posting.setCredit(sale.getGrandTotal());
+                posting.setRemark(bank + ";" + cardType + ";" + cardNumber + ";" + SystemData.DATE_FORMAT.format(expireDate));
+                posting.setInvoice(invoice);
+                posting.setCreatedDate(date);
+                posting.setCreatedTime(date);
+                posting.setCreatedUser(MainFrame.user.getUserId());
+                posting.setNarration(narration);
+                posting.setPostedDate(date);
 
-            session.saveOrUpdate(posting);
+                session.saveOrUpdate(posting);
 
-            transaction.commit();
-            session.close();
+                transaction.commit();
+                session.close();
+            }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
     }
 
@@ -331,34 +371,46 @@ public class PostAccounts {
             BusinessPartner businessPartner,
             float amount,
             String narration) {
-        if (creditAccount != null) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
+        try {
+            if (creditAccount != null) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Transaction transaction = session.beginTransaction();
 
-            Date date = new Date();
+                Date date = new Date();
 
-            AccountPosting posting = new AccountPosting();
-            posting.setAccount(creditAccount);
-            posting.setCredit(amount);
-            posting.setBusinessPartner(businessPartner);
-            posting.setCreatedDate(date);
-            posting.setCreatedTime(date);
-            posting.setCreatedUser(MainFrame.user.getUserId());
-            posting.setNarration(narration);
-            posting.setPostedDate(date);
+                AccountPosting posting = new AccountPosting();
+                posting.setAccount(creditAccount);
+                posting.setCredit(amount);
+                posting.setBusinessPartner(businessPartner);
+                posting.setCreatedDate(date);
+                posting.setCreatedTime(date);
+                posting.setCreatedUser(MainFrame.user.getUserId());
+                posting.setNarration(narration);
+                posting.setPostedDate(date);
 
-            session.saveOrUpdate(posting);
+                session.saveOrUpdate(posting);
 
-            transaction.commit();
-            session.close();
+                transaction.commit();
+                session.close();
+            }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
     }
 
     public void purchaseDebitPosting(Account debitAccount, Grn grn, String narration) {
+        try {
 
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+        }
     }
 
     public void purchaseCreditPosting(Account creditAccount, Grn grn, String narration) {
+        try {
 
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+        }
     }
 }

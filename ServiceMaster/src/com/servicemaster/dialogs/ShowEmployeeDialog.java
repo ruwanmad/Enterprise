@@ -7,13 +7,14 @@ package com.servicemaster.dialogs;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.guiFunctions.ButtonFunctions;
-import com.servicemaster.internalFrames.ServiceFrame;
 import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JCheckBox;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -170,24 +171,28 @@ public class ShowEmployeeDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSaveMouseExited
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        Component [] components = dataPanel.getComponents();
-        if (components.length > 0) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            for (Component component : components) {
-                if (component instanceof JCheckBox) {
-                    JCheckBox checkBox = (JCheckBox) component;
-                    if (checkBox.isSelected()) {                        
-                        BusinessPartner businessPartner = (BusinessPartner) session
-                                .createCriteria(BusinessPartner.class)
-                                .add(Restrictions.eq("businessPartnerCode", checkBox.getName().trim()))
-                                .uniqueResult();
-                        
-                        this.employeeList.add(businessPartner.getBusinessPartnerCode());
+        try {
+            Component[] components = dataPanel.getComponents();
+            if (components.length > 0) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                for (Component component : components) {
+                    if (component instanceof JCheckBox) {
+                        JCheckBox checkBox = (JCheckBox) component;
+                        if (checkBox.isSelected()) {
+                            BusinessPartner businessPartner = (BusinessPartner) session
+                                    .createCriteria(BusinessPartner.class)
+                                    .add(Restrictions.eq("businessPartnerCode", checkBox.getName().trim()))
+                                    .uniqueResult();
+
+                            this.employeeList.add(businessPartner.getBusinessPartnerCode());
+                        }
                     }
                 }
+                session.close();
+                this.dispose();
             }
-            session.close();
-            this.dispose();
+        } catch (HibernateException | NullPointerException ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -204,31 +209,35 @@ public class ShowEmployeeDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
 
-        List<BusinessPartner> businessPartners = session
-                .createCriteria(BusinessPartner.class)
-                .add(Restrictions.eq("isEmployee", true))
-                .list();
+            List<BusinessPartner> businessPartners = session
+                    .createCriteria(BusinessPartner.class)
+                    .add(Restrictions.eq("isEmployee", true))
+                    .list();
 
-        if (!businessPartners.isEmpty()) {
-            for (BusinessPartner businessPartner : businessPartners) {
-                JCheckBox checkBox = new JCheckBox();
-                checkBox.setText(businessPartner.getFirstName() + " " + businessPartner.getLastName());
-                checkBox.setName(businessPartner.getBusinessPartnerCode());
+            if (!businessPartners.isEmpty()) {
+                for (BusinessPartner businessPartner : businessPartners) {
+                    JCheckBox checkBox = new JCheckBox();
+                    checkBox.setText(businessPartner.getFirstName() + " " + businessPartner.getLastName());
+                    checkBox.setName(businessPartner.getBusinessPartnerCode());
 
-                dataPanel.add(checkBox);
+                    dataPanel.add(checkBox);
+                }
+                dataPanel.revalidate();
+                dataPanel.repaint();
             }
-            dataPanel.revalidate();
-            dataPanel.repaint();
+            session.close();
+        } catch (HibernateException | NullPointerException ex) {
+            LOGGER.error(ex);
         }
-        session.close();
     }//GEN-LAST:event_formWindowOpened
 
     public ArrayList<String> getEmployeeList() {
         return employeeList;
-    }    
-    
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnSave;
@@ -236,5 +245,6 @@ public class ShowEmployeeDialog extends javax.swing.JDialog {
     private javax.swing.JPanel dataPanel;
     private javax.swing.JPanel mainPanel;
     // End of variables declaration//GEN-END:variables
-    private ArrayList<String> employeeList = new ArrayList<>();
+    private final ArrayList<String> employeeList = new ArrayList<>();
+    private final static Logger LOGGER = Logger.getLogger(ShowEmployeeDialog.class);
 }
