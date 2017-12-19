@@ -296,10 +296,10 @@ public class ServicesFrame extends javax.swing.JInternalFrame {
 
         Criteria serviceCriteria = session.createCriteria(Sale.class);
         
-        serviceCriteria.add(Restrictions.ne("saleStatus", session.load(SaleStatus.class, new SaleStatus(4).getStatusId())));
         serviceCriteria.add(Restrictions.ne("saleStatus", session.load(SaleStatus.class, new SaleStatus(5).getStatusId())));
         serviceCriteria.add(Restrictions.ne("saleStatus", session.load(SaleStatus.class, new SaleStatus(6).getStatusId())));
         serviceCriteria.add(Restrictions.ne("saleStatus", session.load(SaleStatus.class, new SaleStatus(7).getStatusId())));
+        serviceCriteria.add(Restrictions.ne("saleStatus", session.load(SaleStatus.class, new SaleStatus(8).getStatusId())));
 
         List list = serviceCriteria.list();
 
