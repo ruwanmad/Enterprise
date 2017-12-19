@@ -10,7 +10,6 @@
  */
 package com.servicemaster.splash;
 
-import com.servicemaster.forms.Login;
 import com.servicemaster.forms.LoginFrame;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.Color;
