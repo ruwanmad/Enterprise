@@ -258,7 +258,7 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddMouseExited
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        TelephoneNumberFrame telephoneNumberFrame = new TelephoneNumberFrame(businessPatnerFrame);
+        TelephoneNumberFrame telephoneNumberFrame = new TelephoneNumberFrame(businessPatnerFrame, null);
         MainFrame.desktopPane.add(telephoneNumberFrame);
         telephoneNumberFrame.setVisible(true);
         this.dispose();
@@ -267,7 +267,7 @@ public class TelephoneNumeberView extends javax.swing.JInternalFrame {
     private void selectTelephoneNumber() {
         int selectedRow = telephoneNumberTable.getSelectedRow();
         TelephoneNumber telephoneNumber = (TelephoneNumber) list.get(selectedRow);
-        businessPatnerFrame.setTelephoneNumber(telephoneNumber.getTelephoneNumberCode()+"-"+telephoneNumber.getTelephoneNumber());
+        businessPatnerFrame.setTelephoneNumber(telephoneNumber.getTelephoneNumberCode() + "-" + telephoneNumber.getTelephoneNumber());
         this.dispose();
     }
 

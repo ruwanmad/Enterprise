@@ -11,6 +11,7 @@
 package com.servicemaster.splash;
 
 import com.servicemaster.forms.Login;
+import com.servicemaster.forms.LoginFrame;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -162,6 +163,9 @@ public class SplashForm extends javax.swing.JDialog {
                         session.close();
                         break;
                     case 20:
+                        lblStatusText.setText("Database successfully connected...");
+                        break;
+                    case 30:
                         lblStatusText.setText("Modules are loading...");
                         break;
                     case 45:
@@ -174,8 +178,10 @@ public class SplashForm extends javax.swing.JDialog {
                         lblStatusText.setText("System is ready to go...");
                         break;
                     case 100:
-                        Login login = new Login();
-                        login.setVisible(true);
+//                        Login login = new Login();
+//                        login.setVisible(true);
+                        LoginFrame loginFrame = new LoginFrame();
+                        loginFrame.setVisible(true);
                         dispose();
                         break;
                     default:

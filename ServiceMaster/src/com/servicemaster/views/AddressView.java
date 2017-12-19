@@ -224,7 +224,7 @@ public class AddressView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddMouseExited
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        AddressFrame addressFrame = new AddressFrame(businessPatnerFrame);
+        AddressFrame addressFrame = new AddressFrame(businessPatnerFrame, null);
         MainFrame.desktopPane.add(addressFrame);
         addressFrame.setVisible(true);
         this.dispose();
@@ -260,7 +260,7 @@ public class AddressView extends javax.swing.JInternalFrame {
     private void selectAddress() {
         int selectedRow = addressTable.getSelectedRow();
         Address address = (Address) list.get(selectedRow);
-        businessPatnerFrame.setAddressLine1(address.getAddressCode()+"-"+address.getAdressLine1());
+        businessPatnerFrame.setAddressLine1(address.getAddressCode() + "-" + address.getAdressLine1());
         businessPatnerFrame.setAddressLine2(address.getAdressLine2());
         businessPatnerFrame.setAddressLine3(address.getAdressLine3());
         this.dispose();

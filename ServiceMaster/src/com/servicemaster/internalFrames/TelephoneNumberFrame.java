@@ -6,8 +6,6 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
-import com.servicemaster.dialogs.ConfirmationDialog;
-import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
@@ -23,14 +21,17 @@ import org.hibernate.Session;
 public class TelephoneNumberFrame extends javax.swing.JInternalFrame {
 
     private final BusinessPartnerFrame partnerFrame;
+    private TelephoneNumber telephoneNumber;
 
     /**
      * Creates new form TelephoneNumberFrame
      * @param partnerFrame
+     * @param telephoneNumber
      */
-    public TelephoneNumberFrame(BusinessPartnerFrame partnerFrame) {
+    public TelephoneNumberFrame(BusinessPartnerFrame partnerFrame, TelephoneNumber telephoneNumber) {
         initComponents();
         this.partnerFrame = partnerFrame;
+        this.telephoneNumber = telephoneNumber;
     }
 
     /**
@@ -48,6 +49,23 @@ public class TelephoneNumberFrame extends javax.swing.JInternalFrame {
         btnClose = new javax.swing.JButton();
 
         setTitle("Telephone Number");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
         txtTelephoneNumber.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
@@ -152,8 +170,6 @@ public class TelephoneNumberFrame extends javax.swing.JInternalFrame {
         session.getTransaction().commit();
         session.close();
 
-        InformationDialog.showMessageBox("New entry created successfully", "Success", this);
-
         partnerFrame.setTelephoneNumber(strTelephoneNumberCode + "-" + txtTelephoneNumber.getText().trim());
 
         this.dispose();
@@ -169,7 +185,11 @@ public class TelephoneNumberFrame extends javax.swing.JInternalFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-        this.saveOrUpdateTelephoneNumber(keyCodeFunctions.getKey("TEL", "Telephone"));
+        if (this.telephoneNumber == null) {
+            this.saveOrUpdateTelephoneNumber(keyCodeFunctions.getKey("TEL", "Telephone"));
+        } else {
+            this.saveOrUpdateTelephoneNumber(this.telephoneNumber.getTelephoneNumberCode());
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
@@ -183,6 +203,16 @@ public class TelephoneNumberFrame extends javax.swing.JInternalFrame {
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        if (this.telephoneNumber != null) {
+            if (telephoneNumber.getIsActive() == 0) {
+                this.txtTelephoneNumber.setText(this.telephoneNumber.getTelephoneNumber());
+            } else {
+                telephoneNumber = null;
+            }
+        }
+    }//GEN-LAST:event_formInternalFrameOpened
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

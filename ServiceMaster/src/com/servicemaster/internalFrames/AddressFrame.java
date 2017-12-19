@@ -6,8 +6,6 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
-import com.servicemaster.dialogs.ConfirmationDialog;
-import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.forms.MainFrame;
 import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.guiFunctions.ButtonFunctions;
@@ -23,15 +21,18 @@ import org.hibernate.Session;
 public class AddressFrame extends javax.swing.JInternalFrame {
 
     private final BusinessPartnerFrame partnerFrame;
+    private Address address;
 
     /**
      * Creates new form AddressFrame
      *
      * @param partnerFrame
+     * @param address
      */
-    public AddressFrame(BusinessPartnerFrame partnerFrame) {
+    public AddressFrame(BusinessPartnerFrame partnerFrame, Address address) {
         initComponents();
         this.partnerFrame = partnerFrame;
+        this.address = address;
     }
 
     /**
@@ -53,6 +54,23 @@ public class AddressFrame extends javax.swing.JInternalFrame {
         btnClose = new javax.swing.JButton();
 
         setTitle("Address");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel1.setText("Address Line 1 :");
@@ -182,7 +200,11 @@ public class AddressFrame extends javax.swing.JInternalFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-        this.saveOrUpdateAddress(keyCodeFunctions.getKey("ADD", "Address code"));
+        if (this.address != null) {
+            this.saveOrUpdateAddress(this.address.getAddressCode());
+        } else {
+            this.saveOrUpdateAddress(keyCodeFunctions.getKey("ADD", "Address code"));
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
@@ -194,11 +216,20 @@ public class AddressFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCloseMouseExited
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
-        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            this.dispose();
-        }
+        this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        if (address != null) {
+            if (address.getIsActive() == 0) {
+                this.txtAddressLine1.setText(address.getAdressLine1());
+                this.txtAddressLine2.setText(address.getAdressLine2());
+                this.txtAddressLine3.setText(address.getAdressLine3());
+            } else {
+                address = null;
+            }
+        }
+    }//GEN-LAST:event_formInternalFrameOpened
 
     private void saveOrUpdateAddress(String strAddressCode) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -206,20 +237,19 @@ public class AddressFrame extends javax.swing.JInternalFrame {
 
         Date date = new Date();
 
-        Address address = new Address();
-        address.setAddressCode(strAddressCode);
-        address.setAdressLine1(txtAddressLine1.getText().trim());
-        address.setAdressLine2(txtAddressLine2.getText().trim());
-        address.setAdressLine3(txtAddressLine3.getText().trim());
-        address.setCreatedDate(date);
-        address.setCreatedTime(date);
-        address.setCreatedUser(MainFrame.user.getUserId());
-        session.saveOrUpdate(address);
+        Address localAddress = new Address();
+        localAddress.setAddressCode(strAddressCode);
+        localAddress.setAdressLine1(txtAddressLine1.getText().trim());
+        localAddress.setAdressLine2(txtAddressLine2.getText().trim());
+        localAddress.setAdressLine3(txtAddressLine3.getText().trim());
+        localAddress.setIsActive(0);
+        localAddress.setCreatedDate(date);
+        localAddress.setCreatedTime(date);
+        localAddress.setCreatedUser(MainFrame.user.getUserId());
+        session.saveOrUpdate(localAddress);
 
         session.getTransaction().commit();
         session.close();
-
-        InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING, this);
 
         partnerFrame.setAddressLine1(strAddressCode + "-" + txtAddressLine1.getText().trim());
         partnerFrame.setAddressLine2(txtAddressLine2.getText().trim());

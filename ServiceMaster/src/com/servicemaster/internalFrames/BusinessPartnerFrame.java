@@ -30,6 +30,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -524,47 +525,33 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
 
         session.saveOrUpdate(businessPartner);
 
-        Address address = new Address();
-        address.setAddressCode(txtAddressLine1.getText().split("-")[0].trim());
-        address.setAdressLine1(txtAddressLine1.getText().split("-")[1].trim().toUpperCase());
-        address.setAdressLine2(txtAddressLine2.getText().trim().toUpperCase());
-        address.setAdressLine3(txtAddressLine3.getText().trim().toUpperCase());
-        if (bUpdate) {
-            address.setModifiedDate(date);
-            address.setModifiedTime(date);
-            address.setModifiedUser(MainFrame.user.getUserId());
-        } else {
-            address.setCreatedDate(date);
-            address.setCreatedTime(date);
-            address.setCreatedUser(MainFrame.user.getUserId());
+        if (!bUpdate) {
+            Address address = new Address();
+            address.setAddressCode(txtAddressLine1.getText().split("-")[0].trim());
+
+            BusinessAddressId businessAddressId = new BusinessAddressId(txtAddressLine1.getText().split("-")[0].trim(), strBusinessPatnerCode);
+            BusinessAddress businessAddress = new BusinessAddress(businessAddressId, address, businessPartner);
+
+            session.saveOrUpdate(businessAddress);
         }
 
-        BusinessAddressId businessAddressId = new BusinessAddressId(txtAddressLine1.getText().split("-")[0].trim(), strBusinessPatnerCode);
-        BusinessAddress businessAddress = new BusinessAddress(businessAddressId, address, businessPartner);
+        if (!bUpdate) {
+            TelephoneNumber telephoneNumber = new TelephoneNumber();
+            telephoneNumber.setTelephoneNumberCode(txtTelephoneNumber.getText().split("-")[0].trim());
 
-        session.saveOrUpdate(businessAddress);
-
-        TelephoneNumber telephoneNumber = new TelephoneNumber();
-        telephoneNumber.setTelephoneNumberCode(txtTelephoneNumber.getText().split("-")[0].trim());
-        telephoneNumber.setTelephoneNumber(txtTelephoneNumber.getText().split("-")[1].trim());
-        if (bUpdate) {
-            telephoneNumber.setModifiedDate(date);
-            telephoneNumber.setModifiedTime(date);
-            telephoneNumber.setModifiedUser(MainFrame.user.getUserId());
-        } else {
             telephoneNumber.setCreatedDate(date);
             telephoneNumber.setCreatedTime(date);
             telephoneNumber.setCreatedUser(MainFrame.user.getUserId());
+
+            BusinessTelephoneId businessTelephoneId = new BusinessTelephoneId(txtTelephoneNumber.getText().split("-")[0].trim(), strBusinessPatnerCode);
+            BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, businessPartner, telephoneNumber);
+
+            session.saveOrUpdate(businessTelephone);
         }
-
-        BusinessTelephoneId businessTelephoneId = new BusinessTelephoneId(txtTelephoneNumber.getText().split("-")[0].trim(), strBusinessPatnerCode);
-        BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, businessPartner, telephoneNumber);
-
-        session.saveOrUpdate(businessTelephone);
 
         transaction.commit();
         session.close();
-        
+
         CreateAccounts createAccounts = new CreateAccounts();
         if (cbxCustomer.isSelected()) {
             createAccounts.createBusnessPartnerDrAccount(businessPartner);
@@ -605,26 +592,25 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-            if (txtBussinesPatnerCode.getText().trim().isEmpty()) {
-                List busisessPartners = getBusinessPatnerByNic(txtNic.getText().trim(), false);
-                if (busisessPartners.isEmpty() || txtNic.getText().trim().isEmpty()) {
-                    KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                    this.saveOrUpdateBisnussPatner(keyCodeFunctions.getKey("BPT", "Business partner code"), false);
-                } else {
-                    InformationDialog.showMessageBox("Customer already exists", "Exist", this);
-                }
+        if (txtBussinesPatnerCode.getText().trim().isEmpty()) {
+            List busisessPartners = getBusinessPatnerByNic(txtNic.getText().trim(), false);
+            if (busisessPartners.isEmpty() || txtNic.getText().trim().isEmpty()) {
+                KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                this.saveOrUpdateBisnussPatner(keyCodeFunctions.getKey("BPT", "Business partner code"), false);
             } else {
-                List busisessPartners = getBusinessPatnerByCode(txtBussinesPatnerCode.getText().trim(), false);
-                if (busisessPartners.isEmpty()) {
-                    InformationDialog.showMessageBox("Invalid Business Patner code. Please try again", "Invalid", this);
-                } else {
-                    ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
-                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                        this.saveOrUpdateBisnussPatner(txtBussinesPatnerCode.getText().trim(), true);
-                    }
+                InformationDialog.showMessageBox("Customer already exists", "Exist", this);
+            }
+        } else {
+            List busisessPartners = getBusinessPatnerByCode(txtBussinesPatnerCode.getText().trim(), false);
+            if (busisessPartners.isEmpty()) {
+                InformationDialog.showMessageBox("Invalid Business Patner code. Please try again", "Invalid", this);
+            } else {
+                ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
+                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+                    this.saveOrUpdateBisnussPatner(txtBussinesPatnerCode.getText().trim(), true);
                 }
             }
-//        }
+        }
 
         session.getTransaction().commit();
         session.close();
@@ -730,16 +716,16 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
 
     private void btnAddressSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddressSearchActionPerformed
         String addressLine1 = txtAddressLine1.getText().trim();
-        if (addressLine1.isEmpty() || addressLine1.split("-").length == 2) {
-            List addresses = getAddressByCode(addressLine1.split("-")[0].trim(), true);
+        if (addressLine1.split("-").length == 2) {
+            List<Address> addresses = getAddressByCode(addressLine1.split("-")[0].trim(), true);
 
             if (!addresses.isEmpty()) {
-                AddressView addressView = new AddressView(addresses, this);
-                MainFrame.desktopPane.add(addressView);
-                addressView.setVisible(true);
+                AddressFrame addressFrame = new AddressFrame(this, addresses.get(0));
+                MainFrame.desktopPane.add(addressFrame);
+                addressFrame.setVisible(true);
             }
         } else {
-            List addresses = getAddressByLine1(addressLine1, true);
+            List<Address> addresses = getAddressByLine1(addressLine1, true);
 
             if (!addresses.isEmpty()) {
                 AddressView addressView = new AddressView(addresses, this);
@@ -759,16 +745,16 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
 
     private void btnTelephoneNumberSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTelephoneNumberSearchActionPerformed
         String telephoneNumber = txtTelephoneNumber.getText().trim();
-        if (telephoneNumber.isEmpty() || telephoneNumber.split("-").length == 2) {
-            List telephoneNumbers = getTelephoneByCode(telephoneNumber.split("-")[0].trim(), true);
+        if (telephoneNumber.split("-").length == 2) {
+            List<TelephoneNumber> telephoneNumbers = getTelephoneByCode(telephoneNumber.split("-")[0].trim(), true);
 
             if (!telephoneNumbers.isEmpty()) {
-                TelephoneNumeberView telephoneNumeberView = new TelephoneNumeberView(telephoneNumbers, this);
-                MainFrame.desktopPane.add(telephoneNumeberView);
-                telephoneNumeberView.setVisible(true);
+                TelephoneNumberFrame telephoneNumberFrame = new TelephoneNumberFrame(this, telephoneNumbers.get(0));
+                MainFrame.desktopPane.add(telephoneNumberFrame);
+                telephoneNumberFrame.setVisible(true);
             }
         } else {
-            List telephoneNumbers = getTelephoneByNumber(telephoneNumber, true);
+            List<TelephoneNumber> telephoneNumbers = getTelephoneByNumber(telephoneNumber, true);
 
             if (!telephoneNumbers.isEmpty()) {
                 TelephoneNumeberView telephoneNumeberView = new TelephoneNumeberView(telephoneNumbers, this);
@@ -1006,7 +992,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
         return list;
     }
 
-    private List getAddressByCode(String addressCode, boolean like) {
+    private List<Address> getAddressByCode(String addressCode, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query;
@@ -1017,13 +1003,13 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
             query = session.createQuery("from Address a where a.addressCode = :code");
             query.setParameter("code", addressCode);
         }
-        List list = query.list();
+        List<Address> list = query.list();
         session.getTransaction().commit();
         session.close();
         return list;
     }
 
-    private List getAddressByLine1(String addressName, boolean like) {
+    private List<Address> getAddressByLine1(String addressName, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query;
@@ -1034,13 +1020,13 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
             query = session.createQuery("from Address a where a.adressLine1 = :name");
             query.setParameter("name", addressName);
         }
-        List list = query.list();
+        List<Address> list = query.list();
         session.getTransaction().commit();
         session.close();
         return list;
     }
 
-    private List getTelephoneByCode(String telephoneCode, boolean like) {
+    private List<TelephoneNumber> getTelephoneByCode(String telephoneCode, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query;
@@ -1051,13 +1037,13 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
             query = session.createQuery("from TelephoneNumber t where t.telephoneNumberCode = :code");
             query.setParameter("code", telephoneCode);
         }
-        List list = query.list();
+        List<TelephoneNumber> list = query.list();
         session.getTransaction().commit();
         session.close();
         return list;
     }
 
-    private List getTelephoneByNumber(String telephoneNumber, boolean like) {
+    private List<TelephoneNumber> getTelephoneByNumber(String telephoneNumber, boolean like) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query;
@@ -1068,7 +1054,7 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
             query = session.createQuery("from TelephoneNumber t where t.telephoneNumber = :name");
             query.setParameter("name", telephoneNumber);
         }
-        List list = query.list();
+        List<TelephoneNumber> list = query.list();
         session.getTransaction().commit();
         session.close();
         return list;
