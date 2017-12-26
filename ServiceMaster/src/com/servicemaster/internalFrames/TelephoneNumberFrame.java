@@ -6,9 +6,9 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
-import com.servicemaster.forms.MainFrame;
+import com.servicemaster.frames.MainFrame;
 import com.servicemaster.keys.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.TelephoneNumber;
 import com.servicemaster.utils.HibernateUtil;
 import java.util.Date;

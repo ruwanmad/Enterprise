@@ -7,7 +7,7 @@ package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.internalFrames.VehicleTypeFrame;
 import com.servicemaster.models.VehicleType;
 import java.util.List;

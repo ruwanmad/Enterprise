@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.servicemaster.forms;
+package com.servicemaster.frames;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.functions.EnableFeatures;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.User;
 import com.servicemaster.models.UserPrivilage;
 import com.servicemaster.utils.HibernateUtil;
@@ -29,6 +29,8 @@ import org.hibernate.criterion.Restrictions;
  * @author Ruwan Madawala
  */
 public class LoginFrame extends javax.swing.JFrame {
+    
+    final private static Logger LOGGER = Logger.getLogger(LoginFrame.class);
 
     /**
      * Creates new form LoginFrame
@@ -365,5 +367,4 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JPasswordField pwdPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
-    final private static Logger LOGGER = Logger.getLogger(LoginFrame.class);
 }

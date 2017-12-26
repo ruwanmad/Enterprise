@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.servicemaster.forms;
+package com.servicemaster.frames;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.internalFrames.AccountsFrame;
 import com.servicemaster.internalFrames.BomFrame;
 import com.servicemaster.internalFrames.BusinessPartnerFrame;
@@ -29,6 +29,7 @@ import com.servicemaster.internalFrames.SubCategoryFrame;
 import com.servicemaster.internalFrames.ItemTypeFrame;
 import com.servicemaster.internalFrames.BillSetoffFrame;
 import com.servicemaster.internalFrames.ChequeReceipt;
+import com.servicemaster.internalFrames.PaymentFrame;
 import com.servicemaster.internalFrames.SalesReportFrame;
 import com.servicemaster.internalFrames.StockReportFrame;
 import com.servicemaster.internalFrames.VehicleFrame;
@@ -72,6 +73,14 @@ import org.hibernate.Session;
  * @author Ruwan Madawala
  */
 public class MainFrame extends javax.swing.JFrame {
+
+    public static final LinkedHashMap<String, HashMap<String, Object>> ALL_MODULE_MAP = new LinkedHashMap<>();
+    public static final LinkedHashMap<String, HashMap<String, Object>> AVAILABLE_MODULE_MAP = new LinkedHashMap<>();
+    public static final LinkedHashMap<String, HashMap<String, Object>> ADDED_MODULE_MAP = new LinkedHashMap<>();
+
+    public static User user;
+
+    private static final Logger LOGGER = Logger.getLogger(MainFrame.class);
 
     /**
      * Creates new form MainFrame
@@ -143,6 +152,7 @@ public class MainFrame extends javax.swing.JFrame {
         transactionSeparator3 = new javax.swing.JPopupMenu.Separator();
         miChequeReceipts = new javax.swing.JMenuItem();
         miBillSetoff = new javax.swing.JMenuItem();
+        transactionSeparator4 = new javax.swing.JPopupMenu.Separator();
         miPayments = new javax.swing.JMenuItem();
         mReports = new javax.swing.JMenu();
         miSalesHistory = new javax.swing.JMenuItem();
@@ -433,6 +443,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         mTransactions.add(miBillSetoff);
+        mTransactions.add(transactionSeparator4);
 
         miPayments.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         miPayments.setText("Payments");
@@ -531,7 +542,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            
+
             Query query = session.createQuery("from Module m order by m.moduleId");
             List objectList = query.list();
             for (Object object : objectList) {
@@ -546,7 +557,7 @@ public class MainFrame extends javax.swing.JFrame {
                     ALL_MODULE_MAP.put(moduleName, map);
                 }
             }
-            
+
             query = session.createQuery("from Module m where m.isShortcutAdded = 0 order by m.moduleId");
             objectList = query.list();
             for (Object object : objectList) {
@@ -561,7 +572,7 @@ public class MainFrame extends javax.swing.JFrame {
                     AVAILABLE_MODULE_MAP.put(moduleName, map);
                 }
             }
-            
+
             query = session.createQuery("from Module m where m.isShortcutAdded = 1 order by m.moduleId");
             objectList = query.list();
             for (Object object : objectList) {
@@ -578,13 +589,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
             session.getTransaction().commit();
             session.close();
-            
+
             if (!ADDED_MODULE_MAP.isEmpty()) {
                 Set<String> keySet = ADDED_MODULE_MAP.keySet();
                 for (String key : keySet) {
                     this.addShortCuts(key);
                 }
-                
+
                 this.panelShortcuts.revalidate();
                 this.panelShortcuts.repaint();
             }
@@ -719,23 +730,23 @@ public class MainFrame extends javax.swing.JFrame {
     private void miChequeReceiptsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miChequeReceiptsActionPerformed
         MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(evt.getActionCommand()));
     }//GEN-LAST:event_miChequeReceiptsActionPerformed
-    
+
     private void exitApllication() {
         ConfirmationDialog.showMessageBox("Are you sure?", "Sure", null);
         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
             System.exit(0);
         }
     }
-    
+
     public static void openWindow(HashMap<String, Object> moduleDetailsMap) {
         String moduleCode = (String) moduleDetailsMap.get("ModuleCode");
         int max = (int) moduleDetailsMap.get("Max");
-        
+
         boolean maximized = false;
         if (max == 1) {
             maximized = true;
         }
-        
+
         JInternalFrame internalFrame = null;
         switch (moduleCode) {
             case "1": {
@@ -839,11 +850,15 @@ public class MainFrame extends javax.swing.JFrame {
                 internalFrame = new StockReportFrame();
                 break;
             }
+            case "27": {
+                internalFrame = new PaymentFrame();
+                break;
+            }
             default: {
                 internalFrame = null;
             }
         }
-        
+
         if (internalFrame != null) {
             try {
                 desktopPane.add(internalFrame);
@@ -856,7 +871,7 @@ public class MainFrame extends javax.swing.JFrame {
             LOGGER.info("The internal frame is null. Selected module code was " + moduleCode);
         }
     }
-    
+
     public void addShortCuts(String name) {
         JButton button = new JButton(name);
         button.setName(name);
@@ -864,12 +879,12 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void mouseClicked(MouseEvent evt) {
             }
-            
+
             @Override
             public void mouseEntered(MouseEvent evt) {
                 ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_ENTER_COLOR);
             }
-            
+
             @Override
             public void mouseExited(MouseEvent evt) {
                 ButtonFunctions.changeBackgroundColor(evt.getSource(), SystemData.MOUSE_EXIT_COLOR);
@@ -881,7 +896,7 @@ public class MainFrame extends javax.swing.JFrame {
                 MainFrame.openWindow(MainFrame.ALL_MODULE_MAP.get(((JButton) evt.getSource()).getName().trim()));
             }
         });
-        
+
         button.setPreferredSize(new Dimension(150, 50));
         button.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
         button.setHorizontalAlignment(SwingConstants.CENTER);
@@ -942,12 +957,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator reportSeparator1;
     private javax.swing.JPopupMenu.Separator transactionSeparator2;
     private javax.swing.JPopupMenu.Separator transactionSeparator3;
+    private javax.swing.JPopupMenu.Separator transactionSeparator4;
     // End of variables declaration//GEN-END:variables
-    public static final LinkedHashMap<String, HashMap<String, Object>> ALL_MODULE_MAP = new LinkedHashMap<>();
-    public static final LinkedHashMap<String, HashMap<String, Object>> AVAILABLE_MODULE_MAP = new LinkedHashMap<>();
-    public static final LinkedHashMap<String, HashMap<String, Object>> ADDED_MODULE_MAP = new LinkedHashMap<>();
-    
-    public static User user;
-    
-    private static final Logger LOGGER = Logger.getLogger(MainFrame.class);
 }

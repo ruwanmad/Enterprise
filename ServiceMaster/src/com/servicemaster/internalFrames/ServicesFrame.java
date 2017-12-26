@@ -7,7 +7,7 @@ package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.BusinessAddress;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Sale;

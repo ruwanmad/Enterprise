@@ -6,7 +6,7 @@
 package com.servicemaster.dialogs;
 
 import com.servicemaster.data.SystemData;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.KeyEvent;

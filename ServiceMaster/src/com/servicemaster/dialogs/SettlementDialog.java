@@ -7,11 +7,11 @@ package com.servicemaster.dialogs;
 
 import com.servicemaster.accounts.PostAccounts;
 import com.servicemaster.data.SystemData;
-import com.servicemaster.forms.MainFrame;
+import com.servicemaster.frames.MainFrame;
 import com.servicemaster.functions.PrintFunctions;
 import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.functions.StockFunctions;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.listners.PaymentButtonActionListners;
 import com.servicemaster.listners.PaymentButtonMouseListners;
 import com.servicemaster.models.Account;
@@ -53,6 +53,14 @@ import org.hibernate.criterion.Restrictions;
  * @author RuwanM
  */
 public class SettlementDialog extends javax.swing.JDialog {
+
+    public JPanel panelFrame;
+
+    private Sale sale;
+    private Invoice invoice;
+    private final String customerName;
+
+    private final static Logger LOGGER = Logger.getLogger(SettlementDialog.class);
 
     /**
      * Creates new form PaymentDialog
@@ -901,11 +909,4 @@ public class SettlementDialog extends javax.swing.JDialog {
     public javax.swing.JPanel panelWindow;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
-    public JPanel panelFrame;
-
-    private Sale sale;
-    private Invoice invoice;
-    private final String customerName;
-
-    private final static Logger LOGGER = Logger.getLogger(SettlementDialog.class);
 }

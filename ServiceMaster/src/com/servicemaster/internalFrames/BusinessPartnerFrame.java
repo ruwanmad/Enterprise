@@ -8,10 +8,10 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.forms.MainFrame;
+import com.servicemaster.frames.MainFrame;
 import com.servicemaster.accounts.CreateAccounts;
 import com.servicemaster.keys.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.Address;
 import com.servicemaster.models.BusinessAddress;
 import com.servicemaster.models.BusinessAddressId;
@@ -26,17 +26,20 @@ import com.servicemaster.views.TelephoneNumeberView;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 
 /**
  *
  * @author RuwanM
  */
 public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
+
+    private static final Logger LOGGER = Logger.getLogger(BusinessPartnerFrame.class);
 
     /**
      * Creates new form BussinesPatnerFrame
@@ -497,75 +500,79 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveOrUpdateBisnussPatner(String strBusinessPatnerCode, boolean bUpdate) {
-        Date date = new Date();
+        try {
+            Date date = new Date();
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
 
-        BusinessPartner businessPartner = new BusinessPartner();
-        businessPartner.setBusinessPartnerCode(strBusinessPatnerCode);
-        businessPartner.setFirstName(txtFirstName.getText().trim().toUpperCase());
-        businessPartner.setLastName(txtLastName.getText().trim().toUpperCase());
-        businessPartner.setNic(txtNic.getText().trim().toUpperCase());
-        businessPartner.setBirthDay(calBirthDay.getDate());
-        businessPartner.setIsCustomer(cbxCustomer.isSelected());
-        businessPartner.setIsSupplier(cbxSupplier.isSelected());
-        businessPartner.setIsEmployee(cbxEmployee.isSelected());
-        businessPartner.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
-        businessPartner.setRemarks(txtRemark.getText().trim());
-        if (bUpdate) {
-            businessPartner.setModifiedDate(date);
-            businessPartner.setModifiedTime(date);
-            businessPartner.setModifiedUser(MainFrame.user.getUserId());
-        } else {
-            businessPartner.setCreatedDate(date);
-            businessPartner.setCreatedTime(date);
-            businessPartner.setCreatedUser(MainFrame.user.getUserId());
+            BusinessPartner businessPartner = new BusinessPartner();
+            businessPartner.setBusinessPartnerCode(strBusinessPatnerCode);
+            businessPartner.setFirstName(txtFirstName.getText().trim().toUpperCase());
+            businessPartner.setLastName(txtLastName.getText().trim().toUpperCase());
+            businessPartner.setNic(txtNic.getText().trim().toUpperCase());
+            businessPartner.setBirthDay(calBirthDay.getDate());
+            businessPartner.setIsCustomer(cbxCustomer.isSelected());
+            businessPartner.setIsSupplier(cbxSupplier.isSelected());
+            businessPartner.setIsEmployee(cbxEmployee.isSelected());
+            businessPartner.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
+            businessPartner.setRemarks(txtRemark.getText().trim());
+            if (bUpdate) {
+                businessPartner.setModifiedDate(date);
+                businessPartner.setModifiedTime(date);
+                businessPartner.setModifiedUser(MainFrame.user.getUserId());
+            } else {
+                businessPartner.setCreatedDate(date);
+                businessPartner.setCreatedTime(date);
+                businessPartner.setCreatedUser(MainFrame.user.getUserId());
+            }
+
+            session.saveOrUpdate(businessPartner);
+
+            if (!bUpdate) {
+                Address address = new Address();
+                address.setAddressCode(txtAddressLine1.getText().split("-")[0].trim());
+
+                BusinessAddressId businessAddressId = new BusinessAddressId(txtAddressLine1.getText().split("-")[0].trim(), strBusinessPatnerCode);
+                BusinessAddress businessAddress = new BusinessAddress(businessAddressId, address, businessPartner);
+
+                session.saveOrUpdate(businessAddress);
+            }
+
+            if (!bUpdate) {
+                TelephoneNumber telephoneNumber = new TelephoneNumber();
+                telephoneNumber.setTelephoneNumberCode(txtTelephoneNumber.getText().split("-")[0].trim());
+
+                telephoneNumber.setCreatedDate(date);
+                telephoneNumber.setCreatedTime(date);
+                telephoneNumber.setCreatedUser(MainFrame.user.getUserId());
+
+                BusinessTelephoneId businessTelephoneId = new BusinessTelephoneId(txtTelephoneNumber.getText().split("-")[0].trim(), strBusinessPatnerCode);
+                BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, businessPartner, telephoneNumber);
+
+                session.saveOrUpdate(businessTelephone);
+            }
+
+            transaction.commit();
+            session.close();
+
+            CreateAccounts createAccounts = new CreateAccounts();
+            if (cbxCustomer.isSelected()) {
+                createAccounts.createBusnessPartnerDrAccount(businessPartner);
+            }
+            if (cbxSupplier.isSelected()) {
+                createAccounts.createBusnessPartnerCrAccount(businessPartner);
+            }
+
+            if (bUpdate) {
+                InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING, this);
+            } else {
+                InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING, this);
+            }
+            this.clearAll();
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
-
-        session.saveOrUpdate(businessPartner);
-
-        if (!bUpdate) {
-            Address address = new Address();
-            address.setAddressCode(txtAddressLine1.getText().split("-")[0].trim());
-
-            BusinessAddressId businessAddressId = new BusinessAddressId(txtAddressLine1.getText().split("-")[0].trim(), strBusinessPatnerCode);
-            BusinessAddress businessAddress = new BusinessAddress(businessAddressId, address, businessPartner);
-
-            session.saveOrUpdate(businessAddress);
-        }
-
-        if (!bUpdate) {
-            TelephoneNumber telephoneNumber = new TelephoneNumber();
-            telephoneNumber.setTelephoneNumberCode(txtTelephoneNumber.getText().split("-")[0].trim());
-
-            telephoneNumber.setCreatedDate(date);
-            telephoneNumber.setCreatedTime(date);
-            telephoneNumber.setCreatedUser(MainFrame.user.getUserId());
-
-            BusinessTelephoneId businessTelephoneId = new BusinessTelephoneId(txtTelephoneNumber.getText().split("-")[0].trim(), strBusinessPatnerCode);
-            BusinessTelephone businessTelephone = new BusinessTelephone(businessTelephoneId, businessPartner, telephoneNumber);
-
-            session.saveOrUpdate(businessTelephone);
-        }
-
-        transaction.commit();
-        session.close();
-
-        CreateAccounts createAccounts = new CreateAccounts();
-        if (cbxCustomer.isSelected()) {
-            createAccounts.createBusnessPartnerDrAccount(businessPartner);
-        }
-        if (cbxSupplier.isSelected()) {
-            createAccounts.createBusnessPartnerCrAccount(businessPartner);
-        }
-
-        if (bUpdate) {
-            InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING, this);
-        } else {
-            InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING, this);
-        }
-        this.clearAll();
     }
 
     private void btnResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseEntered
@@ -589,33 +596,37 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSaveMouseExited
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
 
-        if (txtBussinesPatnerCode.getText().trim().isEmpty()) {
-            List busisessPartners = getBusinessPatnerByNic(txtNic.getText().trim(), false);
-            if (busisessPartners.isEmpty() || txtNic.getText().trim().isEmpty()) {
-                KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                this.saveOrUpdateBisnussPatner(keyCodeFunctions.getKey("BPT", "Business partner code"), false);
+            if (txtBussinesPatnerCode.getText().trim().isEmpty()) {
+                List busisessPartners = getBusinessPatnerByNic(txtNic.getText().trim(), false);
+                if (busisessPartners.isEmpty() || txtNic.getText().trim().isEmpty()) {
+                    KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                    this.saveOrUpdateBisnussPatner(keyCodeFunctions.getKey("BPT", "Business partner code"), false);
+                } else {
+                    InformationDialog.showMessageBox("Customer already exists", "Exist", this);
+                }
             } else {
-                InformationDialog.showMessageBox("Customer already exists", "Exist", this);
-            }
-        } else {
-            List busisessPartners = getBusinessPatnerByCode(txtBussinesPatnerCode.getText().trim(), false);
-            if (busisessPartners.isEmpty()) {
-                InformationDialog.showMessageBox("Invalid Business Patner code. Please try again", "Invalid", this);
-            } else {
-                ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
-                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    this.saveOrUpdateBisnussPatner(txtBussinesPatnerCode.getText().trim(), true);
+                List busisessPartners = getBusinessPatnerByCode(txtBussinesPatnerCode.getText().trim(), false);
+                if (busisessPartners.isEmpty()) {
+                    InformationDialog.showMessageBox("Invalid Business Patner code. Please try again", "Invalid", this);
+                } else {
+                    ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
+                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+                        this.saveOrUpdateBisnussPatner(txtBussinesPatnerCode.getText().trim(), true);
+                    }
                 }
             }
+
+            session.getTransaction().commit();
+            session.close();
+
+            this.clearAll();
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
-
-        session.getTransaction().commit();
-        session.close();
-
-        this.clearAll();
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
@@ -639,13 +650,17 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCodeSerachMouseExited
 
     private void btnCodeSerachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCodeSerachActionPerformed
-        String businessPatnerCode = txtBussinesPatnerCode.getText().trim();
-        List businessPartners = getBusinessPatnerByCode(businessPatnerCode, true);
+        try {
+            String businessPatnerCode = txtBussinesPatnerCode.getText().trim();
+            List businessPartners = getBusinessPatnerByCode(businessPatnerCode, true);
 
-        if (!businessPartners.isEmpty()) {
-            BusinessPatnerView businessPatnerView = new BusinessPatnerView(businessPartners, this);
-            MainFrame.desktopPane.add(businessPatnerView);
-            businessPatnerView.setVisible(true);
+            if (!businessPartners.isEmpty()) {
+                BusinessPatnerView businessPatnerView = new BusinessPatnerView(businessPartners, this);
+                MainFrame.desktopPane.add(businessPatnerView);
+                businessPatnerView.setVisible(true);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnCodeSerachActionPerformed
 
@@ -658,13 +673,17 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnFirstNameSearchMouseExited
 
     private void btnFirstNameSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstNameSearchActionPerformed
-        String firstName = txtFirstName.getText().trim();
-        List businessPartners = getBusinessPatnerByFirstName(firstName, true);
+        try {
+            String firstName = txtFirstName.getText().trim();
+            List businessPartners = getBusinessPatnerByFirstName(firstName, true);
 
-        if (!businessPartners.isEmpty()) {
-            BusinessPatnerView businessPatnerView = new BusinessPatnerView(businessPartners, this);
-            MainFrame.desktopPane.add(businessPatnerView);
-            businessPatnerView.setVisible(true);
+            if (!businessPartners.isEmpty()) {
+                BusinessPatnerView businessPatnerView = new BusinessPatnerView(businessPartners, this);
+                MainFrame.desktopPane.add(businessPatnerView);
+                businessPatnerView.setVisible(true);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnFirstNameSearchActionPerformed
 
@@ -677,13 +696,17 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnLastNameSearchMouseExited
 
     private void btnLastNameSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastNameSearchActionPerformed
-        String lastName = txtLastName.getText().trim();
-        List businessPartners = getBusinessPatnerByLastName(lastName, true);
+        try {
+            String lastName = txtLastName.getText().trim();
+            List businessPartners = getBusinessPatnerByLastName(lastName, true);
 
-        if (!businessPartners.isEmpty()) {
-            BusinessPatnerView businessPatnerView = new BusinessPatnerView(businessPartners, this);
-            MainFrame.desktopPane.add(businessPatnerView);
-            businessPatnerView.setVisible(true);
+            if (!businessPartners.isEmpty()) {
+                BusinessPatnerView businessPatnerView = new BusinessPatnerView(businessPartners, this);
+                MainFrame.desktopPane.add(businessPatnerView);
+                businessPatnerView.setVisible(true);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnLastNameSearchActionPerformed
 
@@ -696,13 +719,17 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnNicSearchMouseExited
 
     private void btnNicSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNicSearchActionPerformed
-        String nic = txtNic.getText().trim();
-        List businessPartners = getBusinessPatnerByNic(nic, true);
+        try {
+            String nic = txtNic.getText().trim();
+            List businessPartners = getBusinessPatnerByNic(nic, true);
 
-        if (!businessPartners.isEmpty()) {
-            BusinessPatnerView businessPatnerView = new BusinessPatnerView(businessPartners, this);
-            MainFrame.desktopPane.add(businessPatnerView);
-            businessPatnerView.setVisible(true);
+            if (!businessPartners.isEmpty()) {
+                BusinessPatnerView businessPatnerView = new BusinessPatnerView(businessPartners, this);
+                MainFrame.desktopPane.add(businessPatnerView);
+                businessPatnerView.setVisible(true);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnNicSearchActionPerformed
 
@@ -715,23 +742,27 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddressSearchMouseExited
 
     private void btnAddressSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddressSearchActionPerformed
-        String addressLine1 = txtAddressLine1.getText().trim();
-        if (addressLine1.split("-").length == 2) {
-            List<Address> addresses = getAddressByCode(addressLine1.split("-")[0].trim(), true);
+        try {
+            String addressLine1 = txtAddressLine1.getText().trim();
+            if (addressLine1.split("-").length == 2) {
+                List<Address> addresses = getAddressByCode(addressLine1.split("-")[0].trim(), true);
 
-            if (!addresses.isEmpty()) {
-                AddressFrame addressFrame = new AddressFrame(this, addresses.get(0));
-                MainFrame.desktopPane.add(addressFrame);
-                addressFrame.setVisible(true);
-            }
-        } else {
-            List<Address> addresses = getAddressByLine1(addressLine1, true);
+                if (!addresses.isEmpty()) {
+                    AddressFrame addressFrame = new AddressFrame(this, addresses.get(0));
+                    MainFrame.desktopPane.add(addressFrame);
+                    addressFrame.setVisible(true);
+                }
+            } else {
+                List<Address> addresses = getAddressByLine1(addressLine1, true);
 
-            if (!addresses.isEmpty()) {
-                AddressView addressView = new AddressView(addresses, this);
-                MainFrame.desktopPane.add(addressView);
-                addressView.setVisible(true);
+                if (!addresses.isEmpty()) {
+                    AddressView addressView = new AddressView(addresses, this);
+                    MainFrame.desktopPane.add(addressView);
+                    addressView.setVisible(true);
+                }
             }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnAddressSearchActionPerformed
 
@@ -744,23 +775,27 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnTelephoneNumberSearchMouseExited
 
     private void btnTelephoneNumberSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTelephoneNumberSearchActionPerformed
-        String telephoneNumber = txtTelephoneNumber.getText().trim();
-        if (telephoneNumber.split("-").length == 2) {
-            List<TelephoneNumber> telephoneNumbers = getTelephoneByCode(telephoneNumber.split("-")[0].trim(), true);
+        try {
+            String telephoneNumber = txtTelephoneNumber.getText().trim();
+            if (telephoneNumber.split("-").length == 2) {
+                List<TelephoneNumber> telephoneNumbers = getTelephoneByCode(telephoneNumber.split("-")[0].trim(), true);
 
-            if (!telephoneNumbers.isEmpty()) {
-                TelephoneNumberFrame telephoneNumberFrame = new TelephoneNumberFrame(this, telephoneNumbers.get(0));
-                MainFrame.desktopPane.add(telephoneNumberFrame);
-                telephoneNumberFrame.setVisible(true);
-            }
-        } else {
-            List<TelephoneNumber> telephoneNumbers = getTelephoneByNumber(telephoneNumber, true);
+                if (!telephoneNumbers.isEmpty()) {
+                    TelephoneNumberFrame telephoneNumberFrame = new TelephoneNumberFrame(this, telephoneNumbers.get(0));
+                    MainFrame.desktopPane.add(telephoneNumberFrame);
+                    telephoneNumberFrame.setVisible(true);
+                }
+            } else {
+                List<TelephoneNumber> telephoneNumbers = getTelephoneByNumber(telephoneNumber, true);
 
-            if (!telephoneNumbers.isEmpty()) {
-                TelephoneNumeberView telephoneNumeberView = new TelephoneNumeberView(telephoneNumbers, this);
-                MainFrame.desktopPane.add(telephoneNumeberView);
-                telephoneNumeberView.setVisible(true);
+                if (!telephoneNumbers.isEmpty()) {
+                    TelephoneNumeberView telephoneNumeberView = new TelephoneNumeberView(telephoneNumbers, this);
+                    MainFrame.desktopPane.add(telephoneNumeberView);
+                    telephoneNumeberView.setVisible(true);
+                }
             }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnTelephoneNumberSearchActionPerformed
 
@@ -833,231 +868,270 @@ public class BusinessPartnerFrame extends javax.swing.JInternalFrame {
     }
 
     private List getBusinessPatnerByCode(String businessPatnerCode, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
-        if (like) {
-            query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.businessPartnerCode like :code");
-            query.setParameter("code", "%" + businessPatnerCode + "%");
-        } else {
-            query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.businessPartnerCode = :code");
-            query.setParameter("code", businessPatnerCode);
-        }
-        List list = query.list();
-        for (Object object : list) {
-            if (object instanceof BusinessPartner) {
-                BusinessPartner businessPartner = (BusinessPartner) object;
-                Hibernate.initialize(businessPartner.getBusinessAddresses());
-                Hibernate.initialize(businessPartner.getBusinessTelephones());
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query;
+            if (like) {
+                query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.businessPartnerCode like :code");
+                query.setParameter("code", "%" + businessPatnerCode + "%");
+            } else {
+                query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.businessPartnerCode = :code");
+                query.setParameter("code", businessPatnerCode);
+            }
+            List list = query.list();
+            for (Object object : list) {
+                if (object instanceof BusinessPartner) {
+                    BusinessPartner businessPartner = (BusinessPartner) object;
+                    Hibernate.initialize(businessPartner.getBusinessAddresses());
+                    Hibernate.initialize(businessPartner.getBusinessTelephones());
 
-                Set addresses = businessPartner.getBusinessAddresses();
-                for (Object tempAddresse : addresses) {
-                    if (tempAddresse instanceof BusinessAddress) {
-                        BusinessAddress businessAddress = (BusinessAddress) tempAddresse;
-                        Hibernate.initialize(businessAddress.getAddress());
+                    Set addresses = businessPartner.getBusinessAddresses();
+                    for (Object tempAddresse : addresses) {
+                        if (tempAddresse instanceof BusinessAddress) {
+                            BusinessAddress businessAddress = (BusinessAddress) tempAddresse;
+                            Hibernate.initialize(businessAddress.getAddress());
+                        }
                     }
-                }
 
-                Set businessTelephone = businessPartner.getBusinessTelephones();
-                for (Object tempTelephone : businessTelephone) {
-                    if (tempTelephone instanceof BusinessTelephone) {
-                        BusinessTelephone telephone = (BusinessTelephone) tempTelephone;
-                        Hibernate.initialize(telephone.getTelephoneNumber());
+                    Set businessTelephone = businessPartner.getBusinessTelephones();
+                    for (Object tempTelephone : businessTelephone) {
+                        if (tempTelephone instanceof BusinessTelephone) {
+                            BusinessTelephone telephone = (BusinessTelephone) tempTelephone;
+                            Hibernate.initialize(telephone.getTelephoneNumber());
+                        }
                     }
                 }
             }
+            session.getTransaction().commit();
+            session.close();
+            return list;
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+            return null;
         }
-        session.getTransaction().commit();
-        session.close();
-        return list;
     }
 
     private List getBusinessPatnerByNic(String nic, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
-        if (like) {
-            query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.nic like :nic");
-            query.setParameter("nic", "%" + nic + "%");
-        } else {
-            query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.nic = :nic");
-            query.setParameter("nic", nic);
-        }
-        List list = query.list();
-        for (Object object : list) {
-            if (object instanceof BusinessPartner) {
-                BusinessPartner businessPartner = (BusinessPartner) object;
-                Hibernate.initialize(businessPartner.getBusinessAddresses());
-                Hibernate.initialize(businessPartner.getBusinessTelephones());
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query;
+            if (like) {
+                query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.nic like :nic");
+                query.setParameter("nic", "%" + nic + "%");
+            } else {
+                query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.nic = :nic");
+                query.setParameter("nic", nic);
+            }
+            List list = query.list();
+            for (Object object : list) {
+                if (object instanceof BusinessPartner) {
+                    BusinessPartner businessPartner = (BusinessPartner) object;
+                    Hibernate.initialize(businessPartner.getBusinessAddresses());
+                    Hibernate.initialize(businessPartner.getBusinessTelephones());
 
-                Set addresses = businessPartner.getBusinessAddresses();
-                for (Object tempAddresse : addresses) {
-                    if (tempAddresse instanceof BusinessAddress) {
-                        BusinessAddress businessAddress = (BusinessAddress) tempAddresse;
-                        Hibernate.initialize(businessAddress.getAddress());
+                    Set addresses = businessPartner.getBusinessAddresses();
+                    for (Object tempAddresse : addresses) {
+                        if (tempAddresse instanceof BusinessAddress) {
+                            BusinessAddress businessAddress = (BusinessAddress) tempAddresse;
+                            Hibernate.initialize(businessAddress.getAddress());
+                        }
                     }
-                }
 
-                Set businessTelephone = businessPartner.getBusinessTelephones();
-                for (Object tempTelephone : businessTelephone) {
-                    if (tempTelephone instanceof BusinessTelephone) {
-                        BusinessTelephone telephone = (BusinessTelephone) tempTelephone;
-                        Hibernate.initialize(telephone.getTelephoneNumber());
+                    Set businessTelephone = businessPartner.getBusinessTelephones();
+                    for (Object tempTelephone : businessTelephone) {
+                        if (tempTelephone instanceof BusinessTelephone) {
+                            BusinessTelephone telephone = (BusinessTelephone) tempTelephone;
+                            Hibernate.initialize(telephone.getTelephoneNumber());
+                        }
                     }
                 }
             }
+            session.getTransaction().commit();
+            session.close();
+            return list;
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+            return null;
         }
-        session.getTransaction().commit();
-        session.close();
-        return list;
     }
 
     private List getBusinessPatnerByFirstName(String businessPatnerFirstName, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
-        if (like) {
-            query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.firstName like :name");
-            query.setParameter("name", "%" + businessPatnerFirstName + "%");
-        } else {
-            query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.firstName = :name");
-            query.setParameter("name", businessPatnerFirstName);
-        }
-        List list = query.list();
-        for (Object object : list) {
-            if (object instanceof BusinessPartner) {
-                BusinessPartner businessPartner = (BusinessPartner) object;
-                Hibernate.initialize(businessPartner.getBusinessAddresses());
-                Hibernate.initialize(businessPartner.getBusinessTelephones());
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query;
+            if (like) {
+                query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.firstName like :name");
+                query.setParameter("name", "%" + businessPatnerFirstName + "%");
+            } else {
+                query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.firstName = :name");
+                query.setParameter("name", businessPatnerFirstName);
+            }
+            List list = query.list();
+            for (Object object : list) {
+                if (object instanceof BusinessPartner) {
+                    BusinessPartner businessPartner = (BusinessPartner) object;
+                    Hibernate.initialize(businessPartner.getBusinessAddresses());
+                    Hibernate.initialize(businessPartner.getBusinessTelephones());
 
-                Set addresses = businessPartner.getBusinessAddresses();
-                for (Object tempAddresse : addresses) {
-                    if (tempAddresse instanceof BusinessAddress) {
-                        BusinessAddress businessAddress = (BusinessAddress) tempAddresse;
-                        Hibernate.initialize(businessAddress.getAddress());
+                    Set addresses = businessPartner.getBusinessAddresses();
+                    for (Object tempAddresse : addresses) {
+                        if (tempAddresse instanceof BusinessAddress) {
+                            BusinessAddress businessAddress = (BusinessAddress) tempAddresse;
+                            Hibernate.initialize(businessAddress.getAddress());
+                        }
                     }
-                }
 
-                Set businessTelephone = businessPartner.getBusinessTelephones();
-                for (Object tempTelephone : businessTelephone) {
-                    if (tempTelephone instanceof BusinessTelephone) {
-                        BusinessTelephone telephone = (BusinessTelephone) tempTelephone;
-                        Hibernate.initialize(telephone.getTelephoneNumber());
+                    Set businessTelephone = businessPartner.getBusinessTelephones();
+                    for (Object tempTelephone : businessTelephone) {
+                        if (tempTelephone instanceof BusinessTelephone) {
+                            BusinessTelephone telephone = (BusinessTelephone) tempTelephone;
+                            Hibernate.initialize(telephone.getTelephoneNumber());
+                        }
                     }
                 }
             }
+            session.getTransaction().commit();
+            session.close();
+            return list;
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+            return null;
         }
-        session.getTransaction().commit();
-        session.close();
-        return list;
     }
 
     private List getBusinessPatnerByLastName(String businessPatnerLastName, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
-        if (like) {
-            query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.lastName like :name");
-            query.setParameter("name", "%" + businessPatnerLastName + "%");
-        } else {
-            query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.lastName = :name");
-            query.setParameter("name", businessPatnerLastName);
-        }
-        List list = query.list();
-        for (Object object : list) {
-            if (object instanceof BusinessPartner) {
-                BusinessPartner businessPartner = (BusinessPartner) object;
-                Hibernate.initialize(businessPartner.getBusinessAddresses());
-                Hibernate.initialize(businessPartner.getBusinessTelephones());
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query;
+            if (like) {
+                query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.lastName like :name");
+                query.setParameter("name", "%" + businessPatnerLastName + "%");
+            } else {
+                query = session.createQuery("from BusinessPartner b join fetch b.businessAddresses join fetch b.businessTelephones where b.lastName = :name");
+                query.setParameter("name", businessPatnerLastName);
+            }
+            List list = query.list();
+            for (Object object : list) {
+                if (object instanceof BusinessPartner) {
+                    BusinessPartner businessPartner = (BusinessPartner) object;
+                    Hibernate.initialize(businessPartner.getBusinessAddresses());
+                    Hibernate.initialize(businessPartner.getBusinessTelephones());
 
-                Set addresses = businessPartner.getBusinessAddresses();
-                for (Object tempAddresse : addresses) {
-                    if (tempAddresse instanceof BusinessAddress) {
-                        BusinessAddress businessAddress = (BusinessAddress) tempAddresse;
-                        Hibernate.initialize(businessAddress.getAddress());
+                    Set addresses = businessPartner.getBusinessAddresses();
+                    for (Object tempAddresse : addresses) {
+                        if (tempAddresse instanceof BusinessAddress) {
+                            BusinessAddress businessAddress = (BusinessAddress) tempAddresse;
+                            Hibernate.initialize(businessAddress.getAddress());
+                        }
                     }
-                }
 
-                Set businessTelephone = businessPartner.getBusinessTelephones();
-                for (Object tempTelephone : businessTelephone) {
-                    if (tempTelephone instanceof BusinessTelephone) {
-                        BusinessTelephone telephone = (BusinessTelephone) tempTelephone;
-                        Hibernate.initialize(telephone.getTelephoneNumber());
+                    Set businessTelephone = businessPartner.getBusinessTelephones();
+                    for (Object tempTelephone : businessTelephone) {
+                        if (tempTelephone instanceof BusinessTelephone) {
+                            BusinessTelephone telephone = (BusinessTelephone) tempTelephone;
+                            Hibernate.initialize(telephone.getTelephoneNumber());
+                        }
                     }
                 }
             }
+            session.getTransaction().commit();
+            session.close();
+            return list;
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+            return null;
         }
-        session.getTransaction().commit();
-        session.close();
-        return list;
     }
 
     private List<Address> getAddressByCode(String addressCode, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
-        if (like) {
-            query = session.createQuery("from Address a where a.addressCode like :code");
-            query.setParameter("code", "%" + addressCode + "%");
-        } else {
-            query = session.createQuery("from Address a where a.addressCode = :code");
-            query.setParameter("code", addressCode);
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query;
+            if (like) {
+                query = session.createQuery("from Address a where a.addressCode like :code");
+                query.setParameter("code", "%" + addressCode + "%");
+            } else {
+                query = session.createQuery("from Address a where a.addressCode = :code");
+                query.setParameter("code", addressCode);
+            }
+            List<Address> list = query.list();
+            session.getTransaction().commit();
+            session.close();
+            return list;
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+            return null;
         }
-        List<Address> list = query.list();
-        session.getTransaction().commit();
-        session.close();
-        return list;
     }
 
     private List<Address> getAddressByLine1(String addressName, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
-        if (like) {
-            query = session.createQuery("from Address a where a.adressLine1 like :name");
-            query.setParameter("name", "%" + addressName + "%");
-        } else {
-            query = session.createQuery("from Address a where a.adressLine1 = :name");
-            query.setParameter("name", addressName);
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query;
+            if (like) {
+                query = session.createQuery("from Address a where a.adressLine1 like :name");
+                query.setParameter("name", "%" + addressName + "%");
+            } else {
+                query = session.createQuery("from Address a where a.adressLine1 = :name");
+                query.setParameter("name", addressName);
+            }
+            List<Address> list = query.list();
+            session.getTransaction().commit();
+            session.close();
+            return list;
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+            return null;
         }
-        List<Address> list = query.list();
-        session.getTransaction().commit();
-        session.close();
-        return list;
     }
 
     private List<TelephoneNumber> getTelephoneByCode(String telephoneCode, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
-        if (like) {
-            query = session.createQuery("from TelephoneNumber t where t.telephoneNumberCode like :code");
-            query.setParameter("code", "%" + telephoneCode + "%");
-        } else {
-            query = session.createQuery("from TelephoneNumber t where t.telephoneNumberCode = :code");
-            query.setParameter("code", telephoneCode);
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query;
+            if (like) {
+                query = session.createQuery("from TelephoneNumber t where t.telephoneNumberCode like :code");
+                query.setParameter("code", "%" + telephoneCode + "%");
+            } else {
+                query = session.createQuery("from TelephoneNumber t where t.telephoneNumberCode = :code");
+                query.setParameter("code", telephoneCode);
+            }
+            List<TelephoneNumber> list = query.list();
+            session.getTransaction().commit();
+            session.close();
+            return list;
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+            return null;
         }
-        List<TelephoneNumber> list = query.list();
-        session.getTransaction().commit();
-        session.close();
-        return list;
     }
 
     private List<TelephoneNumber> getTelephoneByNumber(String telephoneNumber, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
-        if (like) {
-            query = session.createQuery("from TelephoneNumber t where t.telephoneNumber like :name");
-            query.setParameter("name", "%" + telephoneNumber + "%");
-        } else {
-            query = session.createQuery("from TelephoneNumber t where t.telephoneNumber = :name");
-            query.setParameter("name", telephoneNumber);
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query;
+            if (like) {
+                query = session.createQuery("from TelephoneNumber t where t.telephoneNumber like :name");
+                query.setParameter("name", "%" + telephoneNumber + "%");
+            } else {
+                query = session.createQuery("from TelephoneNumber t where t.telephoneNumber = :name");
+                query.setParameter("name", telephoneNumber);
+            }
+            List<TelephoneNumber> list = query.list();
+            session.getTransaction().commit();
+            session.close();
+            return list;
+        } catch (HibernateException ex) {
+            return null;
         }
-        List<TelephoneNumber> list = query.list();
-        session.getTransaction().commit();
-        session.close();
-        return list;
     }
 
     public void clearAll() {

@@ -7,7 +7,7 @@ package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.internalFrames.PrinterFrame;
 import com.servicemaster.models.Printer;
 import java.util.List;

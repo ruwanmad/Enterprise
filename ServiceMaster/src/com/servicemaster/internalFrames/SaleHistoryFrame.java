@@ -7,9 +7,9 @@ package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.forms.MainFrame;
-import com.servicemaster.functions.AutoCompletion;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.frames.MainFrame;
+import com.servicemaster.supportClasses.AutoCompletion;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.Sale;
 import com.servicemaster.models.Vehicle;
 import com.servicemaster.utils.HibernateUtil;

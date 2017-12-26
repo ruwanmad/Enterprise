@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.servicemaster.functions;
+package com.servicemaster.supportClasses;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -126,7 +126,8 @@ public class AutoCompletion extends PlainDocument {
 
     public static void enable(JComboBox comboBox, Component nextFocusable) {
         comboBox.setEditable(true);
-        new AutoCompletion(comboBox, nextFocusable);
+        AutoCompletion autoCompletion = new AutoCompletion(comboBox, nextFocusable);
+        System.out.println(autoCompletion);
     }
 
     final void configureEditor(ComboBoxEditor newEditor) {
@@ -222,11 +223,11 @@ public class AutoCompletion extends PlainDocument {
     }
 
     private boolean isFunctionKey(int keyCode) {
-        
-        return keyCode == KeyEvent.VK_F1 
+
+        return keyCode == KeyEvent.VK_F1
                 || keyCode == KeyEvent.VK_F2
                 || keyCode == KeyEvent.VK_F3
-                || keyCode == KeyEvent.VK_F4 
+                || keyCode == KeyEvent.VK_F4
                 || keyCode == KeyEvent.VK_F5
                 || keyCode == KeyEvent.VK_F6
                 || keyCode == KeyEvent.VK_F7

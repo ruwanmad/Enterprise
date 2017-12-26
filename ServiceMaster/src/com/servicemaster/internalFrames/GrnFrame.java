@@ -9,10 +9,10 @@ import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.dialogs.ItemSearchDialog;
-import com.servicemaster.forms.MainFrame;
-import com.servicemaster.functions.AutoCompletion;
+import com.servicemaster.frames.MainFrame;
+import com.servicemaster.supportClasses.AutoCompletion;
 import com.servicemaster.keys.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.models.Grn;
 import com.servicemaster.models.GrnLine;
@@ -33,7 +33,9 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
@@ -44,6 +46,14 @@ import org.hibernate.criterion.Restrictions;
  * @author RuwanM
  */
 public class GrnFrame extends javax.swing.JInternalFrame {
+
+    float grandSubTotal = 0.0f;
+    float grandDiscount = 0.0f;
+    float grandTotal = 0.0f;
+
+    TreeMap<String, BusinessPartner> businessPartnerMap = new TreeMap<>();
+
+    private static final Logger LOGGER = Logger.getLogger(GrnFrame.class);
 
     /**
      * Creates new form GrnFrame
@@ -608,41 +618,45 @@ public class GrnFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddMouseExited
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        if (!validateAddItemFields()) {
-            InformationDialog.showMessageBox("Please insert valid details", "Invalid", this);
-        } else {
-            Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            if (!validateAddItemFields()) {
+                InformationDialog.showMessageBox("Please insert valid details", "Invalid", this);
+            } else {
+                Session session = HibernateUtil.getSessionFactory().openSession();
 
-            String itemName = cmbItems.getSelectedItem().toString().trim();
-            float quantity = Float.parseFloat(txtQuantity.getText());
-            float unitPrice = Float.parseFloat(txtUnitPrice.getText());
-            float discount = Float.parseFloat(txtDiscount.getText());
+                String itemName = cmbItems.getSelectedItem().toString().trim();
+                float quantity = Float.parseFloat(txtQuantity.getText());
+                float unitPrice = Float.parseFloat(txtUnitPrice.getText());
+                float discount = Float.parseFloat(txtDiscount.getText());
 
-            float itemTotal = (quantity * unitPrice) - discount;
+                float itemTotal = (quantity * unitPrice) - discount;
 
-            Item item = (Item) session.createCriteria(Item.class)
-                    .add(Restrictions.eq("itemName", itemName))
-                    .uniqueResult();
+                Item item = (Item) session.createCriteria(Item.class)
+                        .add(Restrictions.eq("itemName", itemName))
+                        .uniqueResult();
 
-            DefaultTableModel tableModel = (DefaultTableModel) tblGrnItems.getModel();
-            tableModel.addRow(new Object[]{item.getItemCode(), itemName, unitPrice, quantity, discount, itemTotal});
+                DefaultTableModel tableModel = (DefaultTableModel) tblGrnItems.getModel();
+                tableModel.addRow(new Object[]{item.getItemCode(), itemName, unitPrice, quantity, discount, itemTotal});
 
-            this.grandSubTotal += (quantity * unitPrice);
-            this.grandDiscount += discount;
-            this.grandTotal = this.grandSubTotal - this.grandDiscount;
+                this.grandSubTotal += (quantity * unitPrice);
+                this.grandDiscount += discount;
+                this.grandTotal = this.grandSubTotal - this.grandDiscount;
 
-            this.txtGrandSubTotal.setText("" + this.grandSubTotal);
-            this.txtGrandDiscount.setText("" + this.grandDiscount);
-            this.txtGrandTotal.setText("" + this.grandTotal);
+                this.txtGrandSubTotal.setText("" + this.grandSubTotal);
+                this.txtGrandDiscount.setText("" + this.grandDiscount);
+                this.txtGrandTotal.setText("" + this.grandTotal);
 
-            session.close();
+                session.close();
+            }
+
+            cmbItems.requestFocus();
+            cmbItems.setSelectedIndex(0);
+            txtQuantity.setText("0.0");
+            txtUnitPrice.setText("0.0");
+            txtDiscount.setText("0.0");
+        } catch (HibernateException | NumberFormatException ex) {
+            LOGGER.error(ex);
         }
-
-        cmbItems.requestFocus();
-        cmbItems.setSelectedIndex(0);
-        txtQuantity.setText("0.0");
-        txtUnitPrice.setText("0.0");
-        txtDiscount.setText("0.0");
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseEntered
@@ -654,23 +668,27 @@ public class GrnFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSaveMouseExited
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if (!validateSaveFields()) {
-            InformationDialog.showMessageBox("Please insert valid details", "Invalid", this);
-        } else {
-            String strGrnReference = txtGrnReference.getText().trim();
-            Grn grn = this.getGrnByReference(strGrnReference, true);
-            if (grn == null) {
-                ConfirmationDialog.showMessageBox("Create new GRN?", "New", this);
-                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                    this.saveOrUpdateGrn(keyCodeFunctions.getKey("GRN", "Good receive note"), false);
-                }
+        try {
+            if (!validateSaveFields()) {
+                InformationDialog.showMessageBox("Please insert valid details", "Invalid", this);
             } else {
-                ConfirmationDialog.showMessageBox("Update existing GRN?", "Update", this);
-                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    this.saveOrUpdateGrn(grn.getGrnCode(), true);
+                String strGrnReference = txtGrnReference.getText().trim();
+                Grn grn = this.getGrnByReference(strGrnReference, true);
+                if (grn == null) {
+                    ConfirmationDialog.showMessageBox("Create new GRN?", "New", this);
+                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+                        KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                        this.saveOrUpdateGrn(keyCodeFunctions.getKey("GRN", "Good receive note"), false);
+                    }
+                } else {
+                    ConfirmationDialog.showMessageBox("Update existing GRN?", "Update", this);
+                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+                        this.saveOrUpdateGrn(grn.getGrnCode(), true);
+                    }
                 }
             }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -702,37 +720,41 @@ public class GrnFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
 
-        Criteria businessPartnerCriteria = session.createCriteria(BusinessPartner.class)
-                .add(Restrictions.eq("isSupplier", true))
-                .addOrder(Order.asc("businessPartnerCode"));
-        List<BusinessPartner> businessPartners = businessPartnerCriteria.list();
-        if (!businessPartners.isEmpty()) {
-            cmbSupplier.removeAllItems();
-            cmbSupplier.addItem("");
-            for (BusinessPartner businessPartner : businessPartners) {
-                cmbSupplier.addItem(businessPartner.getFirstName() + " " + businessPartner.getLastName());
-                businessPartnerMap.put(businessPartner.getFirstName() + " " + businessPartner.getLastName(), businessPartner);
+            Criteria businessPartnerCriteria = session.createCriteria(BusinessPartner.class)
+                    .add(Restrictions.eq("isSupplier", true))
+                    .addOrder(Order.asc("businessPartnerCode"));
+            List<BusinessPartner> businessPartners = businessPartnerCriteria.list();
+            if (!businessPartners.isEmpty()) {
+                cmbSupplier.removeAllItems();
+                cmbSupplier.addItem("");
+                for (BusinessPartner businessPartner : businessPartners) {
+                    cmbSupplier.addItem(businessPartner.getFirstName() + " " + businessPartner.getLastName());
+                    businessPartnerMap.put(businessPartner.getFirstName() + " " + businessPartner.getLastName(), businessPartner);
+                }
             }
-        }
 
-        Criteria itemCriteria = session.createCriteria(Item.class)
-                .add(Restrictions.eq("isPhysical", 1))
-                .addOrder(Order.asc("itemName"));
-        List<Item> items = itemCriteria.list();
-        if (!items.isEmpty()) {
-            cmbItems.removeAllItems();
-            cmbItems.addItem("");
-            for (Item item : items) {
-                cmbItems.addItem(item.getItemName());
+            Criteria itemCriteria = session.createCriteria(Item.class)
+                    .add(Restrictions.eq("isPhysical", 1))
+                    .addOrder(Order.asc("itemName"));
+            List<Item> items = itemCriteria.list();
+            if (!items.isEmpty()) {
+                cmbItems.removeAllItems();
+                cmbItems.addItem("");
+                for (Item item : items) {
+                    cmbItems.addItem(item.getItemName());
+                }
             }
+
+            AutoCompletion.enable(cmbSupplier, txtDeliveredBy);
+            AutoCompletion.enable(cmbItems, txtUnitPrice);
+
+            session.close();
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
-
-        AutoCompletion.enable(cmbSupplier, txtDeliveredBy);
-        AutoCompletion.enable(cmbItems, txtUnitPrice);
-
-        session.close();
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void txtUnitPriceKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUnitPriceKeyPressed
@@ -757,22 +779,26 @@ public class GrnFrame extends javax.swing.JInternalFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Session session = HibernateUtil.getSessionFactory().openSession();
-                Item item = (Item) session
-                        .createCriteria(Item.class)
-                        .add(Restrictions.eq("itemName", cmbItems.getSelectedItem().toString().trim()))
-                        .uniqueResult();
-                if (item != null) {
-                    Uom uom = (Uom) session
-                            .createCriteria(Uom.class)
-                            .add(Restrictions.eq("uomCode", item.getUomByBuyingUom().getUomCode()))
+                try {
+                    Session session = HibernateUtil.getSessionFactory().openSession();
+                    Item item = (Item) session
+                            .createCriteria(Item.class)
+                            .add(Restrictions.eq("itemName", cmbItems.getSelectedItem().toString().trim()))
                             .uniqueResult();
-                    if (uom != null) {
-                        lblUom.setText(uom.getUomSymble());
+                    if (item != null) {
+                        Uom uom = (Uom) session
+                                .createCriteria(Uom.class)
+                                .add(Restrictions.eq("uomCode", item.getUomByBuyingUom().getUomCode()))
+                                .uniqueResult();
+                        if (uom != null) {
+                            lblUom.setText(uom.getUomSymble());
+                        }
                     }
+                    session.close();
+                    txtUnitPrice.selectAll();
+                } catch (HibernateException ex) {
+                    LOGGER.error(ex);
                 }
-                session.close();
-                txtUnitPrice.selectAll();
             }
         });
     }//GEN-LAST:event_txtUnitPriceFocusGained
@@ -832,143 +858,152 @@ public class GrnFrame extends javax.swing.JInternalFrame {
     }
 
     private void saveOrUpdateGrn(String strGrnCode, boolean bUpdate) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
 
-        Date date = new Date();
+            Date date = new Date();
 
-        String businessPartnerName = cmbSupplier.getSelectedItem().toString().trim();
+            String businessPartnerName = cmbSupplier.getSelectedItem().toString().trim();
 
-        BusinessPartner businessPartner = businessPartnerMap.get(businessPartnerName);
+            BusinessPartner businessPartner = businessPartnerMap.get(businessPartnerName);
 
-        Grn grn = new Grn();
-        grn.setGrnCode(strGrnCode);
-        grn.setBusinessPartner(businessPartner);
-        grn.setGrnReference(txtGrnReference.getText().trim().toUpperCase());
-        grn.setGrnTime(date);
-        grn.setGrnDate(dateGrnDate.getDate());
-        grn.setHandedOverBy(txtDeliveredBy.getText().trim().toUpperCase());
-        grn.setBatch(new SimpleDateFormat("yyyyMMdd").format(dateGrnDate.getDate()) + "-" + txtGrnReference.getText().trim().toUpperCase());
-        if (bUpdate) {
-            grn.setModifiedDate(date);
-            grn.setModifiedTime(date);
-            grn.setModifiedUser(MainFrame.user.getUserId());
-        } else {
-            grn.setCreatedDate(date);
-            grn.setCreatedTime(date);
-            grn.setCreatedUser(MainFrame.user.getUserId());
-        }
-        grn.setRemark(txtRemark.getText().trim().toUpperCase());
-
-        session.saveOrUpdate(grn);
-
-        DefaultTableModel tableModel = (DefaultTableModel) tblGrnItems.getModel();
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            Item item = (Item) session.createCriteria(Item.class)
-                    .add(Restrictions.eq("itemCode", tblGrnItems.getValueAt(i, 0).toString()))
-                    .uniqueResult();
-
-            /**
-             * Updating GRN Line for GRN reference
-             */
-            GrnLine grnLine = new GrnLine();
-            grnLine.setUnitPrice(Float.parseFloat(tblGrnItems.getValueAt(i, 2).toString()));
-            grnLine.setReceivedQuantity(Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
-            grnLine.setDiscount(Float.parseFloat(tblGrnItems.getValueAt(i, 4).toString()));
-            grnLine.setSubTotal((Float.parseFloat(tblGrnItems.getValueAt(i, 2).toString())
-                    * Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()))
-                    - Float.parseFloat(tblGrnItems.getValueAt(i, 4).toString())
-            );
-            grnLine.setCostPrice(((Float.parseFloat(tblGrnItems.getValueAt(i, 2).toString())
-                    * Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()))
-                    - Float.parseFloat(tblGrnItems.getValueAt(i, 4).toString()))
-                    / Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
+            Grn grn = new Grn();
+            grn.setGrnCode(strGrnCode);
+            grn.setBusinessPartner(businessPartner);
+            grn.setGrnReference(txtGrnReference.getText().trim().toUpperCase());
+            grn.setGrnTime(date);
+            grn.setGrnDate(dateGrnDate.getDate());
+            grn.setHandedOverBy(txtDeliveredBy.getText().trim().toUpperCase());
+            grn.setBatch(new SimpleDateFormat("yyyyMMdd").format(dateGrnDate.getDate()) + "-" + txtGrnReference.getText().trim().toUpperCase());
             if (bUpdate) {
-                grnLine.setModifiedDate(date);
-                grnLine.setModifiedTime(date);
-                grnLine.setModifiedUser(MainFrame.user.getUserId());
+                grn.setModifiedDate(date);
+                grn.setModifiedTime(date);
+                grn.setModifiedUser(MainFrame.user.getUserId());
             } else {
-                grnLine.setCreatedDate(date);
-                grnLine.setCreatedTime(date);
-                grnLine.setCreatedUser(MainFrame.user.getUserId());
+                grn.setCreatedDate(date);
+                grn.setCreatedTime(date);
+                grn.setCreatedUser(MainFrame.user.getUserId());
             }
-            grnLine.setRemark("");
-            grnLine.setGrn(grn);
-            grnLine.setItem(item);
+            grn.setRemark(txtRemark.getText().trim().toUpperCase());
 
-            session.saveOrUpdate(grnLine);
+            session.saveOrUpdate(grn);
 
-            /**
-             * Update stock
-             */
-            Stock stock = new Stock();
-            stock.setCostPrice(((Float.parseFloat(tblGrnItems.getValueAt(i, 2).toString())
-                    * Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()))
-                    - Float.parseFloat(tblGrnItems.getValueAt(i, 4).toString()))
-                    / Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
-
-            /**
-             * Convert buying uom to selling uom
-             */
-            Uom buying = item.getUomByBuyingUom();
-            Uom selling = item.getUomBySellingUom();
-            if (buying != selling) {
-                UomConversion uomConversion = (UomConversion) session
-                        .createCriteria(UomConversion.class)
-                        .add(Restrictions.eq("uomByUomUomCodeFrom", buying))
-                        .add(Restrictions.eq("uomByUomUomCodeTo", selling))
+            DefaultTableModel tableModel = (DefaultTableModel) tblGrnItems.getModel();
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                Item item = (Item) session.createCriteria(Item.class)
+                        .add(Restrictions.eq("itemCode", tblGrnItems.getValueAt(i, 0).toString()))
                         .uniqueResult();
-                if (uomConversion != null) {
-                    float multipliedBY = uomConversion.getMultipliedBy();
-                    stock.setQuantity(Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()) * multipliedBY);
+
+                /**
+                 * Updating GRN Line for GRN reference
+                 */
+                GrnLine grnLine = new GrnLine();
+                grnLine.setUnitPrice(Float.parseFloat(tblGrnItems.getValueAt(i, 2).toString()));
+                grnLine.setReceivedQuantity(Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
+                grnLine.setDiscount(Float.parseFloat(tblGrnItems.getValueAt(i, 4).toString()));
+                grnLine.setSubTotal((Float.parseFloat(tblGrnItems.getValueAt(i, 2).toString())
+                        * Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()))
+                        - Float.parseFloat(tblGrnItems.getValueAt(i, 4).toString())
+                );
+                grnLine.setCostPrice(((Float.parseFloat(tblGrnItems.getValueAt(i, 2).toString())
+                        * Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()))
+                        - Float.parseFloat(tblGrnItems.getValueAt(i, 4).toString()))
+                        / Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
+                if (bUpdate) {
+                    grnLine.setModifiedDate(date);
+                    grnLine.setModifiedTime(date);
+                    grnLine.setModifiedUser(MainFrame.user.getUserId());
+                } else {
+                    grnLine.setCreatedDate(date);
+                    grnLine.setCreatedTime(date);
+                    grnLine.setCreatedUser(MainFrame.user.getUserId());
+                }
+                grnLine.setRemark("");
+                grnLine.setGrn(grn);
+                grnLine.setItem(item);
+
+                session.saveOrUpdate(grnLine);
+
+                /**
+                 * Update stock
+                 */
+                Stock stock = new Stock();
+                stock.setCostPrice(((Float.parseFloat(tblGrnItems.getValueAt(i, 2).toString())
+                        * Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()))
+                        - Float.parseFloat(tblGrnItems.getValueAt(i, 4).toString()))
+                        / Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
+
+                /**
+                 * Convert buying uom to selling uom
+                 */
+                Uom buying = item.getUomByBuyingUom();
+                Uom selling = item.getUomBySellingUom();
+                if (buying != selling) {
+                    UomConversion uomConversion = (UomConversion) session
+                            .createCriteria(UomConversion.class)
+                            .add(Restrictions.eq("uomByUomUomCodeFrom", buying))
+                            .add(Restrictions.eq("uomByUomUomCodeTo", selling))
+                            .uniqueResult();
+                    if (uomConversion != null) {
+                        float multipliedBY = uomConversion.getMultipliedBy();
+                        stock.setQuantity(Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()) * multipliedBY);
+                    } else {
+                        stock.setQuantity(Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
+                    }
                 } else {
                     stock.setQuantity(Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
                 }
-            } else {
-                stock.setQuantity(Float.parseFloat(tblGrnItems.getValueAt(i, 3).toString()));
+
+                if (bUpdate) {
+                    stock.setModifiedDate(date);
+                    stock.setModifiedTime(date);
+                    stock.setModifiedUser(MainFrame.user.getUserId());
+                } else {
+                    stock.setCreatedDate(date);
+                    stock.setCreatedTime(date);
+                    stock.setCreatedUser(MainFrame.user.getUserId());
+                }
+                stock.setGrn(grn);
+                stock.setStockStatus((StockStatus) session
+                        .createCriteria(StockStatus.class)
+                        .add(Restrictions.eq("stockStatusId", 1))
+                        .uniqueResult());
+                stock.setItem(item);
+
+                session.saveOrUpdate(stock);
             }
+
+            transaction.commit();
+            session.close();
 
             if (bUpdate) {
-                stock.setModifiedDate(date);
-                stock.setModifiedTime(date);
-                stock.setModifiedUser(MainFrame.user.getUserId());
+                InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING, this);
             } else {
-                stock.setCreatedDate(date);
-                stock.setCreatedTime(date);
-                stock.setCreatedUser(MainFrame.user.getUserId());
+                InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING, this);
             }
-            stock.setGrn(grn);
-            stock.setStockStatus((StockStatus) session
-                    .createCriteria(StockStatus.class)
-                    .add(Restrictions.eq("stockStatusId", 1))
-                    .uniqueResult());
-            stock.setItem(item);
 
-            session.saveOrUpdate(stock);
+            this.clearAll();
+        } catch (HibernateException | NumberFormatException ex) {
+            LOGGER.error(ex);
         }
-
-        transaction.commit();
-        session.close();
-
-        if (bUpdate) {
-            InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING, this);
-        } else {
-            InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING, this);
-        }
-
-        this.clearAll();
     }
 
     private Grn getGrnByReference(String grnReference, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        if (like) {
-            return (Grn) session.createCriteria(Grn.class)
-                    .add(Restrictions.like("grnReference", "%" + grnReference + "%"))
-                    .uniqueResult();
-        } else {
-            return (Grn) session.createCriteria(Grn.class)
-                    .add(Restrictions.eq("grnReference", grnReference))
-                    .uniqueResult();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            if (like) {
+                return (Grn) session.createCriteria(Grn.class)
+                        .add(Restrictions.like("grnReference", "%" + grnReference + "%"))
+                        .uniqueResult();
+            } else {
+                return (Grn) session.createCriteria(Grn.class)
+                        .add(Restrictions.eq("grnReference", grnReference))
+                        .uniqueResult();
+            }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+            return null;
         }
     }
 
@@ -1028,9 +1063,4 @@ public class GrnFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtRemark;
     public javax.swing.JFormattedTextField txtUnitPrice;
     // End of variables declaration//GEN-END:variables
-    float grandSubTotal = 0.0f;
-    float grandDiscount = 0.0f;
-    float grandTotal = 0.0f;
-
-    TreeMap<String, BusinessPartner> businessPartnerMap = new TreeMap<>();
 }

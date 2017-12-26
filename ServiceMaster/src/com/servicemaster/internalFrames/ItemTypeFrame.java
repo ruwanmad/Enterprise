@@ -8,14 +8,15 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.forms.MainFrame;
+import com.servicemaster.frames.MainFrame;
 import com.servicemaster.keys.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.ItemType;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.ItemTypeView;
 import java.util.Date;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -26,6 +27,8 @@ import org.hibernate.criterion.Restrictions;
  * @author Ruwan Madawala
  */
 public class ItemTypeFrame extends javax.swing.JInternalFrame {
+    
+    private static final Logger LOGGER = Logger.getLogger(ItemTypeFrame.class);
 
     /**
      * Creates new form Category
@@ -331,13 +334,17 @@ public class ItemTypeFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCodeSerachMouseExited
 
     private void btnCodeSerachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCodeSerachActionPerformed
-        String subCategoryTypeCode = txtItemTypeCode.getText().trim();
-        List subCategorieTypes = getItemTypeByCode(subCategoryTypeCode, true);
-
-        if (!subCategorieTypes.isEmpty()) {
-            ItemTypeView subCategoryTypeView = new ItemTypeView(subCategorieTypes, this);
-            MainFrame.desktopPane.add(subCategoryTypeView);
-            subCategoryTypeView.setVisible(true);
+        try {
+            String subCategoryTypeCode = txtItemTypeCode.getText().trim();
+            List subCategorieTypes = getItemTypeByCode(subCategoryTypeCode, true);
+            
+            if (!subCategorieTypes.isEmpty()) {
+                ItemTypeView subCategoryTypeView = new ItemTypeView(subCategorieTypes, this);
+                MainFrame.desktopPane.add(subCategoryTypeView);
+                subCategoryTypeView.setVisible(true);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnCodeSerachActionPerformed
 

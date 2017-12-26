@@ -7,8 +7,8 @@ package com.servicemaster.views;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
-import com.servicemaster.forms.MainFrame;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.frames.MainFrame;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.internalFrames.BusinessPartnerFrame;
 import com.servicemaster.internalFrames.TelephoneNumberFrame;
 import com.servicemaster.models.TelephoneNumber;

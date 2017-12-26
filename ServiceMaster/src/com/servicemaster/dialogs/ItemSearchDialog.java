@@ -7,7 +7,7 @@ package com.servicemaster.dialogs;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.functions.ItemFunctions;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.internalFrames.DirectSaleFrame;
 import com.servicemaster.internalFrames.GrnFrame;
 import com.servicemaster.internalFrames.ServiceFrame;
@@ -33,6 +33,13 @@ import org.hibernate.criterion.Restrictions;
  * @author RuwanM
  */
 public class ItemSearchDialog extends javax.swing.JDialog {
+
+    ArrayList<String> subcategoryNames = new ArrayList<>();
+    ArrayList<String> brandNames = new ArrayList<>();
+
+    private final static Logger LOGGER = Logger.getLogger(ItemSearchDialog.class);
+
+    private final JInternalFrame internalFrame;
 
     /**
      * Creates new form ItemSearchDialog
@@ -680,10 +687,4 @@ public class ItemSearchDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtItemNameCode;
     private javax.swing.JTextField txtSearchKey;
     // End of variables declaration//GEN-END:variables
-    ArrayList<String> subcategoryNames = new ArrayList<>();
-    ArrayList<String> brandNames = new ArrayList<>();
-
-    private final static Logger LOGGER = Logger.getLogger(ItemSearchDialog.class);
-
-    private final JInternalFrame internalFrame;
 }

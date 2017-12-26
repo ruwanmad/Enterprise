@@ -5,8 +5,9 @@
  */
 package com.servicemaster.functions;
 
-import com.servicemaster.forms.MainFrame;
+import com.servicemaster.frames.MainFrame;
 import com.servicemaster.models.UserPrivilage;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -14,10 +15,13 @@ import com.servicemaster.models.UserPrivilage;
  */
 public class EnableFeatures {
 
+    private static final Logger LOGGER = Logger.getLogger(EnableFeatures.class);
+
     public void enableFeature(UserPrivilage userPrivilage, MainFrame mainFrame) {
         String privilageCode = userPrivilage.getPrivilageCode();
         String[] codes = privilageCode.split(",");
         for (String code : codes) {
+            LOGGER.info("Enabling code " + code);
             switch (code) {
                 case "1": {
                     mainFrame.mFile.setEnabled(true);

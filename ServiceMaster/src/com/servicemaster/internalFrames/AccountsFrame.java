@@ -8,10 +8,10 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.forms.MainFrame;
-import com.servicemaster.functions.AutoCompletion;
+import com.servicemaster.frames.MainFrame;
+import com.servicemaster.supportClasses.AutoCompletion;
 import com.servicemaster.keys.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.Account;
 import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.models.SubAccount;
@@ -19,7 +19,9 @@ import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.AccountView;
 import java.util.Date;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
@@ -30,6 +32,8 @@ import org.hibernate.criterion.Restrictions;
  * @author RuwanM
  */
 public class AccountsFrame extends javax.swing.JInternalFrame {
+
+    private static final Logger LOGGER = Logger.getLogger(AccountsFrame.class);
 
     /**
      * Creates new form AccountsFrame
@@ -379,14 +383,17 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSaveMouseExited
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        LOGGER.info("Save button clicked");
         if (!verifyInputs()) {
             InformationDialog.showMessageBox("Fill the required fields", "Transaction Incomplete", this);
+            LOGGER.info("Fill the required fields");
         } else {
             try {
                 if (txtAccountCode.getText().trim().toUpperCase().isEmpty()) {
                     List<Account> accounts = this.getAccountByName(txtAccountName.getText().trim().toUpperCase(), false);
                     if (!accounts.isEmpty()) {
                         InformationDialog.showMessageBox("Account name already exists.", "Exist", this);
+                        LOGGER.info("Account name already exists.");
                     } else {
                         KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
                         this.createOrUpdateAccount(keyCodeFunctions.getKey("ACC", "Account codes"), false);
@@ -395,6 +402,7 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
                     List<Account> accounts = this.getAccountByCode(txtAccountCode.getText().trim().toUpperCase(), false);
                     if (accounts.isEmpty()) {
                         InformationDialog.showMessageBox("Invalid account code. Please try again", "Invalid", this);
+                        LOGGER.info("Invalid account code. Please try again");
                     } else {
                         ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
                         if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
@@ -404,6 +412,7 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
                 }
             } catch (Exception e) {
                 InformationDialog.showMessageBox("Invalid entry. Retry again", "Transaction Status", this);
+                LOGGER.error(e);
             }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -421,36 +430,40 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
 
-        List<SubAccount> subAccounts = session
-                .createCriteria(SubAccount.class)
-                .addOrder(Order.asc("description"))
-                .list();
+            List<SubAccount> subAccounts = session
+                    .createCriteria(SubAccount.class)
+                    .addOrder(Order.asc("description"))
+                    .list();
 
-        if (!subAccounts.isEmpty()) {
-            cmbAccountType.removeAllItems();
-            cmbAccountType.addItem("");
-            for (SubAccount subAccount : subAccounts) {
-                cmbAccountType.addItem(subAccount.getDescription());
+            if (!subAccounts.isEmpty()) {
+                cmbAccountType.removeAllItems();
+                cmbAccountType.addItem("");
+                for (SubAccount subAccount : subAccounts) {
+                    cmbAccountType.addItem(subAccount.getDescription());
+                }
             }
-        }
 
-        List<BusinessPartner> businessPartners = session
-                .createCriteria(BusinessPartner.class)
-                .addOrder(Order.asc("firstName"))
-                .addOrder(Order.asc("lastName"))
-                .list();
+            List<BusinessPartner> businessPartners = session
+                    .createCriteria(BusinessPartner.class)
+                    .addOrder(Order.asc("firstName"))
+                    .addOrder(Order.asc("lastName"))
+                    .list();
 
-        if (!businessPartners.isEmpty()) {
-            cmbBusinessPartner.removeAllItems();
-            cmbBusinessPartner.addItem("");
-            for (BusinessPartner businessPartner : businessPartners) {
-                cmbBusinessPartner.addItem(businessPartner.getFirstName() + " " + businessPartner.getLastName());
+            if (!businessPartners.isEmpty()) {
+                cmbBusinessPartner.removeAllItems();
+                cmbBusinessPartner.addItem("");
+                for (BusinessPartner businessPartner : businessPartners) {
+                    cmbBusinessPartner.addItem(businessPartner.getFirstName() + " " + businessPartner.getLastName());
+                }
             }
-        }
 
-        session.close();
+            session.close();
+        } catch (HibernateException | NullPointerException ex) {
+            LOGGER.error(ex);
+        }
 
         AutoCompletion.enable(cmbAccountType, cmbBusinessPartner);
         AutoCompletion.enable(cmbBusinessPartner, cbxIsActive);
@@ -463,55 +476,63 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbxIsActiveFocusGained
 
     private List<Account> getAccountByCode(String accountCode, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            if (like) {
+                List<Account> accounts = session
+                        .createCriteria(Account.class)
+                        .add(Restrictions.like("accountCode", "%" + accountCode + "%"))
+                        .addOrder(Order.asc("accountCode"))
+                        .list();
+                session.close();
+                return accounts;
+            } else {
+                Criteria accountCriteria = session.createCriteria(Account.class);
+                accountCriteria.add(Restrictions.like("", ""));
 
-        if (like) {
-            List<Account> accounts = session
-                    .createCriteria(Account.class)
-                    .add(Restrictions.like("accountCode", "%" + accountCode + "%"))
-                    .addOrder(Order.asc("accountCode"))
-                    .list();
-            session.close();
-            return accounts;
-        } else {
-            Criteria accountCriteria = session.createCriteria(Account.class);
-            accountCriteria.add(Restrictions.like("", ""));
-
-            List<Account> accounts = session
-                    .createCriteria(Account.class)
-                    .add(Restrictions.eq("accountCode", accountCode))
-                    .addOrder(Order.asc("accountCode"))
-                    .list();
-            session.close();
-            return accounts;
+                List<Account> accounts = session
+                        .createCriteria(Account.class)
+                        .add(Restrictions.eq("accountCode", accountCode))
+                        .addOrder(Order.asc("accountCode"))
+                        .list();
+                session.close();
+                return accounts;
+            }
+        } catch (HibernateException | NullPointerException ex) {
+            LOGGER.error(ex);
+            return null;
         }
     }
 
     private List<Account> getAccountByName(String accountName, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            if (like) {
+                Criteria accountCriteria = session.createCriteria(Account.class);
+                accountCriteria.add(Restrictions.like("", ""));
 
-        if (like) {
-            Criteria accountCriteria = session.createCriteria(Account.class);
-            accountCriteria.add(Restrictions.like("", ""));
+                List<Account> accounts = session
+                        .createCriteria(Account.class)
+                        .add(Restrictions.like("description", "%" + accountName + "%"))
+                        .addOrder(Order.asc("accountCode"))
+                        .list();
+                session.close();
+                return accounts;
+            } else {
+                Criteria accountCriteria = session.createCriteria(Account.class);
+                accountCriteria.add(Restrictions.like("", ""));
 
-            List<Account> accounts = session
-                    .createCriteria(Account.class)
-                    .add(Restrictions.like("description", "%" + accountName + "%"))
-                    .addOrder(Order.asc("accountCode"))
-                    .list();
-            session.close();
-            return accounts;
-        } else {
-            Criteria accountCriteria = session.createCriteria(Account.class);
-            accountCriteria.add(Restrictions.like("", ""));
-
-            List<Account> accounts = session
-                    .createCriteria(Account.class)
-                    .add(Restrictions.eq("description", accountName))
-                    .addOrder(Order.asc("accountCode"))
-                    .list();
-            session.close();
-            return accounts;
+                List<Account> accounts = session
+                        .createCriteria(Account.class)
+                        .add(Restrictions.eq("description", accountName))
+                        .addOrder(Order.asc("accountCode"))
+                        .list();
+                session.close();
+                return accounts;
+            }
+        } catch (HibernateException | NullPointerException ex) {
+            LOGGER.error(ex);
+            return null;
         }
     }
 
@@ -562,56 +583,62 @@ public class AccountsFrame extends javax.swing.JInternalFrame {
 
         this.setAccountCodeEditable(true);
         this.btnSave.setText("Save");
+
+        LOGGER.info("Freme cleared");
     }
 
     private void createOrUpdateAccount(String strAccountCode, boolean bUpdate) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
 
-        Date date = new Date();
+            Date date = new Date();
 
-        SubAccount subAccount = (SubAccount) session
-                .createCriteria(SubAccount.class)
-                .add(Restrictions.eq("description", cmbAccountType.getSelectedItem().toString().trim()))
-                .uniqueResult();
-
-        Account account = new Account();
-        account.setAccountCode(strAccountCode);
-        account.setDescription(txtAccountName.getText().trim().toUpperCase());
-        account.setSubAccount(subAccount);
-
-        if (!cmbBusinessPartner.getSelectedItem().toString().isEmpty()) {
-            BusinessPartner businessPartner = (BusinessPartner) session
-                    .createCriteria(BusinessPartner.class)
-                    .add(Restrictions.eq("firstName", cmbBusinessPartner.getSelectedItem().toString().split(" ")[0].trim()))
-                    .add(Restrictions.eq("lastName", cmbBusinessPartner.getSelectedItem().toString().split(" ")[1].trim()))
+            SubAccount subAccount = (SubAccount) session
+                    .createCriteria(SubAccount.class)
+                    .add(Restrictions.eq("description", cmbAccountType.getSelectedItem().toString().trim()))
                     .uniqueResult();
-            account.setBusinessPartner(businessPartner);
+
+            Account account = new Account();
+            account.setAccountCode(strAccountCode);
+            account.setDescription(txtAccountName.getText().trim().toUpperCase());
+            account.setSubAccount(subAccount);
+
+            if (!cmbBusinessPartner.getSelectedItem().toString().isEmpty()) {
+                BusinessPartner businessPartner = (BusinessPartner) session
+                        .createCriteria(BusinessPartner.class)
+                        .add(Restrictions.eq("firstName", cmbBusinessPartner.getSelectedItem().toString().split(" ")[0].trim()))
+                        .add(Restrictions.eq("lastName", cmbBusinessPartner.getSelectedItem().toString().split(" ")[1].trim()))
+                        .uniqueResult();
+                account.setBusinessPartner(businessPartner);
+            }
+            account.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
+            account.setRemark(txtRemark.getText().trim().toUpperCase());
+
+            if (bUpdate) {
+                account.setModifiedDate(date);
+                account.setModifiedTime(date);
+                account.setModifiedUser(MainFrame.user.getUserId());
+            } else {
+                account.setCreatedDate(date);
+                account.setCreatedTime(date);
+                account.setCreatedUser(MainFrame.user.getUserId());
+            }
+
+            session.saveOrUpdate(account);
+
+            transaction.commit();
+            session.close();
+
+            if (bUpdate) {
+                InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING, this);
+            } else {
+                InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING, this);
+            }
+            clearAll();
+        } catch (HibernateException | NullPointerException ex) {
+            LOGGER.error(ex);
         }
-        account.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
-        account.setRemark(txtRemark.getText().trim().toUpperCase());
-
-        if (bUpdate) {
-            account.setModifiedDate(date);
-            account.setModifiedTime(date);
-            account.setModifiedUser(MainFrame.user.getUserId());
-        } else {
-            account.setCreatedDate(date);
-            account.setCreatedTime(date);
-            account.setCreatedUser(MainFrame.user.getUserId());
-        }
-
-        session.saveOrUpdate(account);
-
-        transaction.commit();
-        session.close();
-
-        if (bUpdate) {
-            InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING, this);
-        } else {
-            InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING, this);
-        }
-        clearAll();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

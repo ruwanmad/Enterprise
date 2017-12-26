@@ -7,7 +7,7 @@ package com.servicemaster.panels;
 
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.SettlementDialog;
-import com.servicemaster.functions.AutoCompletion;
+import com.servicemaster.supportClasses.AutoCompletion;
 import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.event.KeyEvent;

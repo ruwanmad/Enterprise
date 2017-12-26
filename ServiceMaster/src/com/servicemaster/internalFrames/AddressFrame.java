@@ -6,12 +6,14 @@
 package com.servicemaster.internalFrames;
 
 import com.servicemaster.data.SystemData;
-import com.servicemaster.forms.MainFrame;
+import com.servicemaster.frames.MainFrame;
 import com.servicemaster.keys.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.Address;
 import com.servicemaster.utils.HibernateUtil;
 import java.util.Date;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 /**
@@ -22,6 +24,8 @@ public class AddressFrame extends javax.swing.JInternalFrame {
 
     private final BusinessPartnerFrame partnerFrame;
     private Address address;
+
+    private static final Logger LOGGER = Logger.getLogger(AddressFrame.class);
 
     /**
      * Creates new form AddressFrame
@@ -199,6 +203,7 @@ public class AddressFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSaveMouseExited
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        LOGGER.info("Save button clicked");
         KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
         if (this.address != null) {
             this.saveOrUpdateAddress(this.address.getAddressCode());
@@ -232,30 +237,34 @@ public class AddressFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void saveOrUpdateAddress(String strAddressCode) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
 
-        Date date = new Date();
+            Date date = new Date();
 
-        Address localAddress = new Address();
-        localAddress.setAddressCode(strAddressCode);
-        localAddress.setAdressLine1(txtAddressLine1.getText().trim());
-        localAddress.setAdressLine2(txtAddressLine2.getText().trim());
-        localAddress.setAdressLine3(txtAddressLine3.getText().trim());
-        localAddress.setIsActive(0);
-        localAddress.setCreatedDate(date);
-        localAddress.setCreatedTime(date);
-        localAddress.setCreatedUser(MainFrame.user.getUserId());
-        session.saveOrUpdate(localAddress);
+            Address localAddress = new Address();
+            localAddress.setAddressCode(strAddressCode);
+            localAddress.setAdressLine1(txtAddressLine1.getText().trim());
+            localAddress.setAdressLine2(txtAddressLine2.getText().trim());
+            localAddress.setAdressLine3(txtAddressLine3.getText().trim());
+            localAddress.setIsActive(0);
+            localAddress.setCreatedDate(date);
+            localAddress.setCreatedTime(date);
+            localAddress.setCreatedUser(MainFrame.user.getUserId());
+            session.saveOrUpdate(localAddress);
 
-        session.getTransaction().commit();
-        session.close();
+            session.getTransaction().commit();
+            session.close();
 
-        partnerFrame.setAddressLine1(strAddressCode + "-" + txtAddressLine1.getText().trim());
-        partnerFrame.setAddressLine2(txtAddressLine2.getText().trim());
-        partnerFrame.setAddressLine3(txtAddressLine3.getText().trim());
+            partnerFrame.setAddressLine1(strAddressCode + "-" + txtAddressLine1.getText().trim());
+            partnerFrame.setAddressLine2(txtAddressLine2.getText().trim());
+            partnerFrame.setAddressLine3(txtAddressLine3.getText().trim());
 
-        this.dispose();
+            this.dispose();
+        } catch (HibernateException | NullPointerException ex) {
+            LOGGER.error(ex);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

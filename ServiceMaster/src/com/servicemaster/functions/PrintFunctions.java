@@ -7,12 +7,9 @@ package com.servicemaster.functions;
 
 import com.servicemaster.configs.Configs;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.internalFrames.ServiceFrame;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import net.sf.jasperreports.engine.JRException;
@@ -23,12 +20,15 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
 import net.sf.jasperreports.view.JasperViewer;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author RuwanM
  */
 public class PrintFunctions {
+
+    private static final Logger LOGGER = Logger.getLogger(PrintFunctions.class);
 
     public void printInvoice(String saleCode, String vehicleCode, boolean cash) {
         JdbcConnection jbConnection = new JdbcConnection();
@@ -73,8 +73,8 @@ public class PrintFunctions {
                         exporter.exportReport();
                     }
                 }
-            } catch (JRException ex) {
-                Logger.getLogger(ServiceFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (JRException | NullPointerException ex) {
+                LOGGER.error(ex);
             }
             jbConnection.closeConnection();
         }

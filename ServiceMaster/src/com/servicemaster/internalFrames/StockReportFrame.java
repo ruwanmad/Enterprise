@@ -8,7 +8,7 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.functions.JdbcConnection;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import java.sql.Connection;
 import java.util.Date;
 import java.util.HashMap;

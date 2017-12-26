@@ -6,8 +6,8 @@
 package com.servicemaster.panels;
 
 import com.servicemaster.dialogs.SettlementDialog;
-import com.servicemaster.functions.AutoCompletion;
-import com.servicemaster.functions.LimitDocumentFilter;
+import com.servicemaster.supportClasses.AutoCompletion;
+import com.servicemaster.supportClasses.LimitDocumentFilter;
 import com.servicemaster.models.Account;
 import com.servicemaster.models.Bank;
 import com.servicemaster.models.BusinessPartner;

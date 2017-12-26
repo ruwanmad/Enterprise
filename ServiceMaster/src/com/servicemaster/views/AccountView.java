@@ -8,8 +8,9 @@ package com.servicemaster.views;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.internalFrames.AccountsFrame;
+import com.servicemaster.internalFrames.PaymentFrame;
 import com.servicemaster.models.Account;
 import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.models.SubAccount;
@@ -26,6 +27,8 @@ public class AccountView extends javax.swing.JInternalFrame {
 
     private final List list;
     private final AccountsFrame accountFrame;
+    private final PaymentFrame paymentFrame;
+    private boolean isFromAccount;
 
     /**
      * Creates new form CategoryView
@@ -37,6 +40,15 @@ public class AccountView extends javax.swing.JInternalFrame {
         initComponents();
         this.list = list;
         this.accountFrame = accountsFrame;
+        this.paymentFrame = null;
+    }
+
+    public AccountView(List<Account> list, PaymentFrame paymentFrame, boolean isFromAccount) {
+        initComponents();
+        this.list = list;
+        this.paymentFrame = paymentFrame;
+        this.accountFrame = null;
+        this.isFromAccount = isFromAccount;
     }
 
     /**
@@ -215,10 +227,7 @@ public class AccountView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCloseMouseExited
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        ConfirmationDialog.showMessageBox("Are you sure?", "Sure", this);
-        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-            this.dispose();
-        }
+        this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void selectAccount() {
@@ -227,22 +236,31 @@ public class AccountView extends javax.swing.JInternalFrame {
             InformationDialog.showMessageBox("Please select a valid account", "Invalid", this);
         } else {
             Session session = HibernateUtil.getSessionFactory().openSession();
-            
+
             Account account = (Account) list.get(selectedRow);
-            
-            SubAccount subAccount = (SubAccount) session.load(SubAccount.class, account.getSubAccount().getCode());            
-            
-            accountFrame.setAccountCode(account.getAccountCode());
-            accountFrame.setAccountName(account.getDescription());
-            accountFrame.setAccountType(subAccount.getDescription());
-            if (account.getBusinessPartner() != null) {
-                BusinessPartner businessPartner = (BusinessPartner) session.load(BusinessPartner.class, account.getBusinessPartner().getBusinessPartnerCode());
-                accountFrame.setBusinessPatner(businessPartner.getFirstName()+ " " + businessPartner.getLastName());
+
+            if (accountFrame != null) {
+                SubAccount subAccount = (SubAccount) session.load(SubAccount.class, account.getSubAccount().getCode());
+
+                accountFrame.setAccountCode(account.getAccountCode());
+                accountFrame.setAccountName(account.getDescription());
+                accountFrame.setAccountType(subAccount.getDescription());
+                if (account.getBusinessPartner() != null) {
+                    BusinessPartner businessPartner = (BusinessPartner) session.load(BusinessPartner.class, account.getBusinessPartner().getBusinessPartnerCode());
+                    accountFrame.setBusinessPatner(businessPartner.getFirstName() + " " + businessPartner.getLastName());
+                }
+                accountFrame.setRemark(account.getRemark());
+                accountFrame.setIsActive((account.getIsActive() == 1));
+                accountFrame.setAccountCodeEditable(false);
+                accountFrame.setBtnSaveText("Update");
+            } else if (paymentFrame != null) {
+                if (isFromAccount) {
+                    paymentFrame.setFromAccount(account);
+                } else {
+                    paymentFrame.setToAccount(account);
+                }
             }
-            accountFrame.setRemark(account.getRemark());
-            accountFrame.setIsActive((account.getIsActive() == 1));
-            accountFrame.setAccountCodeEditable(false);
-            accountFrame.setBtnSaveText("Update");
+            session.close();
             this.dispose();
         }
     }

@@ -5,7 +5,7 @@
  */
 package com.servicemaster.accounts;
 
-import com.servicemaster.forms.MainFrame;
+import com.servicemaster.frames.MainFrame;
 import com.servicemaster.keys.KeyCodeFunctions;
 import com.servicemaster.models.Account;
 import com.servicemaster.models.BusinessPartner;

@@ -8,9 +8,9 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.accounts.PostAccounts;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.functions.AutoCompletion;
-import com.servicemaster.functions.LimitDocumentFilter;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.AutoCompletion;
+import com.servicemaster.supportClasses.LimitDocumentFilter;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.Account;
 import com.servicemaster.models.Bank;
 import com.servicemaster.models.BusinessPartner;
@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.TreeMap;
 import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
@@ -31,6 +33,10 @@ import org.hibernate.criterion.Restrictions;
  * @author RuwanM
  */
 public class ChequeReceipt extends javax.swing.JInternalFrame {
+    
+    public TreeMap<String, String> customerMap = new TreeMap<>();
+    
+    private static final Logger LOGGER = Logger.getLogger(ChequeReceipt.class);
 
     /**
      * Creates new form ChequeReceipt
@@ -306,41 +312,45 @@ public class ChequeReceipt extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSaveMouseExited
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if (this.validateForm()) {
-            String customer = cmbCustomer.getSelectedItem().toString();
-            String chequeNumber = txtChequeNumber.getText().trim();
-            Date chequeDate = dateChequeDate.getDate();
-            float amount = Float.parseFloat(txtPaidAmount.getText().trim());
-
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
-
-            String customerCode = this.customerMap.get(customer);
-            BusinessPartner businessPartner = (BusinessPartner) session
-                    .createCriteria(BusinessPartner.class)
-                    .add(Restrictions.eq("businessPartnerCode", customerCode))
-                    .uniqueResult();
-
-            Account cihAccount = (Account) session
-                    .createCriteria(Account.class)
-                    .add(Restrictions.eq("accountCode", "ACC1004"))
-                    .uniqueResult();
-
-            Account uarAccount = (Account) session
-                    .createCriteria(Account.class)
-                    .add(Restrictions.eq("accountCode", "ACC1006"))
-                    .uniqueResult();
-
-            transaction.commit();
-            session.close();
-
-            PostAccounts accountPosting = new PostAccounts();
-            accountPosting.chequeDebitPosting(cihAccount, businessPartner, null, amount, chequeDate, 0, chequeNumber, "Cheque receipt from " + businessPartner.getFirstName() + " " + businessPartner.getLastName());
-            accountPosting.chequeCreditPosting(uarAccount, businessPartner, null, amount, chequeDate, 0, chequeNumber, "Cheque receipt from " + businessPartner.getFirstName() + " " + businessPartner.getLastName());
-
-            InformationDialog.showMessageBox("Saved successfilly", "Saved", this);
-        } else {
-            InformationDialog.showMessageBox("Please fill valid data.", "Invalid", this);
+        try {
+            if (this.validateForm()) {
+                String customer = cmbCustomer.getSelectedItem().toString();
+                String chequeNumber = txtChequeNumber.getText().trim();
+                Date chequeDate = dateChequeDate.getDate();
+                float amount = Float.parseFloat(txtPaidAmount.getText().trim());
+                
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Transaction transaction = session.beginTransaction();
+                
+                String customerCode = this.customerMap.get(customer);
+                BusinessPartner businessPartner = (BusinessPartner) session
+                        .createCriteria(BusinessPartner.class)
+                        .add(Restrictions.eq("businessPartnerCode", customerCode))
+                        .uniqueResult();
+                
+                Account cihAccount = (Account) session
+                        .createCriteria(Account.class)
+                        .add(Restrictions.eq("accountCode", "ACC1004"))
+                        .uniqueResult();
+                
+                Account uarAccount = (Account) session
+                        .createCriteria(Account.class)
+                        .add(Restrictions.eq("accountCode", "ACC1006"))
+                        .uniqueResult();
+                
+                transaction.commit();
+                session.close();
+                
+                PostAccounts accountPosting = new PostAccounts();
+                accountPosting.chequeDebitPosting(cihAccount, businessPartner, null, amount, chequeDate, 0, chequeNumber, "Cheque receipt from " + businessPartner.getFirstName() + " " + businessPartner.getLastName());
+                accountPosting.chequeCreditPosting(uarAccount, businessPartner, null, amount, chequeDate, 0, chequeNumber, "Cheque receipt from " + businessPartner.getFirstName() + " " + businessPartner.getLastName());
+                
+                InformationDialog.showMessageBox("Saved successfilly", "Saved", this);
+            } else {
+                InformationDialog.showMessageBox("Please fill valid data.", "Invalid", this);
+            }
+        } catch (NumberFormatException | HibernateException ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -357,53 +367,57 @@ public class ChequeReceipt extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
-        List<Account> accounts = session
-                .createCriteria(Account.class)
-                .createAlias("subAccount", "subAccount")
-                .add(Restrictions.eq("subAccount.code", "SAC1001"))
-                .list();
-
-        if (!accounts.isEmpty()) {
-            cmbBankAccount.removeAllItems();
-            cmbBankAccount.addItem("");
-            for (Account account : accounts) {
-                cmbBankAccount.addItem(account.getDescription());
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            
+            List<Account> accounts = session
+                    .createCriteria(Account.class)
+                    .createAlias("subAccount", "subAccount")
+                    .add(Restrictions.eq("subAccount.code", "SAC1001"))
+                    .list();
+            
+            if (!accounts.isEmpty()) {
+                cmbBankAccount.removeAllItems();
+                cmbBankAccount.addItem("");
+                for (Account account : accounts) {
+                    cmbBankAccount.addItem(account.getDescription());
+                }
             }
-        }
-
-        List<Bank> banks = session
-                .createCriteria(Bank.class)
-                .addOrder(Order.asc("id"))
-                .list();
-
-        if (!banks.isEmpty()) {
-            cmbBank.removeAllItems();
-            cmbBank.addItem("");
-            for (Bank bank : banks) {
-                cmbBank.addItem(bank.getBankName());
+            
+            List<Bank> banks = session
+                    .createCriteria(Bank.class)
+                    .addOrder(Order.asc("id"))
+                    .list();
+            
+            if (!banks.isEmpty()) {
+                cmbBank.removeAllItems();
+                cmbBank.addItem("");
+                for (Bank bank : banks) {
+                    cmbBank.addItem(bank.getBankName());
+                }
             }
-        }
-
-        List<BusinessPartner> businessPartners = session
-                .createCriteria(BusinessPartner.class)
-                .add(Restrictions.eq("isCustomer", true))
-                .list();
-        if (!businessPartners.isEmpty()) {
-            cmbCustomer.removeAllItems();
-            cmbCustomer.addItem("");
-            for (BusinessPartner businessPartner : businessPartners) {
-                cmbCustomer.addItem(businessPartner.getFirstName() + " " + businessPartner.getLastName());
-                this.customerMap.put(businessPartner.getFirstName() + " " + businessPartner.getLastName(), businessPartner.getBusinessPartnerCode());
+            
+            List<BusinessPartner> businessPartners = session
+                    .createCriteria(BusinessPartner.class)
+                    .add(Restrictions.eq("isCustomer", true))
+                    .list();
+            if (!businessPartners.isEmpty()) {
+                cmbCustomer.removeAllItems();
+                cmbCustomer.addItem("");
+                for (BusinessPartner businessPartner : businessPartners) {
+                    cmbCustomer.addItem(businessPartner.getFirstName() + " " + businessPartner.getLastName());
+                    this.customerMap.put(businessPartner.getFirstName() + " " + businessPartner.getLastName(), businessPartner.getBusinessPartnerCode());
+                }
             }
+            
+            session.close();
+            
+            AutoCompletion.enable(cmbCustomer, txtChequeNumber);
+            AutoCompletion.enable(cmbBank, cmbBankAccount);
+            AutoCompletion.enable(cmbBankAccount, btnSave);
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
-
-        session.close();
-
-        AutoCompletion.enable(cmbCustomer, txtChequeNumber);
-        AutoCompletion.enable(cmbBank, cmbBankAccount);
-        AutoCompletion.enable(cmbBankAccount, btnSave);
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void txtPaidAmountFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPaidAmountFocusGained
@@ -445,5 +459,4 @@ public class ChequeReceipt extends javax.swing.JInternalFrame {
     public javax.swing.JFormattedTextField txtChequeNumber;
     public javax.swing.JFormattedTextField txtPaidAmount;
     // End of variables declaration//GEN-END:variables
-    public TreeMap<String, String> customerMap = new TreeMap<>();
 }

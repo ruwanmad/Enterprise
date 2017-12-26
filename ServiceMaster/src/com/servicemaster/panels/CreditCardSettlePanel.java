@@ -6,7 +6,7 @@
 package com.servicemaster.panels;
 
 import com.servicemaster.dialogs.SettlementDialog;
-import com.servicemaster.functions.AutoCompletion;
+import com.servicemaster.supportClasses.AutoCompletion;
 import com.servicemaster.models.Bank;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.event.KeyEvent;
@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
-import com.servicemaster.functions.LimitDocumentFilter;
+import com.servicemaster.supportClasses.LimitDocumentFilter;
 
 /**
  *

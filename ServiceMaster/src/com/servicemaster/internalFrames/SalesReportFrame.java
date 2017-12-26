@@ -8,7 +8,7 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.functions.JdbcConnection;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import java.sql.Connection;
 import java.util.Date;
 import java.util.HashMap;
@@ -253,9 +253,12 @@ public class SalesReportFrame extends javax.swing.JInternalFrame {
             .addGroup(reportPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(reportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rbtSalesReport)
-                    .addComponent(rbtOutstandingReport))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(reportPanelLayout.createSequentialGroup()
+                        .addComponent(rbtOutstandingReport)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(reportPanelLayout.createSequentialGroup()
+                        .addComponent(rbtSalesReport)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         reportPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {rbtOutstandingReport, rbtSalesReport});
@@ -493,8 +496,6 @@ public class SalesReportFrame extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
-    private javax.swing.JButton btnReset;
-    private javax.swing.JButton btnReset1;
     private javax.swing.JButton btnReset2;
     private javax.swing.JButton btnVeiw;
     private com.toedter.calendar.JDateChooser dateChooserDaily;

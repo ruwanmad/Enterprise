@@ -8,10 +8,10 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.forms.MainFrame;
-import com.servicemaster.functions.AutoCompletion;
+import com.servicemaster.frames.MainFrame;
+import com.servicemaster.supportClasses.AutoCompletion;
 import com.servicemaster.keys.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.Bom;
 import com.servicemaster.models.BomItem;
 import com.servicemaster.models.Item;
@@ -27,7 +27,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -39,6 +41,13 @@ import org.hibernate.criterion.Restrictions;
  * @author RuwanM
  */
 public class BomFrame extends javax.swing.JInternalFrame {
+
+    private final TreeMap<String, Item> itemMap = new TreeMap<>();
+    private final TreeMap<String, Uom> uomMap = new TreeMap<>();
+    private final TreeMap<String, BomItem> addedItemMap = new TreeMap<>();
+    float grandTotal = 0.0f;
+
+    private static final Logger LOGGER = Logger.getLogger(BomFrame.class);
 
     /**
      * Creates new form BomFrame
@@ -530,18 +539,22 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        AutoCompletion.enable(cmbMainItem, txtRemark);
-        AutoCompletion.enable(cmbBomItem, txtQuantity);
-        AutoCompletion.enable(cmbUom, txtItemUnitPrice);
+        try {
+            AutoCompletion.enable(cmbMainItem, txtRemark);
+            AutoCompletion.enable(cmbBomItem, txtQuantity);
+            AutoCompletion.enable(cmbUom, txtItemUnitPrice);
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
 
-        loadItems(session);
-        loadUom(session);
+            loadItems(session);
+            loadUom(session);
 
-        transaction.commit();
-        session.close();
+            transaction.commit();
+            session.close();
+        } catch (HibernateException | NullPointerException ex) {
+            LOGGER.error(ex);
+        }
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void txtQuantityKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantityKeyPressed
@@ -560,30 +573,34 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtQuantityFocusGained
 
     private void itemEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEditActionPerformed
-        int selectedRow = tblAddedBomItems.getSelectedRow();
-        if (selectedRow == -1) {
-            InformationDialog.showMessageBox("Please select a valid item", "Invalid", this);
-        } else {
-            String itemName = tblAddedBomItems.getValueAt(selectedRow, 1).toString();
-            String quantity = tblAddedBomItems.getValueAt(selectedRow, 2).toString();
-            String uom = tblAddedBomItems.getValueAt(selectedRow, 3).toString();
-            String selingPrice = tblAddedBomItems.getValueAt(selectedRow, 4).toString();
+        try {
+            int selectedRow = tblAddedBomItems.getSelectedRow();
+            if (selectedRow == -1) {
+                InformationDialog.showMessageBox("Please select a valid item", "Invalid", this);
+            } else {
+                String itemName = tblAddedBomItems.getValueAt(selectedRow, 1).toString();
+                String quantity = tblAddedBomItems.getValueAt(selectedRow, 2).toString();
+                String uom = tblAddedBomItems.getValueAt(selectedRow, 3).toString();
+                String selingPrice = tblAddedBomItems.getValueAt(selectedRow, 4).toString();
 
-            this.addedItemMap.remove(itemName);
+                this.addedItemMap.remove(itemName);
 
-            cmbBomItem.setSelectedItem(itemName);
-            txtQuantity.setText(quantity);
-            cmbUom.setSelectedItem(uom);
-            txtItemUnitPrice.setText(selingPrice);
+                cmbBomItem.setSelectedItem(itemName);
+                txtQuantity.setText(quantity);
+                cmbUom.setSelectedItem(uom);
+                txtItemUnitPrice.setText(selingPrice);
 
-            float sellingPrice = Float.parseFloat(selingPrice);
+                float sellingPrice = Float.parseFloat(selingPrice);
 
-            grandTotal -= sellingPrice;
-            txtBomSellingPrice.setText("" + grandTotal);
+                grandTotal -= sellingPrice;
+                txtBomSellingPrice.setText("" + grandTotal);
 
-            ((DefaultTableModel) tblAddedBomItems.getModel()).removeRow(selectedRow);
+                ((DefaultTableModel) tblAddedBomItems.getModel()).removeRow(selectedRow);
 
-            txtQuantity.requestFocus();
+                txtQuantity.requestFocus();
+            }
+        } catch (NumberFormatException ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_itemEditActionPerformed
 
@@ -597,19 +614,23 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblAddedBomItemsMouseClicked
 
     private void itemDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDeleteActionPerformed
-        int selectedRow = tblAddedBomItems.getSelectedRow();
-        if (selectedRow == -1) {
-            InformationDialog.showMessageBox("Please select a valid item", "Invalid", this);
-        } else {
-            float sellingPrice = Float.parseFloat(tblAddedBomItems.getValueAt(selectedRow, 5).toString());
-            String itemName = tblAddedBomItems.getValueAt(selectedRow, 1).toString().trim();
+        try {
+            int selectedRow = tblAddedBomItems.getSelectedRow();
+            if (selectedRow == -1) {
+                InformationDialog.showMessageBox("Please select a valid item", "Invalid", this);
+            } else {
+                float sellingPrice = Float.parseFloat(tblAddedBomItems.getValueAt(selectedRow, 5).toString());
+                String itemName = tblAddedBomItems.getValueAt(selectedRow, 1).toString().trim();
 
-            this.addedItemMap.remove(itemName);
+                this.addedItemMap.remove(itemName);
 
-            grandTotal -= sellingPrice;
-            txtBomSellingPrice.setText("" + grandTotal);
+                grandTotal -= sellingPrice;
+                txtBomSellingPrice.setText("" + grandTotal);
 
-            ((DefaultTableModel) tblAddedBomItems.getModel()).removeRow(selectedRow);
+                ((DefaultTableModel) tblAddedBomItems.getModel()).removeRow(selectedRow);
+            }
+        } catch (NumberFormatException ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_itemDeleteActionPerformed
 
@@ -622,44 +643,48 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddMouseExited
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        String strItemName = ((String) cmbBomItem.getSelectedItem()).split("-")[0].trim();
-        String strItemCode = ((String) cmbBomItem.getSelectedItem()).split("-")[1].trim();
-        String strQuantity = txtQuantity.getText().trim();
-        String strUom = ((String) cmbUom.getSelectedItem()).trim();
-        String strUnitPrice = txtItemUnitPrice.getText().trim();
+        try {
+            String strItemName = ((String) cmbBomItem.getSelectedItem()).split("-")[0].trim();
+            String strItemCode = ((String) cmbBomItem.getSelectedItem()).split("-")[1].trim();
+            String strQuantity = txtQuantity.getText().trim();
+            String strUom = ((String) cmbUom.getSelectedItem()).trim();
+            String strUnitPrice = txtItemUnitPrice.getText().trim();
 
-        if (strItemName.isEmpty() || strQuantity.isEmpty() || strUom.isEmpty() || strUnitPrice.isEmpty()) {
-            InformationDialog.showMessageBox("Please enter valid details", "Invalid", this);
-        } else {
-
-            if (this.addedItemMap.containsKey(strItemCode)) {
-                InformationDialog.showMessageBox("This item is already added to current BOM", "Already Added", this);
+            if (strItemName.isEmpty() || strQuantity.isEmpty() || strUom.isEmpty() || strUnitPrice.isEmpty()) {
+                InformationDialog.showMessageBox("Please enter valid details", "Invalid", this);
             } else {
-                float fQuantity = Float.parseFloat(strQuantity);
-                float fUnitPaice = Float.parseFloat(strUnitPrice);
 
-                float fSellingPricec = fQuantity * fUnitPaice;
+                if (this.addedItemMap.containsKey(strItemCode)) {
+                    InformationDialog.showMessageBox("This item is already added to current BOM", "Already Added", this);
+                } else {
+                    float fQuantity = Float.parseFloat(strQuantity);
+                    float fUnitPaice = Float.parseFloat(strUnitPrice);
 
-                DefaultTableModel tableModel = (DefaultTableModel) tblAddedBomItems.getModel();
-                Item item = itemMap.get(strItemCode);
-                tableModel.addRow(new Object[]{strItemCode, strItemName, strQuantity, strUom, fUnitPaice, fSellingPricec});
+                    float fSellingPricec = fQuantity * fUnitPaice;
 
-                BomItem bomItem = new BomItem();
-                bomItem.setItem(item);
-                bomItem.setBomItemQuantity(fQuantity);
-                bomItem.setSellingPrice(fSellingPricec);
-                bomItem.setUnitPrice(fUnitPaice);
+                    DefaultTableModel tableModel = (DefaultTableModel) tblAddedBomItems.getModel();
+                    Item item = itemMap.get(strItemCode);
+                    tableModel.addRow(new Object[]{strItemCode, strItemName, strQuantity, strUom, fUnitPaice, fSellingPricec});
 
-                this.addedItemMap.put(strItemCode, bomItem);
+                    BomItem bomItem = new BomItem();
+                    bomItem.setItem(item);
+                    bomItem.setBomItemQuantity(fQuantity);
+                    bomItem.setSellingPrice(fSellingPricec);
+                    bomItem.setUnitPrice(fUnitPaice);
 
-                grandTotal += fSellingPricec;
-                txtBomSellingPrice.setText("" + grandTotal);
+                    this.addedItemMap.put(strItemCode, bomItem);
+
+                    grandTotal += fSellingPricec;
+                    txtBomSellingPrice.setText("" + grandTotal);
+                }
+                cmbBomItem.setSelectedIndex(0);
+                txtQuantity.setText("");
+                cmbUom.setSelectedIndex(0);
+                txtItemUnitPrice.setText("0.00");
+                cmbBomItem.requestFocus();
             }
-            cmbBomItem.setSelectedIndex(0);
-            txtQuantity.setText("");
-            cmbUom.setSelectedIndex(0);
-            txtItemUnitPrice.setText("0.00");
-            cmbBomItem.requestFocus();
+        } catch (HibernateException | NullPointerException ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -672,33 +697,37 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSaveMouseExited
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if (this.validateInputs()) {
-            if (txtBomCode.getText().isEmpty()) {
-                Item item = itemMap.get((String) cmbMainItem.getSelectedItem());
-                List boms = this.getBomByItem(item, false);
-                if (boms.isEmpty()) {
-                    ConfirmationDialog.showMessageBox("BOM not exist. Create new one?", "New", this);
-                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                        KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                        this.saveOrUpdateBom(keyCodeFunctions.getKey("BOM", "Bill of metirial codes"), false);
+        try {
+            if (this.validateInputs()) {
+                if (txtBomCode.getText().isEmpty()) {
+                    Item item = itemMap.get((String) cmbMainItem.getSelectedItem());
+                    List boms = this.getBomByItem(item, false);
+                    if (boms.isEmpty()) {
+                        ConfirmationDialog.showMessageBox("BOM not exist. Create new one?", "New", this);
+                        if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+                            KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                            this.saveOrUpdateBom(keyCodeFunctions.getKey("BOM", "Bill of metirial codes"), false);
+                        }
+                    } else {
+                        InformationDialog.showMessageBox("BOM already exists for selected itme", "Exist", this);
                     }
                 } else {
-                    InformationDialog.showMessageBox("BOM already exists for selected itme", "Exist", this);
-                }
-            } else {
-                List boms = this.getBomByCode(txtBomCode.getText().trim(), false);
-                if (boms.isEmpty()) {
-                    InformationDialog.showMessageBox("Invalid BOM code. Please try again", "Invalid", this);
-                } else {
-                    for (Object object : boms) {
-                        if (object instanceof Bom) {
-                            this.saveOrUpdateBom(((Bom) object).getBomCode(), false);
+                    List boms = this.getBomByCode(txtBomCode.getText().trim(), false);
+                    if (boms.isEmpty()) {
+                        InformationDialog.showMessageBox("Invalid BOM code. Please try again", "Invalid", this);
+                    } else {
+                        for (Object object : boms) {
+                            if (object instanceof Bom) {
+                                this.saveOrUpdateBom(((Bom) object).getBomCode(), false);
+                            }
                         }
                     }
                 }
+            } else {
+                InformationDialog.showMessageBox("Please enter valid details", "Invalid", this);
             }
-        } else {
-            InformationDialog.showMessageBox("Please enter valid details", "Invalid", this);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -776,41 +805,49 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cmbBomItemItemStateChanged
 
     private void loadItems(Session session) {
-        cmbMainItem.removeAllItems();
-        cmbMainItem.addItem("");
-        cmbBomItem.removeAllItems();
-        cmbBomItem.addItem("");
+        try {
+            cmbMainItem.removeAllItems();
+            cmbMainItem.addItem("");
+            cmbBomItem.removeAllItems();
+            cmbBomItem.addItem("");
 
-        List<Item> items = session
-                .createCriteria(Item.class)
-                .addOrder(Order.asc("itemName"))
-                .list();
+            List<Item> items = session
+                    .createCriteria(Item.class)
+                    .addOrder(Order.asc("itemName"))
+                    .list();
 
-        if (!items.isEmpty()) {
-            for (Item item : items) {
-                String itemName = item.getItemName();
-                String itemCode = item.getItemCode();
-                cmbMainItem.addItem(itemName + " - " + itemCode);
-                cmbBomItem.addItem(itemName + " - " + itemCode);
-                itemMap.put(itemCode, item);
+            if (!items.isEmpty()) {
+                for (Item item : items) {
+                    String itemName = item.getItemName();
+                    String itemCode = item.getItemCode();
+                    cmbMainItem.addItem(itemName + " - " + itemCode);
+                    cmbBomItem.addItem(itemName + " - " + itemCode);
+                    itemMap.put(itemCode, item);
+                }
             }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
     }
 
     private void loadUom(Session session) {
-        cmbUom.removeAllItems();
-        cmbUom.addItem("");
-        Query query = session.createQuery("from Uom u order by u.uomSymble");
-        List list = query.list();
-        if (!list.isEmpty()) {
-            for (Object object : list) {
-                if (object instanceof Uom) {
-                    Uom uom = (Uom) object;
-                    String uomSymble = uom.getUomSymble();
-                    cmbUom.addItem(uomSymble);
-                    uomMap.put(uomSymble, uom);
+        try {
+            cmbUom.removeAllItems();
+            cmbUom.addItem("");
+            Query query = session.createQuery("from Uom u order by u.uomSymble");
+            List list = query.list();
+            if (!list.isEmpty()) {
+                for (Object object : list) {
+                    if (object instanceof Uom) {
+                        Uom uom = (Uom) object;
+                        String uomSymble = uom.getUomSymble();
+                        cmbUom.addItem(uomSymble);
+                        uomMap.put(uomSymble, uom);
+                    }
                 }
             }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
     }
 
@@ -836,25 +873,29 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }
 
     public void setAddedItems(List<BomItem> bomItems) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        if (!bomItems.isEmpty()) {
-            DefaultTableModel tableModel = (DefaultTableModel) tblAddedBomItems.getModel();
-            tableModel.setRowCount(0);
-            for (BomItem bomItem : bomItems) {
-                Item item = (Item) session.createCriteria(Item.class)
-                        .add(Restrictions.eq("itemCode", bomItem.getItem().getItemCode()))
-                        .uniqueResult();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            if (!bomItems.isEmpty()) {
+                DefaultTableModel tableModel = (DefaultTableModel) tblAddedBomItems.getModel();
+                tableModel.setRowCount(0);
+                for (BomItem bomItem : bomItems) {
+                    Item item = (Item) session.createCriteria(Item.class)
+                            .add(Restrictions.eq("itemCode", bomItem.getItem().getItemCode()))
+                            .uniqueResult();
 
-                Uom uom = (Uom) session.createCriteria(Uom.class)
-                        .add(Restrictions.eq("uomCode", bomItem.getUom().getUomCode()))
-                        .uniqueResult();
-                tableModel.addRow(new Object[]{item.getItemCode(),
-                    item.getItemName(),
-                    bomItem.getBomItemQuantity(),
-                    uom.getUomSymble(),
-                    bomItem.getUnitPrice(),
-                    bomItem.getSellingPrice()});
+                    Uom uom = (Uom) session.createCriteria(Uom.class)
+                            .add(Restrictions.eq("uomCode", bomItem.getUom().getUomCode()))
+                            .uniqueResult();
+                    tableModel.addRow(new Object[]{item.getItemCode(),
+                        item.getItemName(),
+                        bomItem.getBomItemQuantity(),
+                        uom.getUomSymble(),
+                        bomItem.getUnitPrice(),
+                        bomItem.getSellingPrice()});
+                }
             }
+        } catch (HibernateException | NullPointerException ex) {
+            LOGGER.error(ex);
         }
     }
 
@@ -871,159 +912,177 @@ public class BomFrame extends javax.swing.JInternalFrame {
     }
 
     private List getBomByCode(String bomCode, boolean like) {
-        if (like) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-            Criteria likeCriteria = session.createCriteria(Bom.class);
-            likeCriteria.add(Restrictions.like("bomCode", "%" + bomCode + "%"));
-            List likeList = likeCriteria.list();
-            session.getTransaction().commit();
-            session.close();
-            return likeList;
-        } else {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-            Criteria equalCriteria = session.createCriteria(Bom.class);
-            equalCriteria.add(Restrictions.eq("bomCode", bomCode));
-            List equalList = equalCriteria.list();
-            session.getTransaction().commit();
-            session.close();
-            return equalList;
+        try {
+            if (like) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                session.beginTransaction();
+                Criteria likeCriteria = session.createCriteria(Bom.class);
+                likeCriteria.add(Restrictions.like("bomCode", "%" + bomCode + "%"));
+                List likeList = likeCriteria.list();
+                session.getTransaction().commit();
+                session.close();
+                return likeList;
+            } else {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                session.beginTransaction();
+                Criteria equalCriteria = session.createCriteria(Bom.class);
+                equalCriteria.add(Restrictions.eq("bomCode", bomCode));
+                List equalList = equalCriteria.list();
+                session.getTransaction().commit();
+                session.close();
+                return equalList;
+            }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+            return null;
         }
     }
 
     private List getBomByItem(Item item, boolean like) {
-        if (like) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-            Criteria likeCriteria = session.createCriteria(Bom.class);
-            likeCriteria.add(Restrictions.like("item", item));
-            List likeList = likeCriteria.list();
-            session.getTransaction().commit();
-            session.close();
-            return likeList;
-        } else {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-            Criteria equalCriteria = session.createCriteria(Bom.class);
-            equalCriteria.add(Restrictions.eq("item", item));
-            List equalList = equalCriteria.list();
-            session.getTransaction().commit();
-            session.close();
-            return equalList;
+        try {
+            if (like) {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                session.beginTransaction();
+                Criteria likeCriteria = session.createCriteria(Bom.class);
+                likeCriteria.add(Restrictions.like("item", item));
+                List likeList = likeCriteria.list();
+                session.getTransaction().commit();
+                session.close();
+                return likeList;
+            } else {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                session.beginTransaction();
+                Criteria equalCriteria = session.createCriteria(Bom.class);
+                equalCriteria.add(Restrictions.eq("item", item));
+                List equalList = equalCriteria.list();
+                session.getTransaction().commit();
+                session.close();
+                return equalList;
+            }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+            return null;
         }
     }
 
     public void saveOrUpdateBom(String strBomCode, boolean bUpdate) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-
-        Date date = new Date();
-
-        Bom bom = new Bom();
-        bom.setBomCode(strBomCode);
-        bom.setBomName((String) cmbMainItem.getSelectedItem());
-        bom.setSellingPrice(Float.parseFloat(txtBomSellingPrice.getText().trim()));
-        bom.setRemark(txtRemark.getText().toUpperCase().trim());
-        bom.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
-        bom.setItem(itemMap.get((String) cmbMainItem.getSelectedItem()));
-
-        if (bUpdate) {
-            bom.setModifiedDate(date);
-            bom.setModifiedTime(date);
-            bom.setModifiedUser(MainFrame.user.getUserId());
-        } else {
-            bom.setCreatedDate(date);
-            bom.setCreatedTime(date);
-            bom.setCreatedUser(MainFrame.user.getUserId());
-        }
-
-        session.saveOrUpdate(bom);
-
-        SellingPrice sellingPrice = new SellingPrice();
-        sellingPrice.setItem(itemMap.get((String) cmbMainItem.getSelectedItem()));
-        sellingPrice.setEffectiveDate(date);
-        sellingPrice.setSellingPrice(Float.parseFloat(txtBomSellingPrice.getText().trim()));
-        sellingPrice.setCreatedDate(date);
-        sellingPrice.setCreatedTime(date);
-        sellingPrice.setCreatedUser(MainFrame.user.getUserId());
-
-        session.saveOrUpdate(sellingPrice);
-
-        Set bomItems = bom.getBomItems();
-
-        if (bomItems.isEmpty()) {
-            DefaultTableModel tableModel = (DefaultTableModel) tblAddedBomItems.getModel();
-            KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                BomItem bomItem = this.addedItemMap.get((String) tableModel.getValueAt(i, 1));
-                bomItem.setBom(bom);
-                bomItem.setBomItemCode(keyCodeFunctions.getKey("BOI", "Bill of metirial item code"));
-                bomItem.setItem(itemMap.get((String) tableModel.getValueAt(i, 1)));
-                bomItem.setBomItemQuantity(Float.parseFloat(tableModel.getValueAt(i, 2).toString()));
-                bomItem.setUnitPrice(Float.parseFloat(tableModel.getValueAt(i, 4).toString()));
-                bomItem.setSellingPrice(Float.parseFloat(tableModel.getValueAt(i, 5).toString()));
-                bomItem.setRemark("");
-                bomItem.setUom(uomMap.get((String) tableModel.getValueAt(i, 3)));
-
-                if (bUpdate) {
-                    bomItem.setModifiedDate(date);
-                    bomItem.setModifiedTime(date);
-                    bomItem.setModifiedUser(MainFrame.user.getUserId());
-                } else {
-                    bomItem.setCreatedDate(date);
-                    bomItem.setCreatedTime(date);
-                    bomItem.setCreatedUser(MainFrame.user.getUserId());
-                }
-
-                session.saveOrUpdate(bomItem);
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+            
+            Date date = new Date();
+            
+            Bom bom = new Bom();
+            bom.setBomCode(strBomCode);
+            bom.setBomName((String) cmbMainItem.getSelectedItem());
+            bom.setSellingPrice(Float.parseFloat(txtBomSellingPrice.getText().trim()));
+            bom.setRemark(txtRemark.getText().toUpperCase().trim());
+            bom.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
+            bom.setItem(itemMap.get((String) cmbMainItem.getSelectedItem()));
+            
+            if (bUpdate) {
+                bom.setModifiedDate(date);
+                bom.setModifiedTime(date);
+                bom.setModifiedUser(MainFrame.user.getUserId());
+            } else {
+                bom.setCreatedDate(date);
+                bom.setCreatedTime(date);
+                bom.setCreatedUser(MainFrame.user.getUserId());
             }
+            
+            session.saveOrUpdate(bom);
+            
+            SellingPrice sellingPrice = new SellingPrice();
+            sellingPrice.setItem(itemMap.get((String) cmbMainItem.getSelectedItem()));
+            sellingPrice.setEffectiveDate(date);
+            sellingPrice.setSellingPrice(Float.parseFloat(txtBomSellingPrice.getText().trim()));
+            sellingPrice.setCreatedDate(date);
+            sellingPrice.setCreatedTime(date);
+            sellingPrice.setCreatedUser(MainFrame.user.getUserId());
+            
+            session.saveOrUpdate(sellingPrice);
+            
+            Set bomItems = bom.getBomItems();
+            
+            if (bomItems.isEmpty()) {
+                DefaultTableModel tableModel = (DefaultTableModel) tblAddedBomItems.getModel();
+                KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                
+                for (int i = 0; i < tableModel.getRowCount(); i++) {
+                    BomItem bomItem = this.addedItemMap.get((String) tableModel.getValueAt(i, 1));
+                    bomItem.setBom(bom);
+                    bomItem.setBomItemCode(keyCodeFunctions.getKey("BOI", "Bill of metirial item code"));
+                    bomItem.setItem(itemMap.get((String) tableModel.getValueAt(i, 1)));
+                    bomItem.setBomItemQuantity(Float.parseFloat(tableModel.getValueAt(i, 2).toString()));
+                    bomItem.setUnitPrice(Float.parseFloat(tableModel.getValueAt(i, 4).toString()));
+                    bomItem.setSellingPrice(Float.parseFloat(tableModel.getValueAt(i, 5).toString()));
+                    bomItem.setRemark("");
+                    bomItem.setUom(uomMap.get((String) tableModel.getValueAt(i, 3)));
+                    
+                    if (bUpdate) {
+                        bomItem.setModifiedDate(date);
+                        bomItem.setModifiedTime(date);
+                        bomItem.setModifiedUser(MainFrame.user.getUserId());
+                    } else {
+                        bomItem.setCreatedDate(date);
+                        bomItem.setCreatedTime(date);
+                        bomItem.setCreatedUser(MainFrame.user.getUserId());
+                    }
+                    
+                    session.saveOrUpdate(bomItem);
+                }
+            }
+            
+            transaction.commit();
+            session.close();
+            
+            if (bUpdate) {
+                InformationDialog.showMessageBox("Successfully updated", "Success", this);
+            } else {
+                InformationDialog.showMessageBox("New entry created successfully", "Success", this);
+            }
+            this.clearAll();
+        } catch (HibernateException | NumberFormatException ex) {
+            LOGGER.error(ex);
         }
-
-        transaction.commit();
-        session.close();
-
-        if (bUpdate) {
-            InformationDialog.showMessageBox("Successfully updated", "Success", this);
-        } else {
-            InformationDialog.showMessageBox("New entry created successfully", "Success", this);
-        }
-        this.clearAll();
     }
 
     private float getItemSellingPrice(Item item) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
-        List<SellingPrice> todaySellingPrices = session
-                .createCriteria(SellingPrice.class)
-                .add(Restrictions.eq("item", item))
-                .add(Restrictions.eq("effectiveDate", new Date()))
-                .addOrder(Order.desc("createdTime"))
-                .list();
-
-        if (todaySellingPrices.isEmpty()) {
-            List<SellingPrice> sellingPrices = session
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            
+            List<SellingPrice> todaySellingPrices = session
                     .createCriteria(SellingPrice.class)
                     .add(Restrictions.eq("item", item))
-                    .add(Restrictions.le("effectiveDate", new Date()))
-                    .addOrder(Order.desc("effectiveDate"))
+                    .add(Restrictions.eq("effectiveDate", new Date()))
                     .addOrder(Order.desc("createdTime"))
                     .list();
-            if (sellingPrices.isEmpty()) {
-                session.close();
-                return 0.0f;
-            } else {
-                for (SellingPrice sellingPrice : sellingPrices) {
+            
+            if (todaySellingPrices.isEmpty()) {
+                List<SellingPrice> sellingPrices = session
+                        .createCriteria(SellingPrice.class)
+                        .add(Restrictions.eq("item", item))
+                        .add(Restrictions.le("effectiveDate", new Date()))
+                        .addOrder(Order.desc("effectiveDate"))
+                        .addOrder(Order.desc("createdTime"))
+                        .list();
+                if (sellingPrices.isEmpty()) {
                     session.close();
-                    return sellingPrice.getSellingPrice();
+                    return 0.0f;
+                } else {
+                    for (SellingPrice sellingPrice : sellingPrices) {
+                        session.close();
+                        return sellingPrice.getSellingPrice();
+                    }
+                }
+            } else {
+                for (SellingPrice todaySellingPrice : todaySellingPrices) {
+                    session.close();
+                    return todaySellingPrice.getSellingPrice();
                 }
             }
-        } else {
-            for (SellingPrice todaySellingPrice : todaySellingPrices) {
-                session.close();
-                return todaySellingPrice.getSellingPrice();
-            }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
         return 0.0f;
     }
@@ -1072,8 +1131,4 @@ public class BomFrame extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField txtQuantity;
     private javax.swing.JTextField txtRemark;
     // End of variables declaration//GEN-END:variables
-    private final TreeMap<String, Item> itemMap = new TreeMap<>();
-    private final TreeMap<String, Uom> uomMap = new TreeMap<>();
-    private final TreeMap<String, BomItem> addedItemMap = new TreeMap<>();
-    float grandTotal = 0.0f;
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.servicemaster.functions;
+package com.servicemaster.supportClasses;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;

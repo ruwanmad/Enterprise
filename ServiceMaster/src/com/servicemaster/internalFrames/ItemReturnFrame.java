@@ -8,9 +8,9 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.forms.MainFrame;
-import com.servicemaster.functions.AutoCompletion;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.frames.MainFrame;
+import com.servicemaster.supportClasses.AutoCompletion;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.Invoice;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.Sale;
@@ -23,6 +23,8 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -32,6 +34,8 @@ import org.hibernate.criterion.Restrictions;
  * @author RuwanM
  */
 public class ItemReturnFrame extends javax.swing.JInternalFrame {
+    
+    private static final Logger LOGGER = Logger.getLogger(ItemReturnFrame.class);
 
     /**
      * Creates new form ItemReturnFrame
@@ -371,63 +375,71 @@ public class ItemReturnFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnLoadActionPerformed
 
     private void loadServicHasItems(String strInvoiceNumber) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
-        Invoice invoice = (Invoice) session
-                .createCriteria(Invoice.class)
-                .add(Restrictions.eqOrIsNull("invoiceNumber", strInvoiceNumber))
-                .uniqueResult();
-
-        if (invoice != null) {
-            List<SaleItem> saleItems = session
-                    .createCriteria(SaleItem.class)
-                    .createAlias("item", "item")
-                    .add(Restrictions.eq("sale", invoice.getSale()))
-                    .add(Restrictions.eq("item.isPhysical", 1))
-                    .list();
-
-            if (!saleItems.isEmpty()) {
-                DefaultTableModel tableModel = (DefaultTableModel) tblServiceItems.getModel();
-                tableModel.setRowCount(0);
-                for (SaleItem saleItem : saleItems) {
-                    String itemCode = saleItem.getItem().getItemCode();
-                    String itemName = saleItem.getItem().getItemName();
-                    float quantity = saleItem.getQuantity();
-                    float totalAmount = saleItem.getSubTotal();
-                    SaleItemStatus saleItemStatus = (SaleItemStatus) session.load(SaleItemStatus.class, saleItem.getSaleItemStatus().getItemStatusId());
-                    String itemStatus = saleItemStatus.getItemStatusDescription();
-
-                    tableModel.addRow(new Object[]{itemCode, itemName, quantity, totalAmount, itemStatus});
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            
+            Invoice invoice = (Invoice) session
+                    .createCriteria(Invoice.class)
+                    .add(Restrictions.eqOrIsNull("invoiceNumber", strInvoiceNumber))
+                    .uniqueResult();
+            
+            if (invoice != null) {
+                List<SaleItem> saleItems = session
+                        .createCriteria(SaleItem.class)
+                        .createAlias("item", "item")
+                        .add(Restrictions.eq("sale", invoice.getSale()))
+                        .add(Restrictions.eq("item.isPhysical", 1))
+                        .list();
+                
+                if (!saleItems.isEmpty()) {
+                    DefaultTableModel tableModel = (DefaultTableModel) tblServiceItems.getModel();
+                    tableModel.setRowCount(0);
+                    for (SaleItem saleItem : saleItems) {
+                        String itemCode = saleItem.getItem().getItemCode();
+                        String itemName = saleItem.getItem().getItemName();
+                        float quantity = saleItem.getQuantity();
+                        float totalAmount = saleItem.getSubTotal();
+                        SaleItemStatus saleItemStatus = (SaleItemStatus) session.load(SaleItemStatus.class, saleItem.getSaleItemStatus().getItemStatusId());
+                        String itemStatus = saleItemStatus.getItemStatusDescription();
+                        
+                        tableModel.addRow(new Object[]{itemCode, itemName, quantity, totalAmount, itemStatus});
+                    }
                 }
             }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
 
         tblServiceItems.requestFocus();
     }
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        List<SaleItem> saleItems = session
-                .createCriteria(SaleItem.class)
-                .createAlias("sale", "sale")
-                .createAlias("item", "item")
-                .add(Restrictions.eq("item.isPhysical", 1))
-                .list();
-
-        if (!saleItems.isEmpty()) {
-            cmbInvoices.removeAllItems();
-            cmbInvoices.addItem("");
-            for (SaleItem saleItem : saleItems) {
-                Invoice invoice = (Invoice) session
-                        .createCriteria(Invoice.class)
-                        .add(Restrictions.eq("sale", saleItem.getSale()))
-                        .uniqueResult();
-                if (invoice != null) {
-                    cmbInvoices.addItem(invoice.getInvoiceNumber());
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            List<SaleItem> saleItems = session
+                    .createCriteria(SaleItem.class)
+                    .createAlias("sale", "sale")
+                    .createAlias("item", "item")
+                    .add(Restrictions.eq("item.isPhysical", 1))
+                    .list();
+            
+            if (!saleItems.isEmpty()) {
+                cmbInvoices.removeAllItems();
+                cmbInvoices.addItem("");
+                for (SaleItem saleItem : saleItems) {
+                    Invoice invoice = (Invoice) session
+                            .createCriteria(Invoice.class)
+                            .add(Restrictions.eq("sale", saleItem.getSale()))
+                            .uniqueResult();
+                    if (invoice != null) {
+                        cmbInvoices.addItem(invoice.getInvoiceNumber());
+                    }
                 }
             }
+            session.close();
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
-        session.close();
 
         AutoCompletion.enable(cmbInvoices, btnLoad);
     }//GEN-LAST:event_formInternalFrameOpened
@@ -442,113 +454,117 @@ public class ItemReturnFrame extends javax.swing.JInternalFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         if (this.validateInputs()) {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
-
-            String strInvoiceNumber = cmbInvoices.getSelectedItem().toString();
-            String strItemName = txtItemName.getText().trim();
-            float fCanceledQty = Float.parseFloat(txtQuantity.getText().trim());
-            String strReason = txtReason.getText().trim();
-
-            Date date = new Date();
-
-            Invoice invoice = (Invoice) session
-                    .createCriteria(Invoice.class)
-                    .add(Restrictions.eq("invoiceNumber", strInvoiceNumber))
-                    .uniqueResult();
-
-            SaleItem saleItem = (SaleItem) session
-                    .createCriteria(SaleItem.class)
-                    .createAlias("item", "item")
-                    .add(Restrictions.eq("sale", invoice.getSale()))
-                    .add(Restrictions.eq("item.itemName", strItemName))
-                    .uniqueResult();
-
-            SaleItemStatus saleItemStatus = (SaleItemStatus) session
-                    .createCriteria(SaleItemStatus.class)
-                    .add(Restrictions.eq("itemStatusId", 2))
-                    .uniqueResult();
-
-            float fExtQty = saleItem.getQuantity();
-            float fUnitPrice = saleItem.getUnitPrice();
-            float fDiscount = saleItem.getDiscount();
-
-            if (fExtQty == fCanceledQty) {
-                saleItem.setRemark(strReason);
-                saleItem.setSaleItemStatus(saleItemStatus);
-                saleItem.setModifiedDate(date);
-                saleItem.setModifiedTime(date);
-                saleItem.setModifiedUser(MainFrame.user.getUserId());
-
-                session.saveOrUpdate(saleItem);
-            } else if (fExtQty > fCanceledQty) {
-                float fRemains = fExtQty - fCanceledQty;
-                float fSubTotal = fUnitPrice * fRemains;
-                float fToral = fSubTotal - fDiscount;
-
-                saleItem.setQuantity(fRemains);
-                saleItem.setSubTotal(fSubTotal);
-                saleItem.setTotal(fToral);
-                saleItem.setModifiedDate(date);
-                saleItem.setModifiedTime(date);
-                saleItem.setModifiedUser(MainFrame.user.getUserId());
-
-                session.saveOrUpdate(saleItem);
-
-                Item item = (Item) session
-                        .createCriteria(Item.class)
-                        .add(Restrictions.eq("itemName", strItemName))
-                        .uniqueResult();
-
-                Sale sale = (Sale) session
-                        .createCriteria(Sale.class)
-                        .add(Restrictions.eq("saleCode", invoice.getSale().getSaleCode()))
+            try {
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                Transaction transaction = session.beginTransaction();
+                
+                String strInvoiceNumber = cmbInvoices.getSelectedItem().toString();
+                String strItemName = txtItemName.getText().trim();
+                float fCanceledQty = Float.parseFloat(txtQuantity.getText().trim());
+                String strReason = txtReason.getText().trim();
+                
+                Date date = new Date();
+                
+                Invoice invoice = (Invoice) session
+                        .createCriteria(Invoice.class)
+                        .add(Restrictions.eq("invoiceNumber", strInvoiceNumber))
                         .uniqueResult();
                 
-                float fSaleSubTotal = sale.getSubTotal();
-                float fSaleTotal = sale.getGrandTotal();
+                SaleItem saleItem = (SaleItem) session
+                        .createCriteria(SaleItem.class)
+                        .createAlias("item", "item")
+                        .add(Restrictions.eq("sale", invoice.getSale()))
+                        .add(Restrictions.eq("item.itemName", strItemName))
+                        .uniqueResult();
                 
-                fSaleSubTotal = fSaleSubTotal - (fUnitPrice * fCanceledQty);
-                fSaleTotal = fSaleTotal - (fUnitPrice * fCanceledQty);
+                SaleItemStatus saleItemStatus = (SaleItemStatus) session
+                        .createCriteria(SaleItemStatus.class)
+                        .add(Restrictions.eq("itemStatusId", 2))
+                        .uniqueResult();
                 
-                sale.setSubTotal(fSaleSubTotal);
-                sale.setGrandTotal(fSaleTotal);
-                sale.setModifiedDate(date);
-                sale.setModifiedTime(date);
-                sale.setModifiedUser(MainFrame.user.getUserId());
+                float fExtQty = saleItem.getQuantity();
+                float fUnitPrice = saleItem.getUnitPrice();
+                float fDiscount = saleItem.getDiscount();
                 
-                session.saveOrUpdate(sale);
+                if (fExtQty == fCanceledQty) {
+                    saleItem.setRemark(strReason);
+                    saleItem.setSaleItemStatus(saleItemStatus);
+                    saleItem.setModifiedDate(date);
+                    saleItem.setModifiedTime(date);
+                    saleItem.setModifiedUser(MainFrame.user.getUserId());
+                    
+                    session.saveOrUpdate(saleItem);
+                } else if (fExtQty > fCanceledQty) {
+                    float fRemains = fExtQty - fCanceledQty;
+                    float fSubTotal = fUnitPrice * fRemains;
+                    float fToral = fSubTotal - fDiscount;
+                    
+                    saleItem.setQuantity(fRemains);
+                    saleItem.setSubTotal(fSubTotal);
+                    saleItem.setTotal(fToral);
+                    saleItem.setModifiedDate(date);
+                    saleItem.setModifiedTime(date);
+                    saleItem.setModifiedUser(MainFrame.user.getUserId());
+                    
+                    session.saveOrUpdate(saleItem);
+                    
+                    Item item = (Item) session
+                            .createCriteria(Item.class)
+                            .add(Restrictions.eq("itemName", strItemName))
+                            .uniqueResult();
+                    
+                    Sale sale = (Sale) session
+                            .createCriteria(Sale.class)
+                            .add(Restrictions.eq("saleCode", invoice.getSale().getSaleCode()))
+                            .uniqueResult();
+                    
+                    float fSaleSubTotal = sale.getSubTotal();
+                    float fSaleTotal = sale.getGrandTotal();
+                    
+                    fSaleSubTotal = fSaleSubTotal - (fUnitPrice * fCanceledQty);
+                    fSaleTotal = fSaleTotal - (fUnitPrice * fCanceledQty);
+                    
+                    sale.setSubTotal(fSaleSubTotal);
+                    sale.setGrandTotal(fSaleTotal);
+                    sale.setModifiedDate(date);
+                    sale.setModifiedTime(date);
+                    sale.setModifiedUser(MainFrame.user.getUserId());
+                    
+                    session.saveOrUpdate(sale);
+                    
+                    fSaleSubTotal = fSaleSubTotal - (fUnitPrice * fRemains);
+                    fSaleTotal = fSaleTotal - (fUnitPrice * fRemains);
+                    
+                    SaleItem canceledSaleItem = new SaleItem();
+                    canceledSaleItem.setItem(item);
+                    canceledSaleItem.setSale(sale);
+                    canceledSaleItem.setDiscount(0.0f);
+                    canceledSaleItem.setQuantity(fCanceledQty);
+                    canceledSaleItem.setSaleItemStatus(saleItemStatus);
+                    canceledSaleItem.setRemark(strReason);
+                    canceledSaleItem.setSubTotal(fSaleSubTotal);
+                    canceledSaleItem.setTotal(fSaleTotal);
+                    canceledSaleItem.setUnitPrice(fRemains);
+                    canceledSaleItem.setCreatedDate(date);
+                    canceledSaleItem.setCreatedTime(date);
+                    canceledSaleItem.setCreatedUser(MainFrame.user.getUserId());
+                    
+                    session.saveOrUpdate(canceledSaleItem);
+                } else {
+                    InformationDialog.showMessageBox("Cancel quantity must be less than or equal saled quantity", "Wrong", this);
+                }
                 
-                fSaleSubTotal = fSaleSubTotal - (fUnitPrice * fRemains);
-                fSaleTotal = fSaleTotal - (fUnitPrice * fRemains);
-
-                SaleItem canceledSaleItem = new SaleItem();
-                canceledSaleItem.setItem(item);
-                canceledSaleItem.setSale(sale);
-                canceledSaleItem.setDiscount(0.0f);
-                canceledSaleItem.setQuantity(fCanceledQty);
-                canceledSaleItem.setSaleItemStatus(saleItemStatus);
-                canceledSaleItem.setRemark(strReason);
-                canceledSaleItem.setSubTotal(fSaleSubTotal);
-                canceledSaleItem.setTotal(fSaleTotal);
-                canceledSaleItem.setUnitPrice(fRemains);
-                canceledSaleItem.setCreatedDate(date);
-                canceledSaleItem.setCreatedTime(date);
-                canceledSaleItem.setCreatedUser(MainFrame.user.getUserId());
+                transaction.commit();
+                session.close();
                 
-                session.saveOrUpdate(canceledSaleItem);
-            } else {
-                InformationDialog.showMessageBox("Cancel quantity must be less than or equal saled quantity", "Wrong", this);
+                InformationDialog.showMessageBox("Updated successfully", "Success", this);
+                
+                this.clearAll(false);
+                
+                this.loadServicHasItems(strInvoiceNumber);
+            } catch (HibernateException | NumberFormatException ex) {
+                LOGGER.error(ex);
             }
-
-            transaction.commit();
-            session.close();
-
-            InformationDialog.showMessageBox("Updated successfully", "Success", this);
-
-            this.clearAll(false);
-
-            this.loadServicHasItems(strInvoiceNumber);
         } else {
             InformationDialog.showMessageBox("Please select valid item", "Invalid", this);
         }

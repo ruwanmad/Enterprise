@@ -6,7 +6,7 @@
 package com.servicemaster.accounts;
 
 import com.servicemaster.data.SystemData;
-import com.servicemaster.forms.MainFrame;
+import com.servicemaster.frames.MainFrame;
 import com.servicemaster.models.Account;
 import com.servicemaster.models.AccountPosting;
 import com.servicemaster.models.BusinessPartner;

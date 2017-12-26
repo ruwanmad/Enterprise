@@ -11,7 +11,7 @@ import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
 import com.servicemaster.functions.JdbcConnection;
 import com.servicemaster.functions.PrintFunctions;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.Sale;
 import com.servicemaster.models.SaleItem;

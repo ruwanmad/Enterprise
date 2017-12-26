@@ -8,11 +8,11 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.forms.MainFrame;
-import com.servicemaster.functions.AutoCompletion;
-import com.servicemaster.functions.UpperCaseDocumentFilter;
+import com.servicemaster.frames.MainFrame;
+import com.servicemaster.supportClasses.AutoCompletion;
+import com.servicemaster.supportClasses.UpperCaseDocumentFilter;
 import com.servicemaster.keys.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.IssueMethod;
 import com.servicemaster.models.Item;
 import com.servicemaster.models.ItemBrand;
@@ -26,12 +26,12 @@ import com.servicemaster.views.ItemView;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -43,6 +43,8 @@ import org.hibernate.criterion.Restrictions;
  * @author Neyomal
  */
 public class ItemFrame extends javax.swing.JInternalFrame {
+
+    private static final Logger LOGGER = Logger.getLogger(ItemFrame.class);
 
     /**
      * Creates new form ItemFrame
@@ -720,11 +722,12 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                         .addComponent(sellingPricePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtRemarks, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnReset1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnReset1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -738,63 +741,67 @@ public class ItemFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
 
-        Criteria issueMethodCriteria = session.createCriteria(IssueMethod.class).addOrder(Order.asc("issueMethodId"));
-        List<IssueMethod> issueMethods = issueMethodCriteria.list();
-        for (IssueMethod issueMethod : issueMethods) {
-            cmbIssueMethod.addItem(issueMethod.getIssueMethodCode());
+            Criteria issueMethodCriteria = session.createCriteria(IssueMethod.class).addOrder(Order.asc("issueMethodId"));
+            List<IssueMethod> issueMethods = issueMethodCriteria.list();
+            for (IssueMethod issueMethod : issueMethods) {
+                cmbIssueMethod.addItem(issueMethod.getIssueMethodCode());
+            }
+
+            Criteria ItemBrandCriteria = session.createCriteria(ItemBrand.class).addOrder(Order.asc("brandName"));
+            List<ItemBrand> itemBrands = ItemBrandCriteria.list();
+            cmbBrand.addItem("NONE");
+            for (ItemBrand manufacturer : itemBrands) {
+                cmbBrand.addItem(manufacturer.getBrandName());
+            }
+
+            Criteria subCategoryCriteria = session.createCriteria(SubCategory.class).addOrder(Order.asc("subCategoryName"));
+            List<SubCategory> subCategorys = subCategoryCriteria.list();
+            cmbSubCategory.addItem("");
+            for (SubCategory subCategory : subCategorys) {
+                cmbSubCategory.addItem(subCategory.getSubCategoryName());
+            }
+
+            Criteria rackSlotCriteria = session.createCriteria(RackSlot.class).addOrder(Order.asc("rackSlotName"));
+            List<RackSlot> rackSlots = rackSlotCriteria.list();
+            cmbRackSlot.addItem("");
+            for (RackSlot rackSlot : rackSlots) {
+                cmbRackSlot.addItem(rackSlot.getRackSlotName());
+            }
+
+            Criteria uomCriteria = session.createCriteria(Uom.class).addOrder(Order.asc("uomName"));
+            List<Uom> uoms = uomCriteria.list();
+            cmbBuyingUOM.addItem("");
+            cmbSellingUOM.addItem("");
+            for (Uom uom : uoms) {
+                cmbBuyingUOM.addItem(uom.getUomName());
+                cmbSellingUOM.addItem(uom.getUomName());
+            }
+
+            Criteria itemTypeCriteria = session.createCriteria(ItemType.class).addOrder(Order.asc("itemTypeCode"));
+            List<ItemType> itemTypes = itemTypeCriteria.list();
+            cmbItemType.addItem("");
+            for (ItemType itemType : itemTypes) {
+                cmbItemType.addItem(itemType.getItemTypeName());
+            }
+
+            Criteria itemCriteria = session.createCriteria(Item.class).addOrder(Order.asc("itemName"));
+            List<Item> items = itemCriteria.list();
+            cmbBaseItem.addItem("NONE");
+            for (Item item : items) {
+                cmbBaseItem.addItem(item.getItemName());
+            }
+
+            session.close();
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
-
-        Criteria ItemBrandCriteria = session.createCriteria(ItemBrand.class).addOrder(Order.asc("brandName"));
-        List<ItemBrand> itemBrands = ItemBrandCriteria.list();
-        cmbBrand.addItem("NONE");
-        for (ItemBrand manufacturer : itemBrands) {
-            cmbBrand.addItem(manufacturer.getBrandName());
-        }
-
-        Criteria subCategoryCriteria = session.createCriteria(SubCategory.class).addOrder(Order.asc("subCategoryName"));
-        List<SubCategory> subCategorys = subCategoryCriteria.list();
-        cmbSubCategory.addItem("");
-        for (SubCategory subCategory : subCategorys) {
-            cmbSubCategory.addItem(subCategory.getSubCategoryName());
-        }
-
-        Criteria rackSlotCriteria = session.createCriteria(RackSlot.class).addOrder(Order.asc("rackSlotName"));
-        List<RackSlot> rackSlots = rackSlotCriteria.list();
-        cmbRackSlot.addItem("");
-        for (RackSlot rackSlot : rackSlots) {
-            cmbRackSlot.addItem(rackSlot.getRackSlotName());
-        }
-
-        Criteria uomCriteria = session.createCriteria(Uom.class).addOrder(Order.asc("uomName"));
-        List<Uom> uoms = uomCriteria.list();
-        cmbBuyingUOM.addItem("");
-        cmbSellingUOM.addItem("");
-        for (Uom uom : uoms) {
-            cmbBuyingUOM.addItem(uom.getUomName());
-            cmbSellingUOM.addItem(uom.getUomName());
-        }
-
-        Criteria itemTypeCriteria = session.createCriteria(ItemType.class).addOrder(Order.asc("itemTypeCode"));
-        List<ItemType> itemTypes = itemTypeCriteria.list();
-         cmbItemType.addItem("");
-        for (ItemType itemType : itemTypes) {
-            cmbItemType.addItem(itemType.getItemTypeName());
-        }
-
-        Criteria itemCriteria = session.createCriteria(Item.class).addOrder(Order.asc("itemName"));
-        List<Item> items = itemCriteria.list();
-        cmbBaseItem.addItem("NONE");
-        for (Item item : items) {
-            cmbBaseItem.addItem(item.getItemName());
-        }
-
-        session.close();
 
         AutoCompletion.enable(cmbBaseItem, cmbItemType);
         AutoCompletion.enable(cmbBrand, txtRemarks);
-        ((AbstractDocument)txtSearchKey.getDocument()).setDocumentFilter(new UpperCaseDocumentFilter());
+        ((AbstractDocument) txtSearchKey.getDocument()).setDocumentFilter(new UpperCaseDocumentFilter());
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnResetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseEntered
@@ -841,8 +848,9 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                         }
                     }
                 }
-            } catch (Exception e) {
+            } catch (Exception ex) {
                 InformationDialog.showMessageBox("Invalid entry. Retry again", "Transaction Status", this);
+                LOGGER.error(ex);
             }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -960,7 +968,7 @@ public class ItemFrame extends javax.swing.JInternalFrame {
 
                 txtSellingPrice.requestFocus();
             } catch (ParseException ex) {
-                Logger.getLogger(ItemFrame.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(ex);
             }
         }
     }//GEN-LAST:event_miEditActionPerformed
@@ -1022,122 +1030,132 @@ public class ItemFrame extends javax.swing.JInternalFrame {
     }
 
     private List getItemByCode(String itemCode, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
-        if (like) {
-            query = session.createQuery("from Item i where i.itemCode like :code");
-            query.setParameter("code", "%" + itemCode + "%");
-        } else {
-            query = session.createQuery("from Item i where i.itemCode = :code");
-            query.setParameter("code", itemCode);
-        }
-        List list = query.list();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query;
+            if (like) {
+                query = session.createQuery("from Item i where i.itemCode like :code");
+                query.setParameter("code", "%" + itemCode + "%");
+            } else {
+                query = session.createQuery("from Item i where i.itemCode = :code");
+                query.setParameter("code", itemCode);
+            }
+            List list = query.list();
 
-        session.getTransaction().commit();
-        session.close();
-        return list;
+            session.getTransaction().commit();
+            session.close();
+            return list;
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+            return null;
+        }
     }
 
     private List getItemByName(String itemName, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
-        if (like) {
-            query = session.createQuery("from Item i where i.itemName like :name");
-            query.setParameter("name", "%" + itemName + "%");
-        } else {
-            query = session.createQuery("from Item i where i.itemName = :name");
-            query.setParameter("name", itemName);
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query;
+            if (like) {
+                query = session.createQuery("from Item i where i.itemName like :name");
+                query.setParameter("name", "%" + itemName + "%");
+            } else {
+                query = session.createQuery("from Item i where i.itemName = :name");
+                query.setParameter("name", itemName);
+            }
+            List list = query.list();
+            session.getTransaction().commit();
+            session.close();
+            return list;
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+            return null;
         }
-        List list = query.list();
-        session.getTransaction().commit();
-        session.close();
-        return list;
     }
 
     private void createNewItemOrUpdate(String strItemCode, boolean bUpdate) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
 
-        Date date = new Date();
+            Date date = new Date();
 
-        IssueMethod issueMethod = (IssueMethod) session
-                .createCriteria(IssueMethod.class)
-                .add(Restrictions.eq("issueMethodCode", cmbIssueMethod.getSelectedItem().toString()))
-                .uniqueResult();
+            IssueMethod issueMethod = (IssueMethod) session
+                    .createCriteria(IssueMethod.class)
+                    .add(Restrictions.eq("issueMethodCode", cmbIssueMethod.getSelectedItem().toString()))
+                    .uniqueResult();
 
-        ItemBrand itemBrand = (ItemBrand) session
-                .createCriteria(ItemBrand.class)
-                .add(Restrictions.eq("brandName", cmbBrand.getSelectedItem().toString()))
-                .uniqueResult();
+            ItemBrand itemBrand = (ItemBrand) session
+                    .createCriteria(ItemBrand.class)
+                    .add(Restrictions.eq("brandName", cmbBrand.getSelectedItem().toString()))
+                    .uniqueResult();
 
-        SubCategory subCategory = (SubCategory) session
-                .createCriteria(SubCategory.class)
-                .add(Restrictions.eq("subCategoryName", cmbSubCategory.getSelectedItem().toString()))
-                .uniqueResult();
+            SubCategory subCategory = (SubCategory) session
+                    .createCriteria(SubCategory.class)
+                    .add(Restrictions.eq("subCategoryName", cmbSubCategory.getSelectedItem().toString()))
+                    .uniqueResult();
 
-        RackSlot rackSlot = (RackSlot) session
-                .createCriteria(RackSlot.class)
-                .add(Restrictions.eq("rackSlotName", cmbRackSlot.getSelectedItem().toString()))
-                .uniqueResult();
+            RackSlot rackSlot = (RackSlot) session
+                    .createCriteria(RackSlot.class)
+                    .add(Restrictions.eq("rackSlotName", cmbRackSlot.getSelectedItem().toString()))
+                    .uniqueResult();
 
-        Uom buyingUom = (Uom) session
-                .createCriteria(Uom.class)
-                .add(Restrictions.eq("uomName", cmbBuyingUOM.getSelectedItem().toString()))
-                .uniqueResult();
+            Uom buyingUom = (Uom) session
+                    .createCriteria(Uom.class)
+                    .add(Restrictions.eq("uomName", cmbBuyingUOM.getSelectedItem().toString()))
+                    .uniqueResult();
 
-        Uom sellingUom = (Uom) session
-                .createCriteria(Uom.class)
-                .add(Restrictions.eq("uomName", cmbSellingUOM.getSelectedItem().toString()))
-                .uniqueResult();
+            Uom sellingUom = (Uom) session
+                    .createCriteria(Uom.class)
+                    .add(Restrictions.eq("uomName", cmbSellingUOM.getSelectedItem().toString()))
+                    .uniqueResult();
 
-        ItemType itemType = (ItemType) session
-                .createCriteria(ItemType.class)
-                .add(Restrictions.eq("itemTypeName", cmbItemType.getSelectedItem().toString()))
-                .uniqueResult();
+            ItemType itemType = (ItemType) session
+                    .createCriteria(ItemType.class)
+                    .add(Restrictions.eq("itemTypeName", cmbItemType.getSelectedItem().toString()))
+                    .uniqueResult();
 
-        Item baseItem = (Item) session
-                .createCriteria(Item.class)
-                .add(Restrictions.eq("itemName", cmbBaseItem.getSelectedItem().toString()))
-                .uniqueResult();
+            Item baseItem = (Item) session
+                    .createCriteria(Item.class)
+                    .add(Restrictions.eq("itemName", cmbBaseItem.getSelectedItem().toString()))
+                    .uniqueResult();
 
-        Item item = new Item();
-        item.setItemCode(strItemCode);
-        if (itemBrand == null || itemBrand.getBrandName().equalsIgnoreCase("NONE")) {
-            item.setItemName(txtItemName.getText().trim().toUpperCase());
-        } else {
-            if (bUpdate) {
+            Item item = new Item();
+            item.setItemCode(strItemCode);
+            if (itemBrand == null || itemBrand.getBrandName().equalsIgnoreCase("NONE")) {
                 item.setItemName(txtItemName.getText().trim().toUpperCase());
             } else {
-                item.setItemName(itemBrand.getBrandName().toUpperCase() + " - " + txtItemName.getText().trim().toUpperCase());
+                if (bUpdate) {
+                    item.setItemName(txtItemName.getText().trim().toUpperCase());
+                } else {
+                    item.setItemName(itemBrand.getBrandName().toUpperCase() + " - " + txtItemName.getText().trim().toUpperCase());
+                }
             }
-        }
 
-        item.setSearchKey(txtSearchKey.getText().trim().toUpperCase());
-        item.setItemQuantity(Float.parseFloat(txtSellingQuantity.getText().trim()));
-        item.setReorderQuantity(Float.parseFloat(txtReorderQuantity.getText().trim()));
-        item.setIsPhysical(cbxIsPhysical.isSelected() ? 1 : 0);
-        item.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
-        item.setFromBom(cbxFromBom.isSelected());
-        item.setCreadetDate(date);
-        item.setCreatedTime(date);
-        item.setCreatedUser(MainFrame.user.getUserId());
-        item.setRemark(txtRemarks.getText().trim().toUpperCase());
-        item.setIssueMethodId(((IssueMethod) session.load(IssueMethod.class, issueMethod.getIssueMethodId())).getIssueMethodId());
-        if (itemBrand != null) {
-            item.setItemBrand((ItemBrand) session.load(ItemBrand.class, itemBrand.getBrandCode()));
-        }
-        item.setSubCategory((SubCategory) session.load(SubCategory.class, subCategory.getSubCategoryCode()));
-        item.setRackSlotCode(((RackSlot) session.load(RackSlot.class, rackSlot.getRackSlotCode())).getRackSlotCode());
-        item.setUomByBuyingUom((Uom) session.load(Uom.class, buyingUom.getUomCode()));
-        item.setUomBySellingUom((Uom) session.load(Uom.class, sellingUom.getUomCode()));
-        item.setItemTypeCode(((ItemType) session.load(ItemType.class, itemType.getItemTypeCode())).getItemTypeCode());
-        item.setItem(baseItem);
-        session.saveOrUpdate(item);
+            item.setSearchKey(txtSearchKey.getText().trim().toUpperCase());
+            item.setItemQuantity(Float.parseFloat(txtSellingQuantity.getText().trim()));
+            item.setReorderQuantity(Float.parseFloat(txtReorderQuantity.getText().trim()));
+            item.setIsPhysical(cbxIsPhysical.isSelected() ? 1 : 0);
+            item.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
+            item.setFromBom(cbxFromBom.isSelected());
+            item.setCreadetDate(date);
+            item.setCreatedTime(date);
+            item.setCreatedUser(MainFrame.user.getUserId());
+            item.setRemark(txtRemarks.getText().trim().toUpperCase());
+            item.setIssueMethodId(((IssueMethod) session.load(IssueMethod.class, issueMethod.getIssueMethodId())).getIssueMethodId());
+            if (itemBrand != null) {
+                item.setItemBrand((ItemBrand) session.load(ItemBrand.class, itemBrand.getBrandCode()));
+            }
+            item.setSubCategory((SubCategory) session.load(SubCategory.class, subCategory.getSubCategoryCode()));
+            item.setRackSlotCode(((RackSlot) session.load(RackSlot.class, rackSlot.getRackSlotCode())).getRackSlotCode());
+            item.setUomByBuyingUom((Uom) session.load(Uom.class, buyingUom.getUomCode()));
+            item.setUomBySellingUom((Uom) session.load(Uom.class, sellingUom.getUomCode()));
+            item.setItemTypeCode(((ItemType) session.load(ItemType.class, itemType.getItemTypeCode())).getItemTypeCode());
+            item.setItem(baseItem);
+            session.saveOrUpdate(item);
 
-        for (int i = 0; i < tblSellingPrices.getRowCount(); i++) {
-            try {
+            for (int i = 0; i < tblSellingPrices.getRowCount(); i++) {
                 int iId = Integer.parseInt(tblSellingPrices.getValueAt(i, 0).toString());
                 float fSellingPrice = Float.parseFloat(tblSellingPrices.getValueAt(i, 1).toString());
                 String strDate = tblSellingPrices.getValueAt(i, 2).toString();
@@ -1164,22 +1182,22 @@ public class ItemFrame extends javax.swing.JInternalFrame {
                 sellingPrice.setItem(item);
 
                 session.saveOrUpdate(sellingPrice);
-            } catch (ParseException ex) {
-                Logger.getLogger(ItemFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            this.loadBaseItems(session);
+
+            transaction.commit();
+            session.close();
+
+            if (bUpdate) {
+                InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING, this);
+            } else {
+                InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING, this);
+            }
+            clearAll();
+        } catch (HibernateException | NumberFormatException | ParseException ex) {
+            LOGGER.error(ex);
         }
-
-        this.loadBaseItems(session);
-
-        transaction.commit();
-        session.close();
-
-        if (bUpdate) {
-            InformationDialog.showMessageBox(SystemData.RECORD_UPDATED_MESSAGE, SystemData.RECORD_UPDATED_HEADING, this);
-        } else {
-            InformationDialog.showMessageBox(SystemData.NEW_RECORD_ADDED_MESSAGE, SystemData.NEW_RECORD_ADDED_HEADING, this);
-        }
-        clearAll();
     }
 
     public void setItemCode(String itemCode) {
@@ -1255,29 +1273,37 @@ public class ItemFrame extends javax.swing.JInternalFrame {
     }
 
     public void setSellingPrices(List<SellingPrice> sellingPrices) {
-        if (!sellingPrices.isEmpty()) {
-            DefaultTableModel tableModel = (DefaultTableModel) tblSellingPrices.getModel();
-            tableModel.setRowCount(0);
-            for (SellingPrice sellingPrice : sellingPrices) {
-                tableModel.addRow(new Object[]{
-                    sellingPrice.getSellingPriceId(),
-                    sellingPrice.getSellingPrice(),
-                    SystemData.DATE_FORMAT.format(sellingPrice.getEffectiveDate()),
-                    sellingPrice.getRemark() == null ? "" : sellingPrice.getRemark()
-                });
+        try {
+            if (!sellingPrices.isEmpty()) {
+                DefaultTableModel tableModel = (DefaultTableModel) tblSellingPrices.getModel();
+                tableModel.setRowCount(0);
+                for (SellingPrice sellingPrice : sellingPrices) {
+                    tableModel.addRow(new Object[]{
+                        sellingPrice.getSellingPriceId(),
+                        sellingPrice.getSellingPrice(),
+                        SystemData.DATE_FORMAT.format(sellingPrice.getEffectiveDate()),
+                        sellingPrice.getRemark() == null ? "" : sellingPrice.getRemark()
+                    });
+                }
             }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
         }
     }
 
     private void loadBaseItems(Session session) {
-        Criteria itemCriteria = session.createCriteria(Item.class).addOrder(Order.asc("itemCode"));
-        List<Item> items = itemCriteria.list();
-        if (!items.isEmpty()) {
-            cmbBaseItem.removeAllItems();
-            cmbBaseItem.addItem("NONE");
-            for (Item tempItem : items) {
-                cmbBaseItem.addItem(tempItem.getItemName());
+        try {
+            Criteria itemCriteria = session.createCriteria(Item.class).addOrder(Order.asc("itemCode"));
+            List<Item> items = itemCriteria.list();
+            if (!items.isEmpty()) {
+                cmbBaseItem.removeAllItems();
+                cmbBaseItem.addItem("NONE");
+                for (Item tempItem : items) {
+                    cmbBaseItem.addItem(tempItem.getItemName());
+                }
             }
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
     }
 

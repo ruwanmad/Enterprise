@@ -10,6 +10,8 @@ import com.servicemaster.models.SellingPrice;
 import com.servicemaster.utils.HibernateUtil;
 import java.util.Date;
 import java.util.List;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -20,39 +22,46 @@ import org.hibernate.criterion.Restrictions;
  */
 public class ItemFunctions {
 
+    private static final Logger LOGGER = Logger.getLogger(ItemFunctions.class);
+
     public static float getItemSellingPrice(Item item) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
 
-        List<SellingPrice> todaySellingPrices = session
-                .createCriteria(SellingPrice.class)
-                .add(Restrictions.eq("item", item))
-                .add(Restrictions.eq("effectiveDate", new Date()))
-                .addOrder(Order.desc("createdTime"))
-                .list();
-
-        if (todaySellingPrices.isEmpty()) {
-            List<SellingPrice> sellingPrices = session
+            List<SellingPrice> todaySellingPrices = session
                     .createCriteria(SellingPrice.class)
                     .add(Restrictions.eq("item", item))
-                    .add(Restrictions.le("effectiveDate", new Date()))
-                    .addOrder(Order.desc("effectiveDate"))
+                    .add(Restrictions.eq("effectiveDate", new Date()))
                     .addOrder(Order.desc("createdTime"))
                     .list();
-            if (sellingPrices.isEmpty()) {
-                session.close();
-                return 0.0f;
-            } else {
-                for (SellingPrice sellingPrice : sellingPrices) {
+
+            if (todaySellingPrices.isEmpty()) {
+                List<SellingPrice> sellingPrices = session
+                        .createCriteria(SellingPrice.class)
+                        .add(Restrictions.eq("item", item))
+                        .add(Restrictions.le("effectiveDate", new Date()))
+                        .addOrder(Order.desc("effectiveDate"))
+                        .addOrder(Order.desc("createdTime"))
+                        .list();
+                if (sellingPrices.isEmpty()) {
                     session.close();
-                    return sellingPrice.getSellingPrice();
+                    return 0.0f;
+                } else {
+                    for (SellingPrice sellingPrice : sellingPrices) {
+                        session.close();
+                        return sellingPrice.getSellingPrice();
+                    }
+                }
+            } else {
+                for (SellingPrice todaySellingPrice : todaySellingPrices) {
+                    session.close();
+                    return todaySellingPrice.getSellingPrice();
                 }
             }
-        } else {
-            for (SellingPrice todaySellingPrice : todaySellingPrices) {
-                session.close();
-                return todaySellingPrice.getSellingPrice();
-            }
+            return 0.0f;
+        } catch (HibernateException | NullPointerException ex) {
+            LOGGER.error(ex);
+            return 0.0f;
         }
-        return 0.0f;
     }
 }

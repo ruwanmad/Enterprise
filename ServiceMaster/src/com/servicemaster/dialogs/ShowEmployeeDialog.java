@@ -6,7 +6,7 @@
 package com.servicemaster.dialogs;
 
 import com.servicemaster.data.SystemData;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.BusinessPartner;
 import com.servicemaster.utils.HibernateUtil;
 import java.awt.Component;
@@ -23,6 +23,9 @@ import org.hibernate.criterion.Restrictions;
  * @author RuwanM
  */
 public class ShowEmployeeDialog extends javax.swing.JDialog {
+
+    private final ArrayList<String> employeeList = new ArrayList<>();
+    private final static Logger LOGGER = Logger.getLogger(ShowEmployeeDialog.class);
 
     /**
      * Creates new form ShowEmployeeDialog
@@ -245,6 +248,4 @@ public class ShowEmployeeDialog extends javax.swing.JDialog {
     private javax.swing.JPanel dataPanel;
     private javax.swing.JPanel mainPanel;
     // End of variables declaration//GEN-END:variables
-    private final ArrayList<String> employeeList = new ArrayList<>();
-    private final static Logger LOGGER = Logger.getLogger(ShowEmployeeDialog.class);
 }

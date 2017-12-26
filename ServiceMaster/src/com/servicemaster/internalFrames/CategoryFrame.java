@@ -8,14 +8,16 @@ package com.servicemaster.internalFrames;
 import com.servicemaster.data.SystemData;
 import com.servicemaster.dialogs.ConfirmationDialog;
 import com.servicemaster.dialogs.InformationDialog;
-import com.servicemaster.forms.MainFrame;
+import com.servicemaster.frames.MainFrame;
 import com.servicemaster.keys.KeyCodeFunctions;
-import com.servicemaster.guiFunctions.ButtonFunctions;
+import com.servicemaster.supportClasses.ButtonFunctions;
 import com.servicemaster.models.Category;
 import com.servicemaster.utils.HibernateUtil;
 import com.servicemaster.views.CategoryView;
 import java.util.Date;
 import java.util.List;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -24,6 +26,8 @@ import org.hibernate.Session;
  * @author Ruwan Madawala
  */
 public class CategoryFrame extends javax.swing.JInternalFrame {
+
+    private static final Logger LOGGER = Logger.getLogger(CategoryFrame.class);
 
     /**
      * Creates new form Category
@@ -289,24 +293,28 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSaveMouseExited
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if (txtCategoryCode.getText().toUpperCase().trim().isEmpty()) {
-            List categoryByName = this.getCategoryByName(txtCategoryName.getText().toUpperCase().trim(), false);
-            if (categoryByName.size() > 0) {
-                InformationDialog.showMessageBox("Item name already exists.", "Exist", this);
+        try {
+            if (txtCategoryCode.getText().toUpperCase().trim().isEmpty()) {
+                List categoryByName = this.getCategoryByName(txtCategoryName.getText().toUpperCase().trim(), false);
+                if (categoryByName.size() > 0) {
+                    InformationDialog.showMessageBox("Item name already exists.", "Exist", this);
+                } else {
+                    KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                    this.saveOrUpdateCategory(keyCodeFunctions.getKey("CAT", "Category"), false);
+                }
             } else {
-                KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                this.saveOrUpdateCategory(keyCodeFunctions.getKey("CAT", "Category"), false);
-            }
-        } else {
-            List categoryByCode = this.getCategoryByCode(txtCategoryCode.getText().toUpperCase().trim(), false);
-            if (categoryByCode.isEmpty()) {
-                InformationDialog.showMessageBox("Invalid Category code. Please try again", "Invalid", this);
-            } else {
-                ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
-                if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
-                    this.saveOrUpdateCategory(txtCategoryCode.getText().toUpperCase().trim(), true);
+                List categoryByCode = this.getCategoryByCode(txtCategoryCode.getText().toUpperCase().trim(), false);
+                if (categoryByCode.isEmpty()) {
+                    InformationDialog.showMessageBox("Invalid Category code. Please try again", "Invalid", this);
+                } else {
+                    ConfirmationDialog.showMessageBox("Do you want to update?", "Update", this);
+                    if (ConfirmationDialog.option == ConfirmationDialog.YES_OPTION) {
+                        this.saveOrUpdateCategory(txtCategoryCode.getText().toUpperCase().trim(), true);
+                    }
                 }
             }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -331,13 +339,17 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCodeSerachMouseExited
 
     private void btnCodeSerachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCodeSerachActionPerformed
-        String categoryCode = txtCategoryCode.getText().trim();
-        List categories = getCategoryByCode(categoryCode, true);
+        try {
+            String categoryCode = txtCategoryCode.getText().trim();
+            List categories = getCategoryByCode(categoryCode, true);
 
-        if (!categories.isEmpty()) {
-            CategoryView categoryView = new CategoryView(categories, this);
-            MainFrame.desktopPane.add(categoryView);
-            categoryView.setVisible(true);
+            if (!categories.isEmpty()) {
+                CategoryView categoryView = new CategoryView(categories, this);
+                MainFrame.desktopPane.add(categoryView);
+                categoryView.setVisible(true);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnCodeSerachActionPerformed
 
@@ -350,79 +362,97 @@ public class CategoryFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnNameSearchMouseExited
 
     private void btnNameSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNameSearchActionPerformed
-        String categoryName = txtCategoryName.getText().trim();
-        List categories = getCategoryByName(categoryName, true);
+        try {
+            String categoryName = txtCategoryName.getText().trim();
+            List categories = getCategoryByName(categoryName, true);
 
-        if (categories.size() > 0) {
-            CategoryView categoryView = new CategoryView(categories, this);
-            MainFrame.desktopPane.add(categoryView);
-            categoryView.setVisible(true);
+            if (categories.size() > 0) {
+                CategoryView categoryView = new CategoryView(categories, this);
+                MainFrame.desktopPane.add(categoryView);
+                categoryView.setVisible(true);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
         }
     }//GEN-LAST:event_btnNameSearchActionPerformed
 
     private void saveOrUpdateCategory(String strCategoryCode, boolean bUpdate) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
 
-        Category category = new Category();
-        category.setCategoryCode(strCategoryCode);
-        category.setCategoryName(txtCategoryName.getText().trim().toUpperCase());
-        category.setRemarks(txtRemark.getText().trim());
-        category.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
-        if (bUpdate) {
-            category.setModifiedDate(new Date());
-            category.setModifiedTime(new Date());
-            category.setModifiedUser(MainFrame.user.getUserId());
-        } else {
-            category.setCreatedDate(new Date());
-            category.setCreatedTime(new Date());
-            category.setCreatedUser(MainFrame.user.getUserId());
+            Category category = new Category();
+            category.setCategoryCode(strCategoryCode);
+            category.setCategoryName(txtCategoryName.getText().trim().toUpperCase());
+            category.setRemarks(txtRemark.getText().trim());
+            category.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
+            if (bUpdate) {
+                category.setModifiedDate(new Date());
+                category.setModifiedTime(new Date());
+                category.setModifiedUser(MainFrame.user.getUserId());
+            } else {
+                category.setCreatedDate(new Date());
+                category.setCreatedTime(new Date());
+                category.setCreatedUser(MainFrame.user.getUserId());
+            }
+            session.saveOrUpdate(category);
+
+            session.getTransaction().commit();
+            session.close();
+
+            if (bUpdate) {
+                InformationDialog.showMessageBox("Successfully updated", "Success", this);
+            } else {
+                InformationDialog.showMessageBox("New entry created successfully", "Success", this);
+            }
+            this.clearAll();
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
         }
-        session.saveOrUpdate(category);
-
-        session.getTransaction().commit();
-        session.close();
-
-        if (bUpdate) {
-            InformationDialog.showMessageBox("Successfully updated", "Success", this);
-        } else {
-            InformationDialog.showMessageBox("New entry created successfully", "Success", this);
-        }
-        this.clearAll();
     }
 
     private List getCategoryByCode(String categoryCode, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
-        if (like) {
-            query = session.createQuery("from Category c where c.categoryCode like :code");
-            query.setParameter("code", "%" + categoryCode + "%");
-        } else {
-            query = session.createQuery("from Category c where c.categoryCode = :code");
-            query.setParameter("code", categoryCode);
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query;
+            if (like) {
+                query = session.createQuery("from Category c where c.categoryCode like :code");
+                query.setParameter("code", "%" + categoryCode + "%");
+            } else {
+                query = session.createQuery("from Category c where c.categoryCode = :code");
+                query.setParameter("code", categoryCode);
+            }
+            List list = query.list();
+            session.getTransaction().commit();
+            session.close();
+            return list;
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+            return null;
         }
-        List list = query.list();
-        session.getTransaction().commit();
-        session.close();
-        return list;
     }
 
     private List getCategoryByName(String categoryName, boolean like) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query;
-        if (like) {
-            query = session.createQuery("from Category c where c.categoryName like :name");
-            query.setParameter("name", "%" + categoryName + "%");
-        } else {
-            query = session.createQuery("from Category c where c.categoryName = :name");
-            query.setParameter("name", categoryName);
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query;
+            if (like) {
+                query = session.createQuery("from Category c where c.categoryName like :name");
+                query.setParameter("name", "%" + categoryName + "%");
+            } else {
+                query = session.createQuery("from Category c where c.categoryName = :name");
+                query.setParameter("name", categoryName);
+            }
+            List list = query.list();
+            session.getTransaction().commit();
+            session.close();
+            return list;
+        } catch (HibernateException ex) {
+            LOGGER.error(ex);
+            return null;
         }
-        List list = query.list();
-        session.getTransaction().commit();
-        session.close();
-        return list;
     }
 
     private void clearAll() {

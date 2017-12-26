@@ -6,7 +6,7 @@
 
 package com.servicemaster.keys;
 
-import com.servicemaster.forms.MainFrame;
+import com.servicemaster.frames.MainFrame;
 import com.servicemaster.models.KeyTable;
 import com.servicemaster.utils.HibernateUtil;
 import java.util.Date;
