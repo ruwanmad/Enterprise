@@ -240,16 +240,16 @@ public class ItemView extends javax.swing.JInternalFrame {
         Transaction transaction = session.beginTransaction();
         
 
-       IssueMethod issueMethod = (IssueMethod) session.load(IssueMethod.class, item.getIssueMethodId());
+       IssueMethod issueMethod = (IssueMethod) session.load(IssueMethod.class, item.getIssueMethod().getIssueMethodId());
         if (item.getItemBrand() != null) {
             ItemBrand itemBrand = (ItemBrand) session.load(ItemBrand.class, item.getItemBrand().getBrandCode());
             itemFrame.setItemBrand(itemBrand.getBrandName());
         }
         SubCategory subCategory = (SubCategory) session.load(SubCategory.class, item.getSubCategory().getSubCategoryCode());
-        RackSlot rackSlot = (RackSlot) session.load(RackSlot.class, item.getRackSlotCode());
+        RackSlot rackSlot = (RackSlot) session.load(RackSlot.class, item.getRackSlot().getRackSlotCode());
         Uom buyingUOM = (Uom) session.load(Uom.class, item.getUomByBuyingUom().getUomCode());
         Uom sellingUOM = (Uom) session.load(Uom.class, item.getUomBySellingUom().getUomCode());
-        ItemType itemType = (ItemType) session.load(ItemType.class, item.getItemTypeCode());
+        ItemType itemType = (ItemType) session.load(ItemType.class, item.getItemType().getItemTypeCode());
         
         itemFrame.setItemCode(item.getItemCode());
         itemFrame.setItemName(item.getItemName());

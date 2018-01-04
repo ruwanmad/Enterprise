@@ -1143,15 +1143,15 @@ public class ItemFrame extends javax.swing.JInternalFrame {
             item.setCreatedTime(date);
             item.setCreatedUser(MainFrame.user.getUserId());
             item.setRemark(txtRemarks.getText().trim().toUpperCase());
-            item.setIssueMethodId(((IssueMethod) session.load(IssueMethod.class, issueMethod.getIssueMethodId())).getIssueMethodId());
+            item.setIssueMethod((IssueMethod) session.load(IssueMethod.class, issueMethod.getIssueMethodId()));
             if (itemBrand != null) {
                 item.setItemBrand((ItemBrand) session.load(ItemBrand.class, itemBrand.getBrandCode()));
             }
             item.setSubCategory((SubCategory) session.load(SubCategory.class, subCategory.getSubCategoryCode()));
-            item.setRackSlotCode(((RackSlot) session.load(RackSlot.class, rackSlot.getRackSlotCode())).getRackSlotCode());
+            item.setRackSlot((RackSlot) session.load(RackSlot.class, rackSlot.getRackSlotCode()));
             item.setUomByBuyingUom((Uom) session.load(Uom.class, buyingUom.getUomCode()));
             item.setUomBySellingUom((Uom) session.load(Uom.class, sellingUom.getUomCode()));
-            item.setItemTypeCode(((ItemType) session.load(ItemType.class, itemType.getItemTypeCode())).getItemTypeCode());
+            item.setItemType((ItemType) session.load(ItemType.class, itemType.getItemTypeCode()));
             item.setItem(baseItem);
             session.saveOrUpdate(item);
 

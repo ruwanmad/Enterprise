@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Dec 4, 2017 10:06:33 PM by Hibernate Tools 4.3.1
+// Generated Dec 31, 2017 12:24:02 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -25,8 +25,8 @@ public class Uom  implements java.io.Serializable {
      private String remarks;
      private Set itemsForBuyingUom = new HashSet(0);
      private Set itemsForSellingUom = new HashSet(0);
-     private Set uomConversionsForUomUomCodeFrom = new HashSet(0);
-     private Set uomConversionsForUomUomCodeTo = new HashSet(0);
+     private Set uomConversionsForUomFrom = new HashSet(0);
+     private Set uomConversionsForUomTo = new HashSet(0);
      private Set bomItems = new HashSet(0);
 
     public Uom() {
@@ -36,7 +36,7 @@ public class Uom  implements java.io.Serializable {
     public Uom(String uomCode) {
         this.uomCode = uomCode;
     }
-    public Uom(String uomCode, String uomSymble, String uomName, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set itemsForBuyingUom, Set itemsForSellingUom, Set uomConversionsForUomUomCodeFrom, Set uomConversionsForUomUomCodeTo, Set bomItems) {
+    public Uom(String uomCode, String uomSymble, String uomName, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks, Set itemsForBuyingUom, Set itemsForSellingUom, Set uomConversionsForUomFrom, Set uomConversionsForUomTo, Set bomItems) {
        this.uomCode = uomCode;
        this.uomSymble = uomSymble;
        this.uomName = uomName;
@@ -50,8 +50,8 @@ public class Uom  implements java.io.Serializable {
        this.remarks = remarks;
        this.itemsForBuyingUom = itemsForBuyingUom;
        this.itemsForSellingUom = itemsForSellingUom;
-       this.uomConversionsForUomUomCodeFrom = uomConversionsForUomUomCodeFrom;
-       this.uomConversionsForUomUomCodeTo = uomConversionsForUomUomCodeTo;
+       this.uomConversionsForUomFrom = uomConversionsForUomFrom;
+       this.uomConversionsForUomTo = uomConversionsForUomTo;
        this.bomItems = bomItems;
     }
    
@@ -146,19 +146,19 @@ public class Uom  implements java.io.Serializable {
     public void setItemsForSellingUom(Set itemsForSellingUom) {
         this.itemsForSellingUom = itemsForSellingUom;
     }
-    public Set getUomConversionsForUomUomCodeFrom() {
-        return this.uomConversionsForUomUomCodeFrom;
+    public Set getUomConversionsForUomFrom() {
+        return this.uomConversionsForUomFrom;
     }
     
-    public void setUomConversionsForUomUomCodeFrom(Set uomConversionsForUomUomCodeFrom) {
-        this.uomConversionsForUomUomCodeFrom = uomConversionsForUomUomCodeFrom;
+    public void setUomConversionsForUomFrom(Set uomConversionsForUomFrom) {
+        this.uomConversionsForUomFrom = uomConversionsForUomFrom;
     }
-    public Set getUomConversionsForUomUomCodeTo() {
-        return this.uomConversionsForUomUomCodeTo;
+    public Set getUomConversionsForUomTo() {
+        return this.uomConversionsForUomTo;
     }
     
-    public void setUomConversionsForUomUomCodeTo(Set uomConversionsForUomUomCodeTo) {
-        this.uomConversionsForUomUomCodeTo = uomConversionsForUomUomCodeTo;
+    public void setUomConversionsForUomTo(Set uomConversionsForUomTo) {
+        this.uomConversionsForUomTo = uomConversionsForUomTo;
     }
     public Set getBomItems() {
         return this.bomItems;

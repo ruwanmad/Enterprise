@@ -75,6 +75,8 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
         txtTotalInvoices = new javax.swing.JFormattedTextField();
         rbtCash = new javax.swing.JRadioButton();
         rbtCheque = new javax.swing.JRadioButton();
+        jLabel3 = new javax.swing.JLabel();
+        cmbBank = new javax.swing.JComboBox<>();
         btnClose = new javax.swing.JButton();
         btnSettle = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
@@ -173,25 +175,37 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel3.setText("Bank : ");
+
+        cmbBank.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cmbBank.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        cmbBank.setEnabled(false);
+
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
         headerPanel.setLayout(headerPanelLayout);
         headerPanelLayout.setHorizontalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerPanelLayout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(btnLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(headerPanelLayout.createSequentialGroup()
+                        .addComponent(rbtCash)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbtCheque)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbBank, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(headerPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(btnLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 234, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtTotalInvoices, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(headerPanelLayout.createSequentialGroup()
-                .addComponent(rbtCash)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rbtCheque)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         headerPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {rbtCash, rbtCheque});
@@ -211,11 +225,15 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbtCash)
-                    .addComponent(rbtCheque))
+                    .addComponent(rbtCheque)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbBank, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0))
         );
 
         headerPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnLoad, cmbAccount, jLabel1, jLabel2, rbtCash, rbtCheque, txtTotalInvoices});
+
+        headerPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbBank, jLabel3});
 
         btnClose.setBackground(new java.awt.Color(150, 255, 150));
         btnClose.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
@@ -337,14 +355,14 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Cheque #", "Given Date", "Cheque Date", "Amount", ""
+                "Cheque #", "Given Date", "Cheque Date", "Amount", "", "Index"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Boolean.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
+                false, false, false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -363,11 +381,14 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
         scrollPane1.setViewportView(tblInhandCheques);
         if (tblInhandCheques.getColumnModel().getColumnCount() > 0) {
             tblInhandCheques.getColumnModel().getColumn(0).setResizable(false);
-            tblInhandCheques.getColumnModel().getColumn(0).setPreferredWidth(250);
+            tblInhandCheques.getColumnModel().getColumn(0).setPreferredWidth(200);
             tblInhandCheques.getColumnModel().getColumn(1).setResizable(false);
             tblInhandCheques.getColumnModel().getColumn(2).setResizable(false);
             tblInhandCheques.getColumnModel().getColumn(3).setResizable(false);
             tblInhandCheques.getColumnModel().getColumn(4).setResizable(false);
+            tblInhandCheques.getColumnModel().getColumn(5).setMinWidth(0);
+            tblInhandCheques.getColumnModel().getColumn(5).setPreferredWidth(0);
+            tblInhandCheques.getColumnModel().getColumn(5).setMaxWidth(0);
         }
 
         javax.swing.GroupLayout inhandChequesPanelLayout = new javax.swing.GroupLayout(inhandChequesPanel);
@@ -576,6 +597,7 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             this.loadAccounts(session);
+            this.loadBanks(session);
             session.close();
 
             AutoCompletion.enable(cmbAccount, btnLoad);
@@ -598,6 +620,8 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
         this.loadTransactions();
+        this.loadInhandCheques();
+        this.loadAdvancedPaid();
     }//GEN-LAST:event_btnLoadActionPerformed
 
     private void tblInvoicesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInvoicesMouseReleased
@@ -653,104 +677,14 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
     private void btnSettleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettleActionPerformed
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
 
             if (this.validateInvoiceTable()) {
-                Date date = new Date();
-
-                float remainingAmount = Float.parseFloat(txtPayingAmount.getText().trim());
                 if (rbtCash.isSelected()) {
-                    for (int i = 0; i < tblInvoices.getRowCount(); i++) {
-                        boolean checked = (boolean) tblInvoices.getValueAt(i, 5);
-                        if (checked) {
-                            String invoiceNumber = (String) tblInvoices.getValueAt(i, 0);
-                            double invoiceAmount = (double) tblInvoices.getValueAt(i, 4);
-
-                            KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
-                            String paymentCode = keyCodeFunctions.getKey("PAY", "Payments");
-
-                            PaymentType paymentType = new PaymentType("PTY1000");
-
-                            Invoice invoice = (Invoice) session
-                                    .createCriteria(Invoice.class)
-                                    .add(Restrictions.eq("invoiceNumber", invoiceNumber))
-                                    .uniqueResult();
-
-                            Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
-                            Payment payment = new Payment(paymentCode, invoice, paymentType);
-
-                            float payingAmount;
-
-                            if (remainingAmount >= invoiceAmount) {
-                                payment.setAmount((float) invoiceAmount);
-                                SaleStatus saleStatus = (SaleStatus) session
-                                        .createCriteria(SaleStatus.class)
-                                        .add(Restrictions.eq("statusDescription", "PAID"))
-                                        .uniqueResult();
-                                sale.setSaleStatus(saleStatus);
-                                payingAmount = (float) invoiceAmount;
-                            } else {
-                                payment.setAmount(remainingAmount);
-                                SaleStatus saleStatus = (SaleStatus) session
-                                        .createCriteria(SaleStatus.class)
-                                        .add(Restrictions.eq("statusDescription", "PARTIALLY PAID"))
-                                        .uniqueResult();
-                                sale.setSaleStatus(saleStatus);
-                                payingAmount = remainingAmount;
-                            }
-
-                            payment.setCreatedDate(date);
-                            payment.setCreatedTime(date);
-                            payment.setCreatedUser(MainFrame.user.getUserId());
-
-                            session.saveOrUpdate(payment);
-
-                            session.saveOrUpdate(sale);
-
-                            Account debitAccount = (Account) session
-                                    .createCriteria(Account.class)
-                                    .add(Restrictions.eq("accountCode", "ACC1002"))
-                                    .uniqueResult();
-
-                            Account creditAccount = (Account) session
-                                    .createCriteria(Account.class)
-                                    .add(Restrictions.eq("accountCode", cmbAccount.getSelectedItem().toString().split("-")[1].trim()))
-                                    .uniqueResult();
-
-                            PostAccounts accountPosting = new PostAccounts();
-                            accountPosting.cashDebitPosting(debitAccount, invoice, "Cash settlemnt for " + sale.getSaleCode(), payingAmount);
-                            accountPosting.cashCreditPosting(creditAccount, invoice, "Cash settlemnt for " + sale.getSaleCode(), payingAmount);
-
-                            remainingAmount = remainingAmount - (float) invoiceAmount;
-                        }
-                    }
+                    this.updateCashSettle(session);
                 } else if (rbtCheque.isSelected()) {
-
-                }
-
-                if (remainingAmount > 0 && cbxAddToAdvance.isSelected()) {
-                    Account businessPartnerAccount = (Account) session
-                            .createCriteria(Account.class)
-                            .add(Restrictions.eq("accountCode", cmbAccount.getSelectedItem().toString().split("-")[1].trim()))
-                            .uniqueResult();
-
-                    Account debitAccount = (Account) session
-                            .createCriteria(Account.class)
-                            .add(Restrictions.eq("accountCode", "ACC1002"))
-                            .uniqueResult();
-
-                    Account creditAccount = (Account) session
-                            .createCriteria(Account.class)
-                            .add(Restrictions.eq("accountCode", "ACC1005"))
-                            .uniqueResult();
-
-                    PostAccounts accountPosting = new PostAccounts();
-                    accountPosting.generalDebitPosting(debitAccount, businessPartnerAccount.getBusinessPartner(), remainingAmount, "Advance paid by " + businessPartnerAccount.getDescription());
-                    accountPosting.generalCreditPosting(creditAccount, businessPartnerAccount.getBusinessPartner(), remainingAmount, "Advance paid by " + businessPartnerAccount.getDescription());
+                    this.updateChequeSettle(session);
                 }
             }
-
-            transaction.commit();
             session.close();
 
             this.loadTransactions();
@@ -855,6 +789,7 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
     private void rbtCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtCashActionPerformed
         if (rbtCash.isSelected()) {
             tblInhandCheques.setEnabled(false);
+            cmbBank.setEnabled(false);
             this.resetInvoiceSelection();
             this.resetInhandChequeSelection();
             this.resetFields();
@@ -864,6 +799,7 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
     private void rbtChequeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtChequeActionPerformed
         if (rbtCheque.isSelected()) {
             tblInhandCheques.setEnabled(true);
+            cmbBank.setEnabled(true);
             this.resetInvoiceSelection();
             this.resetInhandChequeSelection();
             this.resetFields();
@@ -905,6 +841,22 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
         }
     }
 
+    private void loadBanks(Session session) {
+        List<Account> accounts = session
+                .createCriteria(Account.class)
+                .createAlias("subAccount", "subAccount")
+                .add(Restrictions.eq("subAccount.code", "SAC1001"))
+                .list();
+
+        if (!accounts.isEmpty()) {
+            cmbBank.removeAllItems();
+            cmbBank.addItem("");
+            for (Account account : accounts) {
+                cmbBank.addItem(account.getDescription() + " - " + account.getAccountCode());
+            }
+        }
+    }
+
     private void loadTransactions() {
         try {
             String selectedItem = cmbAccount.getSelectedItem().toString();
@@ -915,43 +867,6 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
                         .createCriteria(Account.class)
                         .add(Restrictions.eq("accountCode", selectedItem.split("-")[1].trim()))
                         .uniqueResult();
-
-                BusinessPartner businessPartner = (BusinessPartner) session.load(BusinessPartner.class, account.getBusinessPartner().getBusinessPartnerCode());
-
-                List<AccountPosting> accountPostings = session
-                        .createCriteria(AccountPosting.class)
-                        .add(Restrictions.eq("businessPartner", businessPartner))
-                        .add(Restrictions.eq("account", session.load(Account.class, "ACC1006")))
-                        .list();
-                if (!accountPostings.isEmpty()) {
-                    DefaultTableModel tableModel = (DefaultTableModel) tblInhandCheques.getModel();
-                    tableModel.setRowCount(0);
-
-                    for (AccountPosting accountPosting : accountPostings) {
-                        String chequeNumber = accountPosting.getChequeNumber();
-                        String givenDate = SystemData.DATE_FORMAT.format(accountPosting.getCreatedDate());
-                        String chequeDate = SystemData.DATE_FORMAT.format(accountPosting.getChequeDate());
-                        float amount = accountPosting.getCredit();
-
-                        tableModel.addRow(new Object[]{chequeNumber, givenDate, chequeDate, amount, false});
-                    }
-                }
-
-                accountPostings = session
-                        .createCriteria(AccountPosting.class)
-                        .add(Restrictions.eq("businessPartner", businessPartner))
-                        .add(Restrictions.eq("account", session.load(Account.class, "ACC1005")))
-                        .list();
-
-                if (!accountPostings.isEmpty()) {
-                    float total = 0.0f;
-                    for (AccountPosting accountPosting : accountPostings) {
-                        float amount = accountPosting.getCredit();
-                        total += amount;
-                    }
-
-                    txtAdvancedAmount.setText("" + total);
-                }
 
                 Criteria saleCriteria = session.createCriteria(Sale.class);
                 Disjunction or = Restrictions.disjunction();
@@ -989,7 +904,12 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
                         BigDecimal bigPayment = new BigDecimal(payment);
 
                         totalAmount += sale.getGrandTotal();
-                        tableModel.addRow(new Object[]{invoice.getInvoiceNumber(), sale.getCreatedDate(), sale.getGrandTotal(), bigPayment.floatValue(), sale.getGrandTotal() - payment, false});
+                        tableModel.addRow(new Object[]{invoice.getInvoiceNumber(),
+                            sale.getCreatedDate(),
+                            sale.getGrandTotal(),
+                            bigPayment.floatValue(),
+                            sale.getGrandTotal() - payment,
+                            false});
                     }
                     txtTotalInvoices.setText("" + totalAmount);
                 } else {
@@ -1009,6 +929,349 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
         }
     }
 
+    private void loadInhandCheques() {
+        String selectedItem = cmbAccount.getSelectedItem().toString();
+        if (!selectedItem.isEmpty()) {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+
+            Account account = (Account) session
+                    .createCriteria(Account.class)
+                    .add(Restrictions.eq("accountCode", selectedItem.split("-")[1].trim()))
+                    .uniqueResult();
+
+            BusinessPartner businessPartner = (BusinessPartner) session.load(BusinessPartner.class,
+                    account.getBusinessPartner().getBusinessPartnerCode());
+
+            List<AccountPosting> accountPostings = session
+                    .createCriteria(AccountPosting.class)
+                    .add(Restrictions.eq("businessPartner", businessPartner))
+                    .add(Restrictions.eq("account", session.load(Account.class, "ACC1005")))
+                    .add(Restrictions.eq("isActive", 1))
+                    .list();
+
+            DefaultTableModel tableModel = (DefaultTableModel) tblInhandCheques.getModel();
+            tableModel.setRowCount(0);
+
+            if (!accountPostings.isEmpty()) {
+
+                for (AccountPosting accountPosting : accountPostings) {
+                    int index = accountPosting.getId();
+                    String chequeNumber = accountPosting.getChequeNumber();
+                    String givenDate = SystemData.DATE_FORMAT.format(accountPosting.getCreatedDate());
+                    String chequeDate = SystemData.DATE_FORMAT.format(accountPosting.getChequeDate());
+                    float amount = accountPosting.getCredit();
+
+                    tableModel.addRow(new Object[]{chequeNumber, givenDate, chequeDate, amount, false, index});
+                }
+            }
+            session.close();
+        }
+    }
+
+    private void loadAdvancedPaid() {
+        String selectedItem = cmbAccount.getSelectedItem().toString();
+        if (!selectedItem.isEmpty()) {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+
+            Account account = (Account) session
+                    .createCriteria(Account.class)
+                    .add(Restrictions.eq("accountCode", selectedItem.split("-")[1].trim()))
+                    .uniqueResult();
+
+            BusinessPartner businessPartner = (BusinessPartner) session.load(BusinessPartner.class,
+                    account.getBusinessPartner().getBusinessPartnerCode());
+
+            List<AccountPosting> accountPostings = session
+                    .createCriteria(AccountPosting.class)
+                    .add(Restrictions.eq("businessPartner", businessPartner))
+                    .add(Restrictions.eq("account", session.load(Account.class, "ACC1005")))
+                    .add(Restrictions.eq("chequeNumber", ""))
+                    .list();
+
+            if (!accountPostings.isEmpty()) {
+                float total = 0.0f;
+                for (AccountPosting accountPosting : accountPostings) {
+                    float amount = accountPosting.getCredit();
+                    total += amount;
+                }
+
+                txtAdvancedAmount.setText("" + total);
+            }
+            session.close();
+        }
+    }
+
+    private void updateCashSettle(Session session) {
+        Transaction transaction = session.beginTransaction();
+        Date date = new Date();
+
+        float remainingAmount = Float.parseFloat(txtPayingAmount.getText().trim());
+        for (int i = 0; i < tblInvoices.getRowCount(); i++) {
+            boolean checked = (boolean) tblInvoices.getValueAt(i, 5);
+            if (checked) {
+                String invoiceNumber = (String) tblInvoices.getValueAt(i, 0);
+                double invoiceAmount = (double) tblInvoices.getValueAt(i, 4);
+
+                KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                String paymentCode = keyCodeFunctions.getKey("PAY", "Payments");
+
+                PaymentType paymentType = new PaymentType("PTY1000");
+
+                Invoice invoice = (Invoice) session
+                        .createCriteria(Invoice.class)
+                        .add(Restrictions.eq("invoiceNumber", invoiceNumber))
+                        .uniqueResult();
+
+                Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+                Payment payment = new Payment(paymentCode, invoice, paymentType);
+
+                float payingAmount;
+
+                if (remainingAmount >= invoiceAmount) {
+                    payment.setAmount((float) invoiceAmount);
+                    SaleStatus saleStatus = (SaleStatus) session
+                            .createCriteria(SaleStatus.class)
+                            .add(Restrictions.eq("statusDescription", "PAID"))
+                            .uniqueResult();
+                    sale.setSaleStatus(saleStatus);
+                    payingAmount = (float) invoiceAmount;
+                } else {
+                    payment.setAmount(remainingAmount);
+                    SaleStatus saleStatus = (SaleStatus) session
+                            .createCriteria(SaleStatus.class)
+                            .add(Restrictions.eq("statusDescription", "PARTIALLY PAID"))
+                            .uniqueResult();
+                    sale.setSaleStatus(saleStatus);
+                    payingAmount = remainingAmount;
+                }
+
+                payment.setCreatedDate(date);
+                payment.setCreatedTime(date);
+                payment.setCreatedUser(MainFrame.user.getUserId());
+
+                session.saveOrUpdate(payment);
+
+                session.saveOrUpdate(sale);
+
+                Account debitAccount = (Account) session
+                        .createCriteria(Account.class)
+                        .add(Restrictions.eq("accountCode", "ACC1002"))
+                        .uniqueResult();
+
+                Account creditAccount = (Account) session
+                        .createCriteria(Account.class)
+                        .add(Restrictions.eq("accountCode", cmbAccount.getSelectedItem().toString().split("-")[1].trim()))
+                        .uniqueResult();
+
+                PostAccounts accountPosting = new PostAccounts();
+                accountPosting.cashDebitPosting(debitAccount, invoice, "Cash settlemnt for " + sale.getSaleCode(), payingAmount);
+                accountPosting.cashCreditPosting(creditAccount, invoice, "Cash settlemnt for " + sale.getSaleCode(), payingAmount);
+
+                remainingAmount = remainingAmount - (float) invoiceAmount;
+            }
+        }
+        transaction.commit();
+
+        this.updateAdvanced(remainingAmount, session);
+    }
+
+    private void updateChequeSettle(Session session) {
+        boolean validateCheque = this.validateInhandChequeTable();
+        if (validateCheque && (cmbBank.getSelectedIndex() != 0)) {
+            Transaction transaction = session.beginTransaction();
+            Date date = new Date();
+
+            float remainingAmount = Float.parseFloat(txtPayingAmount.getText().trim());
+
+            for (int i = 0; i < tblInvoices.getRowCount(); i++) {
+                boolean invoceChecked = (boolean) tblInvoices.getValueAt(i, 5);
+                if (invoceChecked) {
+                    String invoiceNumber = (String) tblInvoices.getValueAt(i, 0);
+                    double invoiceAmount = (double) tblInvoices.getValueAt(i, 4);
+
+                    KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
+                    String paymentCode = keyCodeFunctions.getKey("PAY", "Payments");
+
+                    String bpCode = cmbAccount.getSelectedItem().toString().split("-")[1].trim();
+
+                    Account businessPatnerAccount = (Account) session
+                            .createCriteria(Account.class)
+                            .add(Restrictions.eq("accountCode", bpCode))
+                            .uniqueResult();
+
+                    BusinessPartner businessPartner = (BusinessPartner) session
+                            .createCriteria(BusinessPartner.class)
+                            .add(Restrictions.eq("businessPartnerCode", businessPatnerAccount.getBusinessPartner().getBusinessPartnerCode()))
+                            .uniqueResult();
+
+                    String bankCode = cmbBank.getSelectedItem().toString().split("-")[1].trim();
+
+                    Account bankAccount = (Account) session
+                            .createCriteria(Account.class)
+                            .add(Restrictions.eq("accountCode", bankCode))
+                            .uniqueResult();
+
+                    PaymentType paymentType = new PaymentType("PTY1001");
+
+                    Invoice invoice = (Invoice) session
+                            .createCriteria(Invoice.class)
+                            .add(Restrictions.eq("invoiceNumber", invoiceNumber))
+                            .uniqueResult();
+
+                    Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
+                    Payment payment = new Payment(paymentCode, invoice, paymentType);
+
+                    float payingAmount;
+
+                    if (remainingAmount >= invoiceAmount) {
+                        payment.setAmount((float) invoiceAmount);
+                        SaleStatus saleStatus = (SaleStatus) session
+                                .createCriteria(SaleStatus.class)
+                                .add(Restrictions.eq("statusDescription", "PAID"))
+                                .uniqueResult();
+                        sale.setSaleStatus(saleStatus);
+                        payingAmount = (float) invoiceAmount;
+                    } else {
+                        payment.setAmount(remainingAmount);
+                        SaleStatus saleStatus = (SaleStatus) session
+                                .createCriteria(SaleStatus.class)
+                                .add(Restrictions.eq("statusDescription", "PARTIALLY PAID"))
+                                .uniqueResult();
+                        sale.setSaleStatus(saleStatus);
+                        payingAmount = remainingAmount;
+                    }
+
+                    payment.setCreatedDate(date);
+                    payment.setCreatedTime(date);
+                    payment.setCreatedUser(MainFrame.user.getUserId());
+
+                    session.saveOrUpdate(payment);
+
+                    session.saveOrUpdate(sale);
+                    remainingAmount = remainingAmount - (float) invoiceAmount;
+
+                    for (int j = 0; j < tblInhandCheques.getRowCount(); j++) {
+                        boolean chequeChecked = (boolean) tblInhandCheques.getValueAt(i, 4);
+                        if (chequeChecked) {
+                            String chequeNumber = tblInhandCheques.getValueAt(j, 0).toString();
+                            float chequeAmount = (float) tblInhandCheques.getValueAt(j, 3);
+                            int index = (int) tblInhandCheques.getValueAt(j, 5);
+
+                            Account inhandChequeAccount = (Account) session
+                                    .createCriteria(Account.class)
+                                    .add(Restrictions.eq("accountCode", "ACC1004"))
+                                    .uniqueResult();
+
+                            Account unallocatedRecieptAccount = (Account) session
+                                    .createCriteria(Account.class)
+                                    .add(Restrictions.eq("accountCode", "ACC1005"))
+                                    .uniqueResult();
+
+                            AccountPosting chequePost = (AccountPosting) session
+                                    .createCriteria(AccountPosting.class)
+                                    .add(Restrictions.eq("id", index))
+                                    .uniqueResult();
+
+                            chequePost.setIsActive(0);
+                            session.saveOrUpdate(chequePost);
+
+                            PostAccounts postAccounts = new PostAccounts();
+                            postAccounts.doAccountPosting("Cheque numebr " + chequeNumber + " realized",
+                                    0.0f,
+                                    chequeAmount,
+                                    0,
+                                    chequeNumber,
+                                    null,
+                                    date,
+                                    "Cheque numebr " + chequeNumber + " realized",
+                                    invoice,
+                                    null,
+                                    null,
+                                    inhandChequeAccount);
+
+                            postAccounts.doAccountPosting("Cheque numebr " + chequeNumber + " realized",
+                                    chequeAmount,
+                                    0.0f,
+                                    0,
+                                    chequeNumber,
+                                    null,
+                                    date,
+                                    "Cheque numebr " + chequeNumber + " realized",
+                                    invoice,
+                                    null,
+                                    null,
+                                    bankAccount);
+
+                            postAccounts.doAccountPosting("Invoice " + invoiceNumber + " settled from " + businessPartner.getFirstName() + " " + businessPartner.getLastName(),
+                                    0.0f,
+                                    chequeAmount,
+                                    0,
+                                    "",
+                                    null,
+                                    null,
+                                    "Invoice " + invoiceNumber + " settled from " + businessPartner.getFirstName() + " " + businessPartner.getLastName(),
+                                    invoice,
+                                    null,
+                                    businessPartner,
+                                    businessPatnerAccount);
+
+                            postAccounts.doAccountPosting("Invoice " + invoiceNumber + " settled from " + businessPartner.getFirstName() + " " + businessPartner.getLastName(),
+                                    chequeAmount,
+                                    0.0f,
+                                    0,
+                                    "",
+                                    null,
+                                    null,
+                                    "Invoice " + invoiceNumber + " settled from " + businessPartner.getFirstName() + " " + businessPartner.getLastName(),
+                                    invoice,
+                                    null,
+                                    null,
+                                    unallocatedRecieptAccount);
+                        }
+                    }
+                }
+            }
+            transaction.commit();
+
+            this.updateAdvanced(remainingAmount, session);
+        }
+    }
+
+    private void updateAdvanced(float remainingAmount, Session session) {
+        if (remainingAmount > 0 && cbxAddToAdvance.isSelected()) {
+            Transaction transaction = session.beginTransaction();
+
+            Account businessPartnerAccount = (Account) session
+                    .createCriteria(Account.class)
+                    .add(Restrictions.eq("accountCode", cmbAccount.getSelectedItem().toString().split("-")[1].trim()))
+                    .uniqueResult();
+
+            Account debitAccount;
+            if (rbtCash.isSelected()) {
+                debitAccount = (Account) session
+                        .createCriteria(Account.class)
+                        .add(Restrictions.eq("description", cmbBank.getSelectedItem().toString()))
+                        .uniqueResult();
+            } else {
+                debitAccount = (Account) session
+                        .createCriteria(Account.class)
+                        .add(Restrictions.eq("accountCode", "ACC1002"))
+                        .uniqueResult();
+            }
+
+            Account creditAccount = (Account) session
+                    .createCriteria(Account.class)
+                    .add(Restrictions.eq("accountCode", "ACC1005"))
+                    .uniqueResult();
+
+            PostAccounts accountPosting = new PostAccounts();
+            accountPosting.generalDebitPosting(debitAccount, businessPartnerAccount.getBusinessPartner(), remainingAmount, "Advance paid by " + businessPartnerAccount.getDescription());
+            accountPosting.generalCreditPosting(creditAccount, businessPartnerAccount.getBusinessPartner(), remainingAmount, "Advance paid by " + businessPartnerAccount.getDescription());
+
+            transaction.commit();
+        }
+    }
+
     boolean validateInvoiceTable() {
         for (int i = 0; i < tblInvoices.getRowCount(); i++) {
             boolean checked = (boolean) tblInvoices.getValueAt(i, 5);
@@ -1021,7 +1284,7 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
 
     boolean validateInhandChequeTable() {
         for (int i = 0; i < tblInhandCheques.getRowCount(); i++) {
-            boolean checked = (boolean) tblInhandCheques.getValueAt(i, 5);
+            boolean checked = (boolean) tblInhandCheques.getValueAt(i, 4);
             if (checked) {
                 return true;
             }
@@ -1111,11 +1374,13 @@ public class BillSetoffFrame extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox cbxAddToAdvance;
     private javax.swing.JCheckBox cbxAddToInvoice;
     private javax.swing.JComboBox<String> cmbAccount;
+    private javax.swing.JComboBox<String> cmbBank;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JPanel inhandChequesPanel;
     private javax.swing.JPanel invoicePanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;

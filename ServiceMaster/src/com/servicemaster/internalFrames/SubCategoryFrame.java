@@ -553,8 +553,8 @@ public class SubCategoryFrame extends javax.swing.JInternalFrame {
         SubCategory subCategory = new SubCategory();
         subCategory.setSubCategoryCode(strSubCategoryCode);
         subCategory.setSubCategoryName(txtSubcategoryName.getText().toUpperCase().trim());
-        subCategory.setCategoryCode(category.getCategoryCode());
-        subCategory.setPrinterCode(printer.getPrinterCode());
+        subCategory.setCategory(category);
+        subCategory.setPrinter(printer);
         subCategory.setRemarks(txtRemark.getText().toUpperCase().trim());
         subCategory.setIsActive(cbxIsActive.isSelected() ? 1 : 0);
         if (bUpdate) {

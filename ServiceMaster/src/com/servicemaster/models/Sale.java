@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Dec 4, 2017 10:06:33 PM by Hibernate Tools 4.3.1
+// Generated Dec 31, 2017 12:24:02 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -22,6 +22,7 @@ public class Sale  implements java.io.Serializable {
      private Float discount;
      private Float grandTotal;
      private Integer discounted;
+     private Float paidAmount;
      private Integer isActive;
      private Date createdDate;
      private Date createdTime;
@@ -32,7 +33,6 @@ public class Sale  implements java.io.Serializable {
      private String remark;
      private Float currentMilage;
      private Float nextMilage;
-     private Float paidAmount;
      private Set saleEmployees = new HashSet(0);
      private Set saleItems = new HashSet(0);
      private Set invoices = new HashSet(0);
@@ -46,7 +46,7 @@ public class Sale  implements java.io.Serializable {
         this.businessPartner = businessPartner;
         this.saleStatus = saleStatus;
     }
-    public Sale(String saleCode, BusinessPartner businessPartner, SaleStatus saleStatus, ServiceBay serviceBay, Vehicle vehicle, Float previousMilage, Float subTotal, Float discount, Float grandTotal, Integer discounted, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Float currentMilage, Float nextMilage, Float paidAmount, Set saleEmployees, Set saleItems, Set invoices) {
+    public Sale(String saleCode, BusinessPartner businessPartner, SaleStatus saleStatus, ServiceBay serviceBay, Vehicle vehicle, Float previousMilage, Float subTotal, Float discount, Float grandTotal, Integer discounted, Float paidAmount, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Float currentMilage, Float nextMilage, Set saleEmployees, Set saleItems, Set invoices) {
        this.saleCode = saleCode;
        this.businessPartner = businessPartner;
        this.saleStatus = saleStatus;
@@ -57,6 +57,7 @@ public class Sale  implements java.io.Serializable {
        this.discount = discount;
        this.grandTotal = grandTotal;
        this.discounted = discounted;
+       this.paidAmount = paidAmount;
        this.isActive = isActive;
        this.createdDate = createdDate;
        this.createdTime = createdTime;
@@ -67,7 +68,6 @@ public class Sale  implements java.io.Serializable {
        this.remark = remark;
        this.currentMilage = currentMilage;
        this.nextMilage = nextMilage;
-       this.paidAmount = paidAmount;
        this.saleEmployees = saleEmployees;
        this.saleItems = saleItems;
        this.invoices = invoices;
@@ -143,6 +143,13 @@ public class Sale  implements java.io.Serializable {
     public void setDiscounted(Integer discounted) {
         this.discounted = discounted;
     }
+    public Float getPaidAmount() {
+        return this.paidAmount;
+    }
+    
+    public void setPaidAmount(Float paidAmount) {
+        this.paidAmount = paidAmount;
+    }
     public Integer getIsActive() {
         return this.isActive;
     }
@@ -212,13 +219,6 @@ public class Sale  implements java.io.Serializable {
     
     public void setNextMilage(Float nextMilage) {
         this.nextMilage = nextMilage;
-    }
-    public Float getPaidAmount() {
-        return this.paidAmount;
-    }
-    
-    public void setPaidAmount(Float paidAmount) {
-        this.paidAmount = paidAmount;
     }
     public Set getSaleEmployees() {
         return this.saleEmployees;

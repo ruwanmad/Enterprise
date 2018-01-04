@@ -245,9 +245,9 @@ public class AddressFrame extends javax.swing.JInternalFrame {
 
             Address localAddress = new Address();
             localAddress.setAddressCode(strAddressCode);
-            localAddress.setAdressLine1(txtAddressLine1.getText().trim());
-            localAddress.setAdressLine2(txtAddressLine2.getText().trim());
-            localAddress.setAdressLine3(txtAddressLine3.getText().trim());
+            localAddress.setAdressLine1(txtAddressLine1.getText().trim().toUpperCase());
+            localAddress.setAdressLine2(txtAddressLine2.getText().trim().toUpperCase());
+            localAddress.setAdressLine3(txtAddressLine3.getText().trim().toUpperCase());
             localAddress.setIsActive(0);
             localAddress.setCreatedDate(date);
             localAddress.setCreatedTime(date);

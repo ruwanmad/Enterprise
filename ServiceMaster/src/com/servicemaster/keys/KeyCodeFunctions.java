@@ -3,55 +3,63 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.servicemaster.keys;
 
 import com.servicemaster.frames.MainFrame;
 import com.servicemaster.models.KeyTable;
 import com.servicemaster.utils.HibernateUtil;
 import java.util.Date;
-import java.util.List;
-import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
  * @author RuwanM
  */
 public class KeyCodeFunctions {
-    public String getKey(String code, String remark){
+
+    public String getKey(String code, String remark) {
         String keyCode;
-        
+
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        
-        Query query = session.createQuery("from KeyTable k where k.keyCode = :code");
-        query.setParameter("code", code);
-        List keyList = query.list();
-        if (keyList.isEmpty()) {
-            KeyTable keyTable = new KeyTable();
-            keyTable.setKeyCode(code);
-            keyTable.setKeyNumber(1002);
-            keyTable.setKeyRemark(remark);
-            keyTable.setCreatedDate(new Date());
-            keyTable.setCreatedTime(new Date());
-            keyTable.setCreatedUser(MainFrame.user.getUserId());
-            session.saveOrUpdate(keyTable);
-            keyCode = code+"1001";
+
+        KeyTable key = (KeyTable) session
+                .createCriteria(KeyTable.class)
+                .add(Restrictions.eq("keyCode", code))
+                .uniqueResult();
+
+        if (key == null) {
+            key = new KeyTable();
+            key.setKeyCode(code);
+            if ("ACC".equalsIgnoreCase(code)) {
+                key.setKeyNumber(1012);
+            } else {
+                key.setKeyNumber(1002);
+            }
+            key.setKeyRemark(remark);
+            key.setCreatedDate(new Date());
+            key.setCreatedTime(new Date());
+            key.setCreatedUser(MainFrame.user.getUserId());
+            session.saveOrUpdate(key);
+            if ("ACC".equalsIgnoreCase(code)) {
+                keyCode = code + "1011";
+            } else {
+                keyCode = code + "1001";
+            }
         } else {
-            KeyTable keyTable = (KeyTable) keyList.get(0);
-            Integer keyNumber = keyTable.getKeyNumber();
-            keyTable.setKeyNumber(keyNumber + 1);
-            keyTable.setModifiedDate(new Date());
-            keyTable.setModifiedTime(new Date());
-            keyTable.setModifiedUser(MainFrame.user.getUserId());
-            session.saveOrUpdate(keyTable);
+            Integer keyNumber = key.getKeyNumber();
+            key.setKeyNumber(keyNumber + 1);
+            key.setModifiedDate(new Date());
+            key.setModifiedTime(new Date());
+            key.setModifiedUser(MainFrame.user.getUserId());
+            session.saveOrUpdate(key);
             keyCode = code + keyNumber;
         }
-        
+
         session.getTransaction().commit();
         session.close();
-        
+
         return keyCode;
     }
 }

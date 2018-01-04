@@ -648,8 +648,8 @@ public class SettlementDialog extends javax.swing.JDialog {
                     session.close();
 
                     PostAccounts accountPosting = new PostAccounts();
-                    accountPosting.creditDebitPosting(debitAccount, businessPartner, invoice, Integer.parseInt(creditDays), "Credit settlemnt for " + sale.getSaleCode());
-                    accountPosting.creditCreditPosting(creditAccount, businessPartner, invoice, Integer.parseInt(creditDays), "Credit settlemnt for " + sale.getSaleCode());
+                    accountPosting.creditDebitPosting(debitAccount, businessPartner, nowPayingAmount, invoice, Integer.parseInt(creditDays), "Credit settlemnt for " + sale.getSaleCode());
+                    accountPosting.creditCreditPosting(creditAccount, businessPartner, nowPayingAmount, invoice, Integer.parseInt(creditDays), "Credit settlemnt for " + sale.getSaleCode());
 
                     StockFunctions stockFunctions = new StockFunctions();
                     stockFunctions.reduceSaledStoke(sale.getSaleCode());

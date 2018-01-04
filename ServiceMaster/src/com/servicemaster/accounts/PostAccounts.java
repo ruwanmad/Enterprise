@@ -43,6 +43,7 @@ public class PostAccounts {
                 posting.setAccount(debitAccount);
                 posting.setDebit(amount);
                 posting.setInvoice(invoice);
+                posting.setIsActive(1);
                 posting.setCreatedDate(date);
                 posting.setCreatedTime(date);
                 posting.setCreatedUser(MainFrame.user.getUserId());
@@ -93,6 +94,7 @@ public class PostAccounts {
                 posting.setNumberOfDays(creditDays);
                 posting.setChequeNumber(chequeNumber);
                 posting.setInvoice(invoice);
+                posting.setIsActive(1);
                 posting.setCreatedDate(date);
                 posting.setCreatedTime(date);
                 posting.setCreatedUser(MainFrame.user.getUserId());
@@ -111,6 +113,7 @@ public class PostAccounts {
 
     public void creditDebitPosting(Account debitAccount,
             BusinessPartner businessPartner,
+            float amount,
             Invoice invoice,
             int cretidDays,
             String narration) {
@@ -121,14 +124,13 @@ public class PostAccounts {
 
                 Date date = new Date();
 
-                Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
-
                 AccountPosting posting = new AccountPosting();
                 posting.setAccount(debitAccount);
-                posting.setDebit(sale.getGrandTotal());
+                posting.setDebit(amount);
                 posting.setBusinessPartner(businessPartner);
                 posting.setNumberOfDays(cretidDays);
                 posting.setInvoice(invoice);
+                posting.setIsActive(1);
                 posting.setCreatedDate(date);
                 posting.setCreatedTime(date);
                 posting.setCreatedUser(MainFrame.user.getUserId());
@@ -166,6 +168,7 @@ public class PostAccounts {
                 posting.setDebit(sale.getGrandTotal());
                 posting.setRemark(bank + ";" + cardType + ";" + cardNumber + ";" + SystemData.DATE_FORMAT.format(expireDate));
                 posting.setInvoice(invoice);
+                posting.setIsActive(1);
                 posting.setCreatedDate(date);
                 posting.setCreatedTime(date);
                 posting.setCreatedUser(MainFrame.user.getUserId());
@@ -197,6 +200,7 @@ public class PostAccounts {
                 posting.setAccount(creditAccount);
                 posting.setDebit(amount);
                 posting.setBusinessPartner(businessPartner);
+                posting.setIsActive(1);
                 posting.setCreatedDate(date);
                 posting.setCreatedTime(date);
                 posting.setCreatedUser(MainFrame.user.getUserId());
@@ -228,6 +232,7 @@ public class PostAccounts {
                 posting.setAccount(creditAccount);
                 posting.setCredit(amount);
                 posting.setInvoice(invoice);
+                posting.setIsActive(1);
                 posting.setCreatedDate(date);
                 posting.setCreatedTime(date);
                 posting.setCreatedUser(MainFrame.user.getUserId());
@@ -278,6 +283,7 @@ public class PostAccounts {
                 posting.setNumberOfDays(creditDays);
                 posting.setChequeNumber(chequeNumber);
                 posting.setInvoice(invoice);
+                posting.setIsActive(1);
                 posting.setCreatedDate(date);
                 posting.setCreatedTime(date);
                 posting.setCreatedUser(MainFrame.user.getUserId());
@@ -296,6 +302,7 @@ public class PostAccounts {
 
     public void creditCreditPosting(Account creditAccount,
             BusinessPartner businessPartner,
+            float amount,
             Invoice invoice,
             int cretidDays,
             String narration) {
@@ -306,14 +313,13 @@ public class PostAccounts {
 
                 Date date = new Date();
 
-                Sale sale = (Sale) session.load(Sale.class, invoice.getSale().getSaleCode());
-
                 AccountPosting posting = new AccountPosting();
                 posting.setAccount(creditAccount);
-                posting.setCredit(sale.getGrandTotal());
+                posting.setCredit(amount);
                 posting.setBusinessPartner(businessPartner);
                 posting.setNumberOfDays(cretidDays);
                 posting.setInvoice(invoice);
+                posting.setIsActive(1);
                 posting.setCreatedDate(date);
                 posting.setCreatedTime(date);
                 posting.setCreatedUser(MainFrame.user.getUserId());
@@ -351,6 +357,7 @@ public class PostAccounts {
                 posting.setCredit(sale.getGrandTotal());
                 posting.setRemark(bank + ";" + cardType + ";" + cardNumber + ";" + SystemData.DATE_FORMAT.format(expireDate));
                 posting.setInvoice(invoice);
+                posting.setIsActive(1);
                 posting.setCreatedDate(date);
                 posting.setCreatedTime(date);
                 posting.setCreatedUser(MainFrame.user.getUserId());
@@ -382,6 +389,7 @@ public class PostAccounts {
                 posting.setAccount(creditAccount);
                 posting.setCredit(amount);
                 posting.setBusinessPartner(businessPartner);
+                posting.setIsActive(1);
                 posting.setCreatedDate(date);
                 posting.setCreatedTime(date);
                 posting.setCreatedUser(MainFrame.user.getUserId());
@@ -394,6 +402,52 @@ public class PostAccounts {
                 session.close();
             }
         } catch (HibernateException ex) {
+            LOGGER.error(ex);
+        }
+    }
+
+    public void doAccountPosting(String narration,
+            float debit,
+            float credit,
+            int numberofDays,
+            String chequeNumber,
+            Date chequeDate,
+            Date postedDate,
+            String remark,
+            Invoice invoice,
+            Grn grn,
+            BusinessPartner businessPartner,
+            Account account) {
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+            
+            Date date = new Date();
+            
+            AccountPosting accountPosting = new AccountPosting();
+            accountPosting.setNarration(narration);
+            accountPosting.setDebit(debit);
+            accountPosting.setCredit(credit);
+            accountPosting.setNumberOfDays(numberofDays);
+            accountPosting.setChequeNumber(chequeNumber);
+            accountPosting.setChequeDate(chequeDate);
+            accountPosting.setPostedDate(postedDate);
+            accountPosting. setRemark(remark);
+            accountPosting.setInvoice(invoice);
+            accountPosting.setGrn(grn);
+            accountPosting.setBusinessPartner(businessPartner);
+            accountPosting.setAccount(account);
+            
+            accountPosting.setIsActive(1);
+            accountPosting.setCreatedDate(date);
+            accountPosting.setCreatedTime(date);
+            accountPosting.setCreatedUser(MainFrame.user.getUserId());
+            
+            session.saveOrUpdate(accountPosting);
+            
+            transaction.commit();
+            session.close();
+        } catch (HibernateException | NullPointerException ex) {
             LOGGER.error(ex);
         }
     }

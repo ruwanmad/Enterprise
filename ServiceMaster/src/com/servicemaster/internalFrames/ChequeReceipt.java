@@ -335,7 +335,7 @@ public class ChequeReceipt extends javax.swing.JInternalFrame {
                 
                 Account uarAccount = (Account) session
                         .createCriteria(Account.class)
-                        .add(Restrictions.eq("accountCode", "ACC1006"))
+                        .add(Restrictions.eq("accountCode", "ACC1005"))
                         .uniqueResult();
                 
                 transaction.commit();

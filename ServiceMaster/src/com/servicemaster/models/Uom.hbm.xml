@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 4, 2017 10:06:43 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 31, 2017 12:24:05 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.servicemaster.models.Uom" table="uom" catalog="enterprisedb" optimistic-lock="version">
         <id name="uomCode" type="string">
@@ -50,15 +50,15 @@
             </key>
             <one-to-many class="com.servicemaster.models.Item" />
         </set>
-        <set name="uomConversionsForUomUomCodeFrom" table="uom_conversion" inverse="true" lazy="true" fetch="select">
+        <set name="uomConversionsForUomFrom" table="uom_conversion" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="uom_uom_code_from" length="15" not-null="true" />
+                <column name="uom_from" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.UomConversion" />
         </set>
-        <set name="uomConversionsForUomUomCodeTo" table="uom_conversion" inverse="true" lazy="true" fetch="select">
+        <set name="uomConversionsForUomTo" table="uom_conversion" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="uom_uom_code_to" length="15" not-null="true" />
+                <column name="uom_to" length="15" not-null="true" />
             </key>
             <one-to-many class="com.servicemaster.models.UomConversion" />
         </set>

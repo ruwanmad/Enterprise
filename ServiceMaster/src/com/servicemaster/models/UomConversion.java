@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Dec 4, 2017 10:06:33 PM by Hibernate Tools 4.3.1
+// Generated Dec 31, 2017 12:24:02 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,8 +11,8 @@ public class UomConversion  implements java.io.Serializable {
 
 
      private String uomConversionCode;
-     private Uom uomByUomUomCodeFrom;
-     private Uom uomByUomUomCodeTo;
+     private Uom uomByUomFrom;
+     private Uom uomByUomTo;
      private Float multipliedBy;
      private Float dividedBy;
      private Integer isActive;
@@ -28,15 +28,15 @@ public class UomConversion  implements java.io.Serializable {
     }
 
 	
-    public UomConversion(String uomConversionCode, Uom uomByUomUomCodeFrom, Uom uomByUomUomCodeTo) {
+    public UomConversion(String uomConversionCode, Uom uomByUomFrom, Uom uomByUomTo) {
         this.uomConversionCode = uomConversionCode;
-        this.uomByUomUomCodeFrom = uomByUomUomCodeFrom;
-        this.uomByUomUomCodeTo = uomByUomUomCodeTo;
+        this.uomByUomFrom = uomByUomFrom;
+        this.uomByUomTo = uomByUomTo;
     }
-    public UomConversion(String uomConversionCode, Uom uomByUomUomCodeFrom, Uom uomByUomUomCodeTo, Float multipliedBy, Float dividedBy, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks) {
+    public UomConversion(String uomConversionCode, Uom uomByUomFrom, Uom uomByUomTo, Float multipliedBy, Float dividedBy, Integer isActive, Date createdDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remarks) {
        this.uomConversionCode = uomConversionCode;
-       this.uomByUomUomCodeFrom = uomByUomUomCodeFrom;
-       this.uomByUomUomCodeTo = uomByUomUomCodeTo;
+       this.uomByUomFrom = uomByUomFrom;
+       this.uomByUomTo = uomByUomTo;
        this.multipliedBy = multipliedBy;
        this.dividedBy = dividedBy;
        this.isActive = isActive;
@@ -56,19 +56,19 @@ public class UomConversion  implements java.io.Serializable {
     public void setUomConversionCode(String uomConversionCode) {
         this.uomConversionCode = uomConversionCode;
     }
-    public Uom getUomByUomUomCodeFrom() {
-        return this.uomByUomUomCodeFrom;
+    public Uom getUomByUomFrom() {
+        return this.uomByUomFrom;
     }
     
-    public void setUomByUomUomCodeFrom(Uom uomByUomUomCodeFrom) {
-        this.uomByUomUomCodeFrom = uomByUomUomCodeFrom;
+    public void setUomByUomFrom(Uom uomByUomFrom) {
+        this.uomByUomFrom = uomByUomFrom;
     }
-    public Uom getUomByUomUomCodeTo() {
-        return this.uomByUomUomCodeTo;
+    public Uom getUomByUomTo() {
+        return this.uomByUomTo;
     }
     
-    public void setUomByUomUomCodeTo(Uom uomByUomUomCodeTo) {
-        this.uomByUomUomCodeTo = uomByUomUomCodeTo;
+    public void setUomByUomTo(Uom uomByUomTo) {
+        this.uomByUomTo = uomByUomTo;
     }
     public Float getMultipliedBy() {
         return this.multipliedBy;

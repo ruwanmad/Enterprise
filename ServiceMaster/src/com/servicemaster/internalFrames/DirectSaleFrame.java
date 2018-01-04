@@ -29,6 +29,7 @@ import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -54,6 +55,7 @@ import org.hibernate.criterion.Restrictions;
 public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
     private final TreeMap<String, SaleStatus> saleStatusMap = new TreeMap<>();
+    private final ArrayList<String> addedItems = new ArrayList<>();
 
     private float grandSubTotal = 0.0f;
     private float grandTotal = 0.0f;
@@ -805,6 +807,8 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             if (selectedRow == -1) {
                 InformationDialog.showMessageBox("Please select a valid item", "Invalid", null);
             } else {
+                String itemCode = tblItems.getValueAt(tblItems.getSelectedRow(), 0).toString();
+                
                 grandSubTotal = grandSubTotal - (((float) tblItems.getValueAt(tblItems.getSelectedRow(), 2))
                         * ((float) tblItems.getValueAt(tblItems.getSelectedRow(), 3)));
                 grandDiscount = grandDiscount - (float) tblItems.getValueAt(tblItems.getSelectedRow(), 5);
@@ -816,6 +820,8 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
 
                 DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
                 tableModel.removeRow(tblItems.getSelectedRow());
+                                
+                addedItems.remove(itemCode);
             }
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -977,61 +983,26 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                         .add(Restrictions.eq("itemCode", tempItemCode))
                         .uniqueResult();
 
-                if (item.getFromBom()) {
-                    Bom bom = (Bom) session.createCriteria(Bom.class)
-                            .add(Restrictions.eq("item", item))
-                            .uniqueResult();
+                if (addedItems.contains(item.getItemCode())) {
+                    InformationDialog.showMessageBox("Item already added. Please modify existing entry", "Already Added", null);
+                    txtItemSearchKey.setText("");
+                    txtItemSearchKey.setForeground(Color.BLACK);
+                    txtItemSearchKey.setSelectionColor(Color.BLUE);
+                    txtItemName.setText("");
+                    txtQuantity.setText("0.0");
+                    txtUnitPrice.setText("0.0");
+                    txtDiscount.setText("0.0");
+                    rbtPercentage.setSelected(true);
+                } else {
+                    if (item.getFromBom()) {
+                        Bom bom = (Bom) session.createCriteria(Bom.class)
+                                .add(Restrictions.eq("item", item))
+                                .uniqueResult();
 
-                    if (bom == null) {
-                        String itemCode = item.getItemCode();
-                        float unitPrice = this.getItemSellingPrice(item);
-                        float subTotal = quantity * unitPrice;
-                        float discount = Float.parseFloat(txtDiscount.getText().trim());
-                        float total = 0.0f;
-                        if (discount != 0.0) {
-                            if (rbtPercentage.isSelected()) {
-                                discount = (subTotal * discount) / 100;
-                                total = subTotal - discount;
-                            } else if (rbtNumber.isSelected()) {
-                                total = subTotal - discount;
-                            }
-                        } else {
-                            total = subTotal;
-                        }
-
-                        DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-                        tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
-
-                        txtItemSearchKey.setText("");
-                        txtItemSearchKey.setForeground(Color.BLACK);
-                        txtItemSearchKey.setSelectionColor(Color.BLUE);
-                        txtItemName.setText("");
-                        txtQuantity.setText("0.0");
-                        txtUnitPrice.setText("0.0");
-                        txtDiscount.setText("0.0");
-                        rbtPercentage.setSelected(true);
-
-                        grandSubTotal += subTotal;
-                        grandDiscount += discount;
-                        grandTotal += total;
-
-                        txtGrandSubTotal.setText("" + grandSubTotal);
-                        txtGrandDiscount.setText("" + grandDiscount);
-                        txtGrandTotal.setText("" + grandTotal);
-                    } else {
-                        List<BomItem> bomItems = session.createCriteria(BomItem.class)
-                                .add(Restrictions.eq("bom", bom))
-                                .addOrder(Order.asc("item.itemCode"))
-                                .list();
-                        for (BomItem bomItem : bomItems) {
-                            Item releventItem = (Item) session.createCriteria(Item.class)
-                                    .add(Restrictions.eq("itemCode", bomItem.getItem().getItemCode()))
-                                    .uniqueResult();
-
-                            String itemCode = releventItem.getItemCode();
-                            float unitPrice = bomItem.getUnitPrice();
-                            quantity = bomItem.getBomItemQuantity();
-                            float subTotal = bomItem.getSellingPrice();
+                        if (bom == null) {
+                            String itemCode = item.getItemCode();
+                            float unitPrice = this.getItemSellingPrice(item);
+                            float subTotal = quantity * unitPrice;
                             float discount = Float.parseFloat(txtDiscount.getText().trim());
                             float total = 0.0f;
                             if (discount != 0.0) {
@@ -1046,7 +1017,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                             }
 
                             DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-                            tableModel.addRow(new Object[]{itemCode, releventItem.getItemName(), quantity, unitPrice, subTotal, discount, total});
+                            tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
 
                             txtItemSearchKey.setText("");
                             txtItemSearchKey.setForeground(Color.BLACK);
@@ -1064,55 +1035,82 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                             txtGrandSubTotal.setText("" + grandSubTotal);
                             txtGrandDiscount.setText("" + grandDiscount);
                             txtGrandTotal.setText("" + grandTotal);
-                        }
-                    }
-                } else {
-                    String itemCode = item.getItemCode();
-                    float unitPrice = Float.parseFloat(txtUnitPrice.getText().trim());
-                    float subTotal = quantity * unitPrice;
-                    float discount = Float.parseFloat(txtDiscount.getText().trim());
-                    float total = 0.0f;
-                    if (discount != 0.0) {
-                        if (rbtPercentage.isSelected()) {
-                            discount = (subTotal * discount) / 100;
-                            total = subTotal - discount;
-                        } else if (rbtNumber.isSelected()) {
-                            total = subTotal - discount;
-                        }
-                    } else {
-                        total = subTotal;
-                    }
+                        } else {
+                            List<BomItem> bomItems = session.createCriteria(BomItem.class)
+                                    .add(Restrictions.eq("bom", bom))
+                                    .addOrder(Order.asc("item.itemCode"))
+                                    .list();
+                            for (BomItem bomItem : bomItems) {
+                                Item releventItem = (Item) session.createCriteria(Item.class)
+                                        .add(Restrictions.eq("itemCode", bomItem.getItem().getItemCode()))
+                                        .uniqueResult();
 
-                    DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
-                    tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
+                                String itemCode = releventItem.getItemCode();
+                                float unitPrice = bomItem.getUnitPrice();
+                                quantity = bomItem.getBomItemQuantity();
+                                float subTotal = bomItem.getSellingPrice();
+                                float discount = Float.parseFloat(txtDiscount.getText().trim());
+                                float total = 0.0f;
+                                if (discount != 0.0) {
+                                    if (rbtPercentage.isSelected()) {
+                                        discount = (subTotal * discount) / 100;
+                                        total = subTotal - discount;
+                                    } else if (rbtNumber.isSelected()) {
+                                        total = subTotal - discount;
+                                    }
+                                } else {
+                                    total = subTotal;
+                                }
 
-                    List<SellingPrice> sellingPrices = session
-                            .createCriteria(SellingPrice.class)
-                            .add(Restrictions.eq("item", item))
-                            .list();
+                                DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                                tableModel.addRow(new Object[]{itemCode, releventItem.getItemName(), quantity, unitPrice, subTotal, discount, total});
 
-                    Date date = new Date();
+                                txtItemSearchKey.setText("");
+                                txtItemSearchKey.setForeground(Color.BLACK);
+                                txtItemSearchKey.setSelectionColor(Color.BLUE);
+                                txtItemName.setText("");
+                                txtQuantity.setText("0.0");
+                                txtUnitPrice.setText("0.0");
+                                txtDiscount.setText("0.0");
+                                rbtPercentage.setSelected(true);
 
-                    if (sellingPrices.isEmpty()) {
-                        SellingPrice sellingPrice = new SellingPrice();
-                        sellingPrice.setItem(item);
-                        sellingPrice.setSellingPrice(unitPrice);
-                        sellingPrice.setRemark("Added by system.");
-                        sellingPrice.setEffectiveDate(date);
-                        sellingPrice.setCreatedDate(date);
-                        sellingPrice.setCreatedTime(date);
-                        sellingPrice.setCreatedUser(MainFrame.user.getUserId());
+                                grandSubTotal += subTotal;
+                                grandDiscount += discount;
+                                grandTotal += total;
 
-                        session.saveOrUpdate(sellingPrice);
-                    } else {
-                        boolean found = false;
-                        for (SellingPrice sellingPrice : sellingPrices) {
-                            if (sellingPrice.getSellingPrice() > 0.0f) {
-                                found = true;
-                                break;
+                                txtGrandSubTotal.setText("" + grandSubTotal);
+                                txtGrandDiscount.setText("" + grandDiscount);
+                                txtGrandTotal.setText("" + grandTotal);
                             }
                         }
-                        if (!found) {
+                    } else {
+                        String itemCode = item.getItemCode();
+                        float unitPrice = Float.parseFloat(txtUnitPrice.getText().trim());
+                        float subTotal = quantity * unitPrice;
+                        float discount = Float.parseFloat(txtDiscount.getText().trim());
+                        float total = 0.0f;
+                        if (discount != 0.0) {
+                            if (rbtPercentage.isSelected()) {
+                                discount = (subTotal * discount) / 100;
+                                total = subTotal - discount;
+                            } else if (rbtNumber.isSelected()) {
+                                total = subTotal - discount;
+                            }
+                        } else {
+                            total = subTotal;
+                        }
+
+                        DefaultTableModel tableModel = (DefaultTableModel) tblItems.getModel();
+                        tableModel.addRow(new Object[]{itemCode, itemName, quantity, unitPrice, subTotal, discount, total});
+
+                        List<SellingPrice> sellingPrices = session
+                                .createCriteria(SellingPrice.class)
+                                .add(Restrictions.eq("item", item))
+                                .list();
+
+                        Date date = new Date();
+
+                        if (sellingPrices.isEmpty()) {
                             SellingPrice sellingPrice = new SellingPrice();
                             sellingPrice.setItem(item);
                             sellingPrice.setSellingPrice(unitPrice);
@@ -1123,25 +1121,46 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                             sellingPrice.setCreatedUser(MainFrame.user.getUserId());
 
                             session.saveOrUpdate(sellingPrice);
+                        } else {
+                            boolean found = false;
+                            for (SellingPrice sellingPrice : sellingPrices) {
+                                if (sellingPrice.getSellingPrice() > 0.0f) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found) {
+                                SellingPrice sellingPrice = new SellingPrice();
+                                sellingPrice.setItem(item);
+                                sellingPrice.setSellingPrice(unitPrice);
+                                sellingPrice.setRemark("Added by system.");
+                                sellingPrice.setEffectiveDate(date);
+                                sellingPrice.setCreatedDate(date);
+                                sellingPrice.setCreatedTime(date);
+                                sellingPrice.setCreatedUser(MainFrame.user.getUserId());
+
+                                session.saveOrUpdate(sellingPrice);
+                            }
                         }
+
+                        txtItemSearchKey.setText("");
+                        txtItemSearchKey.setForeground(Color.BLACK);
+                        txtItemSearchKey.setSelectionColor(Color.BLUE);
+                        txtItemName.setText("");
+                        txtQuantity.setText("0.0");
+                        txtUnitPrice.setText("0.0");
+                        txtDiscount.setText("0.0");
+                        rbtPercentage.setSelected(true);
+
+                        grandSubTotal += subTotal;
+                        grandDiscount += discount;
+                        grandTotal += total;
+
+                        txtGrandSubTotal.setText("" + grandSubTotal);
+                        txtGrandDiscount.setText("" + grandDiscount);
+                        txtGrandTotal.setText("" + grandTotal);
                     }
-
-                    txtItemSearchKey.setText("");
-                    txtItemSearchKey.setForeground(Color.BLACK);
-                    txtItemSearchKey.setSelectionColor(Color.BLUE);
-                    txtItemName.setText("");
-                    txtQuantity.setText("0.0");
-                    txtUnitPrice.setText("0.0");
-                    txtDiscount.setText("0.0");
-                    rbtPercentage.setSelected(true);
-
-                    grandSubTotal += subTotal;
-                    grandDiscount += discount;
-                    grandTotal += total;
-
-                    txtGrandSubTotal.setText("" + grandSubTotal);
-                    txtGrandDiscount.setText("" + grandDiscount);
-                    txtGrandTotal.setText("" + grandTotal);
+                    addedItems.add(item.getItemCode());
                 }
 
                 txtItemSearchKey.requestFocus();
@@ -1250,12 +1269,12 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            
+
             this.loadBusinessPartners(session);
-            
+
             session.getTransaction().commit();
             session.close();
-            
+
             cmbBusinessPartner.requestFocus();
         } catch (HibernateException ex) {
             LOGGER.error(ex);
@@ -1272,27 +1291,27 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             KeyCodeFunctions keyCodeFunctions = new KeyCodeFunctions();
             String invoiceCode = keyCodeFunctions.getKey("INV", "Invoices");
             Date date = new Date();
-            
+
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
-            
+
             Invoice invoice = new Invoice(invoiceCode, sale);
             invoice.setCreatedDate(date);
             invoice.setCreatedTime(date);
             invoice.setCreatedUser(MainFrame.user.getUserId());
-            
+
             session.saveOrUpdate(invoice);
-            
+
             Set invoices = new HashSet();
             invoices.add(invoice);
-            
+
             sale.setInvoices(invoices);
-            
+
             session.saveOrUpdate(sale);
-            
+
             transaction.commit();
             session.close();
-            
+
             return invoice;
         } catch (HibernateException ex) {
             LOGGER.error(ex);
@@ -1307,7 +1326,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                     .add(Restrictions.eq("isCustomer", true))
                     .addOrder(Order.asc("businessPartnerCode"))
                     .list();
-            
+
             if (!businessPartners.isEmpty()) {
                 cmbBusinessPartner.removeAllItems();
                 for (BusinessPartner businessPartner : businessPartners) {
@@ -1325,7 +1344,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
                     .createCriteria(SaleStatus.class)
                     .addOrder(Order.asc("statusId"))
                     .list();
-            
+
             if (!saleStatuses.isEmpty()) {
                 saleStatusMap.clear();
                 for (SaleStatus saleStatus : saleStatuses) {
@@ -1366,14 +1385,14 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
     private float getItemSellingPrice(Item item) {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
-            
+
             List<SellingPrice> todaySellingPrices = session
                     .createCriteria(SellingPrice.class)
                     .add(Restrictions.eq("item", item))
                     .add(Restrictions.eq("effectiveDate", new Date()))
                     .addOrder(Order.desc("createdTime"))
                     .list();
-            
+
             if (todaySellingPrices.isEmpty()) {
                 List<SellingPrice> sellingPrices = session
                         .createCriteria(SellingPrice.class)
@@ -1429,6 +1448,7 @@ public class DirectSaleFrame extends javax.swing.JInternalFrame {
             txtGrandDiscount.setText("" + grandDiscount);
             txtGrandTotal.setText("" + grandTotal);
 
+            addedItems.remove(itemCode);
             txtQuantity.requestFocus();
         } else {
             JOptionPane.showMessageDialog(this, "Please select a valid item.", "Invalid", JOptionPane.INFORMATION_MESSAGE);

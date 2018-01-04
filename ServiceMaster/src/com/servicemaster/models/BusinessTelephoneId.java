@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Dec 4, 2017 10:06:33 PM by Hibernate Tools 4.3.1
+// Generated Dec 31, 2017 12:24:02 PM by Hibernate Tools 4.3.1
 
 
 
@@ -9,30 +9,30 @@ package com.servicemaster.models;
 public class BusinessTelephoneId  implements java.io.Serializable {
 
 
-     private String telephoneNumberTelephoneNumberCode;
-     private String businessPartnerBusinessPartnerCode;
+     private String telephoneNumberCode;
+     private String businessPartnerCode;
 
     public BusinessTelephoneId() {
     }
 
-    public BusinessTelephoneId(String telephoneNumberTelephoneNumberCode, String businessPartnerBusinessPartnerCode) {
-       this.telephoneNumberTelephoneNumberCode = telephoneNumberTelephoneNumberCode;
-       this.businessPartnerBusinessPartnerCode = businessPartnerBusinessPartnerCode;
+    public BusinessTelephoneId(String telephoneNumberCode, String businessPartnerCode) {
+       this.telephoneNumberCode = telephoneNumberCode;
+       this.businessPartnerCode = businessPartnerCode;
     }
    
-    public String getTelephoneNumberTelephoneNumberCode() {
-        return this.telephoneNumberTelephoneNumberCode;
+    public String getTelephoneNumberCode() {
+        return this.telephoneNumberCode;
     }
     
-    public void setTelephoneNumberTelephoneNumberCode(String telephoneNumberTelephoneNumberCode) {
-        this.telephoneNumberTelephoneNumberCode = telephoneNumberTelephoneNumberCode;
+    public void setTelephoneNumberCode(String telephoneNumberCode) {
+        this.telephoneNumberCode = telephoneNumberCode;
     }
-    public String getBusinessPartnerBusinessPartnerCode() {
-        return this.businessPartnerBusinessPartnerCode;
+    public String getBusinessPartnerCode() {
+        return this.businessPartnerCode;
     }
     
-    public void setBusinessPartnerBusinessPartnerCode(String businessPartnerBusinessPartnerCode) {
-        this.businessPartnerBusinessPartnerCode = businessPartnerBusinessPartnerCode;
+    public void setBusinessPartnerCode(String businessPartnerCode) {
+        this.businessPartnerCode = businessPartnerCode;
     }
 
 
@@ -42,15 +42,15 @@ public class BusinessTelephoneId  implements java.io.Serializable {
 		 if ( !(other instanceof BusinessTelephoneId) ) return false;
 		 BusinessTelephoneId castOther = ( BusinessTelephoneId ) other; 
          
-		 return ( (this.getTelephoneNumberTelephoneNumberCode()==castOther.getTelephoneNumberTelephoneNumberCode()) || ( this.getTelephoneNumberTelephoneNumberCode()!=null && castOther.getTelephoneNumberTelephoneNumberCode()!=null && this.getTelephoneNumberTelephoneNumberCode().equals(castOther.getTelephoneNumberTelephoneNumberCode()) ) )
- && ( (this.getBusinessPartnerBusinessPartnerCode()==castOther.getBusinessPartnerBusinessPartnerCode()) || ( this.getBusinessPartnerBusinessPartnerCode()!=null && castOther.getBusinessPartnerBusinessPartnerCode()!=null && this.getBusinessPartnerBusinessPartnerCode().equals(castOther.getBusinessPartnerBusinessPartnerCode()) ) );
+		 return ( (this.getTelephoneNumberCode()==castOther.getTelephoneNumberCode()) || ( this.getTelephoneNumberCode()!=null && castOther.getTelephoneNumberCode()!=null && this.getTelephoneNumberCode().equals(castOther.getTelephoneNumberCode()) ) )
+ && ( (this.getBusinessPartnerCode()==castOther.getBusinessPartnerCode()) || ( this.getBusinessPartnerCode()!=null && castOther.getBusinessPartnerCode()!=null && this.getBusinessPartnerCode().equals(castOther.getBusinessPartnerCode()) ) );
    }
    
    public int hashCode() {
          int result = 17;
          
-         result = 37 * result + ( getTelephoneNumberTelephoneNumberCode() == null ? 0 : this.getTelephoneNumberTelephoneNumberCode().hashCode() );
-         result = 37 * result + ( getBusinessPartnerBusinessPartnerCode() == null ? 0 : this.getBusinessPartnerBusinessPartnerCode().hashCode() );
+         result = 37 * result + ( getTelephoneNumberCode() == null ? 0 : this.getTelephoneNumberCode().hashCode() );
+         result = 37 * result + ( getBusinessPartnerCode() == null ? 0 : this.getBusinessPartnerCode().hashCode() );
          return result;
    }   
 

@@ -402,7 +402,7 @@ public class SalesReportFrame extends javax.swing.JInternalFrame {
                 if (jasperPrint.getPages().size() > 0) {
                     JasperViewer.viewReport(jasperPrint, false);
                 } else {
-                    InformationDialog.showMessageBox("No records found", "Not Found", this);
+                    InformationDialog.showMessageBox("No records found", "Not Found", null);
                 }
             } catch (JRException ex) {
                 Logger.getLogger(SalesReportFrame.class.getName()).log(Level.SEVERE, null, ex);

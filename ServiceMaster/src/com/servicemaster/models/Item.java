@@ -1,5 +1,5 @@
 package com.servicemaster.models;
-// Generated Dec 4, 2017 10:06:33 PM by Hibernate Tools 4.3.1
+// Generated Dec 31, 2017 12:24:02 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,15 +13,17 @@ public class Item  implements java.io.Serializable {
 
 
      private String itemCode;
+     private IssueMethod issueMethod;
      private Item item;
      private ItemBrand itemBrand;
+     private ItemType itemType;
+     private RackSlot rackSlot;
      private SubCategory subCategory;
      private Uom uomByBuyingUom;
      private Uom uomBySellingUom;
      private String itemName;
      private String printName;
      private String searchKey;
-     private String issueMethod;
      private Float reorderQuantity;
      private Float itemQuantity;
      private Integer isPhysical;
@@ -34,9 +36,6 @@ public class Item  implements java.io.Serializable {
      private Date modifiedTime;
      private Integer modifiedUser;
      private String remark;
-     private String rackSlotCode;
-     private int issueMethodId;
-     private String itemTypeCode;
      private Set items = new HashSet(0);
      private Set boms = new HashSet(0);
      private Set grnLines = new HashSet(0);
@@ -49,27 +48,29 @@ public class Item  implements java.io.Serializable {
     }
 
 	
-    public Item(String itemCode, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, String rackSlotCode, int issueMethodId, String itemTypeCode) {
+    public Item(String itemCode, IssueMethod issueMethod, ItemType itemType, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName) {
         this.itemCode = itemCode;
+        this.issueMethod = issueMethod;
+        this.itemType = itemType;
+        this.rackSlot = rackSlot;
         this.subCategory = subCategory;
         this.uomByBuyingUom = uomByBuyingUom;
         this.uomBySellingUom = uomBySellingUom;
         this.itemName = itemName;
-        this.rackSlotCode = rackSlotCode;
-        this.issueMethodId = issueMethodId;
-        this.itemTypeCode = itemTypeCode;
     }
-    public Item(String itemCode, Item item, ItemBrand itemBrand, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, String printName, String searchKey, String issueMethod, Float reorderQuantity, Float itemQuantity, Integer isPhysical, Integer isActive, Boolean fromBom, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, String rackSlotCode, int issueMethodId, String itemTypeCode, Set items, Set boms, Set grnLines, Set sellingPrices, Set saleItems, Set stocks, Set bomItems) {
+    public Item(String itemCode, IssueMethod issueMethod, Item item, ItemBrand itemBrand, ItemType itemType, RackSlot rackSlot, SubCategory subCategory, Uom uomByBuyingUom, Uom uomBySellingUom, String itemName, String printName, String searchKey, Float reorderQuantity, Float itemQuantity, Integer isPhysical, Integer isActive, Boolean fromBom, Date creadetDate, Date createdTime, Integer createdUser, Date modifiedDate, Date modifiedTime, Integer modifiedUser, String remark, Set items, Set boms, Set grnLines, Set sellingPrices, Set saleItems, Set stocks, Set bomItems) {
        this.itemCode = itemCode;
+       this.issueMethod = issueMethod;
        this.item = item;
        this.itemBrand = itemBrand;
+       this.itemType = itemType;
+       this.rackSlot = rackSlot;
        this.subCategory = subCategory;
        this.uomByBuyingUom = uomByBuyingUom;
        this.uomBySellingUom = uomBySellingUom;
        this.itemName = itemName;
        this.printName = printName;
        this.searchKey = searchKey;
-       this.issueMethod = issueMethod;
        this.reorderQuantity = reorderQuantity;
        this.itemQuantity = itemQuantity;
        this.isPhysical = isPhysical;
@@ -82,9 +83,6 @@ public class Item  implements java.io.Serializable {
        this.modifiedTime = modifiedTime;
        this.modifiedUser = modifiedUser;
        this.remark = remark;
-       this.rackSlotCode = rackSlotCode;
-       this.issueMethodId = issueMethodId;
-       this.itemTypeCode = itemTypeCode;
        this.items = items;
        this.boms = boms;
        this.grnLines = grnLines;
@@ -101,6 +99,13 @@ public class Item  implements java.io.Serializable {
     public void setItemCode(String itemCode) {
         this.itemCode = itemCode;
     }
+    public IssueMethod getIssueMethod() {
+        return this.issueMethod;
+    }
+    
+    public void setIssueMethod(IssueMethod issueMethod) {
+        this.issueMethod = issueMethod;
+    }
     public Item getItem() {
         return this.item;
     }
@@ -114,6 +119,20 @@ public class Item  implements java.io.Serializable {
     
     public void setItemBrand(ItemBrand itemBrand) {
         this.itemBrand = itemBrand;
+    }
+    public ItemType getItemType() {
+        return this.itemType;
+    }
+    
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
+    public RackSlot getRackSlot() {
+        return this.rackSlot;
+    }
+    
+    public void setRackSlot(RackSlot rackSlot) {
+        this.rackSlot = rackSlot;
     }
     public SubCategory getSubCategory() {
         return this.subCategory;
@@ -156,13 +175,6 @@ public class Item  implements java.io.Serializable {
     
     public void setSearchKey(String searchKey) {
         this.searchKey = searchKey;
-    }
-    public String getIssueMethod() {
-        return this.issueMethod;
-    }
-    
-    public void setIssueMethod(String issueMethod) {
-        this.issueMethod = issueMethod;
     }
     public Float getReorderQuantity() {
         return this.reorderQuantity;
@@ -247,27 +259,6 @@ public class Item  implements java.io.Serializable {
     
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-    public String getRackSlotCode() {
-        return this.rackSlotCode;
-    }
-    
-    public void setRackSlotCode(String rackSlotCode) {
-        this.rackSlotCode = rackSlotCode;
-    }
-    public int getIssueMethodId() {
-        return this.issueMethodId;
-    }
-    
-    public void setIssueMethodId(int issueMethodId) {
-        this.issueMethodId = issueMethodId;
-    }
-    public String getItemTypeCode() {
-        return this.itemTypeCode;
-    }
-    
-    public void setItemTypeCode(String itemTypeCode) {
-        this.itemTypeCode = itemTypeCode;
     }
     public Set getItems() {
         return this.items;
